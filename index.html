@@ -7,36 +7,50 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Tonight TO">
-<meta name="description" content="Find happy hours and events in Toronto tonight">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Tonight TO</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root{--bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--border:rgba(255,255,255,0.08);--text:#f0ede8;--muted:#888;--accent:#e8c547;--accent-dim:rgba(232,197,71,0.12);--green:#4caf7d;--radius:14px;--radius-sm:8px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
-.header{padding:52px 20px 0}
-.header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6px}
-.logo{font-family:'DM Serif Display',serif;font-size:30px;color:var(--text);line-height:1}
+
+/* VIEWS */
+.view{display:none;flex-direction:column;height:100vh;overflow:hidden}
+.view.active{display:flex}
+
+/* HEADER */
+.header{padding:52px 20px 0;flex-shrink:0}
+.header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px}
+.logo{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
-.tonight-badge{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:5px 10px;border-radius:20px;border:1px solid rgba(232,197,71,.2)}
-.subhead{font-size:12px;color:var(--muted);margin-bottom:16px}
-.filters{padding:0 20px 12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.tonight-badge{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:4px 10px;border-radius:20px;border:1px solid rgba(232,197,71,.2)}
+.subhead{font-size:12px;color:var(--muted);margin-bottom:12px}
+
+/* FILTERS */
+.filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .filters::-webkit-scrollbar{display:none}
-.pill{flex-shrink:0;padding:7px 13px;border-radius:20px;font-size:13px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
+.pill{flex-shrink:0;padding:6px 13px;border-radius:20px;font-size:13px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
 .pill.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
-.controls{padding:0 20px 12px;display:flex;gap:8px}
+
+/* CONTROLS */
+.controls{padding:0 20px 10px;display:flex;gap:8px;flex-shrink:0}
 .sw{flex:1;position:relative}
-.sw select{width:100%;appearance:none;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:9px 28px 9px 11px;border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer}
+.sw select{width:100%;appearance:none;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 28px 8px 11px;border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer}
 .sw::after{content:'▾';position:absolute;right:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:11px;pointer-events:none}
-.count-bar{padding:0 20px 10px;display:flex;justify-content:space-between;align-items:center}
+
+/* COUNT BAR */
+.count-bar{padding:0 20px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .count-text{font-size:12px;color:var(--muted)}
 .now-lbl{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer}
 .now-lbl input{accent-color:var(--accent)}
-.cards{padding:0 20px 110px;display:flex;flex-direction:column;gap:10px}
+
+/* CARDS */
+.cards-scroll{flex:1;overflow-y:auto;padding:0 20px 110px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;transition:transform .1s}
 .card:active{transform:scale(.98)}
 .card.live-card{border-color:rgba(76,175,125,.35)}
@@ -54,10 +68,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .b-jazz{background:rgba(255,200,100,.12);color:#ffc864}
 .b-livemusic{background:rgba(180,255,140,.12);color:#a0e870}
 .b-drag{background:rgba(255,130,200,.12);color:#ff82c8}
-.b-quiz{background:rgba(100,160,255,.12);color:#7aabff}
 .detail{font-size:13px;color:#aaa;line-height:1.5;margin-bottom:11px}
 .card-ftr{display:flex;justify-content:space-between;align-items:center}
-.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);margin-right:5px;vertical-align:middle;flex-shrink:0}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);margin-right:5px;vertical-align:middle}
 .dot.on{background:var(--green);box-shadow:0 0 5px rgba(76,175,125,.5)}
 .time-wrap{display:flex;align-items:center;font-size:12px}
 .time-txt{color:var(--muted)}
@@ -65,252 +78,304 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .days-txt{font-size:11px;color:var(--muted)}
 .empty{text-align:center;padding:50px 20px;color:var(--muted)}
 .empty p{font-size:14px;line-height:1.6}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,15,15,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;padding:8px 0 max(8px,env(safe-area-inset-bottom))}
+
+/* MAP VIEW */
+#map-view{position:relative}
+#map{flex:1;width:100%;background:#1a1a1a}
+.map-header{padding:52px 20px 10px;flex-shrink:0}
+.map-filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.map-filters::-webkit-scrollbar{display:none}
+
+/* MAP BOTTOM SHEET */
+.sheet{position:absolute;bottom:70px;left:0;right:0;background:var(--surface);border-radius:20px 20px 0 0;border-top:1px solid var(--border);transform:translateY(100%);transition:transform .3s ease;z-index:1000;max-height:60vh;overflow:hidden;display:flex;flex-direction:column}
+.sheet.open{transform:translateY(0)}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.sheet-content{overflow-y:auto;padding:12px 16px 20px;-webkit-overflow-scrolling:touch}
+.sheet-name{font-size:17px;font-weight:600;color:var(--text);margin-bottom:3px}
+.sheet-addr{font-size:12px;color:var(--muted);margin-bottom:10px}
+.sheet-detail{font-size:13px;color:#aaa;line-height:1.5;margin-bottom:10px}
+.sheet-row{display:flex;justify-content:space-between;align-items:center}
+.sheet-close{position:absolute;right:16px;top:16px;background:var(--surface2);border:none;color:var(--muted);font-size:16px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* Leaflet dark overrides */
+.leaflet-container{background:#1a1a1a!important}
+.leaflet-popup-content-wrapper{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;box-shadow:none;font-family:'DM Sans',sans-serif}
+.leaflet-popup-tip{background:var(--surface)}
+.leaflet-popup-content{margin:10px 14px;font-size:13px;line-height:1.5}
+.leaflet-popup-content b{color:var(--text);font-weight:600}
+.leaflet-popup-content small{color:var(--muted)}
+.leaflet-bar a{background:var(--surface)!important;color:var(--text)!important;border-color:var(--border)!important}
+.leaflet-bar a:hover{background:var(--surface2)!important}
+
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,15,15,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;padding:8px 0 max(8px,env(safe-area-inset-bottom));z-index:2000}
 .nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;transition:color .15s}
 .nb.active{color:var(--accent)}
 .ni{font-size:19px;line-height:1}
-.ibanner{margin:0 20px 12px;background:var(--accent-dim);border:1px solid rgba(232,197,71,.2);border-radius:var(--radius-sm);padding:11px 13px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.itext{font-size:12px;color:var(--accent);line-height:1.4}
-.ixbtn{color:var(--accent);font-size:17px;cursor:pointer;background:none;border:none;flex-shrink:0}
 </style>
 </head>
 <body>
-<div class="header">
-  <div class="header-top">
-    <div class="logo">Tonight<span>.</span>TO</div>
-    <div class="tonight-badge" id="today-lbl">Thursday</div>
+
+<!-- LIST VIEW -->
+<div class="view active" id="list-view">
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">Tonight<span>.</span>TO</div>
+      <div class="tonight-badge" id="today-lbl">Thursday</div>
+    </div>
+    <div class="subhead" id="count-sub">Loading...</div>
   </div>
-  <div class="subhead" id="count-sub">Loading...</div>
-</div>
-
-<div id="ibanner" class="ibanner" style="display:none">
-  <div class="itext">Add to home screen — tap Share then "Add to Home Screen"</div>
-  <button class="ixbtn" onclick="dismissBanner()">✕</button>
-</div>
-
-<div class="filters" id="type-pills">
-  <div class="pill active" data-t="all" onclick="setType(this)">All</div>
-  <div class="pill" data-t="happyhour" onclick="setType(this)">Happy hour</div>
-  <div class="pill" data-t="trivia" onclick="setType(this)">Trivia</div>
-  <div class="pill" data-t="karaoke" onclick="setType(this)">Karaoke</div>
-  <div class="pill" data-t="openmic" onclick="setType(this)">Open mic</div>
-  <div class="pill" data-t="comedy" onclick="setType(this)">Comedy</div>
-  <div class="pill" data-t="livemusic" onclick="setType(this)">Live music</div>
-  <div class="pill" data-t="dj" onclick="setType(this)">DJ night</div>
-  <div class="pill" data-t="jazz" onclick="setType(this)">Jazz</div>
-  <div class="pill" data-t="drag" onclick="setType(this)">Drag</div>
-  <div class="pill" data-t="bingo" onclick="setType(this)">Bingo</div>
-</div>
-
-<div class="controls">
-  <div class="sw">
-    <select id="hood-sel" onchange="render()">
-      <option value="all">All neighbourhoods</option>
-      <option value="King West">King West</option>
-      <option value="Queen West">Queen West</option>
-      <option value="Kensington">Kensington / Little Italy</option>
-      <option value="Ossington">Ossington</option>
-      <option value="Distillery">Distillery District</option>
-      <option value="Yorkville">Yorkville / Midtown</option>
-      <option value="Liberty Village">Liberty Village</option>
-      <option value="Leslieville">Leslieville / East End</option>
-      <option value="Financial">Financial / Entertainment District</option>
-      <option value="Church">Church / Wellesley</option>
-      <option value="Annex">The Annex</option>
-      <option value="Bloor West">Bloor West / Junction</option>
-      <option value="Danforth">Danforth / East York</option>
-      <option value="Chinatown">Chinatown / Spadina</option>
-    </select>
+  <div class="filters" id="type-pills">
+    <div class="pill active" data-t="all" onclick="setType(this)">All</div>
+    <div class="pill" data-t="happyhour" onclick="setType(this)">Happy hour</div>
+    <div class="pill" data-t="trivia" onclick="setType(this)">Trivia</div>
+    <div class="pill" data-t="karaoke" onclick="setType(this)">Karaoke</div>
+    <div class="pill" data-t="openmic" onclick="setType(this)">Open mic</div>
+    <div class="pill" data-t="comedy" onclick="setType(this)">Comedy</div>
+    <div class="pill" data-t="livemusic" onclick="setType(this)">Live music</div>
+    <div class="pill" data-t="dj" onclick="setType(this)">DJ night</div>
+    <div class="pill" data-t="jazz" onclick="setType(this)">Jazz</div>
+    <div class="pill" data-t="drag" onclick="setType(this)">Drag</div>
+    <div class="pill" data-t="bingo" onclick="setType(this)">Bingo</div>
   </div>
-  <div class="sw">
-    <select id="day-sel" onchange="render()">
-      <option value="mon">Monday</option>
-      <option value="tue">Tuesday</option>
-      <option value="wed">Wednesday</option>
-      <option value="thu">Thursday</option>
-      <option value="fri">Friday</option>
-      <option value="sat">Saturday</option>
-      <option value="sun">Sunday</option>
-    </select>
+  <div class="controls">
+    <div class="sw">
+      <select id="hood-sel" onchange="render()">
+        <option value="all">All neighbourhoods</option>
+        <option value="King West">King West</option>
+        <option value="Queen West">Queen West</option>
+        <option value="Kensington">Kensington / Little Italy</option>
+        <option value="Ossington">Ossington</option>
+        <option value="Distillery">Distillery District</option>
+        <option value="Yorkville">Yorkville / Midtown</option>
+        <option value="Liberty Village">Liberty Village</option>
+        <option value="Leslieville">Leslieville / East End</option>
+        <option value="Financial">Financial / Entertainment</option>
+        <option value="Church">Church / Wellesley</option>
+        <option value="Annex">The Annex</option>
+        <option value="Bloor West">Bloor West / Junction</option>
+        <option value="Danforth">Danforth / East York</option>
+        <option value="Chinatown">Chinatown / Spadina</option>
+      </select>
+    </div>
+    <div class="sw">
+      <select id="day-sel" onchange="render()">
+        <option value="mon">Monday</option>
+        <option value="tue">Tuesday</option>
+        <option value="wed">Wednesday</option>
+        <option value="thu">Thursday</option>
+        <option value="fri">Friday</option>
+        <option value="sat">Saturday</option>
+        <option value="sun">Sunday</option>
+      </select>
+    </div>
+  </div>
+  <div class="count-bar">
+    <span class="count-text" id="ct"></span>
+    <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="render()"> Now only</label>
+  </div>
+  <div class="cards-scroll" id="cards"></div>
+</div>
+
+<!-- MAP VIEW -->
+<div class="view" id="map-view">
+  <div class="map-header">
+    <div class="header-top">
+      <div class="logo">Tonight<span>.</span>TO</div>
+      <div class="tonight-badge" id="map-today-lbl">Thursday</div>
+    </div>
+  </div>
+  <div class="map-filters" id="map-type-pills">
+    <div class="pill active" data-t="all" onclick="setMapType(this)">All</div>
+    <div class="pill" data-t="happyhour" onclick="setMapType(this)">Happy hour</div>
+    <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
+    <div class="pill" data-t="karaoke" onclick="setMapType(this)">Karaoke</div>
+    <div class="pill" data-t="openmic" onclick="setMapType(this)">Open mic</div>
+    <div class="pill" data-t="comedy" onclick="setMapType(this)">Comedy</div>
+    <div class="pill" data-t="livemusic" onclick="setMapType(this)">Live music</div>
+    <div class="pill" data-t="dj" onclick="setMapType(this)">DJ</div>
+    <div class="pill" data-t="jazz" onclick="setMapType(this)">Jazz</div>
+  </div>
+  <div id="map"></div>
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <button class="sheet-close" onclick="closeSheet()">✕</button>
+    <div class="sheet-content" id="sheet-content"></div>
   </div>
 </div>
 
-<div class="count-bar">
-  <span class="count-text" id="ct"></span>
-  <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="render()"> Now only</label>
-</div>
-
-<div class="cards" id="cards"></div>
-
+<!-- BOTTOM NAV -->
 <div class="bnav">
-  <button class="nb active" onclick="setNav('all',this)"><span class="ni">◈</span>All</button>
-  <button class="nb" onclick="setNav('happyhour',this)"><span class="ni">◇</span>Happy hr</button>
-  <button class="nb" onclick="setNav('event',this)"><span class="ni">◉</span>Events</button>
+  <button class="nb active" id="nb-list" onclick="showView('list',this)"><span class="ni">☰</span>List</button>
+  <button class="nb" id="nb-map" onclick="showView('map',this)"><span class="ni">◎</span>Map</button>
+  <button class="nb" id="nb-hh" onclick="showView('list',this);setNavFilter('happyhour')"><span class="ni">◇</span>Happy hr</button>
+  <button class="nb" id="nb-ev" onclick="showView('list',this);setNavFilter('event')"><span class="ni">◉</span>Events</button>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const HH=[
-  {name:"Bar Raval",hood:"Kensington",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"$6 pintxos, $7 vermouth & natural wine, $5 beer",addr:"505 College St"},
-  {name:"BarChef",hood:"Queen West",type:"happyhour",days:["mon","tue","wed","thu"],start:17,end:19,detail:"$10 cocktails (reg $18–22), $7 wine, $6 beer",addr:"472 Queen St W"},
-  {name:"The Citizen",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$6 draft, $7 house wine, $9 apps",addr:"147 King St W"},
-  {name:"Reposado",hood:"Ossington",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"$8 margaritas, $6 Mexican beer, 2-for-1 shots",addr:"136 Ossington Ave"},
-  {name:"Canoe",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$10 wine & beer, $12 cocktails, $14 bar snacks",addr:"66 Wellington St W"},
-  {name:"The Drake Hotel",hood:"Queen West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"$6 drafts, $8 house wine, $10 bar bites. Wed: $100 Drake gift card trivia prize",addr:"1150 Queen St W"},
-  {name:"Baro",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$8 cocktails, $6 beer & wine, half-price tacos. Wine Wed: half-price bottles all night",addr:"485 King St W"},
-  {name:"El Catrin",hood:"Distillery",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"$7 margaritas, $6 Modelo, half-price guac & queso",addr:"18 Tank House Ln"},
-  {name:"Pai",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:18,detail:"$7 Chang beer, $8 cocktails, $9 bar snacks",addr:"18 Duncan St"},
-  {name:"Superpoint",hood:"Kensington",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:15,end:18,detail:"$5 Peroni, $6 natural wine, $7 spritz",addr:"214A Augusta Ave"},
-  {name:"Bellwoods Brewery",hood:"Queen West",type:"happyhour",days:["mon","tue","wed","thu"],start:15,end:18,detail:"$6 pints on select house beers",addr:"124 Ossington Ave"},
-  {name:"Archive Bar",hood:"Yorkville",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$7 wine & craft beer, $10 cocktails, $12 small plates",addr:"909 Bay St"},
-  {name:"Avling",hood:"Leslieville",type:"happyhour",days:["tue","wed","thu","fri"],start:17,end:19,detail:"$6 house lager, $8 natural wine, $10 bar bites",addr:"1042 Queen St E"},
-  {name:"La Palma",hood:"Kensington",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:18,detail:"$8 Aperol spritz, $7 wine, $10 pizza slices",addr:"849 Dundas St W"},
-  {name:"Liberal Commons",hood:"Liberty Village",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$5 domestic draft, $7 wine, $9 apps",addr:"25 Liberty St"},
-  {name:"Richmond Station",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$7 draft, $9 wine, $12 cocktails, $10 bar snacks",addr:"1 Richmond St W"},
-  {name:"Bar Koukla",hood:"Ossington",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:17,end:19,detail:"Half-price wine bottles every night 5:30–7:30pm. $10 classic martinis after 9pm",addr:"230 Ossington Ave"},
-  {name:"Birreria Volo",hood:"Kensington",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$6.50 house-brewed draft Tuesdays. Half-price wine bottles Wednesdays",addr:"620 College St"},
-  {name:"Big Trouble",hood:"Chinatown",type:"happyhour",days:["wed","thu","fri","sat","sun"],start:17,end:19,detail:"$5 snacks, $8 dumplings, $6 house lager, $10 cocktails (no tax!)",addr:"270 Spadina Ave"},
-  {name:"Cocktail Bar",hood:"Queen West",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:17,end:19,detail:"Daily $12 menu drinks 5–7pm",addr:"923 Dundas St W"},
-  {name:"Coffee Oysters Champagne",hood:"Financial",type:"happyhour",days:["tue","wed","thu","fri","sat"],start:17,end:23,detail:"$5 espresso martinis & classic martinis all night Tue–Sat",addr:"111 Richmond St W"},
-  {name:"Chubby's Jamaican Kitchen",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"Island Time HH: $12 cocktails, $6 beer, $10 wine, snacks from $6",addr:"104 Portland St"},
-  {name:"Compton Ave",hood:"Queen West",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:20,detail:"$12 martinis 6–8pm daily",addr:"993 Dundas St W"},
-  {name:"Contrada",hood:"Kensington",type:"happyhour",days:["tue","wed","thu"],start:17,end:19,detail:"Aperitivo hour: snacks from $5, cocktails from $10, $12 espresso martini",addr:"849 Dundas St W"},
-  {name:"Dasha",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"Half-price wine bottles, $16 featured cocktails. Private karaoke rooms available",addr:"690 King St W"},
-  {name:"Petty Cash",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"House wine & select cocktails reduced. Half-price pizza & $7 bar rail all week",addr:"487 Adelaide St W"},
-  {name:"The Dorset",hood:"Financial",type:"happyhour",days:["mon"],start:16,end:18,detail:"Select cocktails $12, beer pints $6.50, wine $10–15. Mon 4–6pm, Tue–Sun 2–6pm",addr:"120 Front St W"},
-  {name:"Aera Rooftop",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:19,detail:"$15 signature cocktails, $9 Sapporo draft, $12 select wines. 38th floor views",addr:"1 Wellington St W"},
-  {name:"Lulu Bar",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"Hawaiian-inspired HH — best budget food deals at The Well",addr:"412 Wellington St W"},
-  {name:"Ace Hotel Bar",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:19,detail:"$12 wine by the glass, select cocktails",addr:"51 Camden St"},
-  {name:"Bar Isabel",hood:"Kensington",type:"happyhour",days:["sat"],start:12,end:16,detail:"$69 lunch for two + half-price cocktails noon–4pm Saturdays",addr:"797 College St"},
-  {name:"Bar Hop",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"Craft beer happy hour, rotating taps, bar snacks",addr:"391 King St W"},
-  {name:"Danforth Sidebar",hood:"Danforth",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:17,end:18,detail:"$6 drinks on show nights 5–6pm, 9:30pm–close. Oyster deals Wednesdays",addr:"530 Danforth Ave"},
-  {name:"The Pilot Tavern",hood:"Yorkville",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"Craft brewery pre-trivia deals. Free trivia admission Tuesday nights",addr:"22 Cumberland St"},
-  {name:"Left Field Brewery",hood:"Leslieville",type:"happyhour",days:["wed","thu","fri"],start:16,end:18,detail:"Taproom happy hour on house beers. Weekly Brass Facts trivia Wednesdays",addr:"36 Wagstaff Dr"},
-  {name:"The Fortunate Fox",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"$14 cocktails during Thursday trivia 7–9pm",addr:"99 Sudbury St"},
-  {name:"Brazen Head",hood:"Liberty Village",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:15,end:18,detail:"Pint specials + Sunday trivia and weekly roast",addr:"165 East Liberty St"},
-  {name:"Craft Beer Market",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:15,end:18,detail:"$7 rotating taps, $5 shot of the day, $9 house wines, $10 bubbles. HH eats from $5",addr:"1 Adelaide St E"},
+  {name:"Bar Raval",hood:"Kensington",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"$6 pintxos, $7 vermouth & natural wine, $5 beer",addr:"505 College St",lat:43.6545,lng:-79.4198},
+  {name:"BarChef",hood:"Queen West",type:"happyhour",days:["mon","tue","wed","thu"],start:17,end:19,detail:"$10 cocktails (reg $18–22), $7 wine, $6 beer",addr:"472 Queen St W",lat:43.6484,lng:-79.4153},
+  {name:"The Citizen",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$6 draft, $7 house wine, $9 apps",addr:"147 King St W",lat:43.6479,lng:-79.3838},
+  {name:"Reposado",hood:"Ossington",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"$8 margaritas, $6 Mexican beer, 2-for-1 shots",addr:"136 Ossington Ave",lat:43.6521,lng:-79.4264},
+  {name:"Canoe",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$10 wine & beer, $12 cocktails, $14 bar snacks",addr:"66 Wellington St W",lat:43.6474,lng:-79.3816},
+  {name:"The Drake Hotel",hood:"Queen West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"$6 drafts, $8 house wine, $10 bar bites",addr:"1150 Queen St W",lat:43.6430,lng:-79.4282},
+  {name:"Baro",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$8 cocktails, $6 beer & wine, half-price tacos",addr:"485 King St W",lat:43.6450,lng:-79.4022},
+  {name:"El Catrin",hood:"Distillery",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"$7 margaritas, $6 Modelo, half-price guac & queso",addr:"18 Tank House Ln",lat:43.6503,lng:-79.3591},
+  {name:"Pai",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:18,detail:"$7 Chang beer, $8 cocktails, $9 bar snacks",addr:"18 Duncan St",lat:43.6479,lng:-79.3884},
+  {name:"Superpoint",hood:"Kensington",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:15,end:18,detail:"$5 Peroni, $6 natural wine, $7 spritz",addr:"214A Augusta Ave",lat:43.6548,lng:-79.4029},
+  {name:"Bellwoods Brewery",hood:"Queen West",type:"happyhour",days:["mon","tue","wed","thu"],start:15,end:18,detail:"$6 pints on select house beers",addr:"124 Ossington Ave",lat:43.6488,lng:-79.4218},
+  {name:"Archive Bar",hood:"Yorkville",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$7 wine & craft beer, $10 cocktails, $12 small plates",addr:"909 Bay St",lat:43.6687,lng:-79.3892},
+  {name:"Avling",hood:"Leslieville",type:"happyhour",days:["tue","wed","thu","fri"],start:17,end:19,detail:"$6 house lager, $8 natural wine, $10 bar bites",addr:"1042 Queen St E",lat:43.6593,lng:-79.3372},
+  {name:"La Palma",hood:"Kensington",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:18,detail:"$8 Aperol spritz, $7 wine, $10 pizza slices",addr:"849 Dundas St W",lat:43.6510,lng:-79.4155},
+  {name:"Liberal Commons",hood:"Liberty Village",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$5 domestic draft, $7 wine, $9 apps",addr:"25 Liberty St",lat:43.6385,lng:-79.4196},
+  {name:"Richmond Station",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$7 draft, $9 wine, $12 cocktails, $10 bar snacks",addr:"1 Richmond St W",lat:43.6512,lng:-79.3795},
+  {name:"Bar Koukla",hood:"Ossington",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:17,end:19,detail:"Half-price wine bottles nightly. $10 classic martinis after 9pm",addr:"230 Ossington Ave",lat:43.6553,lng:-79.4262},
+  {name:"Big Trouble",hood:"Chinatown",type:"happyhour",days:["wed","thu","fri","sat","sun"],start:17,end:19,detail:"$5 snacks, $8 dumplings, $6 house lager, $10 cocktails (no tax!)",addr:"270 Spadina Ave",lat:43.6538,lng:-79.3967},
+  {name:"Coffee Oysters Champagne",hood:"Financial",type:"happyhour",days:["tue","wed","thu","fri","sat"],start:17,end:23,detail:"$5 espresso martinis & classic martinis all night Tue–Sat",addr:"111 Richmond St W",lat:43.6513,lng:-79.3860},
+  {name:"Craft Beer Market",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:15,end:18,detail:"$7 rotating taps, $5 shot of the day, $9 house wines. HH eats from $5",addr:"1 Adelaide St E",lat:43.6493,lng:-79.3766},
+  {name:"Chubby's Jamaican Kitchen",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"Island Time HH: $12 cocktails, $6 beer, $10 wine, snacks from $6",addr:"104 Portland St",lat:43.6455,lng:-79.4013},
+  {name:"Petty Cash",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"Half-price pizza & $7 bar rail all week. House wine & cocktails reduced",addr:"487 Adelaide St W",lat:43.6461,lng:-79.4025},
+  {name:"Dasha",hood:"King West",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:17,end:19,detail:"Half-price wine bottles, $16 cocktails. Private karaoke rooms",addr:"690 King St W",lat:43.6441,lng:-79.4116},
+  {name:"Bar Hop",hood:"Financial",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:15,end:18,detail:"Craft beer happy hour, rotating taps, bar snacks",addr:"391 King St W",lat:43.6465,lng:-79.3955},
+  {name:"The Pilot Tavern",hood:"Yorkville",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"Craft brewery pre-trivia deals. Free trivia Tuesdays",addr:"22 Cumberland St",lat:43.6693,lng:-79.3924},
+  {name:"Brazen Head",hood:"Liberty Village",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:15,end:18,detail:"Irish pub pint specials. Sunday trivia and weekly roast",addr:"165 East Liberty St",lat:43.6378,lng:-79.4167},
+  {name:"Left Field Brewery",hood:"Leslieville",type:"happyhour",days:["wed","thu","fri"],start:16,end:18,detail:"Taproom happy hour on house beers. Brass Facts trivia Wednesdays",addr:"36 Wagstaff Dr",lat:43.6632,lng:-79.3264},
+  {name:"Birreria Volo",hood:"Kensington",type:"happyhour",days:["mon","tue","wed","thu","fri"],start:16,end:18,detail:"$6.50 house-brewed draft Tuesdays. Half-price wine Wed",addr:"620 College St",lat:43.6558,lng:-79.4098},
+  {name:"Danforth Sidebar",hood:"Danforth",type:"happyhour",days:["mon","tue","wed","thu","fri","sat","sun"],start:17,end:18,detail:"$6 drinks on show nights 5–6pm. Oyster deals Wednesdays",addr:"530 Danforth Ave",lat:43.6772,lng:-79.3517},
 ];
 
 const EV=[
-  {name:"Snakes & Lattes Annex",hood:"Annex",type:"trivia",days:["tue"],start:19,end:21,detail:"General trivia night — 6 rounds, free popcorn, $50 gift card for 1st place. $5 pints",addr:"600 Bloor St W"},
-  {name:"Snakes & Lattes College",hood:"Kensington",type:"trivia",days:["thu"],start:19,end:21,detail:"Themed trivia nights (movies, pop culture, anime). Prizes each round",addr:"489 College St"},
-  {name:"The Handlebar",hood:"Kensington",type:"trivia",days:["tue"],start:19,end:21,detail:"Pub trivia by Quiz Me Quick. Free to play, prizes for top 3 teams",addr:"159 Augusta Ave"},
-  {name:"The Piston",hood:"Bloor West",type:"trivia",days:["wed"],start:20,end:22,detail:"Wednesday trivia with bar prizes. Teams up to 6. Free entry",addr:"937 Bloor St W"},
-  {name:"Habits Gastropub",hood:"Kensington",type:"trivia",days:["wed"],start:20,end:22,detail:"Weekly pub quiz, mixed categories. $2 off drinks during trivia",addr:"148 College St"},
-  {name:"The 3030",hood:"Bloor West",type:"trivia",days:["tue"],start:19,end:21,detail:"Pub trivia Tuesdays. Cash prizes. $5 entry per person",addr:"3030 Dundas St W"},
-  {name:"Madisons Restaurant & Bar",hood:"Annex",type:"trivia",days:["mon"],start:19,end:21,detail:"Monday Night Trivia — Name That Tune rounds, prizes. Free entry",addr:"14 Baldwin St"},
-  {name:"The Rec Room",hood:"Financial",type:"trivia",days:["tue"],start:19,end:21,detail:"Tuesday Night Trivia League (seasonal 10-week format). Reserve in advance",addr:"255 Bremner Blvd"},
-  {name:"Collective Arts Taproom",hood:"King West",type:"trivia",days:["tue"],start:19,end:21,detail:"Tuesday trivia night in the taproom. Craft beer specials",addr:"1 Snooker St"},
-  {name:"The Fortunate Fox",hood:"Financial",type:"trivia",days:["thu"],start:19,end:21,detail:"Trivia every Thursday 7–9pm alongside $14 cocktails",addr:"99 Sudbury St"},
-  {name:"Left Field Brewery",hood:"Leslieville",type:"trivia",days:["wed"],start:19,end:21,detail:"Brass Facts Trivia — geography, music, sports, history. Reserve ahead",addr:"36 Wagstaff Dr"},
-  {name:"Harbord House",hood:"Annex",type:"trivia",days:["mon"],start:19,end:21,detail:"Monday trivia 7–9:30pm. No fee to play. Get there early for a spot",addr:"2 Harbord St"},
-  {name:"Pegasus On Church",hood:"Church",type:"trivia",days:["tue","wed"],start:20,end:22,detail:"LGBTQ+ trivia nights Tue & Wed — themed rounds, bingo too. Great atmosphere",addr:"489 Church St"},
-  {name:"The Ossington",hood:"Ossington",type:"trivia",days:["sun"],start:19,end:21,detail:"Brass Facts trivia Sundays — culture, science, sports. Karaoke follows at 10pm",addr:"61 Ossington Ave"},
-  {name:"Sidebar Danforth",hood:"Danforth",type:"trivia",days:["tue"],start:19,end:21,detail:"Weekly trivia Tuesday 7:30pm",addr:"530 Danforth Ave"},
-  {name:"Kramer's Bar & Grill",hood:"Annex",type:"trivia",days:["tue","wed"],start:20,end:22,detail:"Trivia Tuesday (basement) and Wednesday — got so popular they added a second night",addr:"177 Harbord St"},
-  {name:"The Meltdown",hood:"Kensington",type:"openmic",days:["mon"],start:20,end:23,detail:"Comedy open mic every Monday — show up, go up. Starts 8:30pm. 5-min spots. Happy hour",addr:"686 College St"},
-  {name:"The Communist's Daughter",hood:"Ossington",type:"openmic",days:["mon"],start:20,end:23,detail:"Open mic night — free entry, sign up from 8pm. Rotating acoustic sets",addr:"1149 Dundas St W"},
-  {name:"The Dakota Tavern",hood:"Kensington",type:"openmic",days:["mon"],start:21,end:24,detail:"Bluegrass open mic every Monday. No cover. Bring your instrument",addr:"249 Ossington Ave"},
-  {name:"The Cameron House",hood:"Queen West",type:"openmic",days:["mon","tue"],start:21,end:24,detail:"Nightly live music & open mic. No cover. Legendary Toronto venue",addr:"408 Queen St W"},
-  {name:"The Garrison",hood:"Kensington",type:"openmic",days:["tue"],start:20,end:23,detail:"Tuesday open mic — all genres welcome. Free entry. 10 slots per night",addr:"1197 Dundas St W"},
-  {name:"The Bovine Sex Club",hood:"Queen West",type:"openmic",days:["wed"],start:21,end:24,detail:"Open mic Wednesdays — rock/punk/experimental. $5 cover",addr:"542 Queen St W"},
-  {name:"The Emmet Ray",hood:"Annex",type:"openmic",days:["wed"],start:18,end:20,detail:"Punch Up comedy night — Wednesdays 6–8pm. Toronto's best comics + sign-up spots",addr:"924 College St"},
-  {name:"Social Capital Theatre",hood:"Kensington",type:"openmic",days:["wed"],start:23,end:26,detail:"You Love This open mic — list at 10:30pm bar, show at 11pm. Free",addr:"154 Danforth Ave"},
-  {name:"The Burdock",hood:"Bloor West",type:"openmic",days:["sun"],start:19,end:22,detail:"Sunday songwriter circle. Intimate acoustic sets. Free",addr:"1184 Bloor St W"},
-  {name:"The Corner Comedy Club",hood:"Financial",type:"openmic",days:["mon","thu"],start:20,end:23,detail:"Open mic nights — max 50 guests, arrive early. Back alley entrance off Duncan St",addr:"381 King St W"},
-  {name:"Rivoli",hood:"Queen West",type:"openmic",days:["tue"],start:20,end:22,detail:"Altdot Comedy Lounge open mic monthly (check schedule). Sign-up 8:30pm",addr:"334 Queen St W"},
-  {name:"Comedy Bar",hood:"Bloor West",type:"comedy",days:["thu","fri","sat"],start:20,end:23,detail:"150+ shows/month — stand-up, sketch, alternative. $15–20 tickets",addr:"945 Bloor St W"},
-  {name:"Yuk Yuk's",hood:"Financial",type:"comedy",days:["wed","thu","fri","sat"],start:20,end:23,detail:"Canada's iconic comedy club since 1976. Headline acts + showcase nights",addr:"224 Richmond St W"},
-  {name:"The Monarch Tavern",hood:"Kensington",type:"comedy",days:["thu"],start:20,end:22,detail:"Comedy night every Thursday. $10 cover includes a drink ticket",addr:"12 Clinton St"},
-  {name:"The Rivoli",hood:"Queen West",type:"comedy",days:["wed"],start:20,end:22,detail:"Stand-up showcase Wednesdays. $8 cover. Rotating local comics",addr:"334 Queen St W"},
-  {name:"The Backroom Comedy Club",hood:"Kensington",type:"comedy",days:["fri","sat"],start:20,end:23,detail:"Speakeasy vibe basement club. Midnight Mayhem late-night shows. Multi-language shows",addr:"961 College St"},
-  {name:"Absolute Comedy",hood:"Yorkville",type:"comedy",days:["wed","thu","fri","sat"],start:20,end:23,detail:"Canadian & American comedians. Classic uptown comedy bar",addr:"2335 Yonge St"},
-  {name:"Free Times Café",hood:"Annex",type:"comedy",days:["sun"],start:20,end:22,detail:"500 comedy shows/year + 900 Klezmer concerts. Jewish/Middle Eastern menu",addr:"320 College St"},
-  {name:"Bad Dog Theatre",hood:"Chinatown",type:"comedy",days:["fri","sat"],start:20,end:22,detail:"Improv since 1982. Colin Mochrie, Mike Myers alumni. Spadina Ave second floor",addr:"875 Bloor St W"},
-  {name:"Bar+ Karaoke Lounge",hood:"Financial",type:"karaoke",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:26,detail:"Premier private karaoke rooms — English, Korean, Chinese, Japanese songs. Tablet system",addr:"360 Yonge St"},
-  {name:"Bar Neon",hood:"Kensington",type:"karaoke",days:["thu","fri","sat"],start:21,end:26,detail:"Private karaoke rooms. Walk-ins welcome. $15/person/hr",addr:"230 Augusta Ave"},
-  {name:"Karaoke Lounge 99",hood:"Financial",type:"karaoke",days:["wed","thu","fri","sat","sun"],start:19,end:26,detail:"Private rooms, 50,000+ songs. $12–18/person/hr",addr:"99 Spadina Ave"},
-  {name:"The Rec Room (karaoke)",hood:"Financial",type:"karaoke",days:["fri","sat"],start:20,end:26,detail:"Open karaoke stage Fri & Sat nights. Free entry. Slots fill fast",addr:"255 Bremner Blvd"},
-  {name:"Penny's Bar",hood:"Bloor West",type:"karaoke",days:["wed","thu"],start:21,end:26,detail:"Local fave karaoke Wed & Thu nights. Free popcorn, $5 sliders, great craft beer",addr:"1306 Bloor St W"},
-  {name:"Church St Garage",hood:"Church",type:"karaoke",days:["wed","thu","fri","sat"],start:22,end:26,detail:"Host Steve-Oh. Popular Church Village karaoke spot. Wed–Sat 10pm–2am",addr:"477 Church St"},
-  {name:"Dasha",hood:"King West",type:"karaoke",days:["mon","tue","wed","thu","fri"],start:17,end:23,detail:"Private karaoke rooms + happy hour. Half-price bottles Mon–Fri",addr:"690 King St W"},
-  {name:"Bar Mordecai",hood:"Kensington",type:"karaoke",days:["thu","fri","sat","sun"],start:20,end:26,detail:"Unique private karaoke rooms in the basement. Cocktail bar upstairs",addr:"849 Dundas St W"},
-  {name:"Echo Karaoke & Lounge",hood:"Chinatown",type:"karaoke",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:26,detail:"Top-rated karaoke in Toronto. Private rooms, multi-language songbook",addr:"256 Spadina Ave"},
-  {name:"B-Boss KTV",hood:"Chinatown",type:"karaoke",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:26,detail:"Most stylish karaoke spot — sleek private rooms, Asian & English songs",addr:"280 Spadina Ave"},
-  {name:"Twister Karaoke",hood:"Annex",type:"karaoke",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:26,detail:"Koreatown staple — 300,000+ songs, classic bar setup",addr:"691 Bloor St W"},
-  {name:"The Drake Hotel",hood:"Queen West",type:"dj",days:["fri","sat"],start:22,end:26,detail:"Resident DJ sets in the Underground. No cover before 11pm",addr:"1150 Queen St W"},
-  {name:"Baro",hood:"King West",type:"dj",days:["thu","fri","sat"],start:22,end:26,detail:"DJ nights Thu–Sat. Latin & Afrobeats focus. $10 cover after 10pm",addr:"485 King St W"},
-  {name:"The Ossington",hood:"Ossington",type:"dj",days:["sat"],start:22,end:26,detail:"Local DJs every Saturday. No cover. Dancing in the back room",addr:"61 Ossington Ave"},
-  {name:"Sneaky Dee's",hood:"Kensington",type:"dj",days:["fri","sat"],start:22,end:26,detail:"Free DJ nights upstairs on weekends. Cheap drinks, great vibe",addr:"431 College St"},
-  {name:"Petty Cash",hood:"King West",type:"dj",days:["thu","fri","sat"],start:21,end:26,detail:"Live music & DJs Thu–Sat. Pac-Man, pinball, good vibes",addr:"487 Adelaide St W"},
-  {name:"The Gladstone House",hood:"Queen West",type:"drag",days:["wed","sat"],start:20,end:23,detail:"Drag bingo Wednesdays ($15, sells out fast). Drag shows Saturdays",addr:"1214 Queen St W"},
-  {name:"Pegasus On Church",hood:"Church",type:"drag",days:["fri","sat"],start:21,end:24,detail:"Drag shows & LGBTQ+ events on weekends. Welcoming community bar",addr:"489 Church St"},
-  {name:"Crews & Tangos",hood:"Church",type:"drag",days:["thu","fri","sat","sun"],start:21,end:26,detail:"Church Village drag performances, dance floor, multiple bars",addr:"508 Church St"},
-  {name:"The Ballroom",hood:"Financial",type:"bingo",days:["thu"],start:20,end:22,detail:"Music bingo Thursdays. Free to play. Prizes every round",addr:"145 John St"},
-  {name:"The Gladstone House",hood:"Queen West",type:"bingo",days:["wed"],start:19,end:21,detail:"Drag bingo Wednesdays. $15 entry, prizes & cocktails. Sells out fast",addr:"1214 Queen St W"},
-  {name:"Sweaty Betty's",hood:"Queen West",type:"livemusic",days:["wed","thu","fri","sat"],start:21,end:26,detail:"Live music & local bands most nights. No cover early. Classic dive bar",addr:"13 Ossington Ave"},
-  {name:"The Horseshoe Tavern",hood:"Queen West",type:"livemusic",days:["mon","tue","wed","thu","fri","sat","sun"],start:20,end:24,detail:"Toronto's most iconic live music venue since 1947. Daily shows",addr:"370 Queen St W"},
-  {name:"Lee's Palace",hood:"Annex",type:"livemusic",days:["thu","fri","sat"],start:20,end:24,detail:"Legendary mid-size venue — indie, rock, metal. Tickets required",addr:"529 Bloor St W"},
-  {name:"The Rivoli",hood:"Queen West",type:"livemusic",days:["tue","wed","thu","fri","sat"],start:20,end:24,detail:"Live music + comedy. Pool tables, great cocktails. No cover some nights",addr:"334 Queen St W"},
-  {name:"Handlebar",hood:"Kensington",type:"livemusic",days:["fri","sat"],start:21,end:24,detail:"Weekend live bands. Great bike-themed dive bar atmosphere",addr:"159 Augusta Ave"},
-  {name:"The Burdock",hood:"Bloor West",type:"livemusic",days:["thu","fri","sat"],start:20,end:23,detail:"Indie & alternative shows, vinyl bar, great craft beer list",addr:"1184 Bloor St W"},
-  {name:"Jazz Bistro",hood:"Financial",type:"jazz",days:["tue","wed","thu","fri","sat"],start:19,end:23,detail:"Premier Toronto jazz venue — live jazz nightly from 7pm. Dinner & drinks",addr:"251 Victoria St"},
-  {name:"The Rex Hotel Jazz Bar",hood:"Financial",type:"jazz",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:24,detail:"Live jazz & blues every night. Two shows daily. No cover",addr:"194 Queen St W"},
-  {name:"Emmet Ray",hood:"Annex",type:"jazz",days:["mon","tue","wed","thu","fri","sat","sun"],start:17,end:23,detail:"Jazz bar with rotating performers. Whisky specialists. Great food",addr:"924 College St"},
-  {name:"Tranzac Club",hood:"Annex",type:"jazz",days:["mon","tue","wed","thu","fri","sat","sun"],start:19,end:24,detail:"Non-profit arts club — jazz, folk, indie, poetry nights. Cheap drinks",addr:"292 Brunswick Ave"},
+  {name:"Snakes & Lattes Annex",hood:"Annex",type:"trivia",days:["tue"],start:19,end:21,detail:"General trivia — 6 rounds, free popcorn, $50 gift card for 1st. $5 pints",addr:"600 Bloor St W",lat:43.6653,lng:-79.4115},
+  {name:"The Handlebar",hood:"Kensington",type:"trivia",days:["tue"],start:19,end:21,detail:"Pub trivia by Quiz Me Quick. Free to play, prizes for top 3",addr:"159 Augusta Ave",lat:43.6541,lng:-79.4038},
+  {name:"The Piston",hood:"Bloor West",type:"trivia",days:["wed"],start:20,end:22,detail:"Wednesday trivia, bar prizes. Teams up to 6. Free entry",addr:"937 Bloor St W",lat:43.6629,lng:-79.4282},
+  {name:"Habits Gastropub",hood:"Kensington",type:"trivia",days:["wed"],start:20,end:22,detail:"Weekly pub quiz. $2 off drinks during trivia",addr:"148 College St",lat:43.6570,lng:-79.4006},
+  {name:"Madisons",hood:"Annex",type:"trivia",days:["mon"],start:19,end:21,detail:"Monday Night Trivia — Name That Tune rounds, prizes. Free",addr:"14 Baldwin St",lat:43.6596,lng:-79.3946},
+  {name:"Harbord House",hood:"Annex",type:"trivia",days:["mon"],start:19,end:21,detail:"Monday trivia 7–9:30pm. No fee. Get there early",addr:"2 Harbord St",lat:43.6619,lng:-79.3984},
+  {name:"Pegasus On Church",hood:"Church",type:"trivia",days:["tue","wed"],start:20,end:22,detail:"LGBTQ+ trivia nights Tue & Wed — themed rounds, bingo too",addr:"489 Church St",lat:43.6650,lng:-79.3822},
+  {name:"The Ossington",hood:"Ossington",type:"trivia",days:["sun"],start:19,end:21,detail:"Brass Facts trivia Sundays — karaoke follows at 10pm",addr:"61 Ossington Ave",lat:43.6476,lng:-79.4233},
+  {name:"The 3030",hood:"Bloor West",type:"trivia",days:["tue"],start:19,end:21,detail:"Pub trivia Tuesdays. Cash prizes. $5 entry per person",addr:"3030 Dundas St W",lat:43.6627,lng:-79.4688},
+  {name:"Kramer's Bar & Grill",hood:"Annex",type:"trivia",days:["tue","wed"],start:20,end:22,detail:"Trivia Tue & Wed — so popular they added a second night",addr:"177 Harbord St",lat:43.6614,lng:-79.4132},
+  {name:"Left Field Brewery (Trivia)",hood:"Leslieville",type:"trivia",days:["wed"],start:19,end:21,detail:"Brass Facts Trivia — geography, music, sports, history",addr:"36 Wagstaff Dr",lat:43.6632,lng:-79.3264},
+  {name:"The Meltdown",hood:"Kensington",type:"openmic",days:["mon"],start:20,end:23,detail:"Comedy open mic every Monday. Show up, go up. 5-min spots. Happy hour",addr:"686 College St",lat:43.6558,lng:-79.4136},
+  {name:"The Communist's Daughter",hood:"Ossington",type:"openmic",days:["mon"],start:20,end:23,detail:"Open mic — free entry, sign up from 8pm. Rotating acoustic sets",addr:"1149 Dundas St W",lat:43.6531,lng:-79.4353},
+  {name:"The Dakota Tavern",hood:"Kensington",type:"openmic",days:["mon"],start:21,end:24,detail:"Bluegrass open mic every Monday. No cover. Bring your instrument",addr:"249 Ossington Ave",lat:43.6562,lng:-79.4264},
+  {name:"The Cameron House",hood:"Queen West",type:"openmic",days:["mon","tue"],start:21,end:24,detail:"Nightly live music & open mic. No cover. Legendary Toronto venue",addr:"408 Queen St W",lat:43.6490,lng:-79.4063},
+  {name:"The Garrison",hood:"Kensington",type:"openmic",days:["tue"],start:20,end:23,detail:"Open mic — all genres welcome. Free entry. 10 slots per night",addr:"1197 Dundas St W",lat:43.6519,lng:-79.4387},
+  {name:"The Bovine Sex Club",hood:"Queen West",type:"openmic",days:["wed"],start:21,end:24,detail:"Open mic Wed — rock/punk/experimental. $5 cover",addr:"542 Queen St W",lat:43.6487,lng:-79.4169},
+  {name:"The Burdock",hood:"Bloor West",type:"openmic",days:["sun"],start:19,end:22,detail:"Sunday songwriter circle. Intimate acoustic sets. Free",addr:"1184 Bloor St W",lat:43.6627,lng:-79.4384},
+  {name:"The Corner Comedy Club",hood:"Financial",type:"openmic",days:["mon","thu"],start:20,end:23,detail:"Open mic nights — max 50 guests. Back alley entrance",addr:"381 King St W",lat:43.6468,lng:-79.3948},
+  {name:"Comedy Bar",hood:"Bloor West",type:"comedy",days:["thu","fri","sat"],start:20,end:23,detail:"150+ shows/month — stand-up, sketch, alternative. $15–20",addr:"945 Bloor St W",lat:43.6631,lng:-79.4285},
+  {name:"Yuk Yuk's",hood:"Financial",type:"comedy",days:["wed","thu","fri","sat"],start:20,end:23,detail:"Canada's iconic comedy club since 1976. Headline acts + showcases",addr:"224 Richmond St W",lat:43.6509,lng:-79.3885},
+  {name:"The Monarch Tavern",hood:"Kensington",type:"comedy",days:["thu"],start:20,end:22,detail:"Comedy night every Thursday. $10 includes a drink ticket",addr:"12 Clinton St",lat:43.6565,lng:-79.4153},
+  {name:"The Rivoli",hood:"Queen West",type:"comedy",days:["wed"],start:20,end:22,detail:"Stand-up showcase Wednesdays. $8 cover. Rotating local comics",addr:"334 Queen St W",lat:43.6492,lng:-79.3991},
+  {name:"Absolute Comedy",hood:"Yorkville",type:"comedy",days:["wed","thu","fri","sat"],start:20,end:23,detail:"Canadian & American comedians. Classic uptown comedy bar",addr:"2335 Yonge St",lat:43.7082,lng:-79.3983},
+  {name:"Bad Dog Theatre",hood:"Bloor West",type:"comedy",days:["fri","sat"],start:20,end:22,detail:"Improv since 1982. Colin Mochrie, Mike Myers alumni",addr:"875 Bloor St W",lat:43.6629,lng:-79.4255},
+  {name:"Bar+ Karaoke",hood:"Financial",type:"karaoke",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:26,detail:"Premier private karaoke rooms — English, Korean, Chinese, Japanese",addr:"360 Yonge St",lat:43.6593,lng:-79.3797},
+  {name:"Bar Neon",hood:"Kensington",type:"karaoke",days:["thu","fri","sat"],start:21,end:26,detail:"Private karaoke rooms. Walk-ins welcome. $15/person/hr",addr:"230 Augusta Ave",lat:43.6541,lng:-79.4038},
+  {name:"Karaoke Lounge 99",hood:"Chinatown",type:"karaoke",days:["wed","thu","fri","sat","sun"],start:19,end:26,detail:"Private rooms, 50,000+ songs. $12–18/person/hr",addr:"99 Spadina Ave",lat:43.6504,lng:-79.3962},
+  {name:"The Rec Room (karaoke)",hood:"Financial",type:"karaoke",days:["fri","sat"],start:20,end:26,detail:"Open karaoke stage Fri & Sat. Free entry. Slots fill fast",addr:"255 Bremner Blvd",lat:43.6425,lng:-79.3867},
+  {name:"Penny's Bar",hood:"Bloor West",type:"karaoke",days:["wed","thu"],start:21,end:26,detail:"Local fave karaoke Wed & Thu. Free popcorn, $5 sliders",addr:"1306 Bloor St W",lat:43.6631,lng:-79.4434},
+  {name:"Church St Garage",hood:"Church",type:"karaoke",days:["wed","thu","fri","sat"],start:22,end:26,detail:"Host Steve-Oh. Church Village karaoke. Wed–Sat 10pm–2am",addr:"477 Church St",lat:43.6657,lng:-79.3820},
+  {name:"Echo Karaoke & Lounge",hood:"Chinatown",type:"karaoke",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:26,detail:"Top-rated karaoke. Private rooms, multi-language songbook",addr:"256 Spadina Ave",lat:43.6538,lng:-79.3957},
+  {name:"B-Boss KTV",hood:"Chinatown",type:"karaoke",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:26,detail:"Sleek private rooms, Asian & English songs",addr:"280 Spadina Ave",lat:43.6535,lng:-79.3952},
+  {name:"Twister Karaoke",hood:"Annex",type:"karaoke",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:26,detail:"Koreatown staple — 300,000+ songs",addr:"691 Bloor St W",lat:43.6644,lng:-79.4118},
+  {name:"The Gladstone House",hood:"Queen West",type:"drag",days:["wed","sat"],start:20,end:23,detail:"Drag bingo Wed ($15, sells out). Drag shows Sat",addr:"1214 Queen St W",lat:43.6432,lng:-79.4285},
+  {name:"Crews & Tangos",hood:"Church",type:"drag",days:["thu","fri","sat","sun"],start:21,end:26,detail:"Church Village drag performances, dance floor, multiple bars",addr:"508 Church St",lat:43.6649,lng:-79.3818},
+  {name:"Pegasus On Church",hood:"Church",type:"drag",days:["fri","sat"],start:21,end:24,detail:"Drag shows & LGBTQ+ events on weekends",addr:"489 Church St",lat:43.6650,lng:-79.3822},
+  {name:"The Drake Hotel",hood:"Queen West",type:"dj",days:["fri","sat"],start:22,end:26,detail:"Resident DJ sets in the Underground. No cover before 11pm",addr:"1150 Queen St W",lat:43.6430,lng:-79.4282},
+  {name:"Baro",hood:"King West",type:"dj",days:["thu","fri","sat"],start:22,end:26,detail:"DJ nights Thu–Sat. Latin & Afrobeats. $10 cover after 10pm",addr:"485 King St W",lat:43.6450,lng:-79.4022},
+  {name:"Sneaky Dee's",hood:"Kensington",type:"dj",days:["fri","sat"],start:22,end:26,detail:"Free DJ nights upstairs on weekends. Cheap drinks",addr:"431 College St",lat:43.6557,lng:-79.4082},
+  {name:"The Ballroom",hood:"Financial",type:"bingo",days:["thu"],start:20,end:22,detail:"Music bingo Thursdays. Free to play. Prizes every round",addr:"145 John St",lat:43.6481,lng:-79.3892},
+  {name:"Jazz Bistro",hood:"Financial",type:"jazz",days:["tue","wed","thu","fri","sat"],start:19,end:23,detail:"Premier Toronto jazz venue — live jazz nightly from 7pm",addr:"251 Victoria St",lat:43.6560,lng:-79.3773},
+  {name:"The Rex Hotel Jazz Bar",hood:"Financial",type:"jazz",days:["mon","tue","wed","thu","fri","sat","sun"],start:18,end:24,detail:"Live jazz & blues every night. Two shows daily. No cover",addr:"194 Queen St W",lat:43.6504,lng:-79.3868},
+  {name:"Emmet Ray",hood:"Annex",type:"jazz",days:["mon","tue","wed","thu","fri","sat","sun"],start:17,end:23,detail:"Jazz bar with rotating performers. Whisky specialists",addr:"924 College St",lat:43.6547,lng:-79.4256},
+  {name:"The Horseshoe Tavern",hood:"Queen West",type:"livemusic",days:["mon","tue","wed","thu","fri","sat","sun"],start:20,end:24,detail:"Toronto's most iconic live music venue since 1947",addr:"370 Queen St W",lat:43.6489,lng:-79.4027},
+  {name:"Lee's Palace",hood:"Annex",type:"livemusic",days:["thu","fri","sat"],start:20,end:24,detail:"Legendary mid-size venue — indie, rock, metal",addr:"529 Bloor St W",lat:43.6647,lng:-79.4094},
+  {name:"Sweaty Betty's",hood:"Queen West",type:"livemusic",days:["wed","thu","fri","sat"],start:21,end:26,detail:"Live bands most nights. No cover early. Classic dive bar",addr:"13 Ossington Ave",lat:43.6478,lng:-79.4218},
 ];
 
 const ALL=[...HH,...EV];
 const DKEYS=["sun","mon","tue","wed","thu","fri","sat"];
 const DNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const DABB={mon:"Mon",tue:"Tue",wed:"Wed",thu:"Thu",fri:"Fri",sat:"Sat",sun:"Sun"};
-const TLABEL={happyhour:"Happy hour",trivia:"Trivia",karaoke:"Karaoke",openmic:"Open mic",dj:"DJ night",comedy:"Comedy",bingo:"Bingo",livemusic:"Live music",jazz:"Jazz",drag:"Drag",quiz:"Quiz"};
-const TBADGE={happyhour:"b-hh",trivia:"b-trivia",karaoke:"b-karaoke",openmic:"b-openmic",dj:"b-dj",comedy:"b-comedy",bingo:"b-bingo",livemusic:"b-livemusic",jazz:"b-jazz",drag:"b-drag",quiz:"b-quiz"};
+const TLABEL={happyhour:"Happy hour",trivia:"Trivia",karaoke:"Karaoke",openmic:"Open mic",dj:"DJ night",comedy:"Comedy",bingo:"Bingo",livemusic:"Live music",jazz:"Jazz",drag:"Drag"};
+const TBADGE={happyhour:"b-hh",trivia:"b-trivia",karaoke:"b-karaoke",openmic:"b-openmic",dj:"b-dj",comedy:"b-comedy",bingo:"b-bingo",livemusic:"b-livemusic",jazz:"b-jazz",drag:"b-drag"};
+const TYPE_COLOR={happyhour:"#e8c547",trivia:"#7aabff",karaoke:"#f07ab8",openmic:"#5dd4a0",dj:"#c07aff",comedy:"#ffaa60",bingo:"#60d4f8",livemusic:"#a0e870",jazz:"#ffc864",drag:"#ff82c8"};
 
-const now=new Date();
-const todayIdx=now.getDay();
+const nowDate=new Date();
+const todayIdx=nowDate.getDay();
 const todayKey=DKEYS[todayIdx];
-const curHour=now.getHours()+now.getMinutes()/60;
+const curHour=nowDate.getHours()+nowDate.getMinutes()/60;
+
 document.getElementById("today-lbl").textContent=DNAMES[todayIdx];
+document.getElementById("map-today-lbl").textContent=DNAMES[todayIdx];
 document.getElementById("day-sel").value=todayKey;
 
-let activeType="all",activeNav="all";
+let activeType="all", mapActiveType="all";
+let currentView="list";
+let leafletMap=null, mapMarkers=[];
+
+function showView(v, el){
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".nb").forEach(x=>x.classList.remove("active"));
+  if(el) el.classList.add("active");
+  currentView=v;
+  if(v==="list"){
+    document.getElementById("list-view").classList.add("active");
+    document.getElementById("nb-list").classList.add("active");
+  } else {
+    document.getElementById("map-view").classList.add("active");
+    document.getElementById("nb-map").classList.add("active");
+    setTimeout(initMap, 100);
+  }
+}
+
+function setNavFilter(t){
+  activeType=t==="event"?"all":"happyhour";
+  document.querySelectorAll("#type-pills .pill").forEach(p=>p.classList.remove("active"));
+  const target=document.querySelector(`#type-pills [data-t="${t==="event"?"all":t}"]`);
+  if(target)target.classList.add("active");
+  render();
+}
 
 function setType(el){
-  document.querySelectorAll(".pill").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll("#type-pills .pill").forEach(p=>p.classList.remove("active"));
   el.classList.add("active");
   activeType=el.dataset.t;
   render();
 }
-function setNav(t,el){
-  document.querySelectorAll(".nb").forEach(b=>b.classList.remove("active"));
+
+function setMapType(el){
+  document.querySelectorAll("#map-type-pills .pill").forEach(p=>p.classList.remove("active"));
   el.classList.add("active");
-  activeNav=t;
-  activeType="all";
-  document.querySelectorAll(".pill").forEach(p=>p.classList.remove("active"));
-  document.querySelector("[data-t='all']").classList.add("active");
-  render();
+  mapActiveType=el.dataset.t;
+  renderMap();
 }
+
 function isNow(v){
-  const d=document.getElementById("day-sel").value;
-  if(d!==todayKey)return false;
   return v.days.includes(todayKey)&&curHour>=v.start&&curHour<v.end;
 }
 function fmt(h){const h2=h>=24?h-24:h;const ap=h2>=12?"pm":"am";const hr=h2>12?h2-12:(h2===0?12:h2);return hr+ap;}
 
-function render(){
-  const day=document.getElementById("day-sel").value;
-  const hood=document.getElementById("hood-sel").value;
-  const nowOnly=document.getElementById("now-chk").checked;
-  let items=ALL.filter(v=>{
+function getFiltered(typeFilter){
+  const day=document.getElementById("day-sel")?.value||todayKey;
+  const hood=document.getElementById("hood-sel")?.value||"all";
+  const nowOnly=document.getElementById("now-chk")?.checked||false;
+  return ALL.filter(v=>{
     if(!v.days.includes(day))return false;
     if(hood!=="all"&&v.hood!==hood)return false;
-    if(activeNav==="happyhour"&&v.type!=="happyhour")return false;
-    if(activeNav==="event"&&v.type==="happyhour")return false;
-    if(activeType!=="all"&&v.type!==activeType)return false;
+    if(typeFilter!=="all"&&v.type!==typeFilter)return false;
     if(nowOnly&&!isNow(v))return false;
     return true;
   });
+}
+
+function render(){
+  const items=getFiltered(activeType);
   items.sort((a,b)=>isNow(b)-isNow(a));
+  const day=document.getElementById("day-sel").value;
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
   document.getElementById("count-sub").textContent=items.length+" spot"+(items.length!==1?"s":"")+" · "+DNAMES[DKEYS.indexOf(day)];
   const c=document.getElementById("cards");
@@ -330,10 +395,68 @@ function render(){
     </div>`;
   }).join("");
 }
-function dismissBanner(){document.getElementById("ibanner").style.display="none";localStorage.setItem("bnr","1");}
-if(!localStorage.getItem("bnr")&&/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)){setTimeout(()=>{document.getElementById("ibanner").style.display="flex";},1500);}
-if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+
+function initMap(){
+  if(leafletMap) { renderMap(); return; }
+  leafletMap=L.map("map",{center:[43.655,-79.385],zoom:13,zoomControl:true});
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{
+    attribution:'&copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains:"abcd", maxZoom:19
+  }).addTo(leafletMap);
+  renderMap();
+}
+
+function renderMap(){
+  if(!leafletMap) return;
+  mapMarkers.forEach(m=>leafletMap.removeLayer(m));
+  mapMarkers=[];
+  const day=document.getElementById("day-sel")?.value||todayKey;
+  const items=ALL.filter(v=>{
+    if(!v.days.includes(day))return false;
+    if(mapActiveType!=="all"&&v.type!==mapActiveType)return false;
+    return true;
+  });
+  items.forEach(v=>{
+    const live=isNow(v);
+    const color=TYPE_COLOR[v.type]||"#e8c547";
+    const size=live?14:10;
+    const icon=L.divIcon({
+      className:"",
+      html:`<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:2px solid ${live?"#fff":"rgba(255,255,255,0.4)"};box-shadow:${live?"0 0 8px "+color:"none"};"></div>`,
+      iconSize:[size,size],
+      iconAnchor:[size/2,size/2]
+    });
+    const m=L.marker([v.lat,v.lng],{icon}).addTo(leafletMap);
+    m.on("click",()=>openSheet(v));
+    mapMarkers.push(m);
+  });
+}
+
+function openSheet(v){
+  const live=isNow(v);
+  const color=TYPE_COLOR[v.type]||"#e8c547";
+  document.getElementById("sheet-content").innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;padding-right:30px">
+      <div class="sheet-name">${v.name}</div>
+      <span class="badge ${TBADGE[v.type]||"b-hh"}" style="margin-top:2px">${TLABEL[v.type]||v.type}</span>
+    </div>
+    <div class="sheet-addr">${v.hood} · ${v.addr}</div>
+    <div class="sheet-detail">${v.detail}</div>
+    <div class="sheet-row">
+      <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now":fmt(v.start)+"–"+fmt(v.end)}</span></div>
+      <span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>
+    </div>`;
+  document.getElementById("sheet").classList.add("open");
+}
+
+function closeSheet(){
+  document.getElementById("sheet").classList.remove("open");
+}
+
+document.getElementById("day-sel").value=todayKey;
 render();
+
+if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 </script>
 </body>
 </html>
