@@ -78,6 +78,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .days-txt{font-size:11px;color:var(--muted)}
 .empty{text-align:center;padding:50px 20px;color:var(--muted)}
 .empty p{font-size:14px;line-height:1.6}
+.card-gmaps{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--muted);font-family:"DM Sans",sans-serif;cursor:pointer;text-decoration:none;transition:all .15s}
+.card-gmaps:active{background:var(--surface2)}
 
 /* MAP VIEW */
 #map-view{position:relative}
@@ -315,7 +317,7 @@ document.getElementById("today-lbl").textContent=DNAMES[todayIdx];
 document.getElementById("map-today-lbl").textContent=DNAMES[todayIdx];
 document.getElementById("day-sel").value=todayKey;
 
-let activeType="all", mapActiveType="all";
+let activeType="all", mapActiveTypes=new Set();
 let currentView="list";
 let leafletMap=null, mapMarkers=[];
 
@@ -350,9 +352,29 @@ function setType(el){
 }
 
 function setMapType(el){
-  document.querySelectorAll("#map-type-pills .pill").forEach(p=>p.classList.remove("active"));
-  el.classList.add("active");
-  mapActiveType=el.dataset.t;
+  const t=el.dataset.t;
+  if(t==="all"){
+    // All clears everything and selects all
+    mapActiveTypes.clear();
+    document.querySelectorAll("#map-type-pills .pill").forEach(p=>p.classList.remove("active"));
+    el.classList.add("active");
+  } else {
+    // Deselect "All" if it was active
+    const allPill=document.querySelector("#map-type-pills [data-t='all']");
+    allPill.classList.remove("active");
+    // Toggle this type
+    if(mapActiveTypes.has(t)){
+      mapActiveTypes.delete(t);
+      el.classList.remove("active");
+      // If nothing selected, revert to All
+      if(mapActiveTypes.size===0){
+        allPill.classList.add("active");
+      }
+    } else {
+      mapActiveTypes.add(t);
+      el.classList.add("active");
+    }
+  }
   renderMap();
 }
 
@@ -384,6 +406,8 @@ function render(){
   if(!items.length){c.innerHTML=`<div class="empty"><p>Nothing matches your filters.<br>Try a different day or neighbourhood.</p></div>`;return;}
   c.innerHTML=items.map(v=>{
     const live=isNow(v);
+    const gmapsQuery=encodeURIComponent(v.name+", "+v.addr+", Toronto, ON");
+    const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
     return`<div class="card ${live?"live-card":""}">
       <div class="card-top">
         <div><div class="card-name">${v.name}</div><div class="card-sub">${v.hood} · ${v.addr}</div></div>
@@ -394,6 +418,10 @@ function render(){
         <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now":fmt(v.start)+"–"+fmt(v.end)}</span></div>
         <span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>
       </div>
+      <a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        View on Google Maps
+      </a>
     </div>`;
   }).join("");
 }
@@ -415,7 +443,7 @@ function renderMap(){
   const day=document.getElementById("day-sel")?.value||todayKey;
   const items=ALL.filter(v=>{
     if(!v.days.includes(day))return false;
-    if(mapActiveType!=="all"&&v.type!==mapActiveType)return false;
+    if(mapActiveTypes.size>0&&!mapActiveTypes.has(v.type))return false;
     return true;
   });
   items.forEach(v=>{
