@@ -24,7 +24,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .view.active{display:flex}
 
 /* HEADER */
-.header{padding:52px 20px 0;flex-shrink:0}
+.header{padding:70px 20px 0;flex-shrink:0}
 .header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px}
 .logo{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
@@ -50,7 +50,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .now-lbl input{accent-color:var(--accent)}
 
 /* CARDS */
-.cards-scroll{flex:1;overflow-y:auto;padding:0 20px 110px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch}
+.cards-scroll{flex:1;overflow-y:auto;padding:0 20px 40px;display:flex;flex-direction:column;gap:10px;-webkit-overflow-scrolling:touch}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;transition:transform .1s}
 .card:active{transform:scale(.98)}
 .card.live-card{border-color:rgba(76,175,125,.35)}
@@ -82,36 +82,38 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 /* MAP VIEW */
 #map-view{position:relative}
 #map{flex:1;width:100%;background:#1a1a1a}
-.map-header{padding:52px 20px 10px;flex-shrink:0}
+.map-header{padding:70px 20px 10px;flex-shrink:0}
 .map-filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .map-filters::-webkit-scrollbar{display:none}
 
 /* MAP BOTTOM SHEET */
-.sheet{position:absolute;bottom:70px;left:0;right:0;background:var(--surface);border-radius:20px 20px 0 0;border-top:1px solid var(--border);transform:translateY(100%);transition:transform .3s ease;z-index:1000;max-height:60vh;overflow:hidden;display:flex;flex-direction:column}
+.sheet{position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;border-top:1px solid #e0e0e0;transform:translateY(100%);transition:transform .3s ease;z-index:1000;max-height:60vh;overflow:hidden;display:flex;flex-direction:column}
 .sheet.open{transform:translateY(0)}
-.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.sheet-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:12px auto 0}
 .sheet-content{overflow-y:auto;padding:12px 16px 20px;-webkit-overflow-scrolling:touch}
-.sheet-name{font-size:17px;font-weight:600;color:var(--text);margin-bottom:3px}
-.sheet-addr{font-size:12px;color:var(--muted);margin-bottom:10px}
-.sheet-detail{font-size:13px;color:#aaa;line-height:1.5;margin-bottom:10px}
-.sheet-row{display:flex;justify-content:space-between;align-items:center}
-.sheet-close{position:absolute;right:16px;top:16px;background:var(--surface2);border:none;color:var(--muted);font-size:16px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sheet-name{font-size:17px;font-weight:600;color:#111;margin-bottom:3px}
+.sheet-addr{font-size:12px;color:#888;margin-bottom:10px}
+.sheet-detail{font-size:13px;color:#555;line-height:1.5;margin-bottom:10px}
+.sheet-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.sheet-close{position:absolute;right:16px;top:16px;background:#f0f0f0;border:none;color:#666;font-size:16px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gmaps-btn{display:flex;align-items:center;gap:6px;background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:13px;font-weight:500;font-family:"DM Sans",sans-serif;cursor:pointer;width:100%;justify-content:center;text-decoration:none}
+.gmaps-btn:active{opacity:.85}
 
 /* Leaflet dark overrides */
-.leaflet-container{background:#1a1a1a!important}
-.leaflet-popup-content-wrapper{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;box-shadow:none;font-family:'DM Sans',sans-serif}
-.leaflet-popup-tip{background:var(--surface)}
+.leaflet-container{background:#f5f5f0!important}
+.leaflet-popup-content-wrapper{background:#fff;color:#111;border:1px solid #ddd;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.12);font-family:'DM Sans',sans-serif}
+.leaflet-popup-tip{background:#fff}
 .leaflet-popup-content{margin:10px 14px;font-size:13px;line-height:1.5}
-.leaflet-popup-content b{color:var(--text);font-weight:600}
-.leaflet-popup-content small{color:var(--muted)}
-.leaflet-bar a{background:var(--surface)!important;color:var(--text)!important;border-color:var(--border)!important}
-.leaflet-bar a:hover{background:var(--surface2)!important}
+.leaflet-popup-content b{color:#111;font-weight:600}
+.leaflet-popup-content small{color:#888}
+.leaflet-bar a{background:#fff!important;color:#333!important;border-color:#ccc!important}
+.leaflet-bar a:hover{background:#f5f5f0!important}
 
-/* BOTTOM NAV */
-.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,15,15,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;padding:8px 0 max(8px,env(safe-area-inset-bottom));z-index:2000}
-.nb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;transition:color .15s}
-.nb.active{color:var(--accent)}
-.ni{font-size:19px;line-height:1}
+/* TOP NAV */
+.bnav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,15,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;padding:max(10px,env(safe-area-inset-top)) 12px 10px;z-index:2000;gap:8px}
+.nb{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 4px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;transition:all .15s;border-radius:var(--radius-sm);border:1px solid transparent}
+.nb.active{color:#0f0f0f;background:var(--accent);border-color:var(--accent)}
+.ni{font-size:14px;line-height:1}
 </style>
 </head>
 <body>
@@ -399,7 +401,7 @@ function render(){
 function initMap(){
   if(leafletMap) { renderMap(); return; }
   leafletMap=L.map("map",{center:[43.655,-79.385],zoom:13,zoomControl:true});
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",{
     attribution:'&copy; <a href="https://carto.com/">CARTO</a>',
     subdomains:"abcd", maxZoom:19
   }).addTo(leafletMap);
@@ -434,7 +436,8 @@ function renderMap(){
 
 function openSheet(v){
   const live=isNow(v);
-  const color=TYPE_COLOR[v.type]||"#e8c547";
+  const gmapsQuery=encodeURIComponent(v.name+", "+v.addr+", Toronto, ON");
+  const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
   document.getElementById("sheet-content").innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;padding-right:30px">
       <div class="sheet-name">${v.name}</div>
@@ -445,7 +448,11 @@ function openSheet(v){
     <div class="sheet-row">
       <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now":fmt(v.start)+"–"+fmt(v.end)}</span></div>
       <span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>
-    </div>`;
+    </div>
+    <a class="gmaps-btn" href="${gmapsUrl}" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      View on Google Maps
+    </a>`;
   document.getElementById("sheet").classList.add("open");
 }
 
