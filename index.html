@@ -80,6 +80,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .empty p{font-size:14px;line-height:1.6}
 .card-gmaps{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--muted);font-family:"DM Sans",sans-serif;cursor:pointer;text-decoration:none;transition:all .15s}
 .card-gmaps:active{background:var(--surface2)}
+.time-control{padding:0 20px 10px;flex-shrink:0}
+.time-row{display:flex;align-items:center;gap:10px}
+.time-row label{font-size:12px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.time-row input[type=range]{flex:1;accent-color:var(--accent)}
+.time-display{font-size:13px;font-weight:500;color:var(--accent);min-width:48px;text-align:right;flex-shrink:0}
+.locate-btn{flex-shrink:0;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:"DM Sans",sans-serif;transition:all .15s}
+.locate-btn.located{border-color:var(--green);color:var(--green)}
+.locate-btn:active{background:var(--surface2)}
+.dist-badge{font-size:11px;color:var(--muted);margin-left:4px}
 
 /* MAP VIEW */
 #map-view{position:relative}
@@ -172,6 +181,17 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <option value="sat">Saturday</option>
         <option value="sun">Sunday</option>
       </select>
+    </div>
+  </div>
+  <div class="time-control">
+    <div class="time-row">
+      <label>Time</label>
+      <input type="range" id="time-slider" min="0" max="26" step="0.5" value="0" oninput="updateTimeDisplay();render()">
+      <span class="time-display" id="time-display">Any</span>
+      <button class="locate-btn" id="locate-btn" onclick="getLocation()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+        Near me
+      </button>
     </div>
   </div>
   <div class="count-bar">
@@ -318,6 +338,50 @@ document.getElementById("map-today-lbl").textContent=DNAMES[todayIdx];
 document.getElementById("day-sel").value=todayKey;
 
 let activeType="all", mapActiveTypes=new Set();
+let userLat=null, userLng=null;
+
+function deg2rad(d){return d*Math.PI/180;}
+function haversine(lat1,lng1,lat2,lng2){
+  const R=6371;
+  const dLat=deg2rad(lat2-lat1), dLng=deg2rad(lng2-lng1);
+  const a=Math.sin(dLat/2)**2+Math.cos(deg2rad(lat1))*Math.cos(deg2rad(lat2))*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function distKm(v){
+  if(!userLat||!v.lat)return Infinity;
+  return haversine(userLat,userLng,v.lat,v.lng);
+}
+function distLabel(v){
+  const d=distKm(v);
+  if(d===Infinity)return "";
+  return d<1?(Math.round(d*1000)+"m"):(d.toFixed(1)+"km");
+}
+function getLocation(){
+  const btn=document.getElementById("locate-btn");
+  if(!navigator.geolocation){btn.textContent="Not supported";return;}
+  btn.textContent="Locating...";
+  navigator.geolocation.getCurrentPosition(pos=>{
+    userLat=pos.coords.latitude;
+    userLng=pos.coords.longitude;
+    btn.classList.add("located");
+    btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg> Located';
+    render();
+  },()=>{btn.textContent="Location denied";});
+}
+function getTimeFilter(){
+  const val=parseFloat(document.getElementById("time-slider").value);
+  return val===0?null:val;
+}
+function updateTimeDisplay(){
+  const val=parseFloat(document.getElementById("time-slider").value);
+  const el=document.getElementById("time-display");
+  if(val===0){el.textContent="Any";return;}
+  const h=Math.floor(val);
+  const m=val%1===0.5?"30":"00";
+  const ap=h>=12?"pm":"am";
+  const hr=h>12?h-12:(h===0?12:h);
+  el.textContent=hr+":"+m+ap;
+}
 let currentView="list";
 let leafletMap=null, mapMarkers=[];
 
@@ -387,18 +451,29 @@ function getFiltered(typeFilter){
   const day=document.getElementById("day-sel")?.value||todayKey;
   const hood=document.getElementById("hood-sel")?.value||"all";
   const nowOnly=document.getElementById("now-chk")?.checked||false;
+  const timeFilter=getTimeFilter();
   return ALL.filter(v=>{
     if(!v.days.includes(day))return false;
     if(hood!=="all"&&v.hood!==hood)return false;
     if(typeFilter!=="all"&&v.type!==typeFilter)return false;
     if(nowOnly&&!isNow(v))return false;
+    if(timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
     return true;
   });
 }
 
 function render(){
-  const items=getFiltered(activeType);
-  items.sort((a,b)=>isNow(b)-isNow(a));
+  let items=getFiltered(activeType);
+  // Sort: live-first, then by distance if location known, else default order
+  if(userLat){
+    items.sort((a,b)=>{
+      const ld=isNow(b)-isNow(a);
+      if(ld!==0)return ld;
+      return distKm(a)-distKm(b);
+    });
+  } else {
+    items.sort((a,b)=>isNow(b)-isNow(a));
+  }
   const day=document.getElementById("day-sel").value;
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
   document.getElementById("count-sub").textContent=items.length+" spot"+(items.length!==1?"s":"")+" · "+DNAMES[DKEYS.indexOf(day)];
@@ -410,7 +485,7 @@ function render(){
     const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
     return`<div class="card ${live?"live-card":""}">
       <div class="card-top">
-        <div><div class="card-name">${v.name}</div><div class="card-sub">${v.hood} · ${v.addr}</div></div>
+        <div><div class="card-name">${v.name}</div><div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div></div>
         <span class="badge ${TBADGE[v.type]||"b-hh"}">${TLABEL[v.type]||v.type}</span>
       </div>
       <div class="detail">${v.detail}</div>
