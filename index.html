@@ -180,6 +180,34 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .locate-btn:active{background:var(--surface2)}
 .dist-badge{font-size:11px;color:var(--muted);margin-left:4px}
 
+/* DAY PILLS */
+.day-pills-wrap{padding:0 20px 10px;flex-shrink:0}
+.day-pills{display:flex;gap:6px}
+.day-pill{
+  flex:1;padding:7px 0;border-radius:8px;
+  font-size:12px;font-weight:600;
+  border:1px solid var(--border);
+  background:var(--surface);color:var(--muted);
+  cursor:pointer;transition:all .15s;
+  font-family:'DM Sans',sans-serif;
+}
+.day-pill.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+
+/* MAP LEGEND */
+#map-legend{
+  position:absolute;bottom:70px;right:10px;
+  background:rgba(26,26,26,0.95);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 12px;
+  z-index:450;
+  display:flex;flex-direction:column;gap:5px;
+  pointer-events:none;
+}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);white-space:nowrap}
+.legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
+
 /* MAP VIEW */
 #map-view{position:relative}
 #map{flex:1;width:100%;background:#1a1a1a}
@@ -429,16 +457,17 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <option value="Liberty Village">Liberty Village</option>
       </select>
     </div>
-    <div class="sw">
-      <select id="day-sel" onchange="render()">
-        <option value="mon">Monday</option>
-        <option value="tue">Tuesday</option>
-        <option value="wed">Wednesday</option>
-        <option value="thu">Thursday</option>
-        <option value="fri">Friday</option>
-        <option value="sat">Saturday</option>
-        <option value="sun">Sunday</option>
-      </select>
+  </div>
+  <!-- MULTI-DAY SELECTOR -->
+  <div class="day-pills-wrap">
+    <div class="day-pills" id="day-pills">
+      <button class="day-pill" data-d="mon" onclick="toggleDay(this)">Mon</button>
+      <button class="day-pill" data-d="tue" onclick="toggleDay(this)">Tue</button>
+      <button class="day-pill" data-d="wed" onclick="toggleDay(this)">Wed</button>
+      <button class="day-pill" data-d="thu" onclick="toggleDay(this)">Thu</button>
+      <button class="day-pill" data-d="fri" onclick="toggleDay(this)">Fri</button>
+      <button class="day-pill" data-d="sat" onclick="toggleDay(this)">Sat</button>
+      <button class="day-pill" data-d="sun" onclick="toggleDay(this)">Sun</button>
     </div>
   </div>
   <div class="time-control">
@@ -470,6 +499,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   <div class="map-filters" id="map-type-pills">
     <div class="pill active" data-t="all" onclick="setMapType(this)">All</div>
     <div class="pill" data-t="happyhour" onclick="setMapType(this)">Happy hour</div>
+    <div class="pill" data-t="drinkhh" onclick="setMapType(this)">Drink HH</div>
+    <div class="pill" data-t="foodhh" onclick="setMapType(this)">Food HH</div>
     <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
     <div class="pill" data-t="karaoke" onclick="setMapType(this)">Karaoke</div>
     <div class="pill" data-t="openmic" onclick="setMapType(this)">Open mic</div>
@@ -477,8 +508,36 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div class="pill" data-t="livemusic" onclick="setMapType(this)">Live music</div>
     <div class="pill" data-t="dj" onclick="setMapType(this)">DJ</div>
     <div class="pill" data-t="jazz" onclick="setMapType(this)">Jazz</div>
+    <div class="pill" data-t="drag" onclick="setMapType(this)">Drag</div>
+  </div>
+  <!-- MAP DAY PILLS -->
+  <div class="day-pills-wrap" style="padding:0 20px 8px">
+    <div class="day-pills" id="map-day-pills">
+      <button class="day-pill" data-d="mon" onclick="toggleMapDay(this)">Mon</button>
+      <button class="day-pill" data-d="tue" onclick="toggleMapDay(this)">Tue</button>
+      <button class="day-pill" data-d="wed" onclick="toggleMapDay(this)">Wed</button>
+      <button class="day-pill" data-d="thu" onclick="toggleMapDay(this)">Thu</button>
+      <button class="day-pill" data-d="fri" onclick="toggleMapDay(this)">Fri</button>
+      <button class="day-pill" data-d="sat" onclick="toggleMapDay(this)">Sat</button>
+      <button class="day-pill" data-d="sun" onclick="toggleMapDay(this)">Sun</button>
+    </div>
   </div>
   <div id="map"></div>
+  <!-- MAP LEGEND -->
+  <div id="map-legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#e8c547"></span>Happy Hour</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#e8c547;opacity:.7"></span>Drink HH</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#ff9f43"></span>Food HH</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#7aabff"></span>Trivia</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#f07ab8"></span>Karaoke</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#5dd4a0"></span>Open Mic</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#ffaa60"></span>Comedy</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#c07aff"></span>DJ Night</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#ffc864"></span>Jazz</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#a0e870"></span>Live Music</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#ff82c8"></span>Drag</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#60d4f8"></span>Bingo</div>
+  </div>
   <div class="sheet" id="sheet">
     <div class="sheet-handle"></div>
     <button class="sheet-close" onclick="closeSheet()">✕</button>
@@ -665,10 +724,48 @@ const curHour=nowDate.getHours()+nowDate.getMinutes()/60;
 
 document.getElementById("today-lbl").textContent=DNAMES[todayIdx];
 document.getElementById("map-today-lbl").textContent=DNAMES[todayIdx];
-document.getElementById("day-sel").value=todayKey;
 
 let activeTab="all", activeType="all", mapActiveTypes=new Set();
+let selectedDays=new Set([todayKey]);
+let selectedMapDays=new Set([todayKey]);
 let userLat=null, userLng=null;
+
+// Init day pills — highlight today
+function initDayPills(){
+  document.querySelectorAll("#day-pills .day-pill").forEach(p=>{
+    if(p.dataset.d===todayKey) p.classList.add("active");
+  });
+  document.querySelectorAll("#map-day-pills .day-pill").forEach(p=>{
+    if(p.dataset.d===todayKey) p.classList.add("active");
+  });
+}
+initDayPills();
+
+function toggleDay(el){
+  const d=el.dataset.d;
+  if(selectedDays.has(d)){
+    if(selectedDays.size===1)return; // always keep at least one
+    selectedDays.delete(d);
+    el.classList.remove("active");
+  } else {
+    selectedDays.add(d);
+    el.classList.add("active");
+  }
+  render();
+}
+
+function toggleMapDay(el){
+  const d=el.dataset.d;
+  if(selectedMapDays.has(d)){
+    if(selectedMapDays.size===1)return;
+    selectedMapDays.delete(d);
+    el.classList.remove("active");
+  } else {
+    selectedMapDays.add(d);
+    el.classList.add("active");
+  }
+  renderMap();
+}
 
 function deg2rad(d){return d*Math.PI/180;}
 function haversine(lat1,lng1,lat2,lng2){
@@ -778,18 +875,15 @@ function isNow(v){
 function fmt(h){const h2=h>=24?h-24:h;const ap=h2>=12?"pm":"am";const hr=h2>12?h2-12:(h2===0?12:h2);return hr+ap;}
 
 function getFiltered(typeFilter){
-  const day=document.getElementById("day-sel")?.value||todayKey;
   const hood=document.getElementById("hood-sel")?.value||"all";
   const nowOnly=document.getElementById("now-chk")?.checked||false;
   const timeFilter=getTimeFilter();
   const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
   return ALL.filter(v=>{
-    if(!v.days.includes(day))return false;
+    if(!v.days.some(d=>selectedDays.has(d)))return false;
     if(hood!=="all"&&v.hood!==hood)return false;
-    // type pill filter
     if(typeFilter==="happyhour"&&!isHH(v.type))return false;
     if(typeFilter!=="all"&&typeFilter!=="happyhour"&&v.type!==typeFilter)return false;
-    // tab filter
     if(activeTab==="happyhour"&&!isHH(v.type))return false;
     if(activeTab==="events"&&isHH(v.type))return false;
     if(nowOnly&&!isNow(v))return false;
@@ -800,19 +894,14 @@ function getFiltered(typeFilter){
 
 function render(){
   let items=getFiltered(activeType);
-  // Sort: live-first, then by distance if location known, else default order
   if(userLat){
-    items.sort((a,b)=>{
-      const ld=isNow(b)-isNow(a);
-      if(ld!==0)return ld;
-      return distKm(a)-distKm(b);
-    });
+    items.sort((a,b)=>{const ld=isNow(b)-isNow(a);if(ld!==0)return ld;return distKm(a)-distKm(b);});
   } else {
     items.sort((a,b)=>isNow(b)-isNow(a));
   }
-  const day=document.getElementById("day-sel").value;
+  const dayLabel=selectedDays.size===7?"Every day":selectedDays.size===1?DNAMES[DKEYS.indexOf([...selectedDays][0])]:([...selectedDays].map(d=>DABB[d]).join(", "));
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
-  document.getElementById("count-sub").textContent=items.length+" spot"+(items.length!==1?"s":"")+" · "+DNAMES[DKEYS.indexOf(day)];
+  if(document.getElementById("count-sub"))document.getElementById("count-sub").textContent=items.length+" spot"+(items.length!==1?"s":"")+" · "+dayLabel;
   const c=document.getElementById("cards");
   if(!items.length){c.innerHTML=`<div class="empty"><p>Nothing matches your filters.<br>Try a different day or neighbourhood.</p></div>`;return;}
   c.innerHTML=items.map(v=>{
@@ -826,7 +915,7 @@ function render(){
       </div>
       <div class="detail">${v.detail}</div>
       <div class="card-ftr">
-        <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now":fmt(v.start)+"–"+fmt(v.end)}</span></div>
+        <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now · "+fmt(v.start)+"–"+fmt(v.end):fmt(v.start)+"–"+fmt(v.end)}</span></div>
         <span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>
       </div>
       <a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener">
@@ -838,22 +927,21 @@ function render(){
 }
 
 function initMap(){
-  if(leafletMap) { renderMap(); return; }
+  if(leafletMap){renderMap();return;}
   leafletMap=L.map("map",{center:[43.655,-79.385],zoom:13,zoomControl:true});
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",{
     attribution:'&copy; <a href="https://carto.com/">CARTO</a>',
-    subdomains:"abcd", maxZoom:19
+    subdomains:"abcd",maxZoom:19
   }).addTo(leafletMap);
   renderMap();
 }
 
 function renderMap(){
-  if(!leafletMap) return;
+  if(!leafletMap)return;
   mapMarkers.forEach(m=>leafletMap.removeLayer(m));
   mapMarkers=[];
-  const day=document.getElementById("day-sel")?.value||todayKey;
   const items=ALL.filter(v=>{
-    if(!v.days.includes(day))return false;
+    if(!v.days.some(d=>selectedMapDays.has(d)))return false;
     if(mapActiveTypes.size>0&&!mapActiveTypes.has(v.type))return false;
     return true;
   });
@@ -885,7 +973,7 @@ function openSheet(v){
     <div class="sheet-addr">${v.hood} · ${v.addr}</div>
     <div class="sheet-detail">${v.detail}</div>
     <div class="sheet-row">
-      <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now":fmt(v.start)+"–"+fmt(v.end)}</span></div>
+      <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now · "+fmt(v.start)+"–"+fmt(v.end):fmt(v.start)+"–"+fmt(v.end)}</span></div>
       <span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>
     </div>
     <a class="gmaps-btn" href="${gmapsUrl}" target="_blank" rel="noopener">
@@ -898,8 +986,6 @@ function openSheet(v){
 function closeSheet(){
   document.getElementById("sheet").classList.remove("open");
 }
-
-document.getElementById("day-sel").value=todayKey;
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 
