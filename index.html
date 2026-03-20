@@ -166,6 +166,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .time-txt{color:var(--muted)}
 .time-txt.on{color:var(--green);font-weight:500}
 .days-txt{font-size:11px;color:var(--muted)}
+.next-day-badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surface2);padding:3px 8px;border-radius:20px;border:1px solid var(--border)}
+.next-day-badge.next-soon{color:var(--accent);border-color:rgba(232,197,71,.3);background:var(--accent-dim)}
 .empty{text-align:center;padding:50px 20px;color:var(--muted)}
 .empty p{font-size:14px;line-height:1.6}
 .card-gmaps{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--muted);font-family:"DM Sans",sans-serif;cursor:pointer;text-decoration:none;transition:all .15s}
@@ -459,7 +461,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   <div class="search-wrap">
     <div class="search-box">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="search-input" placeholder="Search venues, drinks, food, music…" oninput="onSearch()" autocomplete="off" autocorrect="off" spellcheck="false">
+      <input type="text" id="search-input" placeholder="Search venues, drinks, food, music…" oninput="onSearch()" onkeydown="if(event.key==='Enter'){commitSearch();this.blur()}" autocomplete="off" autocorrect="off" spellcheck="false">
       <button id="search-clear" onclick="clearSearch()" aria-label="Clear">✕</button>
     </div>
     <div id="search-suggestions"></div>
@@ -935,18 +937,17 @@ function getFiltered(typeFilter){
   const timeFilter=getTimeFilter();
   const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
   const q=searchQuery;
+  const isSearchActive=!!(searchTypes||q);
   return ALL.filter(v=>{
-    if(!v.days.some(d=>selectedDays.has(d)))return false;
+    // When search is active, ignore day filter so you find venues on any day
+    if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
     if(hood!=="all"&&v.hood!==hood)return false;
-    // Search filter — overrides type pills when active
     if(searchTypes){
       if(!searchTypes.includes(v.type))return false;
     } else if(q&&!searchTypes){
-      // Text search against name/hood/detail/addr
       const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
       if(!hay.includes(q))return false;
     } else {
-      // Normal type pill / tab filters
       if(typeFilter==="happyhour"&&!isHH(v.type))return false;
       if(typeFilter!=="all"&&typeFilter!=="happyhour"&&v.type!==typeFilter)return false;
       if(activeTab==="happyhour"&&!isHH(v.type))return false;
@@ -958,22 +959,55 @@ function getFiltered(typeFilter){
   });
 }
 
+// Returns the next day name this venue occurs, relative to today
+function nextDay(v){
+  if(isNow(v)) return null; // already happening
+  // Check today first (it may happen later today)
+  if(v.days.includes(todayKey)&&curHour<v.end) return "Today";
+  // Walk forward up to 7 days
+  for(let i=1;i<=7;i++){
+    const d=DKEYS[(todayIdx+i)%7];
+    if(v.days.includes(d)) return i===1?"Tomorrow":DNAMES[(todayIdx+i)%7];
+  }
+  return null;
+}
+
+// Days until next occurrence (for sorting)
+function daysUntilNext(v){
+  if(isNow(v)) return -1;
+  if(v.days.includes(todayKey)&&curHour<v.end) return 0;
+  for(let i=1;i<=7;i++){
+    if(v.days.includes(DKEYS[(todayIdx+i)%7])) return i;
+  }
+  return 7;
+}
+
 function render(){
+  const isSearchActive=!!(searchTypes||searchQuery);
   let items=getFiltered(activeType);
-  if(userLat){
+  if(isSearchActive){
+    // Sort by: happening now first, then soonest next day
+    items.sort((a,b)=>daysUntilNext(a)-daysUntilNext(b));
+  } else if(userLat){
     items.sort((a,b)=>{const ld=isNow(b)-isNow(a);if(ld!==0)return ld;return distKm(a)-distKm(b);});
   } else {
     items.sort((a,b)=>isNow(b)-isNow(a));
   }
-  const dayLabel=selectedDays.size===7?"Every day":selectedDays.size===1?DNAMES[DKEYS.indexOf([...selectedDays][0])]:([...selectedDays].map(d=>DABB[d]).join(", "));
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
 
   const c=document.getElementById("cards");
-  if(!items.length){c.innerHTML=`<div class="empty"><p>Nothing matches your filters.<br>Try a different day or neighbourhood.</p></div>`;return;}
+  if(!items.length){
+    const msg=searchQuery||searchTypes
+      ?`<div class="empty"><p>😕 Nothing found for "<strong style="color:var(--text)">${document.getElementById("search-input").value||"your search"}</strong>".<br>Try something else — like "drinks", "trivia", or a venue name.</p></div>`
+      :`<div class="empty"><p>Nothing matches your filters.<br>Try a different day or neighbourhood.</p></div>`;
+    c.innerHTML=msg;return;
+  }
   c.innerHTML=items.map(v=>{
     const live=isNow(v);
     const gmapsQuery=encodeURIComponent(v.name+", "+v.addr+", Toronto, ON");
     const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
+    const next=isSearchActive?nextDay(v):null;
+    const nextBadge=next?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}">${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";
     return`<div class="card ${live?"live-card":""}">
       <div class="card-top">
         <div><div class="card-name">${v.name}</div><div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div></div>
@@ -982,7 +1016,7 @@ function render(){
       <div class="detail">${v.detail}</div>
       <div class="card-ftr">
         <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now · "+fmt(v.start)+"–"+fmt(v.end):fmt(v.start)+"–"+fmt(v.end)}</span></div>
-        <span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>
+        ${next&&!live?nextBadge:`<span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>`}
       </div>
       <a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
@@ -1149,6 +1183,24 @@ function onSearch(){
     }
   }).join("");
   sugBox.classList.add("visible");
+}
+
+function commitSearch(){
+  const q=document.getElementById("search-input").value.trim().toLowerCase();
+  document.getElementById("search-suggestions").classList.remove("visible");
+  if(!q) return;
+  // Check if the query matches a known intent — apply the first one
+  const matched=SEARCH_INTENTS.find(intent=>
+    intent.keywords.some(kw=>q.includes(kw)||kw.includes(q))
+  );
+  if(matched){
+    applySearchIntent(matched.types||null, !!matched.nowFilter);
+  } else {
+    // Plain text search — just render with the current query
+    searchTypes=null;
+    searchNowOnly=false;
+    render();
+  }
 }
 
 function applySearchIntent(types, nowOnly){
