@@ -113,7 +113,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .view.active{display:flex}
 
 /* HEADER */
-.header{padding:env(safe-area-inset-top,0px) 20px 0;padding-top:max(env(safe-area-inset-top),14px);flex-shrink:0}
+.header{padding-top:max(env(safe-area-inset-top),44px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0}
 .header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
 .logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
@@ -245,16 +245,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .ni{font-size:14px;line-height:1}
 /* ── PWA INSTALL BANNER (Android / generic) ── */
 #install-banner{
-  position:fixed;bottom:calc(56px + env(safe-area-inset-bottom));left:12px;right:12px;
-  background:var(--surface);
-  border:1px solid var(--border2);
+  position:fixed;bottom:calc(60px + env(safe-area-inset-bottom));left:12px;right:12px;
+  background:linear-gradient(135deg,#1e1e1e,#252525);
+  border:1px solid var(--accent);
   border-radius:18px;
   padding:14px 16px;
   display:flex;align-items:center;gap:12px;
-  box-shadow:0 8px 32px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06);
+  box-shadow:0 8px 32px rgba(0,0,0,.8),0 0 0 1px rgba(232,197,71,.15),0 0 20px rgba(232,197,71,.08);
   z-index:500;
-  transform:translateY(120%);
-  transition:transform .4s cubic-bezier(.32,.72,0,1);
+  transform:translateY(140%);
+  transition:transform .45s cubic-bezier(.32,.72,0,1);
   pointer-events:none;
 }
 #install-banner.show{transform:translateY(0);pointer-events:auto}
@@ -453,7 +453,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
       <div class="logo">Tonight<span>.</span>TO</div>
       <div class="tonight-badge" id="today-lbl">Thursday</div>
     </div>
-    <div class="subhead" id="count-sub">Loading...</div>
   </div>
 
   <!-- SEARCH BAR -->
@@ -970,7 +969,7 @@ function render(){
   }
   const dayLabel=selectedDays.size===7?"Every day":selectedDays.size===1?DNAMES[DKEYS.indexOf([...selectedDays][0])]:([...selectedDays].map(d=>DABB[d]).join(", "));
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
-  if(document.getElementById("count-sub"))document.getElementById("count-sub").textContent=items.length+" spot"+(items.length!==1?"s":"")+" · "+dayLabel;
+
   const c=document.getElementById("cards");
   if(!items.length){c.innerHTML=`<div class="empty"><p>Nothing matches your filters.<br>Try a different day or neighbourhood.</p></div>`;return;}
   c.innerHTML=items.map(v=>{
@@ -1225,12 +1224,9 @@ function isDismissed(){
 window.addEventListener("beforeinstallprompt",e=>{
   e.preventDefault();
   deferredPrompt=e;
-  if(!isStandalone()&&!isDismissed()){
-    setTimeout(()=>showAndroidBanner(),2500);
-  }
 });
 
-// If launched as standalone, flash a "you're using the app" toast once
+// Show banner for ALL browsers after 3s (if not standalone and not dismissed)
 window.addEventListener("load",()=>{
   if(isStandalone()){
     const shown=sessionStorage.getItem("standalone_shown");
@@ -1242,9 +1238,12 @@ window.addEventListener("load",()=>{
     }
     return;
   }
-  // iOS: show after a short delay if not dismissed
-  if(isIOS()&&!isDismissed()){
+  if(isDismissed()) return;
+  if(isIOS()){
     setTimeout(()=>showIOSSheet(),3000);
+  } else {
+    // Show the banner for Android/desktop regardless of beforeinstallprompt
+    setTimeout(()=>showAndroidBanner(),3000);
   }
 });
 
