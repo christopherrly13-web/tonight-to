@@ -104,7 +104,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-:root{--bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--border:rgba(255,255,255,0.08);--text:#f0ede8;--muted:#888;--accent:#e8c547;--accent-dim:rgba(232,197,71,0.12);--green:#4caf7d;--radius:14px;--radius-sm:8px}
+:root{--bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:#888;--muted2:#aaa;--accent:#e8c547;--accent-dim:rgba(232,197,71,0.12);--green:#4caf7d;--radius:14px;--radius-sm:8px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
 
@@ -121,13 +121,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .subhead{font-size:12px;color:var(--muted);margin-bottom:6px}
 
 /* FILTERS */
-.filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.filters{padding:0 20px 6px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .filters::-webkit-scrollbar{display:none}
 .pill{flex-shrink:0;padding:6px 13px;border-radius:20px;font-size:13px;font-weight:500;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap}
 .pill.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
 
 /* CONTROLS */
-.controls{padding:0 20px 10px;display:flex;gap:8px;flex-shrink:0}
+.controls{padding:0 20px 6px;display:flex;gap:8px;flex-shrink:0}
 .sw{flex:1;position:relative}
 .sw select{width:100%;appearance:none;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 28px 8px 11px;border-radius:var(--radius-sm);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer}
 .sw::after{content:'▾';position:absolute;right:9px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:11px;pointer-events:none}
@@ -170,7 +170,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .empty p{font-size:14px;line-height:1.6}
 .card-gmaps{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--muted);font-family:"DM Sans",sans-serif;cursor:pointer;text-decoration:none;transition:all .15s}
 .card-gmaps:active{background:var(--surface2)}
-.time-control{padding:0 20px 10px;flex-shrink:0}
+.time-control{padding:0 20px 6px;flex-shrink:0}
 .time-row{display:flex;align-items:center;gap:10px}
 .time-row label{font-size:12px;color:var(--muted);white-space:nowrap;flex-shrink:0}
 .time-row input[type=range]{flex:1;accent-color:var(--accent)}
@@ -181,7 +181,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .dist-badge{font-size:11px;color:var(--muted);margin-left:4px}
 
 /* DAY PILLS */
-.day-pills-wrap{padding:0 20px 10px;flex-shrink:0}
+.day-pills-wrap{padding:0 20px 6px;flex-shrink:0}
 .day-pills{display:flex;gap:6px}
 .day-pill{
   flex:1;padding:7px 0;border-radius:8px;
@@ -482,6 +482,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     <div class="pill" data-t="drag" onclick="setType(this)">Drag</div>
     <div class="pill" data-t="bingo" onclick="setType(this)">Bingo</div>
   </div>
+
+  <div class="controls">
     <div class="sw">
       <select id="hood-sel" onchange="render()">
         <option value="all">All neighbourhoods</option>
@@ -511,7 +513,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
         <option value="Summerhill">Summerhill</option>
         <option value="Trinity Bellwoods">Trinity Bellwoods</option>
         <option value="Yorkville">Yorkville</option>
-        <option value="Liberty Village">Liberty Village</option>
       </select>
     </div>
   </div>
@@ -1187,6 +1188,9 @@ document.addEventListener("click",e=>{
 });
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+
+// Render immediately so cards show on first paint
+render();
 
 if(navigator.geolocation){
   navigator.geolocation.getCurrentPosition(pos=>{
