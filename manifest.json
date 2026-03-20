@@ -1,11 +1,12 @@
 {
-  "name": "Tonight TO",
-  "short_name": "Tonight TO",
+  "name": "Tonight.TO",
+  "short_name": "Tonight.TO",
   "description": "Find happy hours and events in Toronto tonight",
-  "start_url": "/",
+  "start_url": "/tonight-to/",
+  "scope": "/tonight-to/",
   "display": "standalone",
   "background_color": "#0f0f0f",
-  "theme_color": "#1a1a1a",
+  "theme_color": "#0f0f0f",
   "orientation": "portrait",
   "icons": [
     {
