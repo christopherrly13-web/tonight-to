@@ -1,0 +1,11 @@
+{
+  "name": "tonight-to-scraper",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "scrape": "node scripts/scrape-venues.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
