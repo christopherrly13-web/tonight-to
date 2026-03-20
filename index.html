@@ -113,7 +113,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .view.active{display:flex}
 
 /* HEADER */
-.header{padding-top:max(env(safe-area-inset-top),56px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0}
+.header{padding-top:calc(max(env(safe-area-inset-top),10px) + 64px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0}
 .header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
 .logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
@@ -213,7 +213,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 /* MAP VIEW */
 #map-view{position:relative}
 #map{flex:1;width:100%;background:#1a1a1a}
-.map-header{padding-top:max(env(safe-area-inset-top),56px);padding-left:20px;padding-right:20px;padding-bottom:6px;flex-shrink:0}
+.map-header{padding-top:calc(max(env(safe-area-inset-top),10px) + 64px);padding-left:20px;padding-right:20px;padding-bottom:6px;flex-shrink:0}
 .map-filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .map-filters::-webkit-scrollbar{display:none}
 
