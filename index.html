@@ -940,9 +940,15 @@ function renderMap(){
   if(!leafletMap)return;
   mapMarkers.forEach(m=>leafletMap.removeLayer(m));
   mapMarkers=[];
+  const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
   const items=ALL.filter(v=>{
     if(!v.days.some(d=>selectedMapDays.has(d)))return false;
-    if(mapActiveTypes.size>0&&!mapActiveTypes.has(v.type))return false;
+    if(mapActiveTypes.size>0){
+      const match=[...mapActiveTypes].some(t=>
+        t===v.type||(t==="happyhour"&&isHH(v.type))
+      );
+      if(!match)return false;
+    }
     return true;
   });
   items.forEach(v=>{
