@@ -281,12 +281,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 #search-suggestions.visible{display:block}
 .sugg-item{
   display:flex;align-items:center;gap:10px;
-  padding:11px 14px;cursor:pointer;
+  padding:12px 14px;cursor:pointer;
   border-bottom:1px solid var(--border);
   transition:background .1s;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
 }
 .sugg-item:last-child{border-bottom:none}
-.sugg-item:active{background:var(--surface2)}
+.sugg-item:hover,.sugg-item:active{background:var(--surface2)}
 .sugg-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
 .sugg-label{font-size:14px;color:var(--text)}
 .sugg-sub{font-size:11px;color:var(--muted);margin-top:1px}
@@ -1046,12 +1048,17 @@ function onSearch(){
   }
   clearBtn.classList.add("visible");
 
-  // Check intents
+  // ── Live list update as you type ──
+  // Use text search immediately so cards filter in real time
+  searchTypes=null;
+  searchNowOnly=false;
+  render();
+
+  // ── Build suggestions dropdown ──
   const matched=SEARCH_INTENTS.filter(intent=>
     intent.keywords.some(kw=>q.includes(kw)||kw.includes(q))
   );
 
-  // Also do direct venue name matches
   const venueMatches=ALL.filter(v=>
     v.name.toLowerCase().includes(q)||
     v.hood.toLowerCase().includes(q)||
@@ -1059,26 +1066,25 @@ function onSearch(){
     v.addr.toLowerCase().includes(q)
   );
 
-  // Build suggestions
   const items=[];
-
-  // Intent suggestions first
   matched.forEach(intent=>{
     const count=intent.types
       ? ALL.filter(v=>intent.types.includes(v.type)&&v.days.some(d=>selectedDays.has(d))).length
       : ALL.filter(v=>isNow(v)).length;
     items.push({type:"intent",intent,count});
   });
-
-  // Then individual venues (up to 5)
-  venueMatches.slice(0,5).forEach(v=>{
-    items.push({type:"venue",venue:v});
-  });
+  venueMatches.slice(0,6).forEach(v=>items.push({type:"venue",venue:v}));
 
   if(items.length===0){
     sugBox.innerHTML=`<div class="sugg-item"><span class="sugg-icon">🔍</span><div><div class="sugg-label">No results for "${q}"</div><div class="sugg-sub">Try: drinks, food, music, trivia, karaoke…</div></div></div>`;
     sugBox.classList.add("visible");
     return;
+  }
+
+  function highlight(str){
+    const idx=str.toLowerCase().indexOf(q);
+    if(idx===-1)return str;
+    return str.slice(0,idx)+'<mark style="background:var(--accent-dim);color:var(--accent);border-radius:2px;padding:0 1px">'+str.slice(idx,idx+q.length)+'</mark>'+str.slice(idx+q.length);
   }
 
   sugBox.innerHTML=items.map(item=>{
@@ -1094,7 +1100,10 @@ function onSearch(){
       const live=isNow(v);
       return`<div class="sugg-item" onclick="applyVenueSearch(${JSON.stringify(v.name)})">
         <span class="sugg-icon">${live?"🟢":"📍"}</span>
-        <div><div class="sugg-label">${v.name}</div><div class="sugg-sub">${v.hood} · ${TLABEL[v.type]||v.type}${live?" · <span style='color:var(--green)'>Now open</span>":""}</div></div>
+        <div>
+          <div class="sugg-label">${highlight(v.name)}</div>
+          <div class="sugg-sub">${highlight(v.hood)} · ${TLABEL[v.type]||v.type}${live?" · <span style='color:var(--green)'>Now open</span>":""}</div>
+        </div>
       </div>`;
     }
   }).join("");
@@ -1122,6 +1131,13 @@ function commitSearch(){
 function applySearchIntent(types, nowOnly){
   searchTypes=types;
   searchNowOnly=nowOnly||false;
+  // Update input to show what was selected
+  const intent=SEARCH_INTENTS.find(i=>JSON.stringify(i.types)===JSON.stringify(types)&&!!i.nowFilter===!!nowOnly);
+  if(intent){
+    document.getElementById("search-input").value=intent.label;
+    searchQuery="";
+    document.getElementById("search-clear").classList.add("visible");
+  }
   document.getElementById("search-suggestions").classList.remove("visible");
   render();
 }
@@ -1131,6 +1147,7 @@ function applyVenueSearch(name){
   searchNowOnly=false;
   document.getElementById("search-input").value=name;
   searchQuery=name.toLowerCase();
+  document.getElementById("search-clear").classList.add("visible");
   document.getElementById("search-suggestions").classList.remove("visible");
   render();
 }
