@@ -178,8 +178,15 @@ async function main() {
     newVenues.forEach(v => console.log(`  + ${v.name} (${v.hood}) — ${v.type}`));
   }
 
-  // Merge and write
+  // Merge and write — only update if we have something meaningful
   const merged = [...existing, ...newVenues];
+
+  // Safety: never write an empty file — keep existing if scrape found nothing
+  if (merged.length === 0) {
+    console.log('No venues to write — aborting to protect existing data');
+    process.exit(0);
+  }
+
   const output = {
     version: 1,
     updated: new Date().toISOString().split('T')[0],
