@@ -346,6 +346,52 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;z-index:500;
 }
 #already-installed.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* SEARCH */
+.search-wrap{padding:6px 20px 8px;flex-shrink:0;position:relative}
+.search-box{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:9px 12px;
+  transition:border-color .15s;
+}
+.search-box:focus-within{border-color:var(--accent)}
+.search-box svg{color:var(--muted);flex-shrink:0}
+.search-box input{
+  flex:1;background:none;border:none;outline:none;
+  color:var(--text);font-size:14px;
+  font-family:'DM Sans',sans-serif;
+}
+.search-box input::placeholder{color:var(--muted)}
+#search-clear{
+  background:none;border:none;color:var(--muted);
+  cursor:pointer;font-size:14px;padding:0;line-height:1;
+  display:none;
+}
+#search-clear.visible{display:block}
+#search-suggestions{
+  position:absolute;left:20px;right:20px;top:100%;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  overflow:hidden;z-index:300;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);
+  display:none;
+}
+#search-suggestions.visible{display:block}
+.sugg-item{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 14px;cursor:pointer;
+  border-bottom:1px solid var(--border);
+  transition:background .1s;
+}
+.sugg-item:last-child{border-bottom:none}
+.sugg-item:active{background:var(--surface2)}
+.sugg-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sugg-label{font-size:14px;color:var(--text)}
+.sugg-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.sugg-count{margin-left:auto;font-size:11px;color:var(--muted);background:var(--surface2);padding:2px 7px;border-radius:10px}
 </style>
 </head>
 <body>
@@ -409,22 +455,33 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
     </div>
     <div class="subhead" id="count-sub">Loading...</div>
   </div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="search-input" placeholder="Search venues, drinks, food, music…" oninput="onSearch()" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button id="search-clear" onclick="clearSearch()" aria-label="Clear">✕</button>
+    </div>
+    <div id="search-suggestions"></div>
+  </div>
+
+  <!-- TYPE PILLS -->
   <div class="filters" id="type-pills">
     <div class="pill active" data-t="all" onclick="setType(this)">All</div>
     <div class="pill" data-t="happyhour" onclick="setType(this)">Happy hour</div>
+    <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
+    <div class="pill" data-t="foodhh" onclick="setType(this)">🍔 Food HH</div>
     <div class="pill" data-t="trivia" onclick="setType(this)">Trivia</div>
     <div class="pill" data-t="karaoke" onclick="setType(this)">Karaoke</div>
     <div class="pill" data-t="openmic" onclick="setType(this)">Open mic</div>
     <div class="pill" data-t="comedy" onclick="setType(this)">Comedy</div>
-    <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
-    <div class="pill" data-t="foodhh" onclick="setType(this)">🍔 Food HH</div>
     <div class="pill" data-t="livemusic" onclick="setType(this)">Live music</div>
     <div class="pill" data-t="dj" onclick="setType(this)">DJ night</div>
     <div class="pill" data-t="jazz" onclick="setType(this)">Jazz</div>
     <div class="pill" data-t="drag" onclick="setType(this)">Drag</div>
     <div class="pill" data-t="bingo" onclick="setType(this)">Bingo</div>
   </div>
-  <div class="controls">
     <div class="sw">
       <select id="hood-sel" onchange="render()">
         <option value="all">All neighbourhoods</option>
@@ -876,16 +933,27 @@ function fmt(h){const h2=h>=24?h-24:h;const ap=h2>=12?"pm":"am";const hr=h2>12?h
 
 function getFiltered(typeFilter){
   const hood=document.getElementById("hood-sel")?.value||"all";
-  const nowOnly=document.getElementById("now-chk")?.checked||false;
+  const nowOnly=(document.getElementById("now-chk")?.checked||false)||searchNowOnly;
   const timeFilter=getTimeFilter();
   const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
+  const q=searchQuery;
   return ALL.filter(v=>{
     if(!v.days.some(d=>selectedDays.has(d)))return false;
     if(hood!=="all"&&v.hood!==hood)return false;
-    if(typeFilter==="happyhour"&&!isHH(v.type))return false;
-    if(typeFilter!=="all"&&typeFilter!=="happyhour"&&v.type!==typeFilter)return false;
-    if(activeTab==="happyhour"&&!isHH(v.type))return false;
-    if(activeTab==="events"&&isHH(v.type))return false;
+    // Search filter — overrides type pills when active
+    if(searchTypes){
+      if(!searchTypes.includes(v.type))return false;
+    } else if(q&&!searchTypes){
+      // Text search against name/hood/detail/addr
+      const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
+      if(!hay.includes(q))return false;
+    } else {
+      // Normal type pill / tab filters
+      if(typeFilter==="happyhour"&&!isHH(v.type))return false;
+      if(typeFilter!=="all"&&typeFilter!=="happyhour"&&v.type!==typeFilter)return false;
+      if(activeTab==="happyhour"&&!isHH(v.type))return false;
+      if(activeTab==="events"&&isHH(v.type))return false;
+    }
     if(nowOnly&&!isNow(v))return false;
     if(timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
     return true;
@@ -992,6 +1060,131 @@ function openSheet(v){
 function closeSheet(){
   document.getElementById("sheet").classList.remove("open");
 }
+
+// ─── SEARCH ──────────────────────────────────────────────────────────────────
+// Keyword → type mappings (broad intent → specific types)
+const SEARCH_INTENTS=[
+  {keywords:["drink","drinks","cocktail","cocktails","beer","wine","martini","spirits","booze","bar","bars","alcohol","shots","pint","pints","draft","draught","happy hour","happyhour","hh"],types:["drinkhh","happyhour"],label:"Drink Happy Hours",icon:"🍸"},
+  {keywords:["food","eat","eating","snack","snacks","bite","bites","oyster","oysters","pizza","tacos","taco","burger","burgers","appetizer","appetizers","app","apps","dining","restaurant","brunch","lunch"],types:["foodhh"],label:"Food Happy Hours",icon:"🍔"},
+  {keywords:["music","live music","band","bands","concert","concerts","stage","perform","performance","gig","gigs","show","shows","singer","singing","acoustic","indie","rock","punk","pop","blues","soul","r&b"],types:["livemusic","jazz","openmic","dj"],label:"Live Music & DJ Nights",icon:"🎸"},
+  {keywords:["jazz","jazzy","bebop","swing","saxophone","trumpet","blues"],types:["jazz"],label:"Jazz",icon:"🎷"},
+  {keywords:["dj","djs","electronic","dance","edm","house","techno","rave","club","clubbing","nightclub","afrobeats","latin"],types:["dj"],label:"DJ Nights",icon:"🎧"},
+  {keywords:["open mic","openmic","open-mic","open stage","acoustic","singer songwriter","poet","poetry","spoken word","stand up open"],types:["openmic"],label:"Open Mic Nights",icon:"🎙"},
+  {keywords:["trivia","quiz","pub quiz","pub trivia","questions","quizmaster","quiz night","trivia night","brain","knowledge","general knowledge"],types:["trivia"],label:"Trivia Nights",icon:"🧠"},
+  {keywords:["karaoke","singing","sing","mic","microphone","ktv","private room","song","songs","sing-along"],types:["karaoke"],label:"Karaoke",icon:"🎤"},
+  {keywords:["comedy","comedian","stand up","stand-up","improv","sketch","funny","laugh","laughs","jokes","comic","comics"],types:["comedy"],label:"Comedy Shows",icon:"😂"},
+  {keywords:["drag","drag queen","queens","lgbtq","queer","pride","performer","performers","cabaret","burlesque","lip sync"],types:["drag"],label:"Drag Shows",icon:"👑"},
+  {keywords:["bingo","music bingo","bingo night","prize","prizes","numbers"],types:["bingo"],label:"Bingo Nights",icon:"🎱"},
+  {keywords:["tonight","now","happening","open","live","current","whats on","what's on"],types:null,label:"Happening Now",icon:"⚡",nowFilter:true},
+];
+
+let searchQuery="";
+let searchTypes=null; // null = no search filter active
+let searchNowOnly=false;
+
+function onSearch(){
+  const q=document.getElementById("search-input").value.trim().toLowerCase();
+  searchQuery=q;
+  const clearBtn=document.getElementById("search-clear");
+  const sugBox=document.getElementById("search-suggestions");
+
+  if(!q){
+    clearBtn.classList.remove("visible");
+    sugBox.classList.remove("visible");
+    searchTypes=null;
+    searchNowOnly=false;
+    render();
+    return;
+  }
+  clearBtn.classList.add("visible");
+
+  // Check intents
+  const matched=SEARCH_INTENTS.filter(intent=>
+    intent.keywords.some(kw=>q.includes(kw)||kw.includes(q))
+  );
+
+  // Also do direct venue name matches
+  const venueMatches=ALL.filter(v=>
+    v.name.toLowerCase().includes(q)||
+    v.hood.toLowerCase().includes(q)||
+    v.detail.toLowerCase().includes(q)||
+    v.addr.toLowerCase().includes(q)
+  );
+
+  // Build suggestions
+  const items=[];
+
+  // Intent suggestions first
+  matched.forEach(intent=>{
+    const count=intent.types
+      ? ALL.filter(v=>intent.types.includes(v.type)&&v.days.some(d=>selectedDays.has(d))).length
+      : ALL.filter(v=>isNow(v)).length;
+    items.push({type:"intent",intent,count});
+  });
+
+  // Then individual venues (up to 5)
+  venueMatches.slice(0,5).forEach(v=>{
+    items.push({type:"venue",venue:v});
+  });
+
+  if(items.length===0){
+    sugBox.innerHTML=`<div class="sugg-item"><span class="sugg-icon">🔍</span><div><div class="sugg-label">No results for "${q}"</div><div class="sugg-sub">Try: drinks, food, music, trivia, karaoke…</div></div></div>`;
+    sugBox.classList.add("visible");
+    return;
+  }
+
+  sugBox.innerHTML=items.map(item=>{
+    if(item.type==="intent"){
+      const {intent,count}=item;
+      return`<div class="sugg-item" onclick="applySearchIntent(${JSON.stringify(intent.types)},${!!intent.nowFilter})">
+        <span class="sugg-icon">${intent.icon}</span>
+        <div><div class="sugg-label">${intent.label}</div><div class="sugg-sub">${intent.types?intent.types.map(t=>TLABEL[t]).join(", "):"Live right now"}</div></div>
+        <span class="sugg-count">${count}</span>
+      </div>`;
+    } else {
+      const v=item.venue;
+      const live=isNow(v);
+      return`<div class="sugg-item" onclick="applyVenueSearch(${JSON.stringify(v.name)})">
+        <span class="sugg-icon">${live?"🟢":"📍"}</span>
+        <div><div class="sugg-label">${v.name}</div><div class="sugg-sub">${v.hood} · ${TLABEL[v.type]||v.type}${live?" · <span style='color:var(--green)'>Now open</span>":""}</div></div>
+      </div>`;
+    }
+  }).join("");
+  sugBox.classList.add("visible");
+}
+
+function applySearchIntent(types, nowOnly){
+  searchTypes=types;
+  searchNowOnly=nowOnly||false;
+  document.getElementById("search-suggestions").classList.remove("visible");
+  render();
+}
+
+function applyVenueSearch(name){
+  searchTypes=null;
+  searchNowOnly=false;
+  document.getElementById("search-input").value=name;
+  searchQuery=name.toLowerCase();
+  document.getElementById("search-suggestions").classList.remove("visible");
+  render();
+}
+
+function clearSearch(){
+  document.getElementById("search-input").value="";
+  document.getElementById("search-clear").classList.remove("visible");
+  document.getElementById("search-suggestions").classList.remove("visible");
+  searchQuery="";
+  searchTypes=null;
+  searchNowOnly=false;
+  render();
+}
+
+// Close suggestions when tapping outside
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".search-wrap")){
+    document.getElementById("search-suggestions").classList.remove("visible");
+  }
+});
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 
