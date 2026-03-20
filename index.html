@@ -113,12 +113,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .view.active{display:flex}
 
 /* HEADER */
-.header{padding:70px 20px 0;flex-shrink:0}
-.header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px}
-.logo{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);line-height:1}
+.header{padding:env(safe-area-inset-top,0px) 20px 0;padding-top:max(env(safe-area-inset-top),14px);flex-shrink:0}
+.header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
+.logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
 .tonight-badge{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:4px 10px;border-radius:20px;border:1px solid rgba(232,197,71,.2)}
-.subhead{font-size:12px;color:var(--muted);margin-bottom:12px}
+.subhead{font-size:12px;color:var(--muted);margin-bottom:6px}
 
 /* FILTERS */
 .filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
@@ -211,7 +211,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 /* MAP VIEW */
 #map-view{position:relative}
 #map{flex:1;width:100%;background:#1a1a1a}
-.map-header{padding:70px 20px 10px;flex-shrink:0}
+.map-header{padding:max(env(safe-area-inset-top),14px) 20px 6px;flex-shrink:0}
 .map-filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .map-filters::-webkit-scrollbar{display:none}
 
@@ -347,7 +347,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 }
 #already-installed.show{opacity:1;transform:translateX(-50%) translateY(0)}
 /* SEARCH */
-.search-wrap{padding:6px 20px 8px;flex-shrink:0;position:relative}
+.search-wrap{padding:4px 20px 6px;flex-shrink:0;position:relative}
 .search-box{
   display:flex;align-items:center;gap:8px;
   background:var(--surface2);
