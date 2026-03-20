@@ -113,7 +113,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .view.active{display:flex}
 
 /* HEADER */
-.header{padding-top:max(env(safe-area-inset-top),44px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0}
+.header{padding-top:max(env(safe-area-inset-top),56px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0}
 .header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
 .logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
@@ -245,19 +245,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .ni{font-size:14px;line-height:1}
 /* ── PWA INSTALL BANNER (Android / generic) ── */
 #install-banner{
-  position:fixed;bottom:calc(60px + env(safe-area-inset-bottom));left:12px;right:12px;
+  position:fixed;bottom:calc(72px + env(safe-area-inset-bottom));left:12px;right:12px;
   background:linear-gradient(135deg,#1e1e1e,#252525);
   border:1px solid var(--accent);
   border-radius:18px;
-  padding:14px 16px;
+  padding:16px 16px;
   display:flex;align-items:center;gap:12px;
-  box-shadow:0 8px 32px rgba(0,0,0,.8),0 0 0 1px rgba(232,197,71,.15),0 0 20px rgba(232,197,71,.08);
-  z-index:500;
-  transform:translateY(140%);
+  box-shadow:0 8px 40px rgba(0,0,0,.9),0 0 0 1px rgba(232,197,71,.2),0 0 24px rgba(232,197,71,.1);
+  z-index:9999;
+  transform:translateY(0);
   transition:transform .45s cubic-bezier(.32,.72,0,1);
-  pointer-events:none;
+  pointer-events:auto;
 }
-#install-banner.show{transform:translateY(0);pointer-events:auto}
+#install-banner.hidden{transform:translateY(200%);pointer-events:none}
 .install-icon{
   width:44px;height:44px;border-radius:12px;flex-shrink:0;
   background:var(--accent);display:flex;align-items:center;justify-content:center;
@@ -1229,6 +1229,7 @@ window.addEventListener("beforeinstallprompt",e=>{
 // Show banner for ALL browsers after 3s (if not standalone and not dismissed)
 window.addEventListener("load",()=>{
   if(isStandalone()){
+    document.getElementById("install-banner").classList.add("hidden");
     const shown=sessionStorage.getItem("standalone_shown");
     if(!shown){
       sessionStorage.setItem("standalone_shown","1");
@@ -1238,20 +1239,22 @@ window.addEventListener("load",()=>{
     }
     return;
   }
-  if(isDismissed()) return;
-  if(isIOS()){
-    setTimeout(()=>showIOSSheet(),3000);
-  } else {
-    // Show the banner for Android/desktop regardless of beforeinstallprompt
-    setTimeout(()=>showAndroidBanner(),3000);
+  if(isDismissed()){
+    document.getElementById("install-banner").classList.add("hidden");
+    return;
   }
+  if(isIOS()){
+    document.getElementById("install-banner").classList.add("hidden");
+    setTimeout(()=>showIOSSheet(),3000);
+  }
+  // Android/desktop: banner is already visible, no action needed
 });
 
 function showAndroidBanner(){
-  document.getElementById("install-banner").classList.add("show");
+  document.getElementById("install-banner").classList.remove("hidden");
 }
 function dismissBanner(){
-  document.getElementById("install-banner").classList.remove("show");
+  document.getElementById("install-banner").classList.add("hidden");
   // Suppress for 7 days
   localStorage.setItem(DISMISSED_UNTIL_KEY, Date.now()+7*24*60*60*1000);
 }
@@ -1260,7 +1263,7 @@ async function triggerInstall(){
   deferredPrompt.prompt();
   const {outcome}=await deferredPrompt.userChoice;
   deferredPrompt=null;
-  document.getElementById("install-banner").classList.remove("show");
+  document.getElementById("install-banner").classList.add("hidden");
   if(outcome==="accepted"){
     // Mark permanently installed
     localStorage.setItem(DISMISSED_KEY,"1");
