@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#1a1a1a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -106,7 +106,7 @@
 <style>
 :root{--bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:#888;--muted2:#aaa;--accent:#e8c547;--accent-dim:rgba(232,197,71,0.12);--green:#4caf7d;--radius:14px;--radius-sm:8px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;overscroll-behavior:none}
 
 /* VIEWS */
 .view{display:none;flex-direction:column;height:100vh;overflow:hidden}
@@ -213,7 +213,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 /* MAP VIEW */
 #map-view{position:relative}
 #map{flex:1;width:100%;background:#1a1a1a}
-.map-header{padding:max(env(safe-area-inset-top),14px) 20px 6px;flex-shrink:0}
+.map-header{padding-top:max(env(safe-area-inset-top),56px);padding-left:20px;padding-right:20px;padding-bottom:6px;flex-shrink:0}
 .map-filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .map-filters::-webkit-scrollbar{display:none}
 
@@ -394,6 +394,77 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .sugg-label{font-size:14px;color:var(--text)}
 .sugg-sub{font-size:11px;color:var(--muted);margin-top:1px}
 .sugg-count{margin-left:auto;font-size:11px;color:var(--muted);background:var(--surface2);padding:2px 7px;border-radius:10px}
+/* ── RESPONSIVE / MOBILE IMPROVEMENTS ── */
+
+/* Smooth scrolling & momentum on iOS */
+.cards-scroll{-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+
+/* Larger tap targets for all interactive elements */
+.pill{min-height:36px;display:inline-flex;align-items:center}
+.day-pill{min-height:40px;font-size:13px}
+.card-gmaps{min-height:40px}
+.locate-btn{min-height:40px}
+.sw select{min-height:40px}
+.nb{min-height:44px}
+
+/* Better card spacing on mobile */
+@media (max-width:480px){
+  .cards-scroll{padding:0 12px 100px;gap:8px}
+  .card{padding:13px 14px}
+  .card-name{font-size:14px}
+  .detail{font-size:12px}
+  .filters{padding:0 12px 6px}
+  .controls{padding:0 12px 6px}
+  .day-pills-wrap{padding:0 12px 6px}
+  .time-control{padding:0 12px 6px}
+  .count-bar{padding:0 12px 6px}
+  .search-wrap{padding:4px 12px 6px}
+  .header{padding-left:12px;padding-right:12px}
+}
+
+/* Desktop / tablet — wider layout */
+@media (min-width:768px){
+  html,body{height:100%;overflow:hidden}
+  .view{max-width:540px;margin:0 auto;box-shadow:0 0 60px rgba(0,0,0,.6)}
+  .bnav{max-width:540px;left:50%;transform:translateX(-50%)}
+  #install-banner{max-width:516px;left:50%;transform:translateX(-50%)}
+  #install-banner.hidden{transform:translateX(-50%) translateY(200%)}
+  #ios-sheet{max-width:540px;left:50%;transform:translateX(-50%)}
+  #ios-sheet.show{transform:translateX(-50%) translateY(0)}
+  #ios-overlay{display:none}
+}
+
+/* Touch feedback */
+.card{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pill{touch-action:manipulation}
+.day-pill{touch-action:manipulation}
+
+/* Prevent text selection on taps */
+.nb,.pill,.day-pill,.card-gmaps,.locate-btn{user-select:none;-webkit-user-select:none}
+
+/* Search input font size 16px prevents iOS zoom on focus */
+#search-input{font-size:16px}
+
+/* Smoother card press animation */
+.card:active{transform:scale(.985);transition:transform .08s}
+
+/* Better empty state on mobile */
+.empty{padding:40px 24px}
+.empty p{font-size:15px}
+
+/* Scrollable bottom safe area clearance */
+.cards-scroll{padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+
+/* Map bottom safe area */
+#map{padding-bottom:0}
+#map-legend{bottom:calc(80px + env(safe-area-inset-bottom))}
+
+/* Time row better on small screens */
+@media (max-width:360px){
+  .time-row label{display:none}
+  .day-pill{font-size:11px}
+  .logo{font-size:22px}
+}
 </style>
 </head>
 <body>
