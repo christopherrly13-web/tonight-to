@@ -175,9 +175,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .card-gmaps:active{background:var(--surface2)}
 .time-control{padding:0 20px 6px;flex-shrink:0}
 .time-row{display:flex;align-items:center;gap:10px}
-.time-row label{font-size:12px;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.time-row label{font-size:12px;color:var(--accent);white-space:nowrap;flex-shrink:0;font-weight:600}
 .time-row input[type=range]{flex:1;accent-color:var(--accent)}
-.time-display{font-size:13px;font-weight:500;color:var(--muted);min-width:48px;text-align:right;flex-shrink:0}
+.time-display{font-size:15px;font-weight:600;color:var(--accent);min-width:48px;text-align:right;flex-shrink:0}
 .time-display.active{font-size:15px;font-weight:600;color:var(--accent)}
 .locate-btn{flex-shrink:0;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:"DM Sans",sans-serif;transition:all .15s}
 .locate-btn.located{border-color:var(--green);color:var(--green)}
@@ -1201,7 +1201,7 @@ function onSearch(){
 
 function commitSearch(){
   const q=document.getElementById("search-input").value.trim().toLowerCase();
-  document.getElementById("search-suggestions").classList.remove("visible");
+  hideSuggestions();
   if(!q) return;
   // Check if the query matches a known intent — apply the first one
   const matched=SEARCH_INTENTS.find(intent=>
@@ -1220,14 +1220,13 @@ function commitSearch(){
 function applySearchIntent(types, nowOnly){
   searchTypes=types;
   searchNowOnly=nowOnly||false;
-  // Update input to show what was selected
   const intent=SEARCH_INTENTS.find(i=>JSON.stringify(i.types)===JSON.stringify(types)&&!!i.nowFilter===!!nowOnly);
   if(intent){
     document.getElementById("search-input").value=intent.label;
     searchQuery="";
     document.getElementById("search-clear").classList.add("visible");
   }
-  document.getElementById("search-suggestions").classList.remove("visible");
+  hideSuggestions();
   render();
 }
 
@@ -1237,30 +1236,35 @@ function applyVenueSearch(name){
   document.getElementById("search-input").value=name;
   searchQuery=name.toLowerCase();
   document.getElementById("search-clear").classList.add("visible");
-  document.getElementById("search-suggestions").classList.remove("visible");
+  hideSuggestions();
   render();
+}
+
+function hideSuggestions(){
+  const box=document.getElementById("search-suggestions");
+  box.classList.remove("visible");
+  box.innerHTML="";
 }
 
 function clearSearch(){
   document.getElementById("search-input").value="";
   document.getElementById("search-clear").classList.remove("visible");
-  document.getElementById("search-suggestions").classList.remove("visible");
+  hideSuggestions();
   searchQuery="";
   searchTypes=null;
   searchNowOnly=false;
   render();
 }
 
-// Close suggestions when input loses focus
-// Use a flag so touch taps on suggestions don't get swallowed by blur
-let _suggTapping=false;
-document.getElementById("search-suggestions").addEventListener("touchstart",()=>{_suggTapping=true;},{passive:true});
-document.getElementById("search-suggestions").addEventListener("touchend",()=>{setTimeout(()=>{_suggTapping=false;},300);},{passive:true});
+// Hide suggestions on blur — skip if user is clicking inside the suggestion box
+let _suggMousedown=false;
+document.getElementById("search-suggestions").addEventListener("mousedown",()=>{_suggMousedown=true;});
+document.getElementById("search-suggestions").addEventListener("touchstart",()=>{_suggMousedown=true;},{passive:true});
+document.addEventListener("mouseup",()=>{_suggMousedown=false;});
+document.addEventListener("touchend",()=>{setTimeout(()=>{_suggMousedown=false;},300);},{passive:true});
 document.getElementById("search-input").addEventListener("blur",()=>{
-  if(_suggTapping)return;
-  setTimeout(()=>{
-    if(!_suggTapping) document.getElementById("search-suggestions").classList.remove("visible");
-  },200);
+  if(_suggMousedown)return;
+  setTimeout(()=>{if(!_suggMousedown)hideSuggestions();},150);
 });
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
