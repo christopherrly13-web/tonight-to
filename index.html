@@ -215,15 +215,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 /* MAP VIEW — fully contained, zero scroll */
 #map-view{position:relative;overflow:hidden}
-#map-view.active{display:flex;flex-direction:column;height:100vh}
+#map-view.active{
+  display:flex;flex-direction:column;
+  height:calc(100vh - env(safe-area-inset-bottom));
+  max-height:100dvh;
+}
 
 /* Map header — compact */
 .map-header{
-  padding-top:calc(max(env(safe-area-inset-top),10px) + 54px);
-  padding-left:16px;padding-right:16px;padding-bottom:4px;
+  padding-top:calc(max(env(safe-area-inset-top),6px) + 54px);
+  padding-left:16px;padding-right:16px;padding-bottom:2px;
   flex-shrink:0;background:var(--bg);
 }
-.map-header .header-top{margin-bottom:4px}
+.map-header .header-top{margin-bottom:2px}
 
 /* Map search — same as list */
 .map-search-wrap{
@@ -236,14 +240,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   padding:0 16px 4px;flex-shrink:0;background:var(--bg);
 }
 
-.map-filters{padding:0 16px 4px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;background:var(--bg)}
+.map-filters{padding:0 16px 2px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;background:var(--bg)}
 .map-filters::-webkit-scrollbar{display:none}
 
 /* Map day pills */
 #map-view .day-pills-wrap{
-  padding:0 16px 6px;background:var(--bg);flex-shrink:0;
+  padding:0 16px 4px;background:var(--bg);flex-shrink:0;
 }
-#map-view .day-pill{font-size:11px;min-height:32px;padding:4px 0}
+#map-view .day-pill{font-size:11px;min-height:30px;padding:3px 0}
 
 /* Map itself fills remaining space */
 #map{flex:1;width:100%;min-height:0}
@@ -266,9 +270,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .sheet.open{transform:translateY(0)}
 .sheet.dragging{transition:none}
 .sheet-handle{
-  width:40px;height:4px;background:var(--border2);
-  border-radius:2px;margin:12px auto 6px;flex-shrink:0;
+  width:44px;height:5px;background:var(--border2);
+  border-radius:3px;margin:0 auto 0;flex-shrink:0;
   cursor:grab;touch-action:none;
+  padding:14px 40px;
+  background-clip:content-box;
+  box-sizing:content-box;
 }
 .sheet-content{
   overflow-y:auto;
@@ -1286,37 +1293,62 @@ document.getElementById("sheet-close").addEventListener("pointerdown", e=>{
   closeSheet();
 });
 
-// Drag-to-dismiss on the handle
+// Drag-to-dismiss — works on handle AND entire sheet top area
 (function(){
   const sheet=document.getElementById("sheet");
   const handle=document.getElementById("sheet-handle");
   let startY=0, currentY=0, dragging=false;
 
   function onDown(e){
+    // Ignore if tapping the close button
+    if(e.target.closest("#sheet-close"))return;
     dragging=true;
-    startY=e.touches?e.touches[0].clientY:e.clientY;
+    startY=e.clientY??e.touches?.[0].clientY??0;
     currentY=0;
     sheet.classList.add("dragging");
+    // Capture all future pointer events to this element — bypasses Leaflet
+    try{ handle.setPointerCapture(e.pointerId); }catch(_){}
+    e.preventDefault();
   }
+
   function onMove(e){
     if(!dragging)return;
-    const y=(e.touches?e.touches[0].clientY:e.clientY)-startY;
-    currentY=Math.max(0,y); // only drag downward
+    const y=(e.clientY??e.touches?.[0].clientY??startY)-startY;
+    currentY=Math.max(0,y);
     sheet.style.transform=`translateY(${currentY}px)`;
+    // Visual cue — fade as you drag
+    sheet.style.opacity=String(Math.max(0.4,1-currentY/300));
   }
-  function onUp(){
+
+  function onUp(e){
     if(!dragging)return;
     dragging=false;
     sheet.classList.remove("dragging");
-    sheet.style.transform="";
-    if(currentY>80){
+    sheet.style.opacity="";
+    if(currentY>60){
+      sheet.style.transform="";
       closeSheet();
+    } else {
+      // Snap back
+      sheet.style.transition="transform .25s cubic-bezier(.32,.72,0,1)";
+      sheet.style.transform="";
+      setTimeout(()=>sheet.style.transition="",260);
     }
   }
 
-  handle.addEventListener("pointerdown",onDown);
-  document.addEventListener("pointermove",onMove);
-  document.addEventListener("pointerup",onUp);
+  // Listen on handle for pointer events (setPointerCapture handles the rest)
+  handle.addEventListener("pointerdown", onDown, {passive:false});
+  handle.addEventListener("pointermove", onMove, {passive:false});
+  handle.addEventListener("pointerup", onUp);
+  handle.addEventListener("pointercancel", onUp);
+
+  // Also allow dragging from anywhere on the sheet content top area
+  sheet.addEventListener("pointerdown", e=>{
+    // Only trigger from the top ~40px of the sheet (handle zone)
+    const sheetTop=sheet.getBoundingClientRect().top;
+    const tapY=(e.clientY??e.touches?.[0].clientY??0);
+    if(tapY-sheetTop<44) onDown(e);
+  },{passive:false});
 })();
 
 // ─── SEARCH ──────────────────────────────────────────────────────────────────
