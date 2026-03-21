@@ -211,24 +211,124 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);white-space:nowrap}
 .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
 
-/* MAP VIEW */
-#map-view{position:relative}
-#map{flex:1;width:100%;background:#1a1a1a}
-.map-header{padding-top:calc(max(env(safe-area-inset-top),10px) + 64px);padding-left:20px;padding-right:20px;padding-bottom:6px;flex-shrink:0}
-.map-filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
-.map-filters::-webkit-scrollbar{display:none}
+/* MAP VIEW — fully contained, no scroll on mobile */
+#map-view{position:relative;overflow:hidden}
 
-/* MAP BOTTOM SHEET */
-.sheet{position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;border-top:1px solid #e0e0e0;transform:translateY(100%);transition:transform .3s ease;z-index:1000;max-height:60vh;overflow:hidden;display:flex;flex-direction:column}
+/* Floating logo bar pinned at top of map */
+.map-logo-bar{
+  position:absolute;top:0;left:0;right:0;
+  padding:max(env(safe-area-inset-top),10px) 16px 10px;
+  padding-top:calc(max(env(safe-area-inset-top),10px) + 56px); /* below bnav */
+  background:linear-gradient(to bottom,rgba(15,15,15,.92) 0%,rgba(15,15,15,.7) 70%,transparent 100%);
+  z-index:500;pointer-events:none;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.map-logo-bar .logo{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text);line-height:1;pointer-events:auto}
+.map-logo-bar .logo span{color:var(--accent)}
+.map-logo-bar .tonight-badge{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:3px 8px;border-radius:20px;border:1px solid rgba(232,197,71,.2);pointer-events:auto}
+
+/* Floating filter pills — compact strip below logo */
+.map-controls-overlay{
+  position:absolute;
+  top:calc(max(env(safe-area-inset-top),10px) + 56px + 44px); /* below bnav + logo bar */
+  left:0;right:0;
+  z-index:490;
+  display:flex;flex-direction:column;gap:6px;
+}
+.map-filters-overlay{
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  padding:0 12px;
+}
+.map-filters-overlay::-webkit-scrollbar{display:none}
+.map-filters-overlay .pill{
+  flex-shrink:0;font-size:11px;padding:5px 10px;
+  background:rgba(15,15,15,.88);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-color:rgba(255,255,255,.15);
+}
+.map-filters-overlay .pill.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+.map-day-pills-overlay{
+  display:flex;gap:5px;padding:0 12px;
+}
+.map-day-pills-overlay .day-pill{
+  flex:1;font-size:11px;padding:5px 0;
+  background:rgba(15,15,15,.88);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-color:rgba(255,255,255,.15);color:var(--muted);
+}
+.map-day-pills-overlay .day-pill.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+
+/* Map fills full view */
+#map{position:absolute;inset:0;width:100%;height:100%}
+
+/* Sheet sits above the bnav — offset by bnav height so it never overlaps */
+@media (max-width:1023px){
+  .sheet{
+    bottom:calc(54px + env(safe-area-inset-bottom));
+    padding-bottom:0;
+  }
+  /* Logo bar stays above the sheet at all times — high z-index */
+  .map-logo-bar{z-index:1100}
+}
+
+/* Hide old map header — replaced by overlays */
+.map-header{display:none}
+.map-filters{display:none}
+#map-view .day-pills-wrap{display:none}
+
+/* MAP LEGEND — float bottom-left above sheet */
+#map-legend{
+  position:absolute;bottom:calc(12px + env(safe-area-inset-bottom));left:10px;right:auto;
+  background:rgba(15,15,15,.92);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:8px 10px;
+  z-index:450;
+  display:flex;flex-direction:column;gap:4px;
+  pointer-events:none;
+  max-height:45vh;overflow-y:auto;
+}
+.legend-item{font-size:10px;color:var(--muted2)}
+.legend-dot{width:8px;height:8px}
+
+/* MAP BOTTOM SHEET — fixed height, no scrolling, always shows Maps button */
+.sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--surface);
+  border-radius:20px 20px 0 0;
+  border-top:1px solid var(--border2);
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+  z-index:1000;
+  /* Fixed height: handle(20) + name(28) + addr(18) + detail(~60) + time(20) + btn(44) + padding = ~220px */
+  height:auto;
+  display:flex;flex-direction:column;
+  padding-bottom:max(env(safe-area-inset-bottom),8px);
+}
 .sheet.open{transform:translateY(0)}
-.sheet-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:12px auto 0}
-.sheet-content{overflow-y:auto;padding:12px 16px 20px;-webkit-overflow-scrolling:touch}
-.sheet-name{font-size:17px;font-weight:600;color:#111;margin-bottom:3px}
-.sheet-addr{font-size:12px;color:#888;margin-bottom:10px}
-.sheet-detail{font-size:13px;color:#555;line-height:1.5;margin-bottom:10px}
-.sheet-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.sheet-close{position:absolute;right:16px;top:16px;background:#f0f0f0;border:none;color:#666;font-size:16px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.gmaps-btn{display:flex;align-items:center;gap:6px;background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:13px;font-weight:500;font-family:"DM Sans",sans-serif;cursor:pointer;width:100%;justify-content:center;text-decoration:none}
+.sheet-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:10px auto 0;flex-shrink:0}
+/* No overflow scrolling — content is always compact enough to fit */
+.sheet-content{padding:10px 16px 12px;flex:1;display:flex;flex-direction:column;gap:0}
+.sheet-name{font-size:16px;font-weight:600;color:var(--text);margin-bottom:2px;padding-right:30px}
+.sheet-addr{font-size:11px;color:var(--muted);margin-bottom:7px}
+/* Clamp detail to 3 lines max so it never pushes Maps button off screen */
+.sheet-detail{
+  font-size:12px;color:var(--muted2);line-height:1.45;margin-bottom:7px;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.sheet-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sheet-close{position:absolute;right:14px;top:12px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:14px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* Maps button always visible at the bottom — never scrolled off */
+.gmaps-btn{
+  display:flex;align-items:center;gap:6px;
+  background:#1a73e8;color:#fff;
+  border:none;border-radius:8px;
+  padding:11px 14px;font-size:13px;font-weight:500;
+  font-family:"DM Sans",sans-serif;cursor:pointer;
+  width:100%;justify-content:center;text-decoration:none;
+  flex-shrink:0;
+}
 .gmaps-btn:active{opacity:.85}
 
 /* Leaflet dark overrides */
@@ -652,29 +752,35 @@ html,body{overscroll-behavior:none}
 
 <!-- MAP VIEW -->
 <div class="view" id="map-view">
-  <div class="map-header">
-    <div class="header-top">
-      <div class="logo">Tonight<span>.</span>TO</div>
-      <div class="tonight-badge" id="map-today-lbl">Thursday</div>
+
+  <!-- Full-screen map underneath everything -->
+  <div id="map"></div>
+
+  <!-- Floating logo bar -->
+  <div class="map-logo-bar">
+    <div class="logo">Tonight<span>.</span>TO</div>
+    <div class="tonight-badge" id="map-today-lbl">Thursday</div>
+  </div>
+
+  <!-- Floating filter controls -->
+  <div class="map-controls-overlay">
+    <!-- Type pills -->
+    <div class="map-filters-overlay" id="map-type-pills">
+      <div class="pill active" data-t="all" onclick="setMapType(this)">All</div>
+      <div class="pill" data-t="happyhour" onclick="setMapType(this)">Happy hour</div>
+      <div class="pill" data-t="drinkhh" onclick="setMapType(this)">Drink HH</div>
+      <div class="pill" data-t="foodhh" onclick="setMapType(this)">Food HH</div>
+      <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
+      <div class="pill" data-t="karaoke" onclick="setMapType(this)">Karaoke</div>
+      <div class="pill" data-t="openmic" onclick="setMapType(this)">Open mic</div>
+      <div class="pill" data-t="comedy" onclick="setMapType(this)">Comedy</div>
+      <div class="pill" data-t="livemusic" onclick="setMapType(this)">Live music</div>
+      <div class="pill" data-t="dj" onclick="setMapType(this)">DJ</div>
+      <div class="pill" data-t="jazz" onclick="setMapType(this)">Jazz</div>
+      <div class="pill" data-t="drag" onclick="setMapType(this)">Drag</div>
     </div>
-  </div>
-  <div class="map-filters" id="map-type-pills">
-    <div class="pill active" data-t="all" onclick="setMapType(this)">All</div>
-    <div class="pill" data-t="happyhour" onclick="setMapType(this)">Happy hour</div>
-    <div class="pill" data-t="drinkhh" onclick="setMapType(this)">Drink HH</div>
-    <div class="pill" data-t="foodhh" onclick="setMapType(this)">Food HH</div>
-    <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
-    <div class="pill" data-t="karaoke" onclick="setMapType(this)">Karaoke</div>
-    <div class="pill" data-t="openmic" onclick="setMapType(this)">Open mic</div>
-    <div class="pill" data-t="comedy" onclick="setMapType(this)">Comedy</div>
-    <div class="pill" data-t="livemusic" onclick="setMapType(this)">Live music</div>
-    <div class="pill" data-t="dj" onclick="setMapType(this)">DJ</div>
-    <div class="pill" data-t="jazz" onclick="setMapType(this)">Jazz</div>
-    <div class="pill" data-t="drag" onclick="setMapType(this)">Drag</div>
-  </div>
-  <!-- MAP DAY PILLS -->
-  <div class="day-pills-wrap" style="padding:0 20px 8px">
-    <div class="day-pills" id="map-day-pills">
+    <!-- Day pills -->
+    <div class="map-day-pills-overlay">
       <button class="day-pill" data-d="mon" onclick="toggleMapDay(this)">Mon</button>
       <button class="day-pill" data-d="tue" onclick="toggleMapDay(this)">Tue</button>
       <button class="day-pill" data-d="wed" onclick="toggleMapDay(this)">Wed</button>
@@ -684,7 +790,7 @@ html,body{overscroll-behavior:none}
       <button class="day-pill" data-d="sun" onclick="toggleMapDay(this)">Sun</button>
     </div>
   </div>
-  <div id="map"></div>
+
   <!-- MAP LEGEND -->
   <div id="map-legend">
     <div class="legend-item"><span class="legend-dot" style="background:#e8c547"></span>Happy Hour</div>
@@ -700,6 +806,8 @@ html,body{overscroll-behavior:none}
     <div class="legend-item"><span class="legend-dot" style="background:#ff82c8"></span>Drag</div>
     <div class="legend-item"><span class="legend-dot" style="background:#60d4f8"></span>Bingo</div>
   </div>
+
+  <!-- Bottom sheet slides up when a pin is tapped -->
   <div class="sheet" id="sheet">
     <div class="sheet-handle"></div>
     <button class="sheet-close" onclick="closeSheet()">✕</button>
@@ -863,7 +971,7 @@ function initDayPills(){
   document.querySelectorAll("#day-pills .day-pill").forEach(p=>{
     if(p.dataset.d===todayKey) p.classList.add("active");
   });
-  document.querySelectorAll("#map-day-pills .day-pill").forEach(p=>{
+  document.querySelectorAll(".map-day-pills-overlay .day-pill").forEach(p=>{
     if(p.dataset.d===todayKey) p.classList.add("active");
   });
 }
