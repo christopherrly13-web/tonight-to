@@ -177,7 +177,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .time-row{display:flex;align-items:center;gap:10px}
 .time-row label{font-size:12px;color:var(--muted);white-space:nowrap;flex-shrink:0}
 .time-row input[type=range]{flex:1;accent-color:var(--accent)}
-.time-display{font-size:13px;font-weight:500;color:var(--accent);min-width:48px;text-align:right;flex-shrink:0}
+.time-display{font-size:13px;font-weight:500;color:var(--muted);min-width:48px;text-align:right;flex-shrink:0}
+.time-display.active{font-size:15px;font-weight:600;color:var(--accent)}
 .locate-btn{flex-shrink:0;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:"DM Sans",sans-serif;transition:all .15s}
 .locate-btn.located{border-color:var(--green);color:var(--green)}
 .locate-btn:active{background:var(--surface2)}
@@ -800,7 +801,6 @@ initDayPills();
 function toggleDay(el){
   const d=el.dataset.d;
   if(selectedDays.has(d)){
-    if(selectedDays.size===1)return; // always keep at least one
     selectedDays.delete(d);
     el.classList.remove("active");
   } else {
@@ -813,7 +813,6 @@ function toggleDay(el){
 function toggleMapDay(el){
   const d=el.dataset.d;
   if(selectedMapDays.has(d)){
-    if(selectedMapDays.size===1)return;
     selectedMapDays.delete(d);
     el.classList.remove("active");
   } else {
@@ -858,12 +857,13 @@ function getTimeFilter(){
 function updateTimeDisplay(){
   const val=parseFloat(document.getElementById("time-slider").value);
   const el=document.getElementById("time-display");
-  if(val===0){el.textContent="Any";return;}
+  if(val===0){el.textContent="Any";el.classList.remove("active");return;}
   const h=Math.floor(val);
   const m=val%1===0.5?"30":"00";
   const ap=h>=12?"pm":"am";
   const hr=h>12?h-12:(h===0?12:h);
   el.textContent=hr+":"+m+ap;
+  el.classList.add("active");
 }
 let currentView="list";
 let leafletMap=null, mapMarkers=[];
@@ -1177,7 +1177,8 @@ function onSearch(){
   sugBox.innerHTML=items.map(item=>{
     if(item.type==="intent"){
       const {intent,count}=item;
-      return`<div class="sugg-item" onmousedown="event.preventDefault()" onclick="applySearchIntent(${JSON.stringify(intent.types)},${!!intent.nowFilter})">
+      const action=`applySearchIntent(${JSON.stringify(intent.types)},${!!intent.nowFilter})`;
+      return`<div class="sugg-item" onmousedown="event.preventDefault()" ontouchend="event.preventDefault();${action}" onclick="${action}">
         <span class="sugg-icon">${intent.icon}</span>
         <div><div class="sugg-label">${intent.label}</div><div class="sugg-sub">${intent.types?intent.types.map(t=>TLABEL[t]).join(", "):"Live right now"}</div></div>
         <span class="sugg-count">${count}</span>
@@ -1185,7 +1186,8 @@ function onSearch(){
     } else {
       const v=item.venue;
       const live=isNow(v);
-      return`<div class="sugg-item" onmousedown="event.preventDefault()" onclick="applyVenueSearch(${JSON.stringify(v.name)})">
+      const action=`applyVenueSearch(${JSON.stringify(v.name)})`;
+      return`<div class="sugg-item" onmousedown="event.preventDefault()" ontouchend="event.preventDefault();${action}" onclick="${action}">
         <span class="sugg-icon">${live?"🟢":"📍"}</span>
         <div>
           <div class="sugg-label">${highlight(v.name)}</div>
@@ -1249,9 +1251,16 @@ function clearSearch(){
   render();
 }
 
-// Close suggestions when input loses focus — delay lets tap on suggestion fire first
+// Close suggestions when input loses focus
+// Use a flag so touch taps on suggestions don't get swallowed by blur
+let _suggTapping=false;
+document.getElementById("search-suggestions").addEventListener("touchstart",()=>{_suggTapping=true;},{passive:true});
+document.getElementById("search-suggestions").addEventListener("touchend",()=>{setTimeout(()=>{_suggTapping=false;},300);},{passive:true});
 document.getElementById("search-input").addEventListener("blur",()=>{
-  setTimeout(()=>document.getElementById("search-suggestions").classList.remove("visible"),150);
+  if(_suggTapping)return;
+  setTimeout(()=>{
+    if(!_suggTapping) document.getElementById("search-suggestions").classList.remove("visible");
+  },200);
 });
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
