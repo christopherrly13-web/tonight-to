@@ -178,8 +178,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .time-row{display:flex;align-items:center;gap:10px}
 .time-row label{font-size:12px;color:var(--accent);white-space:nowrap;flex-shrink:0;font-weight:600}
 .time-row input[type=range]{flex:1;accent-color:var(--accent)}
-.time-display{font-size:15px;font-weight:600;color:var(--accent);min-width:48px;text-align:right;flex-shrink:0}
-.time-display.active{font-size:15px;font-weight:600;color:var(--accent)}
+.time-display{font-size:12px;font-weight:600;color:var(--accent);min-width:48px;text-align:right;flex-shrink:0}
+.time-display.active{font-size:12px;font-weight:600;color:var(--accent)}
 .locate-btn{flex-shrink:0;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:"DM Sans",sans-serif;transition:all .15s}
 .locate-btn.located{border-color:var(--green);color:var(--green)}
 .locate-btn:active{background:var(--surface2)}
@@ -563,7 +563,6 @@ html,body{overscroll-behavior:none}
         <label>Time</label>
         <input type="range" id="time-slider" min="0" max="24" step="0.5" value="0" oninput="updateTimeDisplay();render()">
         <span class="time-display" id="time-display">Any</span>
-        <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="onNowChkChange()"> Now</label>
         <button class="locate-btn" id="locate-btn" onclick="getLocation()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
           Near me
@@ -572,6 +571,7 @@ html,body{overscroll-behavior:none}
     </div>
 
     <div class="count-bar">
+      <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="onNowChkChange()"> Now</label>
       <span class="count-text" id="ct"></span>
     </div>
   </div><!-- /sidebar -->
@@ -1234,18 +1234,38 @@ function onSearch(){
   sugBox.classList.add("visible");
 }
 
+function syncDaysAndTime(venues){
+  if(!venues||venues.length===0) return;
+
+  // Collect all days across matched venues
+  const allDays=new Set();
+  venues.forEach(v=>(v.days||[]).forEach(d=>allDays.add(d)));
+
+  // Update selectedDays and day pill UI
+  selectedDays=allDays;
+  document.querySelectorAll("#day-pills .day-pill").forEach(p=>{
+    p.classList.toggle("active", allDays.has(p.dataset.d));
+  });
+
+  // Set slider to the earliest start time across matched venues
+  const earliest=Math.min(...venues.map(v=>v.start||0));
+  if(earliest>0&&earliest<=24){
+    const slider=document.getElementById("time-slider");
+    slider.value=earliest;
+    updateTimeDisplay();
+  }
+}
+
 function commitSearch(){
   const q=document.getElementById("search-input").value.trim().toLowerCase();
   hideSuggestions();
   if(!q) return;
-  // Check if the query matches a known intent — apply the first one
   const matched=SEARCH_INTENTS.find(intent=>
     intent.keywords.some(kw=>q.includes(kw)||kw.includes(q))
   );
   if(matched){
     applySearchIntent(matched.types||null, !!matched.nowFilter);
   } else {
-    // Plain text search — just render with the current query
     searchTypes=null;
     searchNowOnly=false;
     render();
@@ -1261,6 +1281,11 @@ function applySearchIntent(types, nowOnly){
     searchQuery="";
     document.getElementById("search-clear").classList.add("visible");
   }
+  // Sync days and time to matched venues
+  if(types){
+    const matched=ALL.filter(v=>types.includes(v.type));
+    syncDaysAndTime(matched);
+  }
   hideSuggestions();
   render();
 }
@@ -1271,6 +1296,9 @@ function applyVenueSearch(name){
   document.getElementById("search-input").value=name;
   searchQuery=name.toLowerCase();
   document.getElementById("search-clear").classList.add("visible");
+  // Sync days and time to the specific venue
+  const venue=ALL.find(v=>v.name.toLowerCase()===name.toLowerCase());
+  if(venue) syncDaysAndTime([venue]);
   hideSuggestions();
   render();
 }
