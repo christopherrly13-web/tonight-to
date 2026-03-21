@@ -503,12 +503,8 @@ html,body{overscroll-behavior:none}
       <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
       <div class="pill" data-t="foodhh" onclick="setType(this)">🍔 Food HH</div>
       <div class="pill" data-t="trivia" onclick="setType(this)">Trivia</div>
-      <div class="pill" data-t="karaoke" onclick="setType(this)">Karaoke</div>
-      <div class="pill" data-t="openmic" onclick="setType(this)">Open mic</div>
+      <div class="pill" data-t="music" onclick="setType(this)">🎵 Music</div>
       <div class="pill" data-t="comedy" onclick="setType(this)">Comedy</div>
-      <div class="pill" data-t="livemusic" onclick="setType(this)">Live music</div>
-      <div class="pill" data-t="dj" onclick="setType(this)">DJ night</div>
-      <div class="pill" data-t="jazz" onclick="setType(this)">Jazz</div>
       <div class="pill" data-t="drag" onclick="setType(this)">Drag</div>
       <div class="pill" data-t="bingo" onclick="setType(this)">Bingo</div>
     </div>
@@ -771,7 +767,9 @@ async function loadVenues(){
 const DKEYS=["sun","mon","tue","wed","thu","fri","sat"];
 const DNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 const DABB={mon:"Mon",tue:"Tue",wed:"Wed",thu:"Thu",fri:"Fri",sat:"Sat",sun:"Sun"};
-const TLABEL={happyhour:"Happy Hour",drinkhh:"Drink HH",foodhh:"Food HH",trivia:"Trivia",karaoke:"Karaoke",openmic:"Open Mic",dj:"DJ Night",comedy:"Comedy",bingo:"Bingo",livemusic:"Live Music",jazz:"Jazz",drag:"Drag"};
+const MUSIC_TYPES=new Set(["karaoke","openmic","livemusic","dj","jazz"]);
+const MUSIC_SUBLABEL={karaoke:"Karaoke",openmic:"Open Mic",livemusic:"Live Music",dj:"DJ Night",jazz:"Jazz"};
+const TLABEL={happyhour:"Happy Hour",drinkhh:"Drink HH",foodhh:"Food HH",trivia:"Trivia",karaoke:"Music",openmic:"Music",dj:"Music",livemusic:"Music",jazz:"Music",comedy:"Comedy",bingo:"Bingo",drag:"Drag"};
 const TBADGE={happyhour:"b-hh",drinkhh:"b-hh",foodhh:"b-foodhh",trivia:"b-trivia",karaoke:"b-karaoke",openmic:"b-openmic",dj:"b-dj",comedy:"b-comedy",bingo:"b-bingo",livemusic:"b-livemusic",jazz:"b-jazz",drag:"b-drag"};
 const TYPE_COLOR={happyhour:"#e8c547",drinkhh:"#e8c547",foodhh:"#ff9f43",trivia:"#7aabff",karaoke:"#f07ab8",openmic:"#5dd4a0",dj:"#c07aff",comedy:"#ffaa60",bingo:"#60d4f8",livemusic:"#a0e870",jazz:"#ffc864",drag:"#ff82c8"};
 
@@ -937,10 +935,10 @@ function getFiltered(typeFilter){
   const nowOnly=(document.getElementById("now-chk")?.checked||false)||searchNowOnly;
   const timeFilter=getTimeFilter();
   const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
+  const isMusic=t=>MUSIC_TYPES.has(t);
   const q=searchQuery;
   const isSearchActive=!!(searchTypes||q);
   return ALL.filter(v=>{
-    // When search is active, ignore day filter so you find venues on any day
     if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
     if(hood!=="all"&&v.hood!==hood)return false;
     if(searchTypes){
@@ -950,7 +948,8 @@ function getFiltered(typeFilter){
       if(!hay.includes(q))return false;
     } else {
       if(typeFilter==="happyhour"&&!isHH(v.type))return false;
-      if(typeFilter!=="all"&&typeFilter!=="happyhour"&&v.type!==typeFilter)return false;
+      if(typeFilter==="music"&&!isMusic(v.type))return false;
+      if(typeFilter!=="all"&&typeFilter!=="happyhour"&&typeFilter!=="music"&&v.type!==typeFilter)return false;
       if(activeTab==="happyhour"&&!isHH(v.type))return false;
       if(activeTab==="events"&&isHH(v.type))return false;
     }
@@ -1015,7 +1014,7 @@ function render(){
           <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':''}</div>
           <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
         </div>
-        <span class="badge ${TBADGE[v.type]||"b-hh"}">${TLABEL[v.type]||v.type}</span>
+        <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
       </div>
       <div class="detail">${v.detail}</div>
       <div class="card-ftr">
@@ -1080,7 +1079,7 @@ function openSheet(v){
   document.getElementById("sheet-content").innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;padding-right:30px">
       <div class="sheet-name">${v.name}</div>
-      <span class="badge ${TBADGE[v.type]||"b-hh"}" style="margin-top:2px">${TLABEL[v.type]||v.type}</span>
+      <span class="badge ${TBADGE[v.type]||"b-hh"}" style="margin-top:2px">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
     </div>
     <div class="sheet-addr">${v.hood} · ${v.addr}</div>
     <div class="sheet-detail">${v.detail}</div>
@@ -1190,7 +1189,7 @@ function onSearch(){
         <span class="sugg-icon">${live?"🟢":"📍"}</span>
         <div>
           <div class="sugg-label">${highlight(v.name)}</div>
-          <div class="sugg-sub">${highlight(v.hood)} · ${TLABEL[v.type]||v.type}${live?" · <span style='color:var(--green)'>Now open</span>":""}</div>
+          <div class="sugg-sub">${highlight(v.hood)} · ${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}${live?" · <span style='color:var(--green)'>Now open</span>":""}</div>
         </div>
       </div>`;
     }
