@@ -243,12 +243,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .leaflet-bar a:hover{background:#f5f5f0!important}
 
 /* TOP NAV */
-.bnav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,15,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;padding:max(10px,env(safe-area-inset-top)) 12px 10px;z-index:2000;gap:8px}
+.bnav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,15,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;padding:max(10px,env(safe-area-inset-top)) 12px 10px;z-index:3000;gap:8px}
 .nb{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 4px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;transition:all .15s;border-radius:var(--radius-sm);border:1px solid transparent}
 .nb.active{color:#0f0f0f;background:var(--accent);border-color:var(--accent)}
 .ni{font-size:14px;line-height:1}
 /* SEARCH */
-.search-wrap{padding:4px 20px 6px;flex-shrink:0;position:relative;z-index:9999}
+.search-wrap{padding:4px 20px 6px;flex-shrink:0;position:relative;z-index:1000}
 .search-box{
   display:flex;align-items:center;gap:8px;
   background:var(--surface2);
@@ -276,7 +276,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   background:var(--surface);
   border:1px solid var(--border2);
   border-radius:var(--radius-sm);
-  overflow:hidden;z-index:9999;
+  overflow:hidden;z-index:1000;
   box-shadow:0 12px 32px rgba(0,0,0,.7);
   display:none;
 }
@@ -301,7 +301,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   position:fixed;top:0;left:0;right:0;height:52px;
   background:rgba(10,10,10,.98);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border);
-  align-items:center;padding:0 32px;gap:8px;z-index:2000;
+  align-items:center;padding:0 32px;gap:8px;z-index:3000;
 }
 .desktop-nav-logo{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text);margin-right:24px}
 .desktop-nav-logo span{color:var(--accent)}
@@ -1174,11 +1174,10 @@ function onSearch(){
     return str.slice(0,idx)+'<mark style="background:var(--accent-dim);color:var(--accent);border-radius:2px;padding:0 1px">'+str.slice(idx,idx+q.length)+'</mark>'+str.slice(idx+q.length);
   }
 
-  sugBox.innerHTML=items.map(item=>{
+  sugBox.innerHTML=items.map((item,i)=>{
     if(item.type==="intent"){
       const {intent,count}=item;
-      const action=`applySearchIntent(${JSON.stringify(intent.types)},${!!intent.nowFilter})`;
-      return`<div class="sugg-item" onmousedown="event.preventDefault()" ontouchend="event.preventDefault();${action}" onclick="${action}">
+      return`<div class="sugg-item" data-sugg-idx="${i}">
         <span class="sugg-icon">${intent.icon}</span>
         <div><div class="sugg-label">${intent.label}</div><div class="sugg-sub">${intent.types?intent.types.map(t=>TLABEL[t]).join(", "):"Live right now"}</div></div>
         <span class="sugg-count">${count}</span>
@@ -1186,8 +1185,7 @@ function onSearch(){
     } else {
       const v=item.venue;
       const live=isNow(v);
-      const action=`applyVenueSearch(${JSON.stringify(v.name)})`;
-      return`<div class="sugg-item" onmousedown="event.preventDefault()" ontouchend="event.preventDefault();${action}" onclick="${action}">
+      return`<div class="sugg-item" data-sugg-idx="${i}">
         <span class="sugg-icon">${live?"🟢":"📍"}</span>
         <div>
           <div class="sugg-label">${highlight(v.name)}</div>
@@ -1196,6 +1194,20 @@ function onSearch(){
       </div>`;
     }
   }).join("");
+
+  // Attach pointerdown listeners — fires before blur, works on touch and mouse
+  sugBox.querySelectorAll(".sugg-item").forEach((el,i)=>{
+    el.addEventListener("pointerdown", e=>{
+      e.preventDefault(); // prevents input blur
+      const item=items[i];
+      if(item.type==="intent"){
+        applySearchIntent(item.intent.types, !!item.intent.nowFilter);
+      } else {
+        applyVenueSearch(item.venue.name);
+      }
+    });
+  });
+
   sugBox.classList.add("visible");
 }
 
@@ -1256,15 +1268,11 @@ function clearSearch(){
   render();
 }
 
-// Hide suggestions on blur — skip if user is clicking inside the suggestion box
-let _suggMousedown=false;
-document.getElementById("search-suggestions").addEventListener("mousedown",()=>{_suggMousedown=true;});
-document.getElementById("search-suggestions").addEventListener("touchstart",()=>{_suggMousedown=true;},{passive:true});
-document.addEventListener("mouseup",()=>{_suggMousedown=false;});
-document.addEventListener("touchend",()=>{setTimeout(()=>{_suggMousedown=false;},300);},{passive:true});
+// Hide suggestions when input loses focus
+// pointerdown on suggestions calls preventDefault() which prevents blur,
+// so this only fires when user clicks/taps somewhere else entirely
 document.getElementById("search-input").addEventListener("blur",()=>{
-  if(_suggMousedown)return;
-  setTimeout(()=>{if(!_suggMousedown)hideSuggestions();},150);
+  setTimeout(hideSuggestions, 100);
 });
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
