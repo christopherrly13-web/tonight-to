@@ -213,24 +213,86 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .legend-item{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted);white-space:nowrap}
 .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
 
-/* MAP VIEW */
-#map-view{position:relative}
-#map{flex:1;width:100%;background:#1a1a1a}
-.map-header{padding-top:calc(max(env(safe-area-inset-top),10px) + 64px);padding-left:20px;padding-right:20px;padding-bottom:6px;flex-shrink:0}
-.map-filters{padding:0 20px 10px;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+/* MAP VIEW — fully contained, zero scroll */
+#map-view{position:relative;overflow:hidden}
+#map-view.active{display:flex;flex-direction:column;height:100vh}
+
+/* Map header — compact */
+.map-header{
+  padding-top:calc(max(env(safe-area-inset-top),10px) + 54px);
+  padding-left:16px;padding-right:16px;padding-bottom:4px;
+  flex-shrink:0;background:var(--bg);
+}
+.map-header .header-top{margin-bottom:4px}
+
+/* Map search — same as list */
+.map-search-wrap{
+  padding:0 16px 4px;flex-shrink:0;position:relative;z-index:1000;
+  background:var(--bg);
+}
+
+/* Map time row */
+.map-time-wrap{
+  padding:0 16px 4px;flex-shrink:0;background:var(--bg);
+}
+
+.map-filters{padding:0 16px 4px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;background:var(--bg)}
 .map-filters::-webkit-scrollbar{display:none}
 
-/* MAP BOTTOM SHEET */
-.sheet{position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:20px 20px 0 0;border-top:1px solid #e0e0e0;transform:translateY(100%);transition:transform .3s ease;z-index:1000;max-height:60vh;overflow:hidden;display:flex;flex-direction:column}
+/* Map day pills */
+#map-view .day-pills-wrap{
+  padding:0 16px 6px;background:var(--bg);flex-shrink:0;
+}
+#map-view .day-pill{font-size:11px;min-height:32px;padding:4px 0}
+
+/* Map itself fills remaining space */
+#map{flex:1;width:100%;min-height:0}
+
+/* Sheet always fully in view — compact fixed height */
+.sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--surface);
+  border-radius:20px 20px 0 0;
+  border-top:1px solid var(--border2);
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+  z-index:2000;
+  height:auto;
+  max-height:48vh;
+  display:flex;flex-direction:column;
+  touch-action:none;
+  padding-bottom:max(env(safe-area-inset-bottom),8px);
+}
 .sheet.open{transform:translateY(0)}
-.sheet-handle{width:36px;height:4px;background:#ddd;border-radius:2px;margin:12px auto 0}
-.sheet-content{overflow-y:auto;padding:12px 16px 20px;-webkit-overflow-scrolling:touch}
-.sheet-name{font-size:17px;font-weight:600;color:#111;margin-bottom:3px}
-.sheet-addr{font-size:12px;color:#888;margin-bottom:10px}
-.sheet-detail{font-size:13px;color:#555;line-height:1.5;margin-bottom:10px}
-.sheet-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.sheet-close{position:absolute;right:16px;top:16px;background:#f0f0f0;border:none;color:#666;font-size:16px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.gmaps-btn{display:flex;align-items:center;gap:6px;background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:13px;font-weight:500;font-family:"DM Sans",sans-serif;cursor:pointer;width:100%;justify-content:center;text-decoration:none}
+.sheet.dragging{transition:none}
+.sheet-handle{
+  width:40px;height:4px;background:var(--border2);
+  border-radius:2px;margin:12px auto 6px;flex-shrink:0;
+  cursor:grab;touch-action:none;
+}
+.sheet-content{
+  overflow-y:auto;
+  padding:4px 18px 8px;
+  -webkit-overflow-scrolling:touch;
+  flex:1;
+}
+.sheet-name{font-size:16px;font-weight:600;color:var(--text);margin-bottom:2px}
+.sheet-addr{font-size:11px;color:var(--muted);margin-bottom:8px}
+.sheet-detail{font-size:12px;color:var(--muted2);line-height:1.5;margin-bottom:8px}
+.sheet-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sheet-close{
+  position:absolute;right:14px;top:10px;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--muted);font-size:14px;
+  width:28px;height:28px;border-radius:50%;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  z-index:10;touch-action:manipulation;
+}
+.sheet-backdrop{
+  position:absolute;inset:0;z-index:1999;display:none;
+}
+.sheet-backdrop.open{display:block}
+.gmaps-btn{display:flex;align-items:center;gap:6px;background:#1a73e8;color:#fff;border:none;border-radius:8px;padding:9px 14px;font-size:13px;font-weight:500;font-family:"DM Sans",sans-serif;cursor:pointer;width:100%;justify-content:center;text-decoration:none;flex-shrink:0}
 .gmaps-btn:active{opacity:.85}
 
 /* Leaflet dark overrides */
@@ -463,6 +525,55 @@ html,body{overscroll-behavior:none}
 }
 /* eb-badge */
 .eb-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:rgba(255,102,0,.12);color:#ff6600;margin-left:6px;vertical-align:middle}
+
+/* VENUE PROFILE SHEET */
+#venue-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.55);
+  opacity:0;pointer-events:none;transition:opacity .3s;z-index:4000;
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+}
+#venue-overlay.show{opacity:1;pointer-events:auto}
+#venue-sheet{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--surface);
+  border-radius:24px 24px 0 0;
+  border-top:1px solid var(--border2);
+  z-index:4100;
+  transform:translateY(100%);
+  transition:transform .38s cubic-bezier(.32,.72,0,1);
+  max-height:88vh;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+#venue-sheet.show{transform:translateY(0)}
+@media(min-width:600px){
+  #venue-sheet{max-width:540px;left:50%;transform:translateX(-50%) translateY(100%)}
+  #venue-sheet.show{transform:translateX(-50%) translateY(0)}
+}
+@media(min-width:1024px){
+  #venue-sheet{max-width:480px;left:auto;right:40px;bottom:40px;border-radius:20px;transform:translateY(20px);opacity:0;transition:transform .3s,opacity .3s}
+  #venue-sheet.show{transform:translateY(0);opacity:1}
+}
+.vp-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0;flex-shrink:0}
+.vp-close{position:absolute;top:14px;right:16px;background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:15px;width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
+.vp-body{overflow-y:auto;padding:16px 20px calc(max(env(safe-area-inset-bottom),20px));flex:1;-webkit-overflow-scrolling:touch}
+.vp-badge-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.vp-name{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1.2;margin-bottom:4px}
+.vp-hood{font-size:13px;color:var(--muted);margin-bottom:16px}
+.vp-live{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--green);background:rgba(76,175,125,.12);padding:3px 10px;border-radius:20px;border:1px solid rgba(76,175,125,.25)}
+.vp-section{margin-bottom:18px}
+.vp-section-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.vp-detail{font-size:14px;color:var(--muted2);line-height:1.6}
+.vp-days{display:flex;gap:5px;flex-wrap:wrap}
+.vp-day{font-size:12px;font-weight:600;padding:4px 10px;border-radius:8px;background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.vp-day.today{background:var(--accent-dim);color:var(--accent);border-color:rgba(232,197,71,.3)}
+.vp-time{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.vp-actions{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.vp-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 16px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;border:none;transition:opacity .15s;width:100%}
+.vp-btn:active{opacity:.8}
+.vp-btn-primary{background:var(--accent);color:#0f0f0f}
+.vp-btn-secondary{background:transparent;border:1px solid var(--border2);color:var(--muted)}
+.vp-btn-maps{background:#1a73e8;color:#fff}
 </style>
 </head>
 <body>
@@ -511,39 +622,6 @@ html,body{overscroll-behavior:none}
       <div class="pill" data-t="bingo" onclick="setType(this)">Bingo</div>
     </div>
 
-    <div class="controls">
-      <div class="sw">
-        <select id="hood-sel" onchange="render()">
-          <option value="all">All neighbourhoods</option>
-          <option value="Annex">Annex</option>
-          <option value="Bloordale">Bloordale</option>
-          <option value="Bloor West">Bloor West / Junction</option>
-          <option value="Chinatown">Chinatown / Spadina</option>
-          <option value="Church">Church / Wellesley</option>
-          <option value="Corktown">Corktown</option>
-          <option value="Danforth">Danforth / East York</option>
-          <option value="Distillery">Distillery District</option>
-          <option value="Entertainment">Entertainment District</option>
-          <option value="Fashion District">Fashion District</option>
-          <option value="Financial">Financial District</option>
-          <option value="Geary">Geary Ave</option>
-          <option value="Harbourfront">Harbourfront</option>
-          <option value="Kensington">Kensington / Little Italy</option>
-          <option value="King West">King West</option>
-          <option value="Leslieville">Leslieville / East End</option>
-          <option value="Liberty Village">Liberty Village</option>
-          <option value="Midtown">Midtown / Yonge-Eg</option>
-          <option value="Ossington">Ossington</option>
-          <option value="Parkdale">Parkdale</option>
-          <option value="Queen West">Queen West</option>
-          <option value="Riverside">Riverside / Corktown</option>
-          <option value="Rosedale">Rosedale</option>
-          <option value="Summerhill">Summerhill</option>
-          <option value="Trinity Bellwoods">Trinity Bellwoods</option>
-          <option value="Yorkville">Yorkville</option>
-        </select>
-      </div>
-    </div>
 
     <!-- MULTI-DAY SELECTOR -->
     <div class="day-pills-wrap">
@@ -582,27 +660,39 @@ html,body{overscroll-behavior:none}
 
 <!-- MAP VIEW -->
 <div class="view" id="map-view">
+
+  <!-- Header -->
   <div class="map-header">
     <div class="header-top">
       <div class="logo">Tonight<span>.</span>TO</div>
       <div class="tonight-badge" id="map-today-lbl">Thursday</div>
     </div>
   </div>
+
+  <!-- Search bar (same as list) -->
+  <div class="map-search-wrap search-wrap">
+    <div class="search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="map-search-input" placeholder="Search venues, drinks, music…" oninput="onMapSearch()" onkeydown="if(event.key==='Enter')this.blur()" autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:16px;flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif">
+      <button id="map-search-clear" onclick="clearMapSearch()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0;display:none">✕</button>
+    </div>
+  </div>
+
+  <!-- Type pills -->
   <div class="map-filters" id="map-type-pills">
     <div class="pill active" data-t="all" onclick="setMapType(this)">All</div>
     <div class="pill" data-t="happyhour" onclick="setMapType(this)">Happy hour</div>
     <div class="pill" data-t="drinkhh" onclick="setMapType(this)">Drink HH</div>
     <div class="pill" data-t="foodhh" onclick="setMapType(this)">Food HH</div>
     <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
-    <div class="pill" data-t="karaoke" onclick="setMapType(this)">Karaoke</div>
-    <div class="pill" data-t="openmic" onclick="setMapType(this)">Open mic</div>
+    <div class="pill" data-t="music" onclick="setMapType(this)">🎵 Music</div>
     <div class="pill" data-t="comedy" onclick="setMapType(this)">Comedy</div>
-    <div class="pill" data-t="livemusic" onclick="setMapType(this)">Live music</div>
-    <div class="pill" data-t="dj" onclick="setMapType(this)">DJ</div>
-    <div class="pill" data-t="jazz" onclick="setMapType(this)">Jazz</div>
     <div class="pill" data-t="drag" onclick="setMapType(this)">Drag</div>
+    <div class="pill" data-t="bingo" onclick="setMapType(this)">Bingo</div>
   </div>
-  <div class="day-pills-wrap" style="padding:0 20px 8px">
+
+  <!-- Day pills -->
+  <div class="day-pills-wrap" style="padding:0 16px 4px">
     <div class="day-pills" id="map-day-pills">
       <button class="day-pill" data-d="mon" onclick="toggleMapDay(this)">Mon</button>
       <button class="day-pill" data-d="tue" onclick="toggleMapDay(this)">Tue</button>
@@ -613,7 +703,21 @@ html,body{overscroll-behavior:none}
       <button class="day-pill" data-d="sun" onclick="toggleMapDay(this)">Sun</button>
     </div>
   </div>
+
+  <!-- Time row -->
+  <div class="map-time-wrap">
+    <div class="time-row">
+      <label>Time</label>
+      <input type="range" id="map-time-slider" min="0" max="24" step="0.5" value="0" oninput="updateMapTimeDisplay();renderMap()">
+      <span class="time-display" id="map-time-display">Any</span>
+      <label class="now-lbl"><input type="checkbox" id="map-now-chk" onchange="onMapNowChkChange()"> Now</label>
+    </div>
+  </div>
+
+  <!-- Map fills all remaining space -->
   <div id="map"></div>
+
+  <!-- Legend -->
   <div id="map-legend">
     <div class="legend-item"><span class="legend-dot" style="background:#e8c547"></span>Happy Hour</div>
     <div class="legend-item"><span class="legend-dot" style="background:#e8c547;opacity:.7"></span>Drink HH</div>
@@ -628,9 +732,12 @@ html,body{overscroll-behavior:none}
     <div class="legend-item"><span class="legend-dot" style="background:#ff82c8"></span>Drag</div>
     <div class="legend-item"><span class="legend-dot" style="background:#60d4f8"></span>Bingo</div>
   </div>
+
+  <!-- Sheet backdrop and card -->
+  <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeSheet()"></div>
   <div class="sheet" id="sheet">
-    <div class="sheet-handle"></div>
-    <button class="sheet-close" onclick="closeSheet()">✕</button>
+    <div class="sheet-handle" id="sheet-handle"></div>
+    <button class="sheet-close" id="sheet-close">✕</button>
     <div class="sheet-content" id="sheet-content"></div>
   </div>
 </div>
@@ -941,10 +1048,17 @@ function setMapType(el){
 function isNow(v){
   return v.days.includes(todayKey)&&curHour>=v.start&&curHour<v.end;
 }
-function fmt(h){const h2=h>=24?h-24:h;const ap=h2>=12?"pm":"am";const hr=h2>12?h2-12:(h2===0?12:h2);return hr+ap;}
+function fmt(h){
+  const h2=h>=24?h-24:h;
+  const ap=h2>=12?"pm":"am";
+  const hrs=Math.floor(h2);
+  const mins=Math.round((h2-hrs)*60);
+  const hr=hrs>12?hrs-12:(hrs===0?12:hrs);
+  return hr+(mins>0?":"+String(mins).padStart(2,"0"):"")+ap;
+}
 
 function getFiltered(typeFilter){
-  const hood=document.getElementById("hood-sel")?.value||"all";
+  const hood="all";
   const nowOnly=(document.getElementById("now-chk")?.checked||false)||searchNowOnly;
   const timeFilter=getTimeFilter();
   const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
@@ -1056,19 +1170,70 @@ function initMap(){
   renderMap();
 }
 
+let mapSearchQuery="";
+
+function onMapSearch(){
+  const q=document.getElementById("map-search-input").value.trim().toLowerCase();
+  mapSearchQuery=q;
+  const clr=document.getElementById("map-search-clear");
+  clr.style.display=q?"block":"none";
+  renderMap();
+}
+function clearMapSearch(){
+  document.getElementById("map-search-input").value="";
+  mapSearchQuery="";
+  document.getElementById("map-search-clear").style.display="none";
+  renderMap();
+}
+function updateMapTimeDisplay(){
+  const val=parseFloat(document.getElementById("map-time-slider").value);
+  const el=document.getElementById("map-time-display");
+  if(val===0){el.textContent="Any";el.classList.remove("active");return;}
+  const h=Math.floor(val)%24;
+  const m=val%1===0.5?"30":"00";
+  const ap=h>=12?"pm":"am";
+  const hr=h>12?h-12:(h===0?12:h);
+  el.textContent=hr+":"+m+(val===24?"am":ap);
+  el.classList.add("active");
+}
+function onMapNowChkChange(){
+  const chk=document.getElementById("map-now-chk");
+  if(chk.checked){
+    const now=new Date();
+    const t=Math.round((now.getHours()+now.getMinutes()/60)*2)/2;
+    const slider=document.getElementById("map-time-slider");
+    slider.value=t;
+    updateMapTimeDisplay();
+  }
+  renderMap();
+}
+function getMapTimeFilter(){
+  const val=parseFloat(document.getElementById("map-time-slider")?.value||0);
+  return val===0?null:val;
+}
+
 function renderMap(){
   if(!leafletMap)return;
   mapMarkers.forEach(m=>leafletMap.removeLayer(m));
   mapMarkers=[];
   const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
+  const nowOnly=document.getElementById("map-now-chk")?.checked||false;
+  const timeFilter=getMapTimeFilter();
+  const q=mapSearchQuery;
   const items=ALL.filter(v=>{
-    if(!v.days.some(d=>selectedMapDays.has(d)))return false;
+    if(!q&&!v.days.some(d=>selectedMapDays.has(d)))return false;
+    if(q){
+      const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
+      if(!hay.includes(q))return false;
+    }
     if(mapActiveTypes.size>0){
       const match=[...mapActiveTypes].some(t=>
-        t===v.type||(t==="happyhour"&&isHH(v.type))
+        t===v.type||(t==="happyhour"&&isHH(v.type))||(t==="music"&&MUSIC_TYPES.has(v.type))
       );
       if(!match)return false;
     }
+    if(nowOnly&&!isNow(v))return false;
+    if(timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
     return true;
   });
   items.forEach(v=>{
@@ -1092,7 +1257,7 @@ function openSheet(v){
   const gmapsQuery=encodeURIComponent(v.name+", "+v.addr+", Toronto, ON");
   const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
   document.getElementById("sheet-content").innerHTML=`
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;padding-right:30px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;padding-right:36px">
       <div class="sheet-name">${v.name}</div>
       <span class="badge ${TBADGE[v.type]||"b-hh"}" style="margin-top:2px">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
     </div>
@@ -1107,11 +1272,52 @@ function openSheet(v){
       View on Google Maps
     </a>`;
   document.getElementById("sheet").classList.add("open");
+  document.getElementById("sheet-backdrop").classList.add("open");
 }
 
 function closeSheet(){
   document.getElementById("sheet").classList.remove("open");
+  document.getElementById("sheet-backdrop").classList.remove("open");
 }
+
+// Wire close button with pointerdown so it works reliably on touch
+document.getElementById("sheet-close").addEventListener("pointerdown", e=>{
+  e.stopPropagation();
+  closeSheet();
+});
+
+// Drag-to-dismiss on the handle
+(function(){
+  const sheet=document.getElementById("sheet");
+  const handle=document.getElementById("sheet-handle");
+  let startY=0, currentY=0, dragging=false;
+
+  function onDown(e){
+    dragging=true;
+    startY=e.touches?e.touches[0].clientY:e.clientY;
+    currentY=0;
+    sheet.classList.add("dragging");
+  }
+  function onMove(e){
+    if(!dragging)return;
+    const y=(e.touches?e.touches[0].clientY:e.clientY)-startY;
+    currentY=Math.max(0,y); // only drag downward
+    sheet.style.transform=`translateY(${currentY}px)`;
+  }
+  function onUp(){
+    if(!dragging)return;
+    dragging=false;
+    sheet.classList.remove("dragging");
+    sheet.style.transform="";
+    if(currentY>80){
+      closeSheet();
+    }
+  }
+
+  handle.addEventListener("pointerdown",onDown);
+  document.addEventListener("pointermove",onMove);
+  document.addEventListener("pointerup",onUp);
+})();
 
 // ─── SEARCH ──────────────────────────────────────────────────────────────────
 // Keyword → type mappings (broad intent → specific types)
