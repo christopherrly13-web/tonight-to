@@ -1157,25 +1157,37 @@ function onSearch(){
   render();
 
   // ── Build suggestions dropdown ──
+
+  // Venue name matches — sorted by how early the match appears (name matches first, then hood/detail)
+  const nameMatches=ALL.filter(v=>v.name.toLowerCase().includes(q));
+  const otherMatches=ALL.filter(v=>
+    !v.name.toLowerCase().includes(q)&&(
+      v.hood.toLowerCase().includes(q)||
+      v.detail.toLowerCase().includes(q)||
+      v.addr.toLowerCase().includes(q)
+    )
+  );
+  const venueMatches=[...nameMatches,...otherMatches];
+
+  // Intent matches — only fire on whole-word boundary so "bar" doesn't match "karaoke bar"
+  const wordBoundary=new RegExp(`(^|\\s)${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}(\\s|$)`,'i');
   const matched=SEARCH_INTENTS.filter(intent=>
-    intent.keywords.some(kw=>q.includes(kw)||kw.includes(q))
+    intent.keywords.some(kw=>
+      wordBoundary.test(kw) || // keyword contains the query as a whole word
+      kw===q ||                // exact match
+      (q.length>=4 && kw.startsWith(q)) // query is long enough to prefix-match
+    )
   );
 
-  const venueMatches=ALL.filter(v=>
-    v.name.toLowerCase().includes(q)||
-    v.hood.toLowerCase().includes(q)||
-    v.detail.toLowerCase().includes(q)||
-    v.addr.toLowerCase().includes(q)
-  );
-
+  // Venues first, then intents at the bottom
   const items=[];
+  venueMatches.slice(0,6).forEach(v=>items.push({type:"venue",venue:v}));
   matched.forEach(intent=>{
     const count=intent.types
       ? ALL.filter(v=>intent.types.includes(v.type)&&v.days.some(d=>selectedDays.has(d))).length
       : ALL.filter(v=>isNow(v)).length;
     items.push({type:"intent",intent,count});
   });
-  venueMatches.slice(0,6).forEach(v=>items.push({type:"venue",venue:v}));
 
   if(items.length===0){
     sugBox.innerHTML=`<div class="sugg-item"><span class="sugg-icon">🔍</span><div><div class="sugg-label">No results for "${q}"</div><div class="sugg-sub">Try: drinks, food, music, trivia, karaoke…</div></div></div>`;
