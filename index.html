@@ -175,10 +175,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .card-gmaps{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--muted);font-family:"DM Sans",sans-serif;cursor:pointer;text-decoration:none;transition:all .15s}
 .card-gmaps:active{background:var(--surface2)}
 .time-control{padding:0 20px 6px;flex-shrink:0}
-.time-row{display:flex;align-items:center;gap:10px}
+.time-row{display:flex;align-items:center;gap:6px}
 .time-row label{font-size:12px;color:var(--accent);white-space:nowrap;flex-shrink:0;font-weight:600}
 .time-row input[type=range]{flex:1;accent-color:var(--accent)}
-.time-display{font-size:12px;font-weight:600;color:var(--accent);min-width:48px;text-align:right;flex-shrink:0}
+.time-display{font-size:12px;font-weight:600;color:var(--accent);min-width:28px;text-align:left;flex-shrink:0}
 .time-display.active{font-size:12px;font-weight:600;color:var(--accent)}
 .locate-btn{flex-shrink:0;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:"DM Sans",sans-serif;transition:all .15s}
 .locate-btn.located{border-color:var(--green);color:var(--green)}
@@ -1020,8 +1020,10 @@ function render(){
     const gmapsQuery=encodeURIComponent(v.name+", "+v.addr+", Toronto, ON");
     const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
     const next=isSearchActive?nextDay(v):null;
-    const nextBadge=next?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}">${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";
-    return`<div class="card ${live?"live-card":""}">
+    // Don't show next-day badge if the venue's days are already selected in the day pills
+    const venueDaySelected=v.days.some(d=>selectedDays.has(d));
+    const showNext=next&&!live&&!venueDaySelected;
+    const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";    return`<div class="card ${live?"live-card":""}">
       <div class="card-top">
         <div>
           <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':''}</div>
@@ -1032,7 +1034,7 @@ function render(){
       <div class="detail">${v.detail}</div>
       <div class="card-ftr">
         <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now · "+fmt(v.start)+"–"+fmt(v.end):fmt(v.start)+"–"+fmt(v.end)}</span></div>
-        ${next&&!live?nextBadge:`<span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>`}
+        ${showNext?nextBadge:`<span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>`}
       </div>
       ${v.url
         ?`<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" style="border-color:rgba(255,102,0,.3);color:#ff6600">🎟 Get tickets on Eventbrite</a>`
