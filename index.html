@@ -135,6 +135,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 /* COUNT BAR */
 .count-bar{padding:0 20px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .count-text{font-size:12px;color:var(--muted)}
+.now-row{display:flex;align-items:center;padding-top:6px}
 .now-lbl{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer}
 .now-lbl input{accent-color:var(--accent)}
 
@@ -567,11 +568,13 @@ html,body{overscroll-behavior:none}
           Near me
         </button>
       </div>
+      <div class="now-row">
+        <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="onNowChkChange()"> Now only</label>
+      </div>
     </div>
 
     <div class="count-bar">
       <span class="count-text" id="ct"></span>
-      <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="render()"> Now only</label>
     </div>
   </div><!-- /sidebar -->
 
@@ -864,6 +867,18 @@ function updateTimeDisplay(){
   const hr=h>12?h-12:(h===0?12:h);
   el.textContent=hr+":"+m+ap;
   el.classList.add("active");
+}
+function onNowChkChange(){
+  const chk=document.getElementById("now-chk");
+  if(chk.checked){
+    // Snap slider to current time (rounded to nearest 0.5)
+    const now=new Date();
+    const currentTime=Math.round((now.getHours()+now.getMinutes()/60)*2)/2;
+    const slider=document.getElementById("time-slider");
+    slider.value=currentTime;
+    updateTimeDisplay();
+  }
+  render();
 }
 let currentView="list";
 let leafletMap=null, mapMarkers=[];
@@ -1199,12 +1214,22 @@ function onSearch(){
   sugBox.querySelectorAll(".sugg-item").forEach((el,i)=>{
     el.addEventListener("pointerdown", e=>{
       e.preventDefault(); // prevents input blur
-      const item=items[i];
-      if(item.type==="intent"){
-        applySearchIntent(item.intent.types, !!item.intent.nowFilter);
-      } else {
-        applyVenueSearch(item.venue.name);
-      }
+      // Flash yellow then act
+      el.style.transition="background 0s";
+      el.style.background="rgba(232,197,71,0.25)";
+      setTimeout(()=>{
+        el.style.transition="background 0.3s";
+        el.style.background="";
+        // Dismiss keyboard
+        document.getElementById("search-input").blur();
+        // Apply the action
+        const item=items[i];
+        if(item.type==="intent"){
+          applySearchIntent(item.intent.types, !!item.intent.nowFilter);
+        } else {
+          applyVenueSearch(item.venue.name);
+        }
+      }, 150);
     });
   });
 
