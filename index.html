@@ -696,12 +696,13 @@ html,body{overscroll-behavior:none}
   </div>
 
   <!-- Search bar (same as list) -->
-  <div class="map-search-wrap search-wrap">
+  <div class="map-search-wrap search-wrap" style="position:relative;z-index:1000">
     <div class="search-box">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input type="text" id="map-search-input" placeholder="Search venues, drinks, music…" oninput="onMapSearch()" onkeydown="if(event.key==='Enter')this.blur()" autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:16px;flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif">
+      <input type="text" id="map-search-input" placeholder="Search venues, drinks, music…" oninput="onMapSearch()" onkeydown="if(event.key==='Enter'){this.blur();}" autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:16px;flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif">
       <button id="map-search-clear" onclick="clearMapSearch()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:0;display:none">✕</button>
     </div>
+    <div id="map-search-suggestions"></div>
   </div>
 
   <!-- Type pills -->
@@ -1210,20 +1211,129 @@ function initMap(){
 }
 
 let mapSearchQuery="";
+let mapSearchTypes=null;
+let mapHighlightMarker=null;
+
+function hideMapSuggestions(){
+  const box=document.getElementById("map-search-suggestions");
+  if(box){box.classList.remove("visible");box.innerHTML="";}
+}
 
 function onMapSearch(){
   const q=document.getElementById("map-search-input").value.trim().toLowerCase();
   mapSearchQuery=q;
+  mapSearchTypes=null;
   const clr=document.getElementById("map-search-clear");
   clr.style.display=q?"block":"none";
+
+  if(!q){hideMapSuggestions();renderMap();return;}
+
+  renderMap();
+
+  // Build suggestions — venue name matches first, then intents
+  const nameMatches=ALL.filter(v=>v.name.toLowerCase().includes(q));
+  const otherMatches=ALL.filter(v=>!v.name.toLowerCase().includes(q)&&(v.hood.toLowerCase().includes(q)||v.detail.toLowerCase().includes(q)));
+  const venueMatches=[...nameMatches,...otherMatches];
+
+  const wordBoundary=new RegExp(`(^|\\s)${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}(\\s|$)`,'i');
+  const matchedIntents=SEARCH_INTENTS.filter(intent=>
+    intent.keywords.some(kw=>wordBoundary.test(kw)||kw===q||(q.length>=4&&kw.startsWith(q)))
+  );
+
+  const items=[];
+  venueMatches.slice(0,5).forEach(v=>items.push({type:"venue",venue:v}));
+  matchedIntents.forEach(intent=>items.push({type:"intent",intent}));
+
+  const sugBox=document.getElementById("map-search-suggestions");
+  if(!sugBox||items.length===0){hideMapSuggestions();return;}
+
+  function highlight(str){
+    const idx=str.toLowerCase().indexOf(q);
+    if(idx===-1)return str;
+    return str.slice(0,idx)+'<mark style="background:var(--accent-dim);color:var(--accent);border-radius:2px;padding:0 1px">'+str.slice(idx,idx+q.length)+'</mark>'+str.slice(idx+q.length);
+  }
+
+  sugBox.innerHTML=items.map((item,i)=>{
+    if(item.type==="venue"){
+      const v=item.venue;
+      const live=isNow(v);
+      return`<div class="sugg-item" data-map-sugg="${i}">
+        <span class="sugg-icon">${live?"🟢":"📍"}</span>
+        <div>
+          <div class="sugg-label">${highlight(v.name)}</div>
+          <div class="sugg-sub">${v.hood} · ${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</div>
+        </div>
+      </div>`;
+    } else {
+      const {intent}=item;
+      const count=intent.types?ALL.filter(v=>intent.types.includes(v.type)).length:0;
+      return`<div class="sugg-item" data-map-sugg="${i}">
+        <span class="sugg-icon">${intent.icon}</span>
+        <div><div class="sugg-label">${intent.label}</div><div class="sugg-sub">${intent.types?intent.types.map(t=>TLABEL[t]).join(", "):"Live right now"}</div></div>
+        <span class="sugg-count">${count}</span>
+      </div>`;
+    }
+  }).join("");
+
+  // Attach pointerdown with flash + action
+  sugBox.querySelectorAll(".sugg-item").forEach((el,i)=>{
+    el.addEventListener("pointerdown",e=>{
+      e.preventDefault();
+      el.style.transition="background 0s";
+      el.style.background="rgba(232,197,71,0.25)";
+      setTimeout(()=>{
+        el.style.transition="background 0.3s";
+        el.style.background="";
+        document.getElementById("map-search-input").blur();
+        const item=items[i];
+        if(item.type==="venue"){
+          applyMapVenueSearch(item.venue);
+        } else {
+          applyMapIntentSearch(item.intent);
+        }
+      },150);
+    });
+  });
+
+  sugBox.classList.add("visible");
+}
+
+function applyMapVenueSearch(v){
+  mapSearchQuery=v.name.toLowerCase();
+  mapSearchTypes=null;
+  document.getElementById("map-search-input").value=v.name;
+  document.getElementById("map-search-clear").style.display="block";
+  hideMapSuggestions();
+  renderMap();
+  // Pan to venue and open its sheet
+  if(leafletMap&&v.lat&&v.lng){
+    leafletMap.flyTo([v.lat,v.lng],16,{duration:0.8});
+    setTimeout(()=>openSheet(v),600);
+  }
+}
+
+function applyMapIntentSearch(intent){
+  mapSearchTypes=intent.types||null;
+  mapSearchQuery="";
+  document.getElementById("map-search-input").value=intent.label;
+  document.getElementById("map-search-clear").style.display="block";
+  hideMapSuggestions();
   renderMap();
 }
+
 function clearMapSearch(){
   document.getElementById("map-search-input").value="";
   mapSearchQuery="";
+  mapSearchTypes=null;
   document.getElementById("map-search-clear").style.display="none";
+  hideMapSuggestions();
   renderMap();
 }
+
+// Hide map suggestions on blur
+document.getElementById("map-search-input").addEventListener("blur",()=>{
+  setTimeout(hideMapSuggestions,150);
+});
 function updateMapTimeDisplay(){
   const val=parseFloat(document.getElementById("map-time-slider").value);
   const el=document.getElementById("map-time-display");
@@ -1260,8 +1370,10 @@ function renderMap(){
   const timeFilter=getMapTimeFilter();
   const q=mapSearchQuery;
   const items=ALL.filter(v=>{
-    if(!q&&!v.days.some(d=>selectedMapDays.has(d)))return false;
-    if(q){
+    if(!q&&!mapSearchTypes&&!v.days.some(d=>selectedMapDays.has(d)))return false;
+    if(mapSearchTypes){
+      if(!mapSearchTypes.includes(v.type))return false;
+    } else if(q){
       const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
       if(!hay.includes(q))return false;
     }
@@ -1277,11 +1389,14 @@ function renderMap(){
   });
   items.forEach(v=>{
     const live=isNow(v);
+    const isHighlighted=q&&v.name.toLowerCase()===q;
     const color=TYPE_COLOR[v.type]||"#e8c547";
-    const size=live?14:10;
+    const size=isHighlighted?18:live?14:10;
+    const glow=isHighlighted?`0 0 14px ${color}, 0 0 4px #fff`:live?`0 0 8px ${color}`:"none";
+    const border=isHighlighted?"3px solid #fff":live?"2px solid #fff":"2px solid rgba(255,255,255,0.4)";
     const icon=L.divIcon({
       className:"",
-      html:`<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:2px solid ${live?"#fff":"rgba(255,255,255,0.4)"};box-shadow:${live?"0 0 8px "+color:"none"};"></div>`,
+      html:`<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:${border};box-shadow:${glow};transition:all .3s;"></div>`,
       iconSize:[size,size],
       iconAnchor:[size/2,size/2]
     });
