@@ -1,7 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-03-23",
-  "total": 144,
+  "updated": "2026-03-20",
   "venues": [
     {
       "name": "Bar Raval",
@@ -16,7 +15,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $6 pintxos, $7 vermouth & natural wine, $5 beer. Best Spanish bar in the city.",
+      "detail": "\ud83c\udf78 $6 pintxos, $7 vermouth & natural wine, $5 beer. Best Spanish bar in the city.",
       "addr": "505 College St",
       "lat": 43.6545,
       "lng": -79.4198
@@ -33,7 +32,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $10 cocktails (reg $18–22), $7 wine, $6 beer. Award-winning cocktail bar.",
+      "detail": "\ud83c\udf78 $10 cocktails (reg $18\u201322), $7 wine, $6 beer. Award-winning cocktail bar.",
       "addr": "472 Queen St W",
       "lat": 43.6484,
       "lng": -79.4153
@@ -51,7 +50,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $10 wine & beer, $12 cocktails. 54th floor views over Toronto.",
+      "detail": "\ud83c\udf78 $10 wine & beer, $12 cocktails. 54th floor views over Toronto.",
       "addr": "66 Wellington St W",
       "lat": 43.6474,
       "lng": -79.3816
@@ -69,7 +68,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $8 margaritas, $6 Mexican beer, 2-for-1 shots. Best tequila bar in Toronto.",
+      "detail": "\ud83c\udf78 $8 margaritas, $6 Mexican beer, 2-for-1 shots. Best tequila bar in Toronto.",
       "addr": "136 Ossington Ave",
       "lat": 43.6521,
       "lng": -79.4264
@@ -89,7 +88,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 Half-price wine bottles nightly. $10 classic martinis after 9pm.",
+      "detail": "\ud83c\udf78 Half-price wine bottles nightly. $10 classic martinis after 9pm.",
       "addr": "230 Ossington Ave",
       "lat": 43.6553,
       "lng": -79.4262
@@ -107,7 +106,7 @@
       ],
       "start": 17,
       "end": 23,
-      "detail": "🍸 $5 espresso martinis AND classic martinis all night Tue–Sat. Speakeasy vibes.",
+      "detail": "\ud83c\udf78 $5 espresso martinis AND classic martinis all night Tue\u2013Sat. Speakeasy vibes.",
       "addr": "214 King St W",
       "lat": 43.6468,
       "lng": -79.3872
@@ -127,7 +126,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $5 Peroni, $6 natural wine, $7 spritz. Every day all week.",
+      "detail": "\ud83c\udf78 $5 Peroni, $6 natural wine, $7 spritz. Every day all week.",
       "addr": "214A Augusta Ave",
       "lat": 43.6548,
       "lng": -79.4029
@@ -144,7 +143,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $6 pints on select house beers Mon–Thu.",
+      "detail": "\ud83c\udf78 $6 pints on select house beers Mon\u2013Thu.",
       "addr": "124 Ossington Ave",
       "lat": 43.6488,
       "lng": -79.4218
@@ -162,7 +161,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $6.50 house draft Tuesdays. Half-price wine Wednesdays. Craft beer cave.",
+      "detail": "\ud83c\udf78 $6.50 house draft Tuesdays. Half-price wine Wednesdays. Craft beer cave.",
       "addr": "620 College St",
       "lat": 43.6558,
       "lng": -79.4098
@@ -180,7 +179,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $13 Italian spritzes. $6.50 house beers Tue. Half-price wine Wed. Bay-Cloverhill's best beer bar.",
+      "detail": "\ud83c\udf78 $13 Italian spritzes. $6.50 house beers Tue. Half-price wine Wed. Bay-Cloverhill's best beer bar.",
       "addr": "17 St Nicholas St",
       "lat": 43.6672,
       "lng": -79.3862
@@ -198,7 +197,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $7 wine & craft beer, $10 cocktails.",
+      "detail": "\ud83c\udf78 $7 wine & craft beer, $10 cocktails.",
       "addr": "909 Bay St",
       "lat": 43.6687,
       "lng": -79.3892
@@ -216,7 +215,7 @@
       ],
       "start": 16,
       "end": 19,
-      "detail": "🍸 $12 wine by the glass, select cocktails weekdays 4–7pm. Sexy hotel bar.",
+      "detail": "\ud83c\udf78 $12 wine by the glass, select cocktails weekdays 4\u20137pm. Sexy hotel bar.",
       "addr": "51 Camden St",
       "lat": 43.6459,
       "lng": -79.3997
@@ -234,7 +233,7 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍸 $10 wine glasses, $6 lagers, $12 Dillon's cocktails. Closest thing to Spain in Toronto.",
+      "detail": "\ud83c\udf78 $10 wine glasses, $6 lagers, $12 Dillon's cocktails. Closest thing to Spain in Toronto.",
       "addr": "797 College St",
       "lat": 43.6558,
       "lng": -79.4198
@@ -254,7 +253,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 50% off wine Tue & Wed, $5 beers, $6 wines. Late night Sun–Wed too.",
+      "detail": "\ud83c\udf78 50% off wine Tue & Wed, $5 beers, $6 wines. Late night Sun\u2013Wed too.",
       "addr": "100 King St W",
       "lat": 43.6484,
       "lng": -79.3819
@@ -272,7 +271,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 Craft beer HH on rotating taps. Multiple taprooms downtown.",
+      "detail": "\ud83c\udf78 Craft beer HH on rotating taps. Multiple taprooms downtown.",
       "addr": "391 King St W",
       "lat": 43.6465,
       "lng": -79.3955
@@ -290,7 +289,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $7 draft, $9 wine, $12 cocktails Mon–Fri.",
+      "detail": "\ud83c\udf78 $7 draft, $9 wine, $12 cocktails Mon\u2013Fri.",
       "addr": "1 Richmond St W",
       "lat": 43.6512,
       "lng": -79.3795
@@ -308,7 +307,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 Craft brewery deals before Tuesday trivia. No cover for trivia.",
+      "detail": "\ud83c\udf78 Craft brewery deals before Tuesday trivia. No cover for trivia.",
       "addr": "22 Cumberland St",
       "lat": 43.6693,
       "lng": -79.3924
@@ -326,7 +325,7 @@
       ],
       "start": 16,
       "end": 19,
-      "detail": "🍸 $5 shots & beers, $7 spritz & wine. Victorian two-storey bar with back patio.",
+      "detail": "\ud83c\udf78 $5 shots & beers, $7 spritz & wine. Victorian two-storey bar with back patio.",
       "addr": "1208 Yonge St",
       "lat": 43.6847,
       "lng": -79.3924
@@ -344,13 +343,13 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $10 cocktails + Tue & Wed 50% off wine bottles. Cozy French bistro bar.",
+      "detail": "\ud83c\udf78 $10 cocktails + Tue & Wed 50% off wine bottles. Cozy French bistro bar.",
       "addr": "642 King St W",
       "lat": 43.6441,
       "lng": -79.413
     },
     {
-      "name": "Añejo",
+      "name": "A\u00f1ejo",
       "hood": "King West",
       "type": "drinkhh",
       "days": [
@@ -364,7 +363,7 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍸 $7 margaritas & beers. Also 10pm–midnight daily. Canada's best tequila bar.",
+      "detail": "\ud83c\udf78 $7 margaritas & beers. Also 10pm\u2013midnight daily. Canada's best tequila bar.",
       "addr": "466 King St W",
       "lat": 43.6458,
       "lng": -79.399
@@ -383,7 +382,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $7 beers, $12 cocktails, $10 wine. British gastropub with great patio.",
+      "detail": "\ud83c\udf78 $7 beers, $12 cocktails, $10 wine. British gastropub with great patio.",
       "addr": "21 Adelaide St W",
       "lat": 43.651,
       "lng": -79.382
@@ -403,7 +402,7 @@
       ],
       "start": 14,
       "end": 18,
-      "detail": "🍸 Half-price bottles of wine 2–6pm daily. Late night Sun–Wed too.",
+      "detail": "\ud83c\udf78 Half-price bottles of wine 2\u20136pm daily. Late night Sun\u2013Wed too.",
       "addr": "270 Adelaide St W",
       "lat": 43.6491,
       "lng": -79.388
@@ -423,7 +422,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 Daily $12 menu drinks 5–7pm. Perfect back patio.",
+      "detail": "\ud83c\udf78 Daily $12 menu drinks 5\u20137pm. Perfect back patio.",
       "addr": "923 Dundas St W",
       "lat": 43.6516,
       "lng": -79.4209
@@ -443,7 +442,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $12 select cocktails every day 5–7pm. Dark, sexy taxidermy bar.",
+      "detail": "\ud83c\udf78 $12 select cocktails every day 5\u20137pm. Dark, sexy taxidermy bar.",
       "addr": "1077 Queen St E",
       "lat": 43.6593,
       "lng": -79.34
@@ -463,7 +462,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $9 house wines, $6 select beers, $12 cocktails 5–7pm. Half-price bottles after 11pm & all day Sun.",
+      "detail": "\ud83c\udf78 $9 house wines, $6 select beers, $12 cocktails 5\u20137pm. Half-price bottles after 11pm & all day Sun.",
       "addr": "1378 Queen St E",
       "lat": 43.6591,
       "lng": -79.3321
@@ -483,7 +482,7 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍸 $10 glasses of house-label wine 5–6pm daily. Natural wine bar & urban winery.",
+      "detail": "\ud83c\udf78 $10 glasses of house-label wine 5\u20136pm daily. Natural wine bar & urban winery.",
       "addr": "1083 Geary Ave",
       "lat": 43.674,
       "lng": -79.433
@@ -503,7 +502,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 Half-price martinis all night Monday + Tue–Sun 5–7pm. If Barbie had a neon-pink cocktail bar.",
+      "detail": "\ud83c\udf78 Half-price martinis all night Monday + Tue\u2013Sun 5\u20137pm. If Barbie had a neon-pink cocktail bar.",
       "addr": "1 Bloor St E",
       "lat": 43.6714,
       "lng": -79.3845
@@ -523,7 +522,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $10 martinis 5–7pm daily. Casual French-American bistro in the Great Hall.",
+      "detail": "\ud83c\udf78 $10 martinis 5\u20137pm daily. Casual French-American bistro in the Great Hall.",
       "addr": "1087 Queen St W",
       "lat": 43.6449,
       "lng": -79.4345
@@ -543,7 +542,7 @@
       ],
       "start": 18,
       "end": 20,
-      "detail": "🍸 Daily $12 martinis 6–8pm. Moody cocktail bar, looks like a wealthy Londoner's home.",
+      "detail": "\ud83c\udf78 Daily $12 martinis 6\u20138pm. Moody cocktail bar, looks like a wealthy Londoner's home.",
       "addr": "2 Compton Ave",
       "lat": 43.6631,
       "lng": -79.4295
@@ -557,7 +556,7 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍸 $6.99 select martinis every Wednesday. Wood-fired pizza bar.",
+      "detail": "\ud83c\udf78 $6.99 select martinis every Wednesday. Wood-fired pizza bar.",
       "addr": "587 King St W",
       "lat": 43.6449,
       "lng": -79.408
@@ -577,7 +576,7 @@
       ],
       "start": 14,
       "end": 18,
-      "detail": "🍸 $7 beer, $12 cocktails 2–6pm + 9pm–close daily.",
+      "detail": "\ud83c\udf78 $7 beer, $12 cocktails 2\u20136pm + 9pm\u2013close daily.",
       "addr": "592 Sherbourne St",
       "lat": 43.6736,
       "lng": -79.3769
@@ -597,7 +596,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 Cocktails, beer & wine from $8 daily 4–6pm. Also the only time to get their legendary limited cheeseburger.",
+      "detail": "\ud83c\udf78 Cocktails, beer & wine from $8 daily 4\u20136pm. Also the only time to get their legendary limited cheeseburger.",
       "addr": "1132 Geary Ave",
       "lat": 43.6742,
       "lng": -79.4359
@@ -617,7 +616,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $10 tropical cocktails, $7 draught, half-price wine during Honolulu Hour 3–6pm daily.",
+      "detail": "\ud83c\udf78 $10 tropical cocktails, $7 draught, half-price wine during Honolulu Hour 3\u20136pm daily.",
       "addr": "427 Wellington St W",
       "lat": 43.6455,
       "lng": -79.4
@@ -637,7 +636,7 @@
       ],
       "start": 14,
       "end": 17,
-      "detail": "🍸 50% off wine, $10 cocktails 2–5pm daily.",
+      "detail": "\ud83c\udf78 50% off wine, $10 cocktails 2\u20135pm daily.",
       "addr": "423 Wellington St W",
       "lat": 43.6456,
       "lng": -79.3998
@@ -657,7 +656,7 @@
       ],
       "start": 15.5,
       "end": 19,
-      "detail": "🍸 $4.50 shots, $8 wine, $10 cocktails 3:30–7pm.",
+      "detail": "\ud83c\udf78 $4.50 shots, $8 wine, $10 cocktails 3:30\u20137pm.",
       "addr": "337 King St W",
       "lat": 43.6472,
       "lng": -79.3946
@@ -677,13 +676,13 @@
       ],
       "start": 15,
       "end": 19,
-      "detail": "🍸 Beer, cocktails & specials 3–7pm daily. Vinyl bar, TIFF celeb hotspot.",
+      "detail": "\ud83c\udf78 Beer, cocktails & specials 3\u20137pm daily. Vinyl bar, TIFF celeb hotspot.",
       "addr": "587 King St W",
       "lat": 43.6449,
       "lng": -79.408
     },
     {
-      "name": "Café Renée",
+      "name": "Caf\u00e9 Ren\u00e9e",
       "hood": "King West",
       "type": "drinkhh",
       "days": [
@@ -697,7 +696,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $12 martinis 5–7pm daily.",
+      "detail": "\ud83c\udf78 $12 martinis 5\u20137pm daily.",
       "addr": "100 Portland St",
       "lat": 43.6457,
       "lng": -79.4008
@@ -717,7 +716,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 50% off wine & oysters 5–7pm.",
+      "detail": "\ud83c\udf78 50% off wine & oysters 5\u20137pm.",
       "addr": "589 King St W",
       "lat": 43.6448,
       "lng": -79.4079
@@ -735,7 +734,7 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍸 $5 draft beer weekdays 5–6pm. Half-price wine Sundays. Half-price cellar Tuesdays.",
+      "detail": "\ud83c\udf78 $5 draft beer weekdays 5\u20136pm. Half-price wine Sundays. Half-price cellar Tuesdays.",
       "addr": "1184 Bloor St W",
       "lat": 43.6627,
       "lng": -79.4384
@@ -753,7 +752,7 @@
       ],
       "start": 16,
       "end": 19,
-      "detail": "🍸 $5 beers, $9 cocktails + food 4–7pm. Neighbourhood gem in the Junction.",
+      "detail": "\ud83c\udf78 $5 beers, $9 cocktails + food 4\u20137pm. Neighbourhood gem in the Junction.",
       "addr": "1627 Dupont St",
       "lat": 43.671,
       "lng": -79.46
@@ -770,7 +769,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $7 beers Tue–Fri 3–6pm. Junction's beloved craft brewery.",
+      "detail": "\ud83c\udf78 $7 beers Tue\u2013Fri 3\u20136pm. Junction's beloved craft brewery.",
       "addr": "2876 Dundas St W",
       "lat": 43.6637,
       "lng": -79.4766
@@ -788,7 +787,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 25% off cocktails, $6 beer 4–6pm Mon–Fri.",
+      "detail": "\ud83c\udf78 25% off cocktails, $6 beer 4\u20136pm Mon\u2013Fri.",
       "addr": "395 Keele St",
       "lat": 43.6632,
       "lng": -79.454
@@ -808,7 +807,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 Irish pub pint specials all day. $9 wine, $10 off wine bottles.",
+      "detail": "\ud83c\udf78 Irish pub pint specials all day. $9 wine, $10 off wine bottles.",
       "addr": "165 East Liberty St",
       "lat": 43.6378,
       "lng": -79.4167
@@ -826,7 +825,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $5 domestic draft, $7 wine Mon–Fri 4–6pm.",
+      "detail": "\ud83c\udf78 $5 domestic draft, $7 wine Mon\u2013Fri 4\u20136pm.",
       "addr": "25 Liberty St",
       "lat": 43.6385,
       "lng": -79.4196
@@ -846,7 +845,7 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍸 $6 drinks on show nights 5–6pm. Oyster deals Wednesdays.",
+      "detail": "\ud83c\udf78 $6 drinks on show nights 5\u20136pm. Oyster deals Wednesdays.",
       "addr": "530 Danforth Ave",
       "lat": 43.6772,
       "lng": -79.3517
@@ -862,7 +861,7 @@
       ],
       "start": 16,
       "end": 17,
-      "detail": "🍸 $0.99 wings, $5 lager, $9 cocktails Mon–Wed 4–5pm. Thu–Fri 3–5pm.",
+      "detail": "\ud83c\udf78 $0.99 wings, $5 lager, $9 cocktails Mon\u2013Wed 4\u20135pm. Thu\u2013Fri 3\u20135pm.",
       "addr": "526 Danforth Ave",
       "lat": 43.6772,
       "lng": -79.352
@@ -882,7 +881,7 @@
       ],
       "start": 22,
       "end": 26,
-      "detail": "🍸 Food & drinks from $6 after 10pm nightly.",
+      "detail": "\ud83c\udf78 Food & drinks from $6 after 10pm nightly.",
       "addr": "280 Bloor St W",
       "lat": 43.6645,
       "lng": -79.3947
@@ -898,7 +897,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 Taproom HH on house beers Wed–Fri 4–6pm. Brass Facts trivia Wednesdays.",
+      "detail": "\ud83c\udf78 Taproom HH on house beers Wed\u2013Fri 4\u20136pm. Brass Facts trivia Wednesdays.",
       "addr": "36 Wagstaff Dr",
       "lat": 43.6632,
       "lng": -79.3264
@@ -915,7 +914,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $6 house lager, $8 natural wine Tue–Fri 5–7pm. Farm-to-table craft beer.",
+      "detail": "\ud83c\udf78 $6 house lager, $8 natural wine Tue\u2013Fri 5\u20137pm. Farm-to-table craft beer.",
       "addr": "1042 Queen St E",
       "lat": 43.6593,
       "lng": -79.3372
@@ -935,7 +934,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $15 martinis daily aperitivo hour. Saxophones on Fridays. Roman jazz postcard vibes.",
+      "detail": "\ud83c\udf78 $15 martinis daily aperitivo hour. Saxophones on Fridays. Roman jazz postcard vibes.",
       "addr": "1334 Dundas St W",
       "lat": 43.6531,
       "lng": -79.4347
@@ -955,7 +954,7 @@
       ],
       "start": 17,
       "end": 20,
-      "detail": "🍸 Drink specials nightly with live blues & jazz. No cover ever. Chinatown since 1943.",
+      "detail": "\ud83c\udf78 Drink specials nightly with live blues & jazz. No cover ever. Chinatown since 1943.",
       "addr": "379 Spadina Ave",
       "lat": 43.6556,
       "lng": -79.3993
@@ -975,7 +974,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $6 beer, $9 wine. Monday jazz nights. Built on the Silver Dollar Room.",
+      "detail": "\ud83c\udf78 $6 beer, $9 wine. Monday jazz nights. Built on the Silver Dollar Room.",
       "addr": "486 Spadina Ave",
       "lat": 43.6551,
       "lng": -79.401
@@ -995,7 +994,7 @@
       ],
       "start": 14,
       "end": 17,
-      "detail": "🍸 $5–$8.25 beers, $8.25–$14.25 cocktails 2–5pm & 9pm–close. All day Sunday.",
+      "detail": "\ud83c\udf78 $5\u2013$8.25 beers, $8.25\u2013$14.25 cocktails 2\u20135pm & 9pm\u2013close. All day Sunday.",
       "addr": "330 Bay St",
       "lat": 43.6499,
       "lng": -79.381
@@ -1015,7 +1014,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 Half-price drinks 3–6pm & 10pm–close every day.",
+      "detail": "\ud83c\udf78 Half-price drinks 3\u20136pm & 10pm\u2013close every day.",
       "addr": "55 Bloor St W",
       "lat": 43.671,
       "lng": -79.3892
@@ -1035,7 +1034,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 Drinks from $5. Daily 3–6pm + Sun–Thu 9pm–close, Fri–Sat 10pm–close.",
+      "detail": "\ud83c\udf78 Drinks from $5. Daily 3\u20136pm + Sun\u2013Thu 9pm\u2013close, Fri\u2013Sat 10pm\u2013close.",
       "addr": "33 Yonge St",
       "lat": 43.649,
       "lng": -79.3773
@@ -1055,7 +1054,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 Cocktails & food from $7, 4–6pm & 10pm–close daily.",
+      "detail": "\ud83c\udf78 Cocktails & food from $7, 4\u20136pm & 10pm\u2013close daily.",
       "addr": "1 King St E",
       "lat": 43.649,
       "lng": -79.374
@@ -1075,7 +1074,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $13 best-selling cocktails, $5 shots, $6 Miller High Life 5–7pm daily. Retro tropical kitsch.",
+      "detail": "\ud83c\udf78 $13 best-selling cocktails, $5 shots, $6 Miller High Life 5\u20137pm daily. Retro tropical kitsch.",
       "addr": "777 Queen St W",
       "lat": 43.6479,
       "lng": -79.4247
@@ -1093,7 +1092,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍔 $5 snacks, $8 dumplings, $6 house lager, $10 cocktails (NO TAX!) Wed–Sun 5:30–7:30pm.",
+      "detail": "\ud83c\udf54 $5 snacks, $8 dumplings, $6 house lager, $10 cocktails (NO TAX!) Wed\u2013Sun 5:30\u20137:30pm.",
       "addr": "270 Spadina Ave",
       "lat": 43.6538,
       "lng": -79.3967
@@ -1112,7 +1111,7 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍔 $2 oysters, $10 snacks, $10 cocktails 5–6pm daily (closed Tue). Half-price wine bottles Monday.",
+      "detail": "\ud83c\udf54 $2 oysters, $10 snacks, $10 cocktails 5\u20136pm daily (closed Tue). Half-price wine bottles Monday.",
       "addr": "1320 Queen St W",
       "lat": 43.6429,
       "lng": -79.4343
@@ -1131,7 +1130,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $1/oz house wine, half-price oysters & wine list, discounted snacks Tue–Sun 3–6pm. Café-barbershop-snackbar.",
+      "detail": "\ud83c\udf54 $1/oz house wine, half-price oysters & wine list, discounted snacks Tue\u2013Sun 3\u20136pm. Caf\u00e9-barbershop-snackbar.",
       "addr": "1184 Queen St W",
       "lat": 43.6434,
       "lng": -79.4384
@@ -1151,7 +1150,7 @@
       ],
       "start": 16.5,
       "end": 18.5,
-      "detail": "🍔 $2 oysters by the dozen daily 4:30–6:30pm. 100 oysters for $100 on Thursdays (res required).",
+      "detail": "\ud83c\udf54 $2 oysters by the dozen daily 4:30\u20136:30pm. 100 oysters for $100 on Thursdays (res required).",
       "addr": "89 Front St E",
       "lat": 43.6489,
       "lng": -79.3727
@@ -1166,13 +1165,13 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 Buck-a-shuck oysters + half-price wine Sunday & Monday. Cocktail bar.",
+      "detail": "\ud83c\udf54 Buck-a-shuck oysters + half-price wine Sunday & Monday. Cocktail bar.",
       "addr": "9 Church St",
       "lat": 43.6491,
       "lng": -79.3748
     },
     {
-      "name": "ēst",
+      "name": "\u0113st",
       "hood": "Riverside",
       "type": "foodhh",
       "days": [
@@ -1181,7 +1180,7 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 Buck-a-Shuck + 25% off sparkling wine Tuesdays & Thursdays. Modern French dining.",
+      "detail": "\ud83c\udf54 Buck-a-Shuck + 25% off sparkling wine Tuesdays & Thursdays. Modern French dining.",
       "addr": "1168 Queen St E",
       "lat": 43.6589,
       "lng": -79.3351
@@ -1196,7 +1195,7 @@
       ],
       "start": 17,
       "end": 21,
-      "detail": "🍔 $2 rotating oysters all night Wednesday. $1.50 Malpeques Thu 5–7pm. Slice of the Maritimes.",
+      "detail": "\ud83c\udf54 $2 rotating oysters all night Wednesday. $1.50 Malpeques Thu 5\u20137pm. Slice of the Maritimes.",
       "addr": "1371 Bloor St W",
       "lat": 43.6632,
       "lng": -79.4463
@@ -1210,7 +1209,7 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 Buck-a-Shuck oysters all Wednesday evening ($1–$2 while supplies last). HH drinks Tue–Sat 5–7pm.",
+      "detail": "\ud83c\udf54 Buck-a-Shuck oysters all Wednesday evening ($1\u2013$2 while supplies last). HH drinks Tue\u2013Sat 5\u20137pm.",
       "addr": "883 Queen St W",
       "lat": 43.6479,
       "lng": -79.4255
@@ -1227,7 +1226,7 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍔 $1/oz house wine always available. $7+ food deals Mon–Thu 3–5pm. Invented dollar-an-ounce wine.",
+      "detail": "\ud83c\udf54 $1/oz house wine always available. $7+ food deals Mon\u2013Thu 3\u20135pm. Invented dollar-an-ounce wine.",
       "addr": "101 Portland St",
       "lat": 43.6457,
       "lng": -79.4007
@@ -1245,7 +1244,7 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍔 $6 Moretti, $10 red wine, $12 negronis. Focaccia $5, burger $16, pizza $14. Mon–Wed 5–6pm, Thu–Fri 3–5pm.",
+      "detail": "\ud83c\udf54 $6 Moretti, $10 red wine, $12 negronis. Focaccia $5, burger $16, pizza $14. Mon\u2013Wed 5\u20136pm, Thu\u2013Fri 3\u20135pm.",
       "addr": "501 King St E",
       "lat": 43.6514,
       "lng": -79.363
@@ -1265,7 +1264,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $8 salt-and-pepper pork belly bites, $6 hot dog bao, half-price wine. Honolulu Hour 3–6pm.",
+      "detail": "\ud83c\udf54 $8 salt-and-pepper pork belly bites, $6 hot dog bao, half-price wine. Honolulu Hour 3\u20136pm.",
       "addr": "427 Wellington St W",
       "lat": 43.6455,
       "lng": -79.4
@@ -1283,7 +1282,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $6 baked jerk wings, $6 fried plantains, rum punch from $12. Island Time HH 3–6pm.",
+      "detail": "\ud83c\udf54 $6 baked jerk wings, $6 fried plantains, rum punch from $12. Island Time HH 3\u20136pm.",
       "addr": "104 Portland St",
       "lat": 43.6455,
       "lng": -79.4013
@@ -1301,7 +1300,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍔 Half-price pizza + $7 bar rail all week. King West pizza bar.",
+      "detail": "\ud83c\udf54 Half-price pizza + $7 bar rail all week. King West pizza bar.",
       "addr": "487 Adelaide St W",
       "lat": 43.6461,
       "lng": -79.4025
@@ -1319,13 +1318,13 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $7 margaritas, $6 Modelo, half-price guac & queso, $5 tacos 3–6pm.",
+      "detail": "\ud83c\udf54 $7 margaritas, $6 Modelo, half-price guac & queso, $5 tacos 3\u20136pm.",
       "addr": "18 Tank House Ln",
       "lat": 43.6503,
       "lng": -79.3591
     },
     {
-      "name": "Añejo (Food)",
+      "name": "A\u00f1ejo (Food)",
       "hood": "King West",
       "type": "foodhh",
       "days": [
@@ -1339,7 +1338,7 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍔 $4 classic tacos + $7 margaritas 3–5pm & 10pm–midnight. Best deal in the city.",
+      "detail": "\ud83c\udf54 $4 classic tacos + $7 margaritas 3\u20135pm & 10pm\u2013midnight. Best deal in the city.",
       "addr": "466 King St W",
       "lat": 43.6458,
       "lng": -79.399
@@ -1357,7 +1356,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍔 Half-price tacos, $8 cocktails, $6 beer & wine 4–6pm. Rooftop patio in season.",
+      "detail": "\ud83c\udf54 Half-price tacos, $8 cocktails, $6 beer & wine 4\u20136pm. Rooftop patio in season.",
       "addr": "485 King St W",
       "lat": 43.645,
       "lng": -79.4022
@@ -1377,7 +1376,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 HH eats from $5. Beer salt fries $5, Cabo fish taco $6, pizza $16. 3–6pm daily.",
+      "detail": "\ud83c\udf54 HH eats from $5. Beer salt fries $5, Cabo fish taco $6, pizza $16. 3\u20136pm daily.",
       "addr": "1 Adelaide St E",
       "lat": 43.6493,
       "lng": -79.3766
@@ -1397,7 +1396,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 Half-price margaritas + comfort food deals. Wings, burgers & truffle fries all on special.",
+      "detail": "\ud83c\udf54 Half-price margaritas + comfort food deals. Wings, burgers & truffle fries all on special.",
       "addr": "184 John St",
       "lat": 43.6487,
       "lng": -79.3902
@@ -1417,7 +1416,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍔 Cocktails + food from $7 during HH. 4–6pm & 10pm–close.",
+      "detail": "\ud83c\udf54 Cocktails + food from $7 during HH. 4\u20136pm & 10pm\u2013close.",
       "addr": "1 King St E",
       "lat": 43.649,
       "lng": -79.374
@@ -1437,13 +1436,13 @@
       ],
       "start": 16.5,
       "end": 18.5,
-      "detail": "🍔 Happy Jam snacks & drinks from $7 daily 4:30–6:30pm. Dutch-Indonesian food bar.",
+      "detail": "\ud83c\udf54 Happy Jam snacks & drinks from $7 daily 4:30\u20136:30pm. Dutch-Indonesian food bar.",
       "addr": "628 King St W",
       "lat": 43.6443,
       "lng": -79.4111
     },
     {
-      "name": "Waterworks — Tantxo",
+      "name": "Waterworks \u2014 Tantxo",
       "hood": "King West",
       "type": "foodhh",
       "days": [
@@ -1451,13 +1450,13 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 $20 steak frites every Monday. Argentinian steak house in the Waterworks Food Hall.",
+      "detail": "\ud83c\udf54 $20 steak frites every Monday. Argentinian steak house in the Waterworks Food Hall.",
       "addr": "505 Richmond St W",
       "lat": 43.6462,
       "lng": -79.4067
     },
     {
-      "name": "Waterworks — Grape Witches",
+      "name": "Waterworks \u2014 Grape Witches",
       "hood": "King West",
       "type": "foodhh",
       "days": [
@@ -1469,13 +1468,13 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $12 rotating wine glasses + 20% off snacks weekdays 3–6pm. Natural wine in an Architectural Digest space.",
+      "detail": "\ud83c\udf54 $12 rotating wine glasses + 20% off snacks weekdays 3\u20136pm. Natural wine in an Architectural Digest space.",
       "addr": "505 Richmond St W",
       "lat": 43.6462,
       "lng": -79.4067
     },
     {
-      "name": "Waterworks — Central Bar",
+      "name": "Waterworks \u2014 Central Bar",
       "hood": "King West",
       "type": "foodhh",
       "days": [
@@ -1489,7 +1488,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $6 local beer, $10 cocktails 3–6pm daily.",
+      "detail": "\ud83c\udf54 $6 local beer, $10 cocktails 3\u20136pm daily.",
       "addr": "505 Richmond St W",
       "lat": 43.6462,
       "lng": -79.4067
@@ -1503,7 +1502,7 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 Half-price côte de boeuf Tuesdays — 24oz AAA ribeye with fries & salad for ~$59. Book ahead.",
+      "detail": "\ud83c\udf54 Half-price c\u00f4te de boeuf Tuesdays \u2014 24oz AAA ribeye with fries & salad for ~$59. Book ahead.",
       "addr": "147 Spadina Ave",
       "lat": 43.6481,
       "lng": -79.3966
@@ -1523,7 +1522,7 @@
       ],
       "start": 17,
       "end": 20,
-      "detail": "🍔 $11 cocktails (Smokin' Manhattan, Tokyo Breeze), BBQ comfort food deals. Sun–Wed 8pm–close, Thu–Sat 9pm–close.",
+      "detail": "\ud83c\udf54 $11 cocktails (Smokin' Manhattan, Tokyo Breeze), BBQ comfort food deals. Sun\u2013Wed 8pm\u2013close, Thu\u2013Sat 9pm\u2013close.",
       "addr": "99 Queen St E",
       "lat": 43.6513,
       "lng": -79.374
@@ -1538,7 +1537,7 @@
       ],
       "start": 20,
       "end": 26,
-      "detail": "🍔 Pachanga Hour: each drink order unlocks a free snack — starts with marinated olives, escalates to duck wings and rib-eye bites. Thu–Fri 8pm–close.",
+      "detail": "\ud83c\udf54 Pachanga Hour: each drink order unlocks a free snack \u2014 starts with marinated olives, escalates to duck wings and rib-eye bites. Thu\u2013Fri 8pm\u2013close.",
       "addr": "585 College St",
       "lat": 43.6544,
       "lng": -79.4093
@@ -1556,7 +1555,7 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍔 $10 wine glasses, $6 lagers, $12 batched cocktails + food deals Tue–Sat 3–5pm.",
+      "detail": "\ud83c\udf54 $10 wine glasses, $6 lagers, $12 batched cocktails + food deals Tue\u2013Sat 3\u20135pm.",
       "addr": "978 Queen St E",
       "lat": 43.6596,
       "lng": -79.3418
@@ -1570,7 +1569,7 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 $30 prix fixe menu Tuesdays. Retail Sunday — sip any bottle at takeaway prices.",
+      "detail": "\ud83c\udf54 $30 prix fixe menu Tuesdays. Retail Sunday \u2014 sip any bottle at takeaway prices.",
       "addr": "926 Queen St E",
       "lat": 43.6597,
       "lng": -79.3435
@@ -1584,7 +1583,7 @@
       ],
       "start": 18,
       "end": 22,
-      "detail": "🍔 Family-style prix fixe $40pp Tuesdays — roast chicken, kale salad, potato pavé. Wine shop + restaurant.",
+      "detail": "\ud83c\udf54 Family-style prix fixe $40pp Tuesdays \u2014 roast chicken, kale salad, potato pav\u00e9. Wine shop + restaurant.",
       "addr": "600 Queen St W",
       "lat": 43.6485,
       "lng": -79.4091
@@ -1602,7 +1601,7 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍔 $7 Chang beer, $8 cocktails, $9 bar snacks 5–6pm. Best Thai in the Financial District.",
+      "detail": "\ud83c\udf54 $7 Chang beer, $8 cocktails, $9 bar snacks 5\u20136pm. Best Thai in the Financial District.",
       "addr": "18 Duncan St",
       "lat": 43.6479,
       "lng": -79.3884
@@ -1620,7 +1619,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍔 $6 draft, $7 wine, $9 apps Mon–Fri 4–6pm.",
+      "detail": "\ud83c\udf54 $6 draft, $7 wine, $9 apps Mon\u2013Fri 4\u20136pm.",
       "addr": "147 King St W",
       "lat": 43.6479,
       "lng": -79.3838
@@ -1640,7 +1639,7 @@
       ],
       "start": 14,
       "end": 17,
-      "detail": "🍔 Japanese-inspired drinks & mini eats all under $12. 2–5pm daily + late nights.",
+      "detail": "\ud83c\udf54 Japanese-inspired drinks & mini eats all under $12. 2\u20135pm daily + late nights.",
       "addr": "225 King St W",
       "lat": 43.6475,
       "lng": -79.387
@@ -1658,7 +1657,7 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍔 2-for-1 all drinks! $5 edamame, $9 salmon tostada, $14 nikkei gyoza. Nikkei cuisine.",
+      "detail": "\ud83c\udf54 2-for-1 all drinks! $5 edamame, $9 salmon tostada, $14 nikkei gyoza. Nikkei cuisine.",
       "addr": "161 Bay St",
       "lat": 43.648,
       "lng": -79.38
@@ -1676,7 +1675,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍔 $2 oysters w/ yuzu mignonette, $12 fried chicken bucket, $10 cocktails Sun–Thu 5–7pm.",
+      "detail": "\ud83c\udf54 $2 oysters w/ yuzu mignonette, $12 fried chicken bucket, $10 cocktails Sun\u2013Thu 5\u20137pm.",
       "addr": "480 King St W",
       "lat": 43.6456,
       "lng": -79.4001
@@ -1694,7 +1693,7 @@
       ],
       "start": 14,
       "end": 17,
-      "detail": "🍔 $7 wine, $7 beer + food Mon–Fri 2–5pm.",
+      "detail": "\ud83c\udf54 $7 wine, $7 beer + food Mon\u2013Fri 2\u20135pm.",
       "addr": "330 Bay St",
       "lat": 43.6499,
       "lng": -79.381
@@ -1712,7 +1711,7 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍔 $8 Aperol spritz, $7 wine, $10 pizza slices 5–6pm weekdays.",
+      "detail": "\ud83c\udf54 $8 Aperol spritz, $7 wine, $10 pizza slices 5\u20136pm weekdays.",
       "addr": "849 Dundas St W",
       "lat": 43.651,
       "lng": -79.4155
@@ -1730,7 +1729,7 @@
       ],
       "start": 12,
       "end": 16,
-      "detail": "🍔 $10–$12 Indian small plates & drink specials weekdays noon–4pm. Local fave comfort food.",
+      "detail": "\ud83c\udf54 $10\u2013$12 Indian small plates & drink specials weekdays noon\u20134pm. Local fave comfort food.",
       "addr": "503 College St",
       "lat": 43.6554,
       "lng": -79.4072
@@ -1748,7 +1747,7 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $6 pintxos, Spanish bar snacks & bites 3–6pm weekdays. Best tapas in Toronto.",
+      "detail": "\ud83c\udf54 $6 pintxos, Spanish bar snacks & bites 3\u20136pm weekdays. Best tapas in Toronto.",
       "addr": "505 College St",
       "lat": 43.6545,
       "lng": -79.4198
@@ -1766,7 +1765,7 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "$6 drafts, $8 house wine, $10 bar bites. HH Mon–Fri 5–7pm. Spicy sake maki hand roll special.",
+      "detail": "$6 drafts, $8 house wine, $10 bar bites. HH Mon\u2013Fri 5\u20137pm. Spicy sake maki hand roll special.",
       "addr": "1150 Queen St W",
       "lat": 43.643,
       "lng": -79.4282
@@ -1798,7 +1797,7 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "General trivia — 6 rounds, free popcorn, $50 gift card for 1st. $5 pints",
+      "detail": "General trivia \u2014 6 rounds, free popcorn, $50 gift card for 1st. $5 pints",
       "addr": "600 Bloor St W",
       "lat": 43.6653,
       "lng": -79.4115
@@ -1854,7 +1853,7 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "Monday Night Trivia — Name That Tune rounds, prizes. Free",
+      "detail": "Monday Night Trivia \u2014 Name That Tune rounds, prizes. Free",
       "addr": "14 Baldwin St",
       "lat": 43.6596,
       "lng": -79.3946
@@ -1868,7 +1867,7 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "Monday trivia 7–9:30pm. No fee. Get there early",
+      "detail": "Monday trivia 7\u20139:30pm. No fee. Get there early",
       "addr": "2 Harbord St",
       "lat": 43.6619,
       "lng": -79.3984
@@ -1883,7 +1882,7 @@
       ],
       "start": 20,
       "end": 22,
-      "detail": "LGBTQ+ trivia nights Tue & Wed — themed rounds, bingo too",
+      "detail": "LGBTQ+ trivia nights Tue & Wed \u2014 themed rounds, bingo too",
       "addr": "489 Church St",
       "lat": 43.665,
       "lng": -79.3822
@@ -1897,7 +1896,7 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "Brass Facts trivia Sundays — karaoke follows at 10pm",
+      "detail": "Brass Facts trivia Sundays \u2014 karaoke follows at 10pm",
       "addr": "61 Ossington Ave",
       "lat": 43.6476,
       "lng": -79.4233
@@ -1926,7 +1925,7 @@
       ],
       "start": 20,
       "end": 22,
-      "detail": "Trivia Tue & Wed — so popular they added a second night",
+      "detail": "Trivia Tue & Wed \u2014 so popular they added a second night",
       "addr": "177 Harbord St",
       "lat": 43.6614,
       "lng": -79.4132
@@ -1940,7 +1939,7 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "Brass Facts Trivia — geography, music, sports, history",
+      "detail": "Brass Facts Trivia \u2014 geography, music, sports, history",
       "addr": "36 Wagstaff Dr",
       "lat": 43.6632,
       "lng": -79.3264
@@ -1968,7 +1967,7 @@
       ],
       "start": 20,
       "end": 23,
-      "detail": "Open mic — free entry, sign up from 8pm. Rotating acoustic sets",
+      "detail": "Open mic \u2014 free entry, sign up from 8pm. Rotating acoustic sets",
       "addr": "1149 Dundas St W",
       "lat": 43.6531,
       "lng": -79.4353
@@ -2011,7 +2010,7 @@
       ],
       "start": 20,
       "end": 23,
-      "detail": "Open mic — all genres welcome. Free entry. 10 slots per night",
+      "detail": "Open mic \u2014 all genres welcome. Free entry. 10 slots per night",
       "addr": "1197 Dundas St W",
       "lat": 43.6519,
       "lng": -79.4387
@@ -2025,7 +2024,7 @@
       ],
       "start": 21,
       "end": 24,
-      "detail": "Open mic Wed — rock/punk/experimental. $5 cover",
+      "detail": "Open mic Wed \u2014 rock/punk/experimental. $5 cover",
       "addr": "542 Queen St W",
       "lat": 43.6487,
       "lng": -79.4169
@@ -2054,7 +2053,7 @@
       ],
       "start": 20,
       "end": 23,
-      "detail": "Open mic nights — max 50 guests. Back alley entrance",
+      "detail": "Open mic nights \u2014 max 50 guests. Back alley entrance",
       "addr": "381 King St W",
       "lat": 43.6468,
       "lng": -79.3948
@@ -2070,7 +2069,7 @@
       ],
       "start": 20,
       "end": 23,
-      "detail": "150+ shows/month — stand-up, sketch, alternative. $15–20",
+      "detail": "150+ shows/month \u2014 stand-up, sketch, alternative. $15\u201320",
       "addr": "945 Bloor St W",
       "lat": 43.6631,
       "lng": -79.4285
@@ -2167,7 +2166,7 @@
       ],
       "start": 18,
       "end": 26,
-      "detail": "Premier private karaoke rooms — English, Korean, Chinese, Japanese",
+      "detail": "Premier private karaoke rooms \u2014 English, Korean, Chinese, Japanese",
       "addr": "360 Yonge St",
       "lat": 43.6593,
       "lng": -79.3797
@@ -2201,7 +2200,7 @@
       ],
       "start": 19,
       "end": 26,
-      "detail": "Private rooms, 50,000+ songs. $12–18/person/hr",
+      "detail": "Private rooms, 50,000+ songs. $12\u201318/person/hr",
       "addr": "99 Spadina Ave",
       "lat": 43.6504,
       "lng": -79.3962
@@ -2248,7 +2247,7 @@
       ],
       "start": 22,
       "end": 26,
-      "detail": "Host Steve-Oh. Church Village karaoke. Wed–Sat 10pm–2am",
+      "detail": "Host Steve-Oh. Church Village karaoke. Wed\u2013Sat 10pm\u20132am",
       "addr": "477 Church St",
       "lat": 43.6657,
       "lng": -79.382
@@ -2308,7 +2307,7 @@
       ],
       "start": 18,
       "end": 26,
-      "detail": "Koreatown staple — 300,000+ songs",
+      "detail": "Koreatown staple \u2014 300,000+ songs",
       "addr": "691 Bloor St W",
       "lat": 43.6644,
       "lng": -79.4118
@@ -2386,7 +2385,7 @@
       ],
       "start": 22,
       "end": 26,
-      "detail": "DJ nights Thu–Sat. Latin & Afrobeats. $10 cover after 10pm",
+      "detail": "DJ nights Thu\u2013Sat. Latin & Afrobeats. $10 cover after 10pm",
       "addr": "485 King St W",
       "lat": 43.645,
       "lng": -79.4022
@@ -2433,7 +2432,7 @@
       ],
       "start": 19,
       "end": 23,
-      "detail": "Premier Toronto jazz venue — live jazz nightly from 7pm",
+      "detail": "Premier Toronto jazz venue \u2014 live jazz nightly from 7pm",
       "addr": "251 Victoria St",
       "lat": 43.656,
       "lng": -79.3773
@@ -2509,7 +2508,7 @@
       ],
       "start": 20,
       "end": 24,
-      "detail": "Legendary mid-size venue — indie, rock, metal",
+      "detail": "Legendary mid-size venue \u2014 indie, rock, metal",
       "addr": "529 Bloor St W",
       "lat": 43.6647,
       "lng": -79.4094
@@ -2531,5 +2530,6 @@
       "lat": 43.6478,
       "lng": -79.4218
     }
-  ]
+  ],
+  "total": 144
 }
