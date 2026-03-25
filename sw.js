@@ -1,4 +1,4 @@
-const CACHE = "tonight-to-v2";
+const CACHE = "tonight-to-v4";
 const ASSETS = [
   "/tonight-to/",
   "/tonight-to/index.html",
@@ -25,6 +25,11 @@ self.addEventListener("activate", e => {
 });
 
 self.addEventListener("fetch", e => {
+  // Never cache venues.json — always fetch fresh from network
+  if (e.request.url.includes("venues.json")) {
+    e.respondWith(fetch(e.request).catch(() => new Response('{"venues":[]}', {headers:{'Content-Type':'application/json'}})));
+    return;
+  }
   e.respondWith(
     caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => caches.match("/tonight-to/index.html")))
   );

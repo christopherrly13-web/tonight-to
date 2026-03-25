@@ -856,7 +856,7 @@ async function loadVenues(){
   // Load venues.json and Eventbrite in parallel
   const [venuesResult, ebEvents] = await Promise.allSettled([
     (async()=>{
-      const cacheBust=Math.floor(Date.now()/3600000);
+      const cacheBust=Math.floor(Date.now()/60000);
       const url='https://christopherrly13-web.github.io/tonight-to/venues.json?v='+cacheBust;
       const res=await fetch(url);
       if(!res.ok) throw new Error('HTTP '+res.status);
