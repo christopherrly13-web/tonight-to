@@ -1410,6 +1410,10 @@ function showView(v, el){
   document.querySelectorAll(".nb").forEach(x=>x.classList.remove("active"));
   if(el) el.classList.add("active");
   currentView=v;
+
+  // Update URL hash without triggering a page reload
+  history.replaceState(null, '', v==='map' ? '#map' : '#list');
+
   if(v==="list"){
     document.getElementById("list-view").classList.add("active");
     document.getElementById("nb-list").classList.add("active");
@@ -1439,6 +1443,14 @@ function showView(v, el){
     setTimeout(initMap, 100);
   }
 }
+
+// Init view from URL hash on load
+(function initFromHash(){
+  if(window.location.hash === '#map'){
+    showView('map', document.getElementById('nb-map'));
+    document.getElementById('nb-list').classList.remove('active');
+  }
+})();
 
 function setNavFilter(t){
   activeType=t==="event"?"all":"happyhour";
