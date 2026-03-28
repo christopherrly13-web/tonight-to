@@ -15,9 +15,7 @@ const USER_AGENT = 'TonightTO/1.0 (https://tonightto.ca/)';
 
 if (!ANTHROPIC_KEY) { console.error('Missing ANTHROPIC_API_KEY'); process.exit(1); }
 
-// ── SEARCHES ──────────────────────────────────────────────────────────────────
 const SEARCHES = [
-  // BlogTO
   'site:blogto.com Toronto happy hour bars 2026',
   'site:blogto.com Toronto food happy hour deals 2026',
   'site:blogto.com Toronto trivia nights weekly 2026',
@@ -29,25 +27,20 @@ const SEARCHES = [
   'site:blogto.com Toronto open mic nights 2026',
   'site:blogto.com Toronto jazz bars weekly 2026',
   'site:blogto.com Toronto bingo nights bars 2026',
-  // NOW Toronto
   'site:nowtoronto.com Toronto happy hour specials bars 2026',
   'site:nowtoronto.com Toronto trivia comedy karaoke weekly 2026',
   'site:nowtoronto.com Toronto live music jazz bars weekly 2026',
   'site:nowtoronto.com Toronto drag shows bingo nights 2026',
-  // Toronto Life
   'site:torontolife.com best happy hour bars Toronto 2026',
   'site:torontolife.com best trivia nights Toronto bars 2026',
   'site:torontolife.com best karaoke bars Toronto 2026',
   'site:torontolife.com best comedy nights Toronto 2026',
   'site:torontolife.com best jazz bars Toronto 2026',
-  // Streets of Toronto
   'site:streetsoftoronto.com Toronto happy hour bars 2026',
   'site:streetsoftoronto.com Toronto weekly events bars 2026',
-  // Yelp
   'site:yelp.ca happy hour bars Toronto Ontario 2026',
   'site:yelp.ca trivia night bars Toronto Ontario 2026',
   'site:yelp.ca karaoke bars Toronto Ontario 2026',
-  // Neighbourhood specific
   'Toronto Kensington Market bar happy hour weekly 2026',
   'Toronto Leslieville bar happy hour trivia weekly 2026',
   'Toronto Liberty Village bar happy hour weekly 2026',
@@ -58,7 +51,6 @@ const SEARCHES = [
   'Toronto Annex bar trivia karaoke weekly 2026',
   'Toronto Parkdale bar happy hour weekly 2026',
   'Toronto Yorkville bar happy hour weekly 2026',
-  // Event type specific
   'Toronto pub trivia night weekly bar 2026',
   'Toronto karaoke night weekly bar 2026',
   'Toronto drag show weekly bar 2026',
@@ -68,7 +60,6 @@ const SEARCHES = [
   'Toronto comedy night bar weekly 2026',
   'Toronto DJ night bar weekly 2026',
   'Toronto live music bar weekly 2026',
-  // Happy hour specific
   'Toronto best drink happy hour specials bars 2026',
   'Toronto best food happy hour specials bars 2026',
   'Toronto all day happy hour bars 2026',
@@ -91,7 +82,6 @@ Output a JSON array of objects with these fields:
 
 Rules: Toronto only. Recurring weekly events only. Address must have a street number. Return ONLY valid JSON array, no markdown.`;
 
-// ── GEOCODE via Nominatim ─────────────────────────────────────────────────────
 async function geocode(name, addr) {
   const attempts = [
     new URLSearchParams({ format: 'json', limit: '1', countrycodes: 'ca', viewbox: '-79.7,43.5,-79.1,43.9', bounded: '1', street: addr, city: 'Toronto', country: 'Canada' }),
@@ -114,48 +104,58 @@ async function geocode(name, addr) {
   return null;
 }
 
-// ── CLAUDE API CALL ───────────────────────────────────────────────────────────
 async function callClaude(query) {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_KEY,
-      'anthropic-version': '2023-06-01',
-      'anthropic-beta': 'web-search-2025-03-05',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2000,
-      system: SYSTEM_PROMPT,
-      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-      messages: [{ role: 'user', content: 'Search for and list Toronto venues: ' + query + '\n\nReturn ONLY a JSON array of venue objects.' }],
-    }),
-  });
+  const delays = [15000, 30000, 60000];
+  for (let attempt = 0; attempt <= delays.length; attempt++) {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-beta': 'web-search-2025-03-05',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 2000,
+        system: SYSTEM_PROMPT,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{ role: 'user', content: 'Search for and list Toronto venues: ' + query + '\n\nReturn ONLY a JSON array of venue objects.' }],
+      }),
+    });
 
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error('Claude API ' + response.status + ': ' + err.slice(0, 200));
+    if (response.status === 429) {
+      if (attempt < delays.length) {
+        console.log('  Rate limited - waiting ' + (delays[attempt]/1000) + 's before retry...');
+        await new Promise(r => setTimeout(r, delays[attempt]));
+        continue;
+      }
+      throw new Error('Rate limit exceeded after retries');
+    }
+
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error('Claude API ' + response.status + ': ' + err.slice(0, 200));
+    }
+
+    const data = await response.json();
+    const textBlock = data.content.find(b => b.type === 'text');
+    if (!textBlock) return [];
+
+    try {
+      const cleaned = textBlock.text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      const match = cleaned.match(/\[[\s\S]*\]/);
+      if (!match) return [];
+      const parsed = JSON.parse(match[0]);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      console.warn('  Could not parse response: ' + e.message);
+      return [];
+    }
   }
-
-  const data = await response.json();
-  const textBlock = data.content.find(b => b.type === 'text');
-  if (!textBlock) return [];
-
-  try {
-    const cleaned = textBlock.text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    // Extract JSON array even if there's surrounding text
-    const match = cleaned.match(/\[[\s\S]*\]/);
-    if (!match) return [];
-    const parsed = JSON.parse(match[0]);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (e) {
-    console.warn('  Could not parse response: ' + e.message);
-    return [];
-  }
+  return [];
 }
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
 const VALID_TYPES = new Set(['drinkhh','foodhh','happyhour','trivia','karaoke','livemusic','jazz','comedy','drag','dj','bingo','openmic']);
 const VALID_DAYS = new Set(['mon','tue','wed','thu','fri','sat','sun']);
 
@@ -179,7 +179,7 @@ function isValid(v) {
     v.days.length > 0 &&
     v.detail.length > 5 &&
     v.addr.length > 3 &&
-    v.addr.match(/\d/); // address must contain a number
+    v.addr.match(/\d/);
 }
 
 function deduplicate(existing, incoming) {
@@ -192,7 +192,6 @@ function deduplicate(existing, incoming) {
   });
 }
 
-// ── MAIN ──────────────────────────────────────────────────────────────────────
 async function main() {
   console.log('Tonight.TO Weekly Scraper v2');
   console.log('============================');
@@ -216,23 +215,21 @@ async function main() {
       console.log('  Found ' + normalized.length + ' valid venues');
       normalized.forEach(v => console.log('    - ' + v.name + ' (' + v.addr + ')'));
       allFound.push(...normalized);
-      await new Promise(r => setTimeout(r, 8000)); // 8s between calls to stay under rate limit
+      await new Promise(r => setTimeout(r, 15000));
     } catch (e) {
       console.error('  Error: ' + e.message);
       await new Promise(r => setTimeout(r, 15000));
     }
   }
 
-  console.log('\nTotal found across all searches: ' + allFound.length);
+  console.log('\nTotal found: ' + allFound.length);
   const newVenues = deduplicate(existing, allFound);
-  console.log('New venues (not already listed): ' + newVenues.length);
+  console.log('New venues: ' + newVenues.length);
 
-  // Geocode all new venues
   console.log('\nGeocoding new venues...');
   for (let i = 0; i < newVenues.length; i++) {
     const v = newVenues[i];
     process.stdout.write('[' + (i+1) + '/' + newVenues.length + '] ' + v.name + '... ');
-    // Skip if already has valid Toronto coords
     if (v.lat > 43.5 && v.lat < 43.9 && v.lng > -79.7 && v.lng < -79.1) {
       console.log('coords ok');
       continue;
@@ -243,7 +240,6 @@ async function main() {
       v.lng = coords.lng;
       console.log('OK (' + coords.lat + ', ' + coords.lng + ')');
     } else {
-      // Use approximate Toronto centre as fallback
       v.lat = 43.6532;
       v.lng = -79.3832;
       console.log('not found - using Toronto centre');
@@ -251,7 +247,7 @@ async function main() {
     await new Promise(r => setTimeout(r, 1100));
   }
 
-  newVenues.forEach(v => console.log('  + ' + v.name + ' (' + v.hood + ') — ' + v.type));
+  newVenues.forEach(v => console.log('  + ' + v.name + ' (' + v.hood + ') - ' + v.type));
 
   const merged = [...existing, ...newVenues];
   writeFileSync(VENUES_PATH, JSON.stringify({
@@ -261,7 +257,7 @@ async function main() {
     venues: merged,
   }, null, 2));
 
-  console.log('\nDone: ' + existing.length + ' existing + ' + newVenues.length + ' new = ' + merged.length + ' total venues');
+  console.log('\nDone: ' + existing.length + ' existing + ' + newVenues.length + ' new = ' + merged.length + ' total');
 }
 
 main().catch(e => { console.error('Fatal:', e); process.exit(1); });
