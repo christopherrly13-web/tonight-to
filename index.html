@@ -1617,7 +1617,9 @@ function render(){
         ${showNext?nextBadge:`<span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>`}
       </div>
       ${v.url
-        ?`<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" style="border-color:rgba(255,102,0,.3);color:#ff6600">🎟 Get tickets on Eventbrite</a>`
+        ? v.source==='ticketmaster'
+          ? `<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" style="border-color:rgba(0,114,206,.3);color:#0072ce">🎟 Get tickets on Ticketmaster</a>`
+          : `<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" style="border-color:rgba(255,102,0,.3);color:#ff6600">🎟 Get tickets on Eventbrite</a>`
         :`<a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           View on Google Maps
