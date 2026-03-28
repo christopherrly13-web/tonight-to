@@ -19,7 +19,7 @@ jobs:
           node-version: '24'
 
       - name: Run address fixer
-        run: node scripts/fix-addresses.js
+        run: node scripts/fix-addresses.cjs
 
       - name: Commit corrected venues.json
         run: |
