@@ -31,4 +31,5 @@ jobs:
           git config user.email "bot@tonightto.ca"
           git add venues.json
           git diff --staged --quiet || git commit -m "Weekly venue update $(date +'%Y-%m-%d')"
+          git pull --rebase origin main
           git push
