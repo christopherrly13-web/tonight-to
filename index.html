@@ -2120,13 +2120,11 @@ if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(
 
 // Auto-set time to Now on load
 (function setNowTime(){
-  const now=new Date();
-  const t=Math.round((now.getHours()+now.getMinutes()/60)*2)/2;
   const s1=document.getElementById("time-slider");
   const s2=document.getElementById("map-time-slider");
-  if(s1){s1.value=t;}
-  if(s2){s2.value=t;}
-  // Leave Now checkbox unchecked so all today's venues show, not just current-moment ones
+  // Default to Any (0) so all venues show — user can manually filter by time or check Now
+  if(s1){s1.value=0;}
+  if(s2){s2.value=0;}
   updateTimeDisplay();
   if(typeof updateMapTimeDisplay==="function") updateMapTimeDisplay();
 })();
