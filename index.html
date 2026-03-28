@@ -177,7 +177,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .time-control{padding:0 20px 6px;flex-shrink:0}
 .time-row{display:flex;align-items:center;gap:6px}
 .time-row label{font-size:12px;color:var(--accent);white-space:nowrap;flex-shrink:0;font-weight:600}
-.time-row input[type=range]{flex:1;accent-color:var(--accent)}
+.time-row input[type=range]{flex:1;accent-color:var(--accent);touch-action:pan-x;cursor:pointer}
 .time-display{font-size:12px;font-weight:600;color:var(--accent);min-width:28px;text-align:left;flex-shrink:0}
 .time-display.active{font-size:12px;font-weight:600;color:var(--accent)}
 .locate-btn{flex-shrink:0;padding:7px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:"DM Sans",sans-serif;transition:all .15s}
@@ -774,11 +774,10 @@ html,body{overscroll-behavior:none}
   <div class="map-filters-wrap">
     <div class="map-filters" id="map-type-pills">
       <div class="pill active" data-t="all" onclick="setMapType(this)">All</div>
-      <div class="pill" data-t="happyhour" onclick="setMapType(this)">Happy hour</div>
-      <div class="pill" data-t="drinkhh" onclick="setMapType(this)">Drink HH</div>
-      <div class="pill" data-t="foodhh" onclick="setMapType(this)">Food HH</div>
-      <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
+      <div class="pill" data-t="drinkhh" onclick="setMapType(this)">🍸 Drink HH</div>
+      <div class="pill" data-t="foodhh" onclick="setMapType(this)">🍔 Food HH</div>
       <div class="pill" data-t="music" onclick="setMapType(this)">🎵 Music</div>
+      <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
       <div class="pill" data-t="comedy" onclick="setMapType(this)">Comedy</div>
       <div class="pill" data-t="drag" onclick="setMapType(this)">Drag</div>
       <div class="pill" data-t="bingo" onclick="setMapType(this)">Bingo</div>
@@ -1809,7 +1808,7 @@ function renderMap(){
     }
     if(mapActiveTypes.size>0){
       const match=[...mapActiveTypes].some(t=>
-        t===v.type||(t==="happyhour"&&isHH(v.type))||(t==="music"&&MUSIC_TYPES.has(v.type))
+        t===v.type||(t==="music"&&MUSIC_TYPES.has(v.type))
       );
       if(!match)return false;
     }
