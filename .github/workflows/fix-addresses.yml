@@ -1,0 +1,30 @@
+name: Fix Venue Addresses
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix-addresses:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run address fixer
+        run: node scripts/fix-addresses.js
+
+      - name: Commit corrected venues.json
+        run: |
+          git config user.name "Tonight.TO Bot"
+          git config user.email "bot@tonight.to"
+          git add venues.json
+          git diff --staged --quiet || git commit -m "Fix venue coordinates from OSM $(date +'%Y-%m-%d')"
+          git push
