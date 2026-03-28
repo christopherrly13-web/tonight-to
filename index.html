@@ -1547,43 +1547,6 @@ function render(){
     items.sort((a,b)=>isNow(b)-isNow(a));
   }
 
-  // Auto-advance: if time filter is active and nothing matches,
-  // find the next upcoming event on the selected days and jump to it
-  const timeFilter=getTimeFilter();
-  const nowChk=document.getElementById("now-chk");
-  if(!isSearchActive && items.length===0 && timeFilter!==null && activeType!=='favs'){
-    // Get all venues for today's selected days (ignoring time filter)
-    const candidatesAll=ALL.filter(v=>v.days.some(d=>selectedDays.has(d)));
-    // Find the soonest start time that is after the current slider value
-    let nextTime=null;
-    candidatesAll.forEach(v=>{
-      const s=v.start;
-      if(s>timeFilter&&(nextTime===null||s<nextTime)) nextTime=s;
-    });
-    // Also check midnight-wrap (next day early hours)
-    if(nextTime===null){
-      candidatesAll.forEach(v=>{
-        if(nextTime===null||v.start<nextTime) nextTime=v.start;
-      });
-    }
-    if(nextTime!==null){
-      // Snap slider to next event start, uncheck Now
-      const slider=document.getElementById("time-slider");
-      if(slider){
-        slider.value=nextTime;
-        if(nowChk) nowChk.checked=false;
-        updateTimeDisplay();
-      }
-      // Re-run filter with new time
-      items=getFiltered(activeType);
-      if(userLat){
-        items.sort((a,b)=>{const ld=isNow(b)-isNow(a);if(ld!==0)return ld;return distKm(a)-distKm(b);});
-      } else {
-        items.sort((a,b)=>isNow(b)-isNow(a));
-      }
-    }
-  }
-
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
 
   const c=document.getElementById("cards");
@@ -2161,12 +2124,9 @@ if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(
   const t=Math.round((now.getHours()+now.getMinutes()/60)*2)/2;
   const s1=document.getElementById("time-slider");
   const s2=document.getElementById("map-time-slider");
-  const chk=document.getElementById("now-chk");
-  const mapChk=document.getElementById("map-now-chk");
   if(s1){s1.value=t;}
   if(s2){s2.value=t;}
-  if(chk){chk.checked=true;}
-  if(mapChk){mapChk.checked=true;}
+  // Leave Now checkbox unchecked so all today's venues show, not just current-moment ones
   updateTimeDisplay();
   if(typeof updateMapTimeDisplay==="function") updateMapTimeDisplay();
 })();
