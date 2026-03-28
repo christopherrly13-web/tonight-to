@@ -1,6 +1,7 @@
 /**
- * Tonight.TO — Weekly Venue Scraper
- * Uses Claude AI with web search to find Toronto happy hours and events.
+ * Tonight.TO — Weekly Venue Scraper (v2)
+ * Uses Claude AI + web search to find Toronto happy hours and events.
+ * Broader search coverage, 2026 queries, geocodes new venues via Nominatim.
  */
 
 import { readFileSync, writeFileSync, existsSync } from 'fs';
@@ -9,56 +10,116 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const VENUES_PATH = resolve(__dirname, '..', 'venues.json');
-
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
-if (!ANTHROPIC_KEY) {
-  console.error('Missing ANTHROPIC_API_KEY environment variable');
-  process.exit(1);
-}
+const USER_AGENT = 'TonightTO/1.0 (https://tonightto.ca/)';
 
-// ── SEARCHES ─────────────────────────────────────────────────────────────────
+if (!ANTHROPIC_KEY) { console.error('Missing ANTHROPIC_API_KEY'); process.exit(1); }
 
+// ── SEARCHES ──────────────────────────────────────────────────────────────────
 const SEARCHES = [
-  'site:blogto.com Toronto happy hour bars 2025',
-  'site:blogto.com Toronto food happy hour deals 2025',
-  'site:blogto.com Toronto trivia nights weekly 2025',
-  'site:blogto.com Toronto karaoke bars 2025',
-  'site:blogto.com Toronto live music venues weekly 2025',
-  'site:blogto.com Toronto comedy nights 2025',
-  'site:blogto.com Toronto drag shows 2025',
-  'site:blogto.com Toronto DJ nights bars 2025',
-  'site:blogto.com Toronto open mic nights 2025',
-  'site:blogto.com Toronto bingo nights 2025',
-  'site:nowtoronto.com Toronto happy hour bars 2025',
-  'site:nowtoronto.com Toronto weekly events bars 2025',
-  'site:nowtoronto.com Toronto trivia comedy drag shows 2025',
-  'site:nowtoronto.com Toronto live music jazz venues 2025',
-  'site:nowtoronto.com Toronto karaoke open mic nights 2025',
+  // BlogTO
+  'site:blogto.com Toronto happy hour bars 2026',
+  'site:blogto.com Toronto food happy hour deals 2026',
+  'site:blogto.com Toronto trivia nights weekly 2026',
+  'site:blogto.com Toronto karaoke bars 2026',
+  'site:blogto.com Toronto live music venues weekly 2026',
+  'site:blogto.com Toronto comedy nights bars 2026',
+  'site:blogto.com Toronto drag shows bars 2026',
+  'site:blogto.com Toronto DJ nights bars 2026',
+  'site:blogto.com Toronto open mic nights 2026',
+  'site:blogto.com Toronto jazz bars weekly 2026',
+  'site:blogto.com Toronto bingo nights bars 2026',
+  // NOW Toronto
+  'site:nowtoronto.com Toronto happy hour specials bars 2026',
+  'site:nowtoronto.com Toronto trivia comedy karaoke weekly 2026',
+  'site:nowtoronto.com Toronto live music jazz bars weekly 2026',
+  'site:nowtoronto.com Toronto drag shows bingo nights 2026',
+  // Toronto Life
+  'site:torontolife.com best happy hour bars Toronto 2026',
+  'site:torontolife.com best trivia nights Toronto bars 2026',
+  'site:torontolife.com best karaoke bars Toronto 2026',
+  'site:torontolife.com best comedy nights Toronto 2026',
+  'site:torontolife.com best jazz bars Toronto 2026',
+  // Streets of Toronto
+  'site:streetsoftoronto.com Toronto happy hour bars 2026',
+  'site:streetsoftoronto.com Toronto weekly events bars 2026',
+  // Yelp
+  'site:yelp.ca happy hour bars Toronto Ontario 2026',
+  'site:yelp.ca trivia night bars Toronto Ontario 2026',
+  'site:yelp.ca karaoke bars Toronto Ontario 2026',
+  // Neighbourhood specific
+  'Toronto Kensington Market bar happy hour weekly 2026',
+  'Toronto Leslieville bar happy hour trivia weekly 2026',
+  'Toronto Liberty Village bar happy hour weekly 2026',
+  'Toronto Danforth bar happy hour trivia weekly 2026',
+  'Toronto Ossington bar happy hour weekly 2026',
+  'Toronto King West bar happy hour weekly 2026',
+  'Toronto Queen West bar happy hour weekly 2026',
+  'Toronto Annex bar trivia karaoke weekly 2026',
+  'Toronto Parkdale bar happy hour weekly 2026',
+  'Toronto Yorkville bar happy hour weekly 2026',
+  // Event type specific
+  'Toronto pub trivia night weekly bar 2026',
+  'Toronto karaoke night weekly bar 2026',
+  'Toronto drag show weekly bar 2026',
+  'Toronto jazz night weekly bar 2026',
+  'Toronto open mic night weekly bar 2026',
+  'Toronto bingo night bar weekly 2026',
+  'Toronto comedy night bar weekly 2026',
+  'Toronto DJ night bar weekly 2026',
+  'Toronto live music bar weekly 2026',
+  // Happy hour specific
+  'Toronto best drink happy hour specials bars 2026',
+  'Toronto best food happy hour specials bars 2026',
+  'Toronto all day happy hour bars 2026',
+  'Toronto late night happy hour bars 2026',
+  'Toronto rooftop bar happy hour 2026',
+  'Toronto patio bar happy hour 2026',
 ];
 
-const SYSTEM_PROMPT = `You are a Toronto nightlife researcher. Find venues that host happy hours and regular weekly events in Toronto.
+const SYSTEM_PROMPT = `You are a Toronto nightlife researcher. Extract venue information from web search results about Toronto bars, restaurants and event venues.
 
-When searching Eventbrite, Meetup, BlogTO, NOW Toronto, or other event listing sites, extract the specific venue name, address, and event details from the listings you find. For Eventbrite events include the event URL. For recurring Meetup events extract the host venue location.
+For each venue you find, output a JSON object with EXACTLY these fields:
+- name: string (the venue/bar name — NOT the event title)
+- hood: string (Toronto neighbourhood — e.g. King West, Queen West, Ossington, Kensington, Annex, Yorkville, Danforth, Leslieville, Parkdale, Liberty Village, Financial, Distillery, Harbourfront, Church, Midtown, Bloordale, Geary, Trinity Bellwoods, Riverside, Corktown)
+- type: string — MUST be one of: drinkhh, foodhh, trivia, karaoke, livemusic, jazz, comedy, drag, dj, bingo, openmic
+- days: array — MUST use: "mon","tue","wed","thu","fri","sat","sun"
+- start: number (24hr decimal — 16=4pm, 17=5pm, 17.5=5:30pm, 21=9pm)
+- end: number (24hr decimal — use >24 for after midnight: 25=1am, 26=2am)
+- detail: string (specific drink/food prices, what's on, be concrete and useful)
+- addr: string (full street address e.g. "123 King St W")
 
-For each venue output a JSON object with EXACTLY these fields:
-- name: string (the venue/bar/club name — not the event title)
-- hood: string (one of: Annex, Bloordale, Bloor West, Chinatown, Church, Corktown, Danforth, Distillery, Entertainment, Fashion District, Financial, Geary, Harbourfront, Kensington, King West, Leslieville, Liberty Village, Midtown, Ossington, Parkdale, Queen West, Riverside, Rosedale, Summerhill, Trinity Bellwoods, Yorkville)
-- type: string (one of: drinkhh, foodhh, happyhour, trivia, karaoke, livemusic, jazz, comedy, drag, dj, bingo, openmic)
-- days: array of strings from: "mon","tue","wed","thu","fri","sat","sun"
-- start: number (24hr decimal — 17 = 5pm, 17.5 = 5:30pm)
-- end: number (24hr decimal — use >24 for after midnight e.g. 25 = 1am)
-- detail: string (specific prices, what's included, ticket cost if from Eventbrite — be concrete)
-- addr: string (street address in Toronto)
-- lat: number (~43.65 for downtown Toronto)
-- lng: number (~-79.38 for downtown Toronto)
-- url: string (optional — include Eventbrite or Meetup URL if available)
-- source: string (optional — "eventbrite", "meetup", or omit if general)
+Rules:
+- ONLY include venues in Toronto, Ontario, Canada
+- ONLY include recurring weekly events or permanent happy hours (not one-off events)
+- Be SPECIFIC in detail — include actual prices if available
+- If you are not sure of the address, do NOT make one up — skip the venue
+- Respond with ONLY a valid JSON array, no markdown, no explanation`;
 
-Only include Toronto, Ontario events. Only include venues you are confident about.
-Respond with ONLY a valid JSON array. No markdown, no explanation.`;
+// ── GEOCODE via Nominatim ─────────────────────────────────────────────────────
+async function geocode(name, addr) {
+  const attempts = [
+    new URLSearchParams({ format: 'json', limit: '1', countrycodes: 'ca', viewbox: '-79.7,43.5,-79.1,43.9', bounded: '1', street: addr, city: 'Toronto', country: 'Canada' }),
+    new URLSearchParams({ format: 'json', limit: '1', countrycodes: 'ca', viewbox: '-79.7,43.5,-79.1,43.9', bounded: '1', q: addr + ', Toronto, Ontario, Canada' }),
+    new URLSearchParams({ format: 'json', limit: '1', countrycodes: 'ca', viewbox: '-79.7,43.5,-79.1,43.9', bounded: '1', q: name + ', Toronto, Ontario, Canada' }),
+  ];
+  for (const qs of attempts) {
+    try {
+      const res = await fetch('https://nominatim.openstreetmap.org/search?' + qs, { headers: { 'User-Agent': USER_AGENT } });
+      if (!res.ok) continue;
+      const results = await res.json();
+      if (results.length > 0) {
+        const lat = Math.round(parseFloat(results[0].lat) * 1000000) / 1000000;
+        const lng = Math.round(parseFloat(results[0].lon) * 1000000) / 1000000;
+        if (lat > 43.5 && lat < 43.9 && lng > -79.7 && lng < -79.1) return { lat, lng };
+      }
+    } catch(e) { continue; }
+    await new Promise(r => setTimeout(r, 1100));
+  }
+  return null;
+}
 
-// ── API CALL ──────────────────────────────────────────────────────────────────
-
+// ── CLAUDE API CALL ───────────────────────────────────────────────────────────
 async function callClaude(query) {
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -73,13 +134,13 @@ async function callClaude(query) {
       max_tokens: 4000,
       system: SYSTEM_PROMPT,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-      messages: [{ role: 'user', content: `Search for and list Toronto venues: ${query}\n\nReturn ONLY a JSON array.` }],
+      messages: [{ role: 'user', content: 'Search for and list Toronto venues: ' + query + '\n\nReturn ONLY a JSON array of venue objects.' }],
     }),
   });
 
   if (!response.ok) {
     const err = await response.text();
-    throw new Error(`Claude API ${response.status}: ${err.slice(0, 200)}`);
+    throw new Error('Claude API ' + response.status + ': ' + err.slice(0, 200));
   }
 
   const data = await response.json();
@@ -88,37 +149,42 @@ async function callClaude(query) {
 
   try {
     const cleaned = textBlock.text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-    const parsed = JSON.parse(cleaned);
+    // Extract JSON array even if there's surrounding text
+    const match = cleaned.match(/\[[\s\S]*\]/);
+    if (!match) return [];
+    const parsed = JSON.parse(match[0]);
     return Array.isArray(parsed) ? parsed : [];
   } catch (e) {
-    console.warn(`  Could not parse response: ${e.message}`);
-    console.warn(`  Raw snippet: ${textBlock.text.slice(0, 150)}`);
+    console.warn('  Could not parse response: ' + e.message);
     return [];
   }
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────────────────
+const VALID_TYPES = new Set(['drinkhh','foodhh','happyhour','trivia','karaoke','livemusic','jazz','comedy','drag','dj','bingo','openmic']);
+const VALID_DAYS = new Set(['mon','tue','wed','thu','fri','sat','sun']);
 
 function normalize(v) {
-  const out = {
+  return {
     name: String(v.name || '').trim(),
-    hood: String(v.hood || '').trim(),
-    type: String(v.type || 'happyhour').trim(),
-    days: Array.isArray(v.days) ? v.days.map(d => String(d).toLowerCase().slice(0, 3)) : [],
+    hood: String(v.hood || 'Toronto').trim(),
+    type: VALID_TYPES.has(v.type) ? v.type : 'happyhour',
+    days: Array.isArray(v.days) ? v.days.map(d => String(d).toLowerCase().slice(0,3)).filter(d => VALID_DAYS.has(d)) : [],
     start: Number(v.start) || 17,
     end: Number(v.end) || 19,
     detail: String(v.detail || '').trim(),
     addr: String(v.addr || '').trim(),
-    lat: Number(v.lat) || 43.65,
-    lng: Number(v.lng) || -79.38,
+    lat: Number(v.lat) || 0,
+    lng: Number(v.lng) || 0,
   };
-  if (v.url) out.url = String(v.url).trim();
-  if (v.source) out.source = String(v.source).trim();
-  return out;
 }
 
 function isValid(v) {
-  return v.name && v.hood && v.days.length > 0 && v.detail && v.addr;
+  return v.name.length > 1 &&
+    v.days.length > 0 &&
+    v.detail.length > 5 &&
+    v.addr.length > 3 &&
+    v.addr.match(/\d/); // address must contain a number
 }
 
 function deduplicate(existing, incoming) {
@@ -132,51 +198,67 @@ function deduplicate(existing, incoming) {
 }
 
 // ── MAIN ──────────────────────────────────────────────────────────────────────
-
 async function main() {
-  console.log('Tonight.TO Weekly Scraper');
-  console.log('=========================');
+  console.log('Tonight.TO Weekly Scraper v2');
+  console.log('============================');
 
-  // Load existing venues
   let existing = [];
   try {
     if (existsSync(VENUES_PATH)) {
       const data = JSON.parse(readFileSync(VENUES_PATH, 'utf8'));
       existing = data.venues || [];
-      console.log(`Loaded ${existing.length} existing venues`);
+      console.log('Loaded ' + existing.length + ' existing venues');
     }
-  } catch(e) {
-    console.log('Could not read venues.json:', e.message);
-  }
+  } catch(e) { console.log('Could not read venues.json:', e.message); }
 
-  // Run all Claude searches
   const allFound = [];
-  for (const query of SEARCHES) {
-    console.log(`\nSearching: "${query}"`);
+  for (let i = 0; i < SEARCHES.length; i++) {
+    const query = SEARCHES[i];
+    console.log('\n[' + (i+1) + '/' + SEARCHES.length + '] ' + query);
     try {
       const found = await callClaude(query);
       const normalized = found.map(normalize).filter(isValid);
-      console.log(`  Found ${normalized.length} valid venues`);
+      console.log('  Found ' + normalized.length + ' valid venues');
+      normalized.forEach(v => console.log('    - ' + v.name + ' (' + v.addr + ')'));
       allFound.push(...normalized);
-      await new Promise(r => setTimeout(r, 1500));
+      await new Promise(r => setTimeout(r, 2000)); // 2s between API calls
     } catch (e) {
-      console.error(`  Error: ${e.message}`);
+      console.error('  Error: ' + e.message);
+      await new Promise(r => setTimeout(r, 3000));
     }
   }
 
-  console.log(`\nTotal found: ${allFound.length}`);
-
+  console.log('\nTotal found across all searches: ' + allFound.length);
   const newVenues = deduplicate(existing, allFound);
-  console.log(`New (not already listed): ${newVenues.length}`);
-  newVenues.forEach(v => console.log(`  + ${v.name} (${v.hood}) — ${v.type}`));
+  console.log('New venues (not already listed): ' + newVenues.length);
 
-  const merged = [...existing, ...newVenues];
-
-  if (merged.length === 0) {
-    console.log('Nothing to write — keeping existing data');
-    process.exit(0);
+  // Geocode all new venues
+  console.log('\nGeocoding new venues...');
+  for (let i = 0; i < newVenues.length; i++) {
+    const v = newVenues[i];
+    process.stdout.write('[' + (i+1) + '/' + newVenues.length + '] ' + v.name + '... ');
+    // Skip if already has valid Toronto coords
+    if (v.lat > 43.5 && v.lat < 43.9 && v.lng > -79.7 && v.lng < -79.1) {
+      console.log('coords ok');
+      continue;
+    }
+    const coords = await geocode(v.name, v.addr);
+    if (coords) {
+      v.lat = coords.lat;
+      v.lng = coords.lng;
+      console.log('OK (' + coords.lat + ', ' + coords.lng + ')');
+    } else {
+      // Use approximate Toronto centre as fallback
+      v.lat = 43.6532;
+      v.lng = -79.3832;
+      console.log('not found - using Toronto centre');
+    }
+    await new Promise(r => setTimeout(r, 1100));
   }
 
+  newVenues.forEach(v => console.log('  + ' + v.name + ' (' + v.hood + ') — ' + v.type));
+
+  const merged = [...existing, ...newVenues];
   writeFileSync(VENUES_PATH, JSON.stringify({
     version: 1,
     updated: new Date().toISOString().split('T')[0],
@@ -184,11 +266,7 @@ async function main() {
     venues: merged,
   }, null, 2));
 
-  console.log(`\nDone: ${merged.length} total venues`);
+  console.log('\nDone: ' + existing.length + ' existing + ' + newVenues.length + ' new = ' + merged.length + ' total venues');
 }
 
-main().catch(e => {
-  console.error('Fatal error:', e);
-  process.exit(1);
-});
-
+main().catch(e => { console.error('Fatal:', e); process.exit(1); });
