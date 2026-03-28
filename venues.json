@@ -89,9 +89,9 @@
       "start": 17,
       "end": 19,
       "detail": "\ud83c\udf78 Half-price wine bottles nightly. $10 classic martinis after 9pm.",
-      "addr": "230 Ossington Ave",
-      "lat": 43.6553,
-      "lng": -79.4262
+      "addr": "88 Ossington Ave",
+      "lat": 43.6461,
+      "lng": -79.4198
     },
     {
       "name": "Coffee Oysters Champagne",
@@ -113,7 +113,7 @@
     },
     {
       "name": "Superpoint",
-      "hood": "Kensington",
+      "hood": "Ossington",
       "type": "drinkhh",
       "days": [
         "mon",
@@ -127,9 +127,9 @@
       "start": 15,
       "end": 18,
       "detail": "\ud83c\udf78 $5 Peroni, $6 natural wine, $7 spritz. Every day all week.",
-      "addr": "214A Augusta Ave",
-      "lat": 43.6548,
-      "lng": -79.4029
+      "addr": "184 Ossington Ave",
+      "lat": 43.6497,
+      "lng": -79.4228
     },
     {
       "name": "Bellwoods Brewery",
@@ -162,9 +162,9 @@
       "start": 16,
       "end": 18,
       "detail": "\ud83c\udf78 $6.50 house draft Tuesdays. Half-price wine Wednesdays. Craft beer cave.",
-      "addr": "620 College St",
-      "lat": 43.6558,
-      "lng": -79.4098
+      "addr": "612 College St",
+      "lat": 43.6554,
+      "lng": -79.4145
     },
     {
       "name": "Bar Volo",
@@ -186,7 +186,7 @@
     },
     {
       "name": "Archive Bar",
-      "hood": "Yorkville",
+      "hood": "Trinity Bellwoods",
       "type": "drinkhh",
       "days": [
         "mon",
@@ -198,9 +198,9 @@
       "start": 16,
       "end": 18,
       "detail": "\ud83c\udf78 $7 wine & craft beer, $10 cocktails.",
-      "addr": "909 Bay St",
-      "lat": 43.6687,
-      "lng": -79.3892
+      "addr": "909 Dundas St W",
+      "lat": 43.6509,
+      "lng": -79.4123
     },
     {
       "name": "Ace Hotel Bar",
@@ -364,9 +364,9 @@
       "start": 15,
       "end": 17,
       "detail": "\ud83c\udf78 $7 margaritas & beers. Also 10pm\u2013midnight daily. Canada's best tequila bar.",
-      "addr": "466 King St W",
-      "lat": 43.6458,
-      "lng": -79.399
+      "addr": "600 King St W",
+      "lat": 43.6446,
+      "lng": -79.4
     },
     {
       "name": "The Rabbit Hole",
@@ -443,9 +443,9 @@
       "start": 17,
       "end": 19,
       "detail": "\ud83c\udf78 $12 select cocktails every day 5\u20137pm. Dark, sexy taxidermy bar.",
-      "addr": "1077 Queen St E",
-      "lat": 43.6593,
-      "lng": -79.34
+      "addr": "758 Queen St E",
+      "lat": 43.6594,
+      "lng": -79.3459
     },
     {
       "name": "Chez Nous",
@@ -463,9 +463,9 @@
       "start": 17,
       "end": 19,
       "detail": "\ud83c\udf78 $9 house wines, $6 select beers, $12 cocktails 5\u20137pm. Half-price bottles after 11pm & all day Sun.",
-      "addr": "1378 Queen St E",
-      "lat": 43.6591,
-      "lng": -79.3321
+      "addr": "798 Queen St E",
+      "lat": 43.6597,
+      "lng": -79.3469
     },
     {
       "name": "Paradise Grapevine",
@@ -483,9 +483,9 @@
       "start": 17,
       "end": 18,
       "detail": "\ud83c\udf78 $10 glasses of house-label wine 5\u20136pm daily. Natural wine bar & urban winery.",
-      "addr": "1083 Geary Ave",
-      "lat": 43.674,
-      "lng": -79.433
+      "addr": "218 Geary Ave",
+      "lat": 43.6744,
+      "lng": -79.4298
     },
     {
       "name": "Le Tigre",
@@ -503,9 +503,9 @@
       "start": 17,
       "end": 19,
       "detail": "\ud83c\udf78 Half-price martinis all night Monday + Tue\u2013Sun 5\u20137pm. If Barbie had a neon-pink cocktail bar.",
-      "addr": "1 Bloor St E",
-      "lat": 43.6714,
-      "lng": -79.3845
+      "addr": "1060 Yonge St",
+      "lat": 43.6796,
+      "lng": -79.3876
     },
     {
       "name": "Gloria",
@@ -529,7 +529,7 @@
     },
     {
       "name": "Compton Ave.",
-      "hood": "Bloor West",
+      "hood": "Little Portugal",
       "type": "drinkhh",
       "days": [
         "mon",
@@ -543,9 +543,9 @@
       "start": 18,
       "end": 20,
       "detail": "\ud83c\udf78 Daily $12 martinis 6\u20138pm. Moody cocktail bar, looks like a wealthy Londoner's home.",
-      "addr": "2 Compton Ave",
-      "lat": 43.6631,
-      "lng": -79.4295
+      "addr": "1282 Dundas St W",
+      "lat": 43.6531,
+      "lng": -79.434
     },
     {
       "name": "Hey Lucy",
@@ -557,9 +557,9 @@
       "start": 17,
       "end": 22,
       "detail": "\ud83c\udf78 $6.99 select martinis every Wednesday. Wood-fired pizza bar.",
-      "addr": "587 King St W",
-      "lat": 43.6449,
-      "lng": -79.408
+      "addr": "295 King St W",
+      "lat": 43.6472,
+      "lng": -79.3939
     },
     {
       "name": "Maison Selby",
@@ -597,9 +597,9 @@
       "start": 16,
       "end": 18,
       "detail": "\ud83c\udf78 Cocktails, beer & wine from $8 daily 4\u20136pm. Also the only time to get their legendary limited cheeseburger.",
-      "addr": "1132 Geary Ave",
+      "addr": "201 Geary Ave",
       "lat": 43.6742,
-      "lng": -79.4359
+      "lng": -79.4292
     },
     {
       "name": "Lulu Bar",
@@ -679,7 +679,7 @@
       "detail": "\ud83c\udf78 Beer, cocktails & specials 3\u20137pm daily. Vinyl bar, TIFF celeb hotspot.",
       "addr": "587 King St W",
       "lat": 43.6449,
-      "lng": -79.408
+      "lng": -79.4088
     },
     {
       "name": "Caf\u00e9 Ren\u00e9e",
@@ -826,13 +826,13 @@
       "start": 16,
       "end": 18,
       "detail": "\ud83c\udf78 $5 domestic draft, $7 wine Mon\u2013Fri 4\u20136pm.",
-      "addr": "25 Liberty St",
-      "lat": 43.6385,
-      "lng": -79.4196
+      "addr": "42 Liberty St",
+      "lat": 43.6389,
+      "lng": -79.4183
     },
     {
       "name": "Danforth Sidebar",
-      "hood": "Danforth",
+      "hood": "Riverdale",
       "type": "drinkhh",
       "days": [
         "mon",
@@ -846,9 +846,9 @@
       "start": 17,
       "end": 18,
       "detail": "\ud83c\udf78 $6 drinks on show nights 5\u20136pm. Oyster deals Wednesdays.",
-      "addr": "530 Danforth Ave",
+      "addr": "161 Danforth Ave",
       "lat": 43.6772,
-      "lng": -79.3517
+      "lng": -79.3533
     },
     {
       "name": "Ballyhoo Riverdale",
@@ -868,7 +868,7 @@
     },
     {
       "name": "The Fortunate Fox",
-      "hood": "Bloor West",
+      "hood": "Annex",
       "type": "drinkhh",
       "days": [
         "mon",
@@ -883,8 +883,8 @@
       "end": 26,
       "detail": "\ud83c\udf78 Food & drinks from $6 after 10pm nightly.",
       "addr": "280 Bloor St W",
-      "lat": 43.6645,
-      "lng": -79.3947
+      "lat": 43.667,
+      "lng": -79.401
     },
     {
       "name": "Left Field Brewery",
@@ -995,9 +995,9 @@
       "start": 14,
       "end": 17,
       "detail": "\ud83c\udf78 $5\u2013$8.25 beers, $8.25\u2013$14.25 cocktails 2\u20135pm & 9pm\u2013close. All day Sunday.",
-      "addr": "330 Bay St",
-      "lat": 43.6499,
-      "lng": -79.381
+      "addr": "77 Adelaide St W",
+      "lat": 43.6494,
+      "lng": -79.3835
     },
     {
       "name": "Earl's",
@@ -1021,7 +1021,7 @@
     },
     {
       "name": "Joey Restaurant",
-      "hood": "Financial",
+      "hood": "Downtown",
       "type": "drinkhh",
       "days": [
         "mon",
@@ -1035,9 +1035,9 @@
       "start": 15,
       "end": 18,
       "detail": "\ud83c\udf78 Drinks from $5. Daily 3\u20136pm + Sun\u2013Thu 9pm\u2013close, Fri\u2013Sat 10pm\u2013close.",
-      "addr": "33 Yonge St",
-      "lat": 43.649,
-      "lng": -79.3773
+      "addr": "1 Dundas St W",
+      "lat": 43.6561,
+      "lng": -79.3819
     },
     {
       "name": "The Keg Esplanade",
@@ -1339,9 +1339,9 @@
       "start": 15,
       "end": 17,
       "detail": "\ud83c\udf54 $4 classic tacos + $7 margaritas 3\u20135pm & 10pm\u2013midnight. Best deal in the city.",
-      "addr": "466 King St W",
-      "lat": 43.6458,
-      "lng": -79.399
+      "addr": "600 King St W",
+      "lat": 43.6446,
+      "lng": -79.4
     },
     {
       "name": "Baro",
@@ -1694,9 +1694,9 @@
       "start": 14,
       "end": 17,
       "detail": "\ud83c\udf54 $7 wine, $7 beer + food Mon\u2013Fri 2\u20135pm.",
-      "addr": "330 Bay St",
-      "lat": 43.6499,
-      "lng": -79.381
+      "addr": "77 Adelaide St W",
+      "lat": 43.6494,
+      "lng": -79.3835
     },
     {
       "name": "La Palma",
