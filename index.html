@@ -16,14 +16,14 @@
 <meta name="keywords" content="Toronto happy hour, happy hour Toronto, Toronto events tonight, things to do in Toronto tonight, Toronto trivia night, Toronto karaoke, Toronto comedy nights, Toronto drag shows, Toronto live music, Toronto DJ nights, Toronto jazz bars, Toronto nightlife, bar deals Toronto, drink specials Toronto, pub quiz Toronto, Toronto bar events">
 <meta name="author" content="Tonight.TO">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://christopherrly13-web.github.io/tonight-to/">
+<link rel="canonical" href="https://tonightto.ca/">
 
 <!-- ── OPEN GRAPH (iMessage, WhatsApp, Slack previews) ── -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://christopherrly13-web.github.io/tonight-to/">
+<meta property="og:url" content="https://tonightto.ca/">
 <meta property="og:title" content="Tonight.TO — Toronto Happy Hours & Events">
 <meta property="og:description" content="The easiest way to find happy hours, trivia, karaoke, comedy, drag, DJ nights and live music in Toronto — tonight. Browse 80+ venues by neighbourhood and time.">
-<meta property="og:image" content="https://christopherrly13-web.github.io/tonight-to/icon-512.png">
+<meta property="og:image" content="https://tonightto.ca/icon-512.png">
 <meta property="og:locale" content="en_CA">
 <meta property="og:site_name" content="Tonight.TO">
 
@@ -31,7 +31,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tonight.TO — Toronto Happy Hours & Events">
 <meta name="twitter:description" content="Find happy hours, trivia, karaoke, comedy, drag, DJ nights and live music in Toronto tonight. 80+ venues, filtered by hood and time.">
-<meta name="twitter:image" content="https://christopherrly13-web.github.io/tonight-to/icon-512.png">
+<meta name="twitter:image" content="https://tonightto.ca/icon-512.png">
 
 <!-- ── STRUCTURED DATA (Google rich results) ── -->
 <script type="application/ld+json">
@@ -39,7 +39,7 @@
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "Tonight.TO",
-  "url": "https://christopherrly13-web.github.io/tonight-to/",
+  "url": "https://tonightto.ca/",
   "description": "Find the best happy hours, trivia nights, karaoke, comedy shows, drag shows, DJ nights, jazz and live music happening in Toronto tonight. Browse 80+ venues across 20+ neighbourhoods.",
   "applicationCategory": "EntertainmentApplication",
   "operatingSystem": "Any",
@@ -1221,7 +1221,7 @@ async function loadVenues(){
   const [venuesResult, ebEvents, tmEvents] = await Promise.allSettled([
     (async()=>{
       const cacheBust=Math.floor(Date.now()/60000);
-      const url='https://christopherrly13-web.github.io/tonight-to/venues.json?v='+cacheBust;
+      const url='https://tonightto.ca/venues.json?v='+cacheBust;
       const res=await fetch(url);
       if(!res.ok) throw new Error('HTTP '+res.status);
       return res.json();
