@@ -438,8 +438,14 @@ html,body{overscroll-behavior:none}
   .desktop-nav{display:flex!important}
 
   /* Full-width views */
-  #list-view,#map-view{
+  #list-view{
     flex-direction:row;
+    height:calc(100vh - 52px);
+    margin-top:52px;
+    max-width:100%;
+  }
+  #map-view{
+    flex-direction:column;
     height:calc(100vh - 52px);
     margin-top:52px;
     max-width:100%;
@@ -502,19 +508,19 @@ html,body{overscroll-behavior:none}
   .card-name{font-size:15px}
   .empty{grid-column:1/-1;padding:60px 20px}
 
-  /* Map view: sidebar + map */
+  /* Map view: full column layout on desktop */
   #map-view .map-header{
-    width:280px;min-width:280px;max-width:280px;
-    height:100%;overflow-y:auto;
-    padding:24px 20px;
-    border-right:1px solid var(--border);
-    background:var(--surface);
+    padding:12px 20px 8px;
+    border-bottom:1px solid var(--border);
     flex-shrink:0;
-    display:flex;flex-direction:column;
   }
-  #map-view .map-filters{flex-wrap:wrap;overflow-x:visible;padding:0 0 10px;gap:5px}
-  #map-view .day-pills-wrap{padding:0 0 10px}
-  #map{flex:1;height:100%}
+  #map-view .map-filters-wrap,
+  #map-view .day-pills-wrap,
+  #map-view .map-time-wrap,
+  #map-view .map-search-wrap{ display:flex; flex-shrink:0; }
+  #map-view .map-filters{flex-wrap:nowrap;overflow-x:auto;padding:4px 16px;gap:6px}
+  #map-view .day-pills-wrap{padding:4px 16px}
+  #map{flex:1;min-height:0;width:100%}
   #map-legend{bottom:24px;right:24px;background:rgba(20,20,20,.97)}
 
   /* Search suggestions anchor to sidebar */
