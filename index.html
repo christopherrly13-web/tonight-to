@@ -661,7 +661,7 @@ html,body{overscroll-behavior:none}
     <div class="time-control">
       <div class="time-row">
         <label>Time</label>
-        <input type="range" id="time-slider" min="0" max="24" step="0.5" value="0" oninput="updateTimeDisplay();render()">
+        <input type="range" id="time-slider" min="0" max="24" step="0.5" value="0" oninput="document.getElementById('now-chk').checked=false;updateTimeDisplay();render()">
         <span class="time-display" id="time-display">Any</span>
         <button class="locate-btn" id="locate-btn" onclick="getLocation()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
@@ -731,7 +731,7 @@ html,body{overscroll-behavior:none}
   <div class="map-time-wrap">
     <div class="time-row">
       <label>Time</label>
-      <input type="range" id="map-time-slider" min="0" max="24" step="0.5" value="0" oninput="updateMapTimeDisplay();renderMap()">
+      <input type="range" id="map-time-slider" min="0" max="24" step="0.5" value="0" oninput="document.getElementById('map-now-chk').checked=false;updateMapTimeDisplay();renderMap()">
       <span class="time-display" id="map-time-display">Any</span>
       <label class="now-lbl"><input type="checkbox" id="map-now-chk" onchange="onMapNowChkChange()"> Now</label>
     </div>
@@ -1722,6 +1722,20 @@ document.getElementById("search-input").addEventListener("blur",()=>{
 });
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+
+// Auto-set time to Now on load
+(function setNowTime(){
+  const now=new Date();
+  const t=Math.round((now.getHours()+now.getMinutes()/60)*2)/2;
+  const s1=document.getElementById("time-slider");
+  const s2=document.getElementById("map-time-slider");
+  const chk=document.getElementById("now-chk");
+  if(s1){s1.value=t;}
+  if(s2){s2.value=t;}
+  if(chk){chk.checked=true;}
+  updateTimeDisplay();
+  if(typeof updateMapTimeDisplay==="function") updateMapTimeDisplay();
+})();
 
 // Load venue data from venues.json then render
 loadVenues();
