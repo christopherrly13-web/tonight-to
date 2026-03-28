@@ -1,7 +1,7 @@
 {
   "version": 1,
   "updated": "2026-03-28",
-  "total": 144,
+  "total": 165,
   "venues": [
     {
       "name": "Bar Raval",
@@ -2530,6 +2530,375 @@
       "addr": "13 Ossington Ave",
       "lat": 43.644598,
       "lng": -79.418778
+    },
+    {
+      "name": "Drake Hotel",
+      "hood": "Queen West",
+      "type": "drinkhh",
+      "days": [
+        "tue"
+      ],
+      "start": 16,
+      "end": 22,
+      "detail": "Half-price sushi, $5 Sapporo",
+      "addr": "1150 Queen St. W",
+      "lat": 43.643255,
+      "lng": -79.424546
+    },
+    {
+      "name": "Everyside",
+      "hood": "Financial District",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 5,
+      "detail": "Afternoon happy hour 2-5pm, late-night happy hour 9pm-2am",
+      "addr": "120 Adelaide St. W",
+      "lat": 43.649929,
+      "lng": -79.383122
+    },
+    {
+      "name": "Central",
+      "hood": "Ossington",
+      "type": "drinkhh",
+      "days": [
+        "sun",
+        "mon",
+        "tue",
+        "wed"
+      ],
+      "start": 14,
+      "end": 17,
+      "detail": "$5 highballs, $5 Shaft on Draft, $4 sliders, $6 sushi rolls",
+      "addr": "114 Ossington Ave",
+      "lat": 43.646756,
+      "lng": -79.419907
+    },
+    {
+      "name": "Tranzac Club",
+      "hood": "Bloor West",
+      "type": "openmic",
+      "days": [
+        "tue"
+      ],
+      "start": 18.5,
+      "end": 22,
+      "detail": "Shab-e She'r Poetry Night open mic, poetry in any language, 3 minute slots. Sign-up 6:30pm, show 7-10pm. Admission $10-20 sliding scale.",
+      "addr": "292 Brunswick Ave",
+      "lat": 43.66522,
+      "lng": -79.407534
+    },
+    {
+      "name": "Storm Crow Manor",
+      "hood": "Old Toronto",
+      "type": "drag",
+      "days": [
+        "sun"
+      ],
+      "start": 12,
+      "end": 15,
+      "detail": "Brunch and bingo card included",
+      "addr": "580 Church St, Toronto, ON M4Y 2E5",
+      "lat": 43.666801,
+      "lng": -79.381749
+    },
+    {
+      "name": "Cheesewerks",
+      "hood": "King West",
+      "type": "trivia",
+      "days": [
+        "tue",
+        "thu"
+      ],
+      "start": 19,
+      "end": 22,
+      "detail": "$5 entry, food trivia with challenges, winning team gets 50% of cover plus prizes",
+      "addr": "56 Bathurst St., Toronto",
+      "lat": 43.642247,
+      "lng": -79.402255
+    },
+    {
+      "name": "Owl's Club",
+      "hood": "Downtown",
+      "type": "karaoke",
+      "days": [
+        "sat"
+      ],
+      "start": 19,
+      "end": 25,
+      "detail": "$50 annual membership",
+      "addr": "305 Bloor St W, Toronto",
+      "lat": 43.633727,
+      "lng": -79.570233
+    },
+    {
+      "name": "Tammy's Wine Bar",
+      "hood": "Parkdale",
+      "type": "karaoke",
+      "days": [
+        "sun"
+      ],
+      "start": 20,
+      "end": 24,
+      "detail": "Everybody Flirts queer karaoke, natural wine program",
+      "addr": "1444 Dupont St, Toronto",
+      "lat": 43.666293,
+      "lng": -79.449412
+    },
+    {
+      "name": "Kissa",
+      "hood": "King West",
+      "type": "karaoke",
+      "days": [
+        "fri",
+        "sat"
+      ],
+      "start": 21,
+      "end": 25,
+      "detail": "Private karaoke room available",
+      "addr": "619 King St W, Toronto",
+      "lat": 43.64874,
+      "lng": -79.379877
+    },
+    {
+      "name": "Tha Phae Tavern",
+      "hood": "Roncesvalles",
+      "type": "karaoke",
+      "days": [
+        "fri",
+        "sat"
+      ],
+      "start": 20,
+      "end": 24,
+      "detail": "Karaoke rooms, Thai cuisine",
+      "addr": "180 Ossington Ave, Toronto",
+      "lat": 43.648316,
+      "lng": -79.420525
+    },
+    {
+      "name": "BMB Karaoke",
+      "hood": "Bloor West",
+      "type": "karaoke",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "start": 21,
+      "end": 24,
+      "detail": "$5 per person per hour late night private rooms",
+      "addr": "429 Bloor St W, Toronto",
+      "lat": 43.633727,
+      "lng": -79.570233
+    },
+    {
+      "name": "The Company We Keep",
+      "hood": "St. Clair",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 18,
+      "detail": "$5 beers, $7 glasses of wine",
+      "addr": "634 St. Clair Ave. W",
+      "lat": 43.682222,
+      "lng": -79.42394
+    },
+    {
+      "name": "Joey",
+      "hood": "King West",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 18,
+      "detail": "Daily happy hour 3pm-6pm; Sun-Thu 9pm-close; Fri-Sat 10pm-close with snacks and drinks from $5",
+      "addr": "600 King St W, Toronto, ON",
+      "lat": 43.644598,
+      "lng": -79.399896
+    },
+    {
+      "name": "Midnight Snack Bar",
+      "hood": "Kensington",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "start": 17.5,
+      "end": 19.5,
+      "detail": "5:30pm-7:30pm with BOGO appetizers, beer $5, Tsingtao $5",
+      "addr": "434 College St, Toronto, ON",
+      "lat": 43.656714,
+      "lng": -79.407316
+    },
+    {
+      "name": "Piccolo Caffe",
+      "hood": "Entertainment District",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sun"
+      ],
+      "start": 11,
+      "end": 16,
+      "detail": "Mon-Fri 11am-4pm Aperol Spritz $10 and 50% off appetizers; Sun-Wed 10pm-2am",
+      "addr": "111 John St, Toronto, ON",
+      "lat": 43.64807,
+      "lng": -79.390035
+    },
+    {
+      "name": "Azhar Kitchen & Bar",
+      "hood": "Ossington",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 18.5,
+      "detail": "Monday-Friday 5-6:30pm, Saturday-Sunday 3-5pm. $5 menu items, $5 Burdock beer cans, half-off selected wine bottles",
+      "addr": "96 Ossington Ave, Toronto",
+      "lat": 43.651664,
+      "lng": -79.421637
+    },
+    {
+      "name": "Abrielle",
+      "hood": "King West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 18,
+      "detail": "Cocktails $15, Sapporo $9, select wines $12, 3-6pm daily",
+      "addr": "355 King Street West, Toronto, ON",
+      "lat": 43.645945,
+      "lng": -79.392073
+    },
+    {
+      "name": "Earls King West",
+      "hood": "King West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 19,
+      "detail": "Cocktails and food deals, 3-7pm daily",
+      "addr": "601 King Street West, Toronto, ON",
+      "lat": 43.644267,
+      "lng": -79.4005
+    },
+    {
+      "name": "Chamberlain's Pony Bar",
+      "hood": "King West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 19,
+      "detail": "Happy hour 3-7pm",
+      "addr": "585 King Street West, Toronto, ON",
+      "lat": 43.639204,
+      "lng": -79.426085
+    },
+    {
+      "name": "The Parlour",
+      "hood": "King West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 18,
+      "detail": "Discounted food, wine and beer, 3-6pm",
+      "addr": "642 King Street West, Toronto, ON",
+      "lat": 43.644307,
+      "lng": -79.401536
+    },
+    {
+      "name": "Myth Restaurant",
+      "hood": "King West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 18,
+      "detail": "50% off bottle of Prosecco, 2-6pm",
+      "addr": "522 King Street West, Toronto, ON",
+      "lat": 43.645138,
+      "lng": -79.397363
     }
   ]
 }
