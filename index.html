@@ -543,8 +543,17 @@ html,body{overscroll-behavior:none}
 .auth-divider{text-align:center;color:var(--muted);font-size:12px;margin:14px 0}
 
 /* ── PROFILE / FAV BUTTON ── */
-.profile-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px 8px;line-height:1;transition:color .2s}
-.profile-btn:hover{color:var(--accent)}
+/* ── HAMBURGER MENU ── */
+.hamburger-wrap{position:relative}
+.hamburger-btn{background:none;border:none;cursor:pointer;padding:6px;display:flex;flex-direction:column;gap:4px;justify-content:center;align-items:center;border-radius:6px;transition:background .2s}
+.hamburger-btn:hover{background:rgba(255,255,255,.07)}
+.hamburger-btn span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px;transition:background .2s}
+.hamburger-menu{position:absolute;top:calc(100% + 8px);right:0;background:#1e1e1e;border:1px solid var(--border);border-radius:12px;min-width:200px;padding:6px;z-index:5000;box-shadow:0 8px 32px rgba(0,0,0,.5);display:none}
+.hamburger-menu.open{display:block}
+.hamburger-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);transition:background .15s}
+.hamburger-item:hover{background:rgba(255,255,255,.07)}
+.hamburger-item-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.hamburger-divider{height:1px;background:var(--border);margin:4px 0}
 .fav-btn{background:none;border:none;font-size:16px;cursor:pointer;padding:4px;line-height:1;opacity:.5;transition:opacity .2s,transform .2s;flex-shrink:0}
 .fav-btn.active{opacity:1;transform:scale(1.15)}
 .fav-btn:hover{opacity:1}
@@ -656,7 +665,26 @@ html,body{overscroll-behavior:none}
         <div class="logo">Tonight<span>.</span>TO</div>
         <div style="display:flex;align-items:center;gap:8px">
           <div class="tonight-badge" id="today-lbl">Thursday</div>
-          <button class="profile-btn" id="profile-btn" onclick="openProfileOrAuth()" title="Profile / Sign in">👤</button>
+          <div class="hamburger-wrap" id="hamburger-wrap">
+            <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMenu(event)" aria-label="Menu">
+              <span></span><span></span><span></span>
+            </button>
+            <div class="hamburger-menu" id="hamburger-menu">
+              <div class="hamburger-item" id="menu-auth-item" onclick="handleMenuAuth()">
+                <span class="hamburger-item-icon">👤</span>
+                <span id="menu-auth-label">Sign In / Sign Up</span>
+              </div>
+              <div class="hamburger-divider"></div>
+              <div class="hamburger-item" onclick="handleMenuFavs()">
+                <span class="hamburger-item-icon">❤️</span>
+                Favourites
+              </div>
+              <div class="hamburger-item" onclick="handleMenuForYou()">
+                <span class="hamburger-item-icon">✨</span>
+                For You
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -879,10 +907,53 @@ supa.auth.onAuthStateChange((_event, session)=>{
 });
 
 function updateProfileBtn(){
-  const btn = document.getElementById('profile-btn');
-  if(!btn) return;
-  btn.textContent = currentUser ? '😊' : '👤';
-  btn.title = currentUser ? 'My Profile' : 'Sign in';
+  const label = document.getElementById('menu-auth-label');
+  const icon = document.getElementById('menu-auth-item')?.querySelector('.hamburger-item-icon');
+  if(!label) return;
+  if(currentUser){
+    label.textContent = currentUser.email.split('@')[0]; // show username part
+    if(icon) icon.textContent = '😊';
+  } else {
+    label.textContent = 'Sign In / Sign Up';
+    if(icon) icon.textContent = '👤';
+  }
+}
+
+function toggleMenu(e){
+  e.stopPropagation();
+  document.getElementById('hamburger-menu').classList.toggle('open');
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', ()=>{
+  document.getElementById('hamburger-menu')?.classList.remove('open');
+});
+
+function handleMenuAuth(){
+  closeMenu();
+  if(currentUser){ openProfileSheet(); }
+  else { openAuth(); }
+}
+
+function handleMenuFavs(){
+  closeMenu();
+  if(!currentUser){ openAuth(); return; }
+  // Switch to favs pill
+  document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
+  const favPill = document.querySelector('#type-pills [data-t="favs"]');
+  if(favPill){ favPill.classList.add('active'); activeType='favs'; }
+  render();
+}
+
+function handleMenuForYou(){
+  closeMenu();
+  if(!currentUser){ openAuth(); return; }
+  // For now open profile sheet — can expand later
+  openProfileSheet();
+}
+
+function closeMenu(){
+  document.getElementById('hamburger-menu')?.classList.remove('open');
 }
 
 async function loadFavourites(){
