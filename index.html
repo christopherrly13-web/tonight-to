@@ -779,6 +779,7 @@ let HH=[], EV=[], ALL=[];
 const EB_KEY = 'LXGRIMIHHPLUZOD2SMPP';
 const EB_TORONTO_LAT = '43.6532';
 const EB_TORONTO_LNG = '-79.3832';
+const TM_KEY = '9AmpXrkGpcwi0mPuM7N4cfhxNGuRiFah';
 
 async function fetchEventbriteEvents(){
   try {
@@ -849,12 +850,76 @@ async function fetchEventbriteEvents(){
   }
 }
 
+// ── TICKETMASTER LIVE FETCH ───────────────────────────────────────────────────
+async function fetchTicketmasterEvents(){
+  if(!TM_KEY || TM_KEY==='YOUR_TICKETMASTER_KEY') return [];
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const nextWeek = new Date(Date.now()+7*24*60*60*1000).toISOString().split('T')[0];
+    const url = `https://app.ticketmaster.com/discovery/v2/events.json?`+
+      `apikey=${TM_KEY}`+
+      `&city=Toronto&stateCode=ON&countryCode=CA`+
+      `&classificationName=music,comedy,nightlife`+
+      `&startDateTime=${today}T00:00:00Z`+
+      `&endDateTime=${nextWeek}T23:59:59Z`+
+      `&size=100&sort=date,asc`;
+    const res = await fetch(url);
+    if(!res.ok){ console.warn('Ticketmaster API error:',res.status); return []; }
+    const data = await res.json();
+    const events = data._embedded?.events || [];
+
+    return events.map(ev => {
+      const venue = ev._embedded?.venues?.[0] || {};
+      const loc = venue.location || {};
+      const start = new Date(ev.dates?.start?.localDate+'T'+(ev.dates?.start?.localTime||'20:00:00'));
+      const startH = start.getHours() + start.getMinutes()/60;
+      const dayKey = DKEYS[start.getDay()];
+
+      // Map classification to app type
+      const seg = (ev.classifications?.[0]?.segment?.name||'').toLowerCase();
+      const genre = (ev.classifications?.[0]?.genre?.name||'').toLowerCase();
+      const name = (ev.name||'').toLowerCase();
+      let type = 'livemusic';
+      if(name.includes('trivia')||name.includes('quiz')) type='trivia';
+      else if(name.includes('karaoke')) type='karaoke';
+      else if(name.includes('comedy')||name.includes('stand-up')||name.includes('standup')) type='comedy';
+      else if(name.includes('drag')) type='drag';
+      else if(name.includes('jazz')||genre.includes('jazz')) type='jazz';
+      else if(name.includes('bingo')) type='bingo';
+      else if(name.includes('open mic')) type='openmic';
+      else if(name.includes(' dj ')||name.includes('dj night')) type='dj';
+      else if(seg.includes('comedy')) type='comedy';
+
+      const priceMin = ev.priceRanges?.[0]?.min;
+      const priceStr = priceMin ? `From $${priceMin}` : (ev.url ? 'Check tickets' : 'Free');
+
+      return {
+        name: ev.name || 'Unnamed Event',
+        hood: venue.city?.name === 'Toronto' ? (venue.name || 'Toronto') : 'Toronto',
+        type,
+        days: [dayKey],
+        start: startH,
+        end: startH + 3,
+        detail: `${venue.name||''}${venue.address?.line1 ? ', '+venue.address.line1 : ''}. ${priceStr}.`,
+        addr: (venue.address?.line1||'') + (venue.city?.name ? ', '+venue.city.name : ''),
+        lat: parseFloat(loc.latitude) || 43.65,
+        lng: parseFloat(loc.longitude) || -79.38,
+        url: ev.url || '',
+        source: 'ticketmaster',
+      };
+    }).filter(v => v.name && v.days[0] && v.addr);
+  } catch(err){
+    console.warn('Ticketmaster fetch failed:',err.message);
+    return [];
+  }
+}
+
 async function loadVenues(){
   const cards=document.getElementById("cards");
   if(cards) cards.innerHTML='<div class="empty"><p style="color:var(--muted)">⏳ Loading venues…</p></div>';
 
-  // Load venues.json and Eventbrite in parallel
-  const [venuesResult, ebEvents] = await Promise.allSettled([
+  // Load venues.json, Eventbrite and Ticketmaster in parallel
+  const [venuesResult, ebEvents, tmEvents] = await Promise.allSettled([
     (async()=>{
       const cacheBust=Math.floor(Date.now()/60000);
       const url='https://christopherrly13-web.github.io/tonight-to/venues.json?v='+cacheBust;
@@ -862,7 +927,8 @@ async function loadVenues(){
       if(!res.ok) throw new Error('HTTP '+res.status);
       return res.json();
     })(),
-    fetchEventbriteEvents()
+    fetchEventbriteEvents(),
+    fetchTicketmasterEvents()
   ]);
 
   // Process venues.json
@@ -878,11 +944,17 @@ async function loadVenues(){
   const ebVenues = ebEvents.status==='fulfilled' ? ebEvents.value : [];
   console.log('Loaded',ebVenues.length,'events from Eventbrite');
 
-  // Merge — Eventbrite events go in separately, deduplicated by name
+  // Process Ticketmaster events
+  const tmVenues = tmEvents.status==='fulfilled' ? tmEvents.value : [];
+  console.log('Loaded',tmVenues.length,'events from Ticketmaster');
+
+  // Merge — deduplicate by name across all sources
   const existingNames = new Set(venues.map(v=>v.name.toLowerCase()));
   const newEbVenues = ebVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
+  newEbVenues.forEach(v=>existingNames.add(v.name.toLowerCase()));
+  const newTmVenues = tmVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
 
-  ALL = [...venues, ...newEbVenues];
+  ALL = [...venues, ...newEbVenues, ...newTmVenues];
 
   if(ALL.length === 0){
     // Fallback to bundled data
@@ -1175,7 +1247,7 @@ function render(){
     const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";    return`<div class="card ${live?"live-card":""}">
       <div class="card-top">
         <div>
-          <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':''}</div>
+          <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 Ticketmaster</a>`:''}</div>
           <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
         </div>
         <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
