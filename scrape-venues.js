@@ -77,24 +77,19 @@ const SEARCHES = [
   'Toronto patio bar happy hour 2026',
 ];
 
-const SYSTEM_PROMPT = `You are a Toronto nightlife researcher. Extract venue information from web search results about Toronto bars, restaurants and event venues.
+const SYSTEM_PROMPT = `You are a Toronto nightlife researcher. Extract venue info from web search results.
 
-For each venue you find, output a JSON object with EXACTLY these fields:
-- name: string (the venue/bar name — NOT the event title)
-- hood: string (Toronto neighbourhood — e.g. King West, Queen West, Ossington, Kensington, Annex, Yorkville, Danforth, Leslieville, Parkdale, Liberty Village, Financial, Distillery, Harbourfront, Church, Midtown, Bloordale, Geary, Trinity Bellwoods, Riverside, Corktown)
-- type: string — MUST be one of: drinkhh, foodhh, trivia, karaoke, livemusic, jazz, comedy, drag, dj, bingo, openmic
-- days: array — MUST use: "mon","tue","wed","thu","fri","sat","sun"
-- start: number (24hr decimal — 16=4pm, 17=5pm, 17.5=5:30pm, 21=9pm)
-- end: number (24hr decimal — use >24 for after midnight: 25=1am, 26=2am)
-- detail: string (specific drink/food prices, what's on, be concrete and useful)
-- addr: string (full street address e.g. "123 King St W")
+Output a JSON array of objects with these fields:
+- name: venue/bar name (not event title)
+- hood: Toronto neighbourhood
+- type: one of: drinkhh, foodhh, trivia, karaoke, livemusic, jazz, comedy, drag, dj, bingo, openmic
+- days: array of: "mon","tue","wed","thu","fri","sat","sun"
+- start: 24hr decimal (17=5pm, 17.5=5:30pm, 21=9pm)
+- end: 24hr decimal (use >24 for after midnight: 25=1am)
+- detail: specific prices and what's included
+- addr: full street address with number
 
-Rules:
-- ONLY include venues in Toronto, Ontario, Canada
-- ONLY include recurring weekly events or permanent happy hours (not one-off events)
-- Be SPECIFIC in detail — include actual prices if available
-- If you are not sure of the address, do NOT make one up — skip the venue
-- Respond with ONLY a valid JSON array, no markdown, no explanation`;
+Rules: Toronto only. Recurring weekly events only. Address must have a street number. Return ONLY valid JSON array, no markdown.`;
 
 // ── GEOCODE via Nominatim ─────────────────────────────────────────────────────
 async function geocode(name, addr) {
@@ -130,8 +125,8 @@ async function callClaude(query) {
       'anthropic-beta': 'web-search-2025-03-05',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-5',
-      max_tokens: 4000,
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 2000,
       system: SYSTEM_PROMPT,
       tools: [{ type: 'web_search_20250305', name: 'web_search' }],
       messages: [{ role: 'user', content: 'Search for and list Toronto venues: ' + query + '\n\nReturn ONLY a JSON array of venue objects.' }],
@@ -221,10 +216,10 @@ async function main() {
       console.log('  Found ' + normalized.length + ' valid venues');
       normalized.forEach(v => console.log('    - ' + v.name + ' (' + v.addr + ')'));
       allFound.push(...normalized);
-      await new Promise(r => setTimeout(r, 2000)); // 2s between API calls
+      await new Promise(r => setTimeout(r, 8000)); // 8s between calls to stay under rate limit
     } catch (e) {
       console.error('  Error: ' + e.message);
-      await new Promise(r => setTimeout(r, 3000));
+      await new Promise(r => setTimeout(r, 15000));
     }
   }
 
