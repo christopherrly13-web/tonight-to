@@ -1730,9 +1730,11 @@ if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(
   const s1=document.getElementById("time-slider");
   const s2=document.getElementById("map-time-slider");
   const chk=document.getElementById("now-chk");
+  const mapChk=document.getElementById("map-now-chk");
   if(s1){s1.value=t;}
   if(s2){s2.value=t;}
   if(chk){chk.checked=true;}
+  if(mapChk){mapChk.checked=true;}
   updateTimeDisplay();
   if(typeof updateMapTimeDisplay==="function") updateMapTimeDisplay();
 })();
