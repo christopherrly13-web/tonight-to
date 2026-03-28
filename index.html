@@ -1440,7 +1440,7 @@ function showView(v, el){
       mapNowChk.checked = listNowChk.checked;
     }
 
-    setTimeout(initMap, 100);
+    setTimeout(initMap, 200);
   }
 }
 
@@ -1630,15 +1630,17 @@ function render(){
 }
 
 function initMap(){
-  if(leafletMap){renderMap();return;}
+  if(leafletMap){
+    setTimeout(()=>{ leafletMap.invalidateSize(); renderMap(); }, 50);
+    return;
+  }
   leafletMap=L.map("map",{center:[43.655,-79.385],zoom:13,zoomControl:true});
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",{
     attribution:'&copy; <a href="https://carto.com/">CARTO</a>',
     subdomains:"abcd",maxZoom:19
   }).addTo(leafletMap);
-  // Tap anywhere on the map to close the sheet
   leafletMap.on("click", ()=>closeSheet());
-  renderMap();
+  setTimeout(()=>{ leafletMap.invalidateSize(); renderMap(); }, 50);
 }
 
 let mapSearchQuery="";
