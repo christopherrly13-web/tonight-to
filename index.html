@@ -645,8 +645,19 @@ html,body{overscroll-behavior:none}
   box-shadow:0 0 8px rgba(66,133,244,0.9);
 }
 </style>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NTBPS3KR');</script>
+<!-- End Google Tag Manager -->
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NTBPS3KR"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 
 
@@ -1539,12 +1550,28 @@ function daysUntilNext(v){
 function render(){
   const isSearchActive=!!(searchTypes||searchQuery);
   let items=getFiltered(activeType);
+
+  // Sort: live now first, then chronological by start time
   if(isSearchActive){
-    items.sort((a,b)=>daysUntilNext(a)-daysUntilNext(b));
+    items.sort((a,b)=>{
+      const ld=isNow(b)-isNow(a);
+      if(ld!==0) return ld;
+      return a.start - b.start;
+    });
   } else if(userLat){
-    items.sort((a,b)=>{const ld=isNow(b)-isNow(a);if(ld!==0)return ld;return distKm(a)-distKm(b);});
+    items.sort((a,b)=>{
+      const ld=isNow(b)-isNow(a);
+      if(ld!==0) return ld;
+      const timeDiff=a.start - b.start;
+      if(timeDiff!==0) return timeDiff;
+      return distKm(a)-distKm(b);
+    });
   } else {
-    items.sort((a,b)=>isNow(b)-isNow(a));
+    items.sort((a,b)=>{
+      const ld=isNow(b)-isNow(a);
+      if(ld!==0) return ld;
+      return a.start - b.start;
+    });
   }
 
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
