@@ -242,6 +242,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 .map-filters{padding:0 16px 2px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;background:var(--bg)}
 .map-filters::-webkit-scrollbar{display:none}
+.map-filters-wrap{position:relative;flex-shrink:0}
+.map-filters-fade{position:absolute;top:0;right:0;bottom:0;width:48px;pointer-events:none;background:linear-gradient(to right,transparent,var(--bg))}
 
 /* Map day pills */
 #map-view .day-pills-wrap{
@@ -702,7 +704,6 @@ html,body{overscroll-behavior:none}
     <!-- TYPE PILLS -->
     <div class="filters" id="type-pills">
       <div class="pill active" data-t="all" onclick="setType(this)">All</div>
-      <div class="pill" data-t="favs" onclick="setType(this)">❤️ Favourites</div>
       <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
       <div class="pill" data-t="foodhh" onclick="setType(this)">🍔 Food HH</div>
       <div class="pill" data-t="music" onclick="setType(this)">🎵 Music</div>
@@ -770,16 +771,19 @@ html,body{overscroll-behavior:none}
   </div>
 
   <!-- Type pills -->
-  <div class="map-filters" id="map-type-pills">
-    <div class="pill active" data-t="all" onclick="setMapType(this)">All</div>
-    <div class="pill" data-t="happyhour" onclick="setMapType(this)">Happy hour</div>
-    <div class="pill" data-t="drinkhh" onclick="setMapType(this)">Drink HH</div>
-    <div class="pill" data-t="foodhh" onclick="setMapType(this)">Food HH</div>
-    <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
-    <div class="pill" data-t="music" onclick="setMapType(this)">🎵 Music</div>
-    <div class="pill" data-t="comedy" onclick="setMapType(this)">Comedy</div>
-    <div class="pill" data-t="drag" onclick="setMapType(this)">Drag</div>
-    <div class="pill" data-t="bingo" onclick="setMapType(this)">Bingo</div>
+  <div class="map-filters-wrap">
+    <div class="map-filters" id="map-type-pills">
+      <div class="pill active" data-t="all" onclick="setMapType(this)">All</div>
+      <div class="pill" data-t="happyhour" onclick="setMapType(this)">Happy hour</div>
+      <div class="pill" data-t="drinkhh" onclick="setMapType(this)">Drink HH</div>
+      <div class="pill" data-t="foodhh" onclick="setMapType(this)">Food HH</div>
+      <div class="pill" data-t="trivia" onclick="setMapType(this)">Trivia</div>
+      <div class="pill" data-t="music" onclick="setMapType(this)">🎵 Music</div>
+      <div class="pill" data-t="comedy" onclick="setMapType(this)">Comedy</div>
+      <div class="pill" data-t="drag" onclick="setMapType(this)">Drag</div>
+      <div class="pill" data-t="bingo" onclick="setMapType(this)">Bingo</div>
+    </div>
+    <div class="map-filters-fade"></div>
   </div>
 
   <!-- Day pills -->
@@ -1537,13 +1541,50 @@ function render(){
   const isSearchActive=!!(searchTypes||searchQuery);
   let items=getFiltered(activeType);
   if(isSearchActive){
-    // Sort by: happening now first, then soonest next day
     items.sort((a,b)=>daysUntilNext(a)-daysUntilNext(b));
   } else if(userLat){
     items.sort((a,b)=>{const ld=isNow(b)-isNow(a);if(ld!==0)return ld;return distKm(a)-distKm(b);});
   } else {
     items.sort((a,b)=>isNow(b)-isNow(a));
   }
+
+  // Auto-advance: if time filter is active and nothing matches,
+  // find the next upcoming event on the selected days and jump to it
+  const timeFilter=getTimeFilter();
+  const nowChk=document.getElementById("now-chk");
+  if(!isSearchActive && items.length===0 && timeFilter!==null && activeType!=='favs'){
+    // Get all venues for today's selected days (ignoring time filter)
+    const candidatesAll=ALL.filter(v=>v.days.some(d=>selectedDays.has(d)));
+    // Find the soonest start time that is after the current slider value
+    let nextTime=null;
+    candidatesAll.forEach(v=>{
+      const s=v.start;
+      if(s>timeFilter&&(nextTime===null||s<nextTime)) nextTime=s;
+    });
+    // Also check midnight-wrap (next day early hours)
+    if(nextTime===null){
+      candidatesAll.forEach(v=>{
+        if(nextTime===null||v.start<nextTime) nextTime=v.start;
+      });
+    }
+    if(nextTime!==null){
+      // Snap slider to next event start, uncheck Now
+      const slider=document.getElementById("time-slider");
+      if(slider){
+        slider.value=nextTime;
+        if(nowChk) nowChk.checked=false;
+        updateTimeDisplay();
+      }
+      // Re-run filter with new time
+      items=getFiltered(activeType);
+      if(userLat){
+        items.sort((a,b)=>{const ld=isNow(b)-isNow(a);if(ld!==0)return ld;return distKm(a)-distKm(b);});
+      } else {
+        items.sort((a,b)=>isNow(b)-isNow(a));
+      }
+    }
+  }
+
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
 
   const c=document.getElementById("cards");
