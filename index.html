@@ -526,8 +526,44 @@ html,body{overscroll-behavior:none}
   #map-view .map-header{width:320px;min-width:320px;max-width:320px}
   .cards-scroll{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));padding:28px 36px}
 }
-/* eb-badge */
-.eb-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;background:rgba(255,102,0,.12);color:#ff6600;margin-left:6px;vertical-align:middle}
+/* ── AUTH MODAL ── */
+.auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
+.auth-modal{background:#1a1a1a;border:1px solid var(--border);border-radius:16px;padding:28px 24px;width:100%;max-width:360px;position:relative}
+.auth-modal h2{font-size:20px;font-weight:700;margin:0 0 4px;color:var(--text)}
+.auth-modal p{font-size:13px;color:var(--muted);margin:0 0 20px}
+.auth-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1}
+.auth-tabs{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.auth-tab{flex:1;padding:8px;background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:background .2s}
+.auth-tab.active{background:var(--accent);color:#0f0f0f}
+.auth-input{width:100%;background:#111;border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--text);font-size:14px;margin-bottom:10px;box-sizing:border-box;outline:none}
+.auth-input:focus{border-color:var(--accent)}
+.auth-btn{width:100%;padding:11px;background:var(--accent);color:#0f0f0f;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed}
+.auth-err{color:#ff5555;font-size:12px;margin:6px 0 0;min-height:16px}
+.auth-divider{text-align:center;color:var(--muted);font-size:12px;margin:14px 0}
+
+/* ── PROFILE / FAV BUTTON ── */
+.profile-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:4px 8px;line-height:1;transition:color .2s}
+.profile-btn:hover{color:var(--accent)}
+.fav-btn{background:none;border:none;font-size:16px;cursor:pointer;padding:4px;line-height:1;opacity:.5;transition:opacity .2s,transform .2s;flex-shrink:0}
+.fav-btn.active{opacity:1;transform:scale(1.15)}
+.fav-btn:hover{opacity:1}
+
+/* ── FAV FILTER PILL ── */
+.pill[data-t="favs"]{border-color:rgba(255,80,80,.3);color:#ff5555}
+.pill[data-t="favs"].active{background:#ff5555;color:#fff;border-color:#ff5555}
+
+/* ── PROFILE SHEET ── */
+.profile-sheet{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:8000;display:flex;align-items:flex-end;justify-content:center}
+.profile-panel{background:#1a1a1a;border:1px solid var(--border);border-radius:16px 16px 0 0;width:100%;max-width:540px;padding:24px 20px 40px;max-height:80vh;overflow-y:auto}
+.profile-panel h2{font-size:18px;font-weight:700;margin:0 0 4px}
+.profile-panel .email{font-size:12px;color:var(--muted);margin:0 0 20px}
+.profile-section-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px}
+.fav-chip{display:inline-flex;align-items:center;gap:6px;background:#222;border:1px solid var(--border);border-radius:20px;padding:5px 10px 5px 12px;font-size:13px;margin:3px}
+.fav-chip-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;padding:0}
+.profile-signout{margin-top:24px;width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer}
+.profile-signout:hover{border-color:#ff5555;color:#ff5555}
+
 
 /* VENUE PROFILE SHEET */
 #venue-overlay{
@@ -618,7 +654,10 @@ html,body{overscroll-behavior:none}
     <div class="header">
       <div class="header-top">
         <div class="logo">Tonight<span>.</span>TO</div>
-        <div class="tonight-badge" id="today-lbl">Thursday</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="tonight-badge" id="today-lbl">Thursday</div>
+          <button class="profile-btn" id="profile-btn" onclick="openProfileOrAuth()" title="Profile / Sign in">👤</button>
+        </div>
       </div>
     </div>
 
@@ -635,6 +674,7 @@ html,body{overscroll-behavior:none}
     <!-- TYPE PILLS -->
     <div class="filters" id="type-pills">
       <div class="pill active" data-t="all" onclick="setType(this)">All</div>
+      <div class="pill" data-t="favs" onclick="setType(this)">❤️ Favourites</div>
       <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
       <div class="pill" data-t="foodhh" onclick="setType(this)">🍔 Food HH</div>
       <div class="pill" data-t="music" onclick="setType(this)">🎵 Music</div>
@@ -764,6 +804,39 @@ html,body{overscroll-behavior:none}
   </div>
 </div>
 
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="auth-overlay" style="display:none">
+  <div class="auth-modal">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <h2>Tonight.TO</h2>
+    <p>Sign in to save your favourite venues</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="auth-tab-login" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="auth-tab" id="auth-tab-signup" onclick="switchAuthTab('signup')">Sign Up</button>
+    </div>
+    <input class="auth-input" type="email" id="auth-email" placeholder="Email address" autocomplete="email">
+    <input class="auth-input" type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
+    <p class="auth-err" id="auth-err"></p>
+    <button class="auth-btn" id="auth-submit-btn" onclick="submitAuth()">Sign In</button>
+  </div>
+</div>
+
+<!-- PROFILE SHEET -->
+<div class="profile-sheet" id="profile-sheet" style="display:none" onclick="if(event.target===this)closeProfileSheet()">
+  <div class="profile-panel">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+      <div>
+        <h2>My Profile</h2>
+        <p class="email" id="profile-email"></p>
+      </div>
+      <button style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer" onclick="closeProfileSheet()">✕</button>
+    </div>
+    <div class="profile-section-title">❤️ Saved Venues</div>
+    <div id="profile-favs-list"><p style="color:var(--muted);font-size:13px">No favourites yet — tap ❤️ on any venue card.</p></div>
+    <button class="profile-signout" onclick="signOut()">Sign out</button>
+  </div>
+</div>
+
 <!-- BOTTOM NAV -->
 <div class="bnav">
   <button class="nb active" id="nb-list" onclick="showView('list',this)"><span class="ni">☰</span>List</button>
@@ -771,6 +844,7 @@ html,body{overscroll-behavior:none}
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // Venue data — loaded from venues.json
 let HH=[], EV=[], ALL=[];
@@ -780,6 +854,147 @@ const EB_KEY = 'LXGRIMIHHPLUZOD2SMPP';
 const EB_TORONTO_LAT = '43.6532';
 const EB_TORONTO_LNG = '-79.3832';
 const TM_KEY = '9AmpXrkGpcwi0mPuM7N4cfhxNGuRiFah';
+
+// ── SUPABASE AUTH + FAVOURITES ────────────────────────────────────────────────
+const SUPA_URL = 'https://idmhsrscbthmhttxdstw.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlkbWhzcnNjYnRobWh0dHhkc3R3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2NzEyMTQsImV4cCI6MjA5MDI0NzIxNH0.QgqrJDsEffhMLv-natYKS_uROi1MnprJLGPxlLka7b0';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+let currentUser = null;
+let favourites = new Set(); // set of venue names
+
+// Init auth state on load
+supa.auth.getSession().then(({data:{session}})=>{
+  if(session){
+    currentUser = session.user;
+    loadFavourites();
+    updateProfileBtn();
+  }
+});
+supa.auth.onAuthStateChange((_event, session)=>{
+  currentUser = session?.user || null;
+  if(currentUser){ loadFavourites(); } else { favourites.clear(); }
+  updateProfileBtn();
+  render();
+});
+
+function updateProfileBtn(){
+  const btn = document.getElementById('profile-btn');
+  if(!btn) return;
+  btn.textContent = currentUser ? '😊' : '👤';
+  btn.title = currentUser ? 'My Profile' : 'Sign in';
+}
+
+async function loadFavourites(){
+  if(!currentUser) return;
+  const {data} = await supa.from('favourites').select('venue_name').eq('user_id', currentUser.id);
+  favourites = new Set((data||[]).map(r=>r.venue_name));
+  render();
+}
+
+async function toggleFav(e, name, type){
+  e.stopPropagation();
+  if(!currentUser){ openAuth(); return; }
+  if(favourites.has(name)){
+    favourites.delete(name);
+    await supa.from('favourites').delete().eq('user_id', currentUser.id).eq('venue_name', name);
+  } else {
+    favourites.add(name);
+    await supa.from('favourites').upsert({user_id: currentUser.id, venue_name: name, venue_type: type});
+  }
+  render();
+}
+
+// ── AUTH MODAL ────────────────────────────────────────────────────────────────
+let authMode = 'login';
+
+function openAuth(){
+  document.getElementById('auth-overlay').style.display='flex';
+  document.getElementById('auth-email').focus();
+}
+function closeAuth(){
+  document.getElementById('auth-overlay').style.display='none';
+  document.getElementById('auth-err').textContent='';
+}
+function switchAuthTab(mode){
+  authMode = mode;
+  document.getElementById('auth-tab-login').classList.toggle('active', mode==='login');
+  document.getElementById('auth-tab-signup').classList.toggle('active', mode==='signup');
+  document.getElementById('auth-submit-btn').textContent = mode==='login' ? 'Sign In' : 'Create Account';
+  document.getElementById('auth-err').textContent='';
+}
+async function submitAuth(){
+  const email = document.getElementById('auth-email').value.trim();
+  const password = document.getElementById('auth-password').value;
+  const errEl = document.getElementById('auth-err');
+  const btn = document.getElementById('auth-submit-btn');
+  if(!email||!password){ errEl.textContent='Please enter email and password.'; return; }
+  btn.disabled = true;
+  errEl.textContent = '';
+  const fn = authMode==='login'
+    ? supa.auth.signInWithPassword({email, password})
+    : supa.auth.signUp({email, password});
+  const {error} = await fn;
+  btn.disabled = false;
+  if(error){ errEl.textContent = error.message; return; }
+  if(authMode==='signup') errEl.textContent='✅ Check your email to confirm your account!';
+  else closeAuth();
+}
+
+// ── PROFILE SHEET ─────────────────────────────────────────────────────────────
+function openProfileOrAuth(){
+  if(!currentUser){ openAuth(); return; }
+  openProfileSheet();
+}
+async function openProfileSheet(){
+  document.getElementById('profile-email').textContent = currentUser.email;
+  document.getElementById('profile-sheet').style.display='flex';
+  renderProfileFavs();
+}
+function closeProfileSheet(){
+  document.getElementById('profile-sheet').style.display='none';
+}
+async function renderProfileFavs(){
+  const {data} = await supa.from('favourites').select('venue_name,venue_type').eq('user_id', currentUser.id).order('created_at');
+  const el = document.getElementById('profile-favs-list');
+  if(!data||!data.length){
+    el.innerHTML='<p style="color:var(--muted);font-size:13px">No favourites yet — tap ❤️ on any venue card.</p>';
+    return;
+  }
+  // Group by type
+  const groups = {};
+  data.forEach(r=>{
+    const t = r.venue_type||'other';
+    if(!groups[t]) groups[t]=[];
+    groups[t].push(r.venue_name);
+  });
+  el.innerHTML = Object.entries(groups).map(([t,names])=>`
+    <div class="profile-section-title">${TLABEL[t]||t}</div>
+    <div>${names.map(n=>`
+      <span class="fav-chip">
+        ${n}
+        <button class="fav-chip-remove" onclick="removeFavFromProfile('${n.replace(/'/g,"\\'")}')">✕</button>
+      </span>`).join('')}
+    </div>`).join('');
+}
+async function removeFavFromProfile(name){
+  favourites.delete(name);
+  await supa.from('favourites').delete().eq('user_id', currentUser.id).eq('venue_name', name);
+  render();
+  renderProfileFavs();
+}
+async function signOut(){
+  await supa.auth.signOut();
+  favourites.clear();
+  closeProfileSheet();
+  render();
+}
+
+// Handle Enter key in auth form
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ closeAuth(); closeProfileSheet(); }
+  if(e.key==='Enter' && document.getElementById('auth-overlay').style.display!=='none') submitAuth();
+});
 
 async function fetchEventbriteEvents(){
   try {
@@ -1203,6 +1418,7 @@ function getFiltered(typeFilter){
   const q=searchQuery;
   const isSearchActive=!!(searchTypes||q);
   return ALL.filter(v=>{
+    if(typeFilter==="favs") return favourites.has(v.name);
     if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
     if(hood!=="all"&&v.hood!==hood)return false;
     if(searchTypes){
@@ -1281,6 +1497,7 @@ function render(){
           <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
         </div>
         <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
+        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue">${favourites.has(v.name)?'❤️':'🤍'}</button>
       </div>
       <div class="detail">${v.detail}</div>
       <div class="card-ftr">
