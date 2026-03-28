@@ -1,7 +1,7 @@
 /**
- * Tonight.TO — Weekly Venue Scraper (v2)
- * Uses Claude AI + web search to find Toronto happy hours and events.
- * Broader search coverage, 2026 queries, geocodes new venues via Nominatim.
+ * Tonight.TO — Weekly Venue Scraper (v3)
+ * Uses Claude's knowledge (no web search) to find new Toronto venues.
+ * No rate limit issues. Geocodes new venues via Nominatim.
  */
 
 import { readFileSync, writeFileSync, existsSync } from 'fs';
@@ -15,72 +15,38 @@ const USER_AGENT = 'TonightTO/1.0 (https://tonightto.ca/)';
 
 if (!ANTHROPIC_KEY) { console.error('Missing ANTHROPIC_API_KEY'); process.exit(1); }
 
-const SEARCHES = [
-  'site:blogto.com Toronto happy hour bars 2026',
-  'site:blogto.com Toronto food happy hour deals 2026',
-  'site:blogto.com Toronto trivia nights weekly 2026',
-  'site:blogto.com Toronto karaoke bars 2026',
-  'site:blogto.com Toronto live music venues weekly 2026',
-  'site:blogto.com Toronto comedy nights bars 2026',
-  'site:blogto.com Toronto drag shows bars 2026',
-  'site:blogto.com Toronto DJ nights bars 2026',
-  'site:blogto.com Toronto open mic nights 2026',
-  'site:blogto.com Toronto jazz bars weekly 2026',
-  'site:blogto.com Toronto bingo nights bars 2026',
-  'site:nowtoronto.com Toronto happy hour specials bars 2026',
-  'site:nowtoronto.com Toronto trivia comedy karaoke weekly 2026',
-  'site:nowtoronto.com Toronto live music jazz bars weekly 2026',
-  'site:nowtoronto.com Toronto drag shows bingo nights 2026',
-  'site:torontolife.com best happy hour bars Toronto 2026',
-  'site:torontolife.com best trivia nights Toronto bars 2026',
-  'site:torontolife.com best karaoke bars Toronto 2026',
-  'site:torontolife.com best comedy nights Toronto 2026',
-  'site:torontolife.com best jazz bars Toronto 2026',
-  'site:streetsoftoronto.com Toronto happy hour bars 2026',
-  'site:streetsoftoronto.com Toronto weekly events bars 2026',
-  'site:yelp.ca happy hour bars Toronto Ontario 2026',
-  'site:yelp.ca trivia night bars Toronto Ontario 2026',
-  'site:yelp.ca karaoke bars Toronto Ontario 2026',
-  'Toronto Kensington Market bar happy hour weekly 2026',
-  'Toronto Leslieville bar happy hour trivia weekly 2026',
-  'Toronto Liberty Village bar happy hour weekly 2026',
-  'Toronto Danforth bar happy hour trivia weekly 2026',
-  'Toronto Ossington bar happy hour weekly 2026',
-  'Toronto King West bar happy hour weekly 2026',
-  'Toronto Queen West bar happy hour weekly 2026',
-  'Toronto Annex bar trivia karaoke weekly 2026',
-  'Toronto Parkdale bar happy hour weekly 2026',
-  'Toronto Yorkville bar happy hour weekly 2026',
-  'Toronto pub trivia night weekly bar 2026',
-  'Toronto karaoke night weekly bar 2026',
-  'Toronto drag show weekly bar 2026',
-  'Toronto jazz night weekly bar 2026',
-  'Toronto open mic night weekly bar 2026',
-  'Toronto bingo night bar weekly 2026',
-  'Toronto comedy night bar weekly 2026',
-  'Toronto DJ night bar weekly 2026',
-  'Toronto live music bar weekly 2026',
-  'Toronto best drink happy hour specials bars 2026',
-  'Toronto best food happy hour specials bars 2026',
-  'Toronto all day happy hour bars 2026',
-  'Toronto late night happy hour bars 2026',
-  'Toronto rooftop bar happy hour 2026',
-  'Toronto patio bar happy hour 2026',
+// One prompt per category — Claude knows Toronto venues well
+const PROMPTS = [
+  'List 15 Toronto bars and restaurants with drink happy hours (drinkhh) not already in this list. Focus on well-known spots with real addresses.',
+  'List 15 Toronto bars and restaurants with food happy hour deals (foodhh) not already in this list. Include spots known for cheap food deals.',
+  'List 15 Toronto bars that host weekly pub trivia nights not already in this list.',
+  'List 15 Toronto bars with weekly karaoke nights not already in this list.',
+  'List 15 Toronto bars and venues with weekly live music (livemusic) not already in this list.',
+  'List 15 Toronto bars with weekly jazz performances (jazz) not already in this list.',
+  'List 15 Toronto venues with weekly comedy nights (comedy) not already in this list.',
+  'List 15 Toronto bars with weekly drag shows (drag) not already in this list.',
+  'List 15 Toronto bars with weekly DJ nights (dj) not already in this list.',
+  'List 15 Toronto bars with weekly bingo nights (bingo) not already in this list.',
+  'List 15 Toronto venues with weekly open mic nights (openmic) not already in this list.',
 ];
 
-const SYSTEM_PROMPT = `You are a Toronto nightlife researcher. Extract venue info from web search results.
+const SYSTEM_PROMPT = `You are a Toronto nightlife expert with deep knowledge of bars, restaurants and event venues in Toronto, Ontario, Canada.
 
-Output a JSON array of objects with these fields:
-- name: venue/bar name (not event title)
-- hood: Toronto neighbourhood
-- type: one of: drinkhh, foodhh, trivia, karaoke, livemusic, jazz, comedy, drag, dj, bingo, openmic
-- days: array of: "mon","tue","wed","thu","fri","sat","sun"
-- start: 24hr decimal (17=5pm, 17.5=5:30pm, 21=9pm)
-- end: 24hr decimal (use >24 for after midnight: 25=1am)
-- detail: specific prices and what's included
-- addr: full street address with number
+Given a list of venues already in a database, suggest NEW venues not yet included.
 
-Rules: Toronto only. Recurring weekly events only. Address must have a street number. Return ONLY valid JSON array, no markdown.`;
+For each venue output a JSON object:
+- name: string (venue name)
+- hood: string (Toronto neighbourhood e.g. King West, Queen West, Ossington, Kensington, Annex, Yorkville, Danforth, Leslieville, Parkdale, Liberty Village, Financial, Distillery, Church, Midtown, Bloordale, Geary, Trinity Bellwoods, Riverside, Corktown, Harbourfront)
+- type: string (one of: drinkhh, foodhh, trivia, karaoke, livemusic, jazz, comedy, drag, dj, bingo, openmic)
+- days: array (subset of: "mon","tue","wed","thu","fri","sat","sun")
+- start: number (24hr decimal: 16=4pm, 17=5pm, 17.5=5:30pm, 20=8pm, 21=9pm, 22=10pm)
+- end: number (24hr decimal: use >24 for after midnight: 25=1am, 26=2am)
+- detail: string (specific details, prices if known, what makes it notable)
+- addr: string (real street address with number, e.g. "123 King St W")
+
+Only include real, currently operating Toronto venues you are confident about.
+Only include venues with real street addresses you know.
+Return ONLY a valid JSON array, no markdown, no explanation.`;
 
 async function geocode(name, addr) {
   const attempts = [
@@ -104,56 +70,51 @@ async function geocode(name, addr) {
   return null;
 }
 
-async function callClaude(query) {
-  const delays = [15000, 30000, 60000];
-  for (let attempt = 0; attempt <= delays.length; attempt++) {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01',
-        'anthropic-beta': 'web-search-2025-03-05',
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 2000,
-        system: SYSTEM_PROMPT,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages: [{ role: 'user', content: 'Search for and list Toronto venues: ' + query + '\n\nReturn ONLY a JSON array of venue objects.' }],
-      }),
-    });
+async function callClaude(prompt, existingNames) {
+  const existingList = existingNames.slice(0, 100).join(', ');
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': ANTHROPIC_KEY,
+      'anthropic-version': '2023-06-01',
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 3000,
+      system: SYSTEM_PROMPT,
+      messages: [{
+        role: 'user',
+        content: prompt + '\n\nAlready in database (do NOT include these): ' + existingList + '\n\nReturn ONLY a JSON array.'
+      }],
+    }),
+  });
 
-    if (response.status === 429) {
-      if (attempt < delays.length) {
-        console.log('  Rate limited - waiting ' + (delays[attempt]/1000) + 's before retry...');
-        await new Promise(r => setTimeout(r, delays[attempt]));
-        continue;
-      }
-      throw new Error('Rate limit exceeded after retries');
-    }
-
-    if (!response.ok) {
-      const err = await response.text();
-      throw new Error('Claude API ' + response.status + ': ' + err.slice(0, 200));
-    }
-
-    const data = await response.json();
-    const textBlock = data.content.find(b => b.type === 'text');
-    if (!textBlock) return [];
-
-    try {
-      const cleaned = textBlock.text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
-      const match = cleaned.match(/\[[\s\S]*\]/);
-      if (!match) return [];
-      const parsed = JSON.parse(match[0]);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      console.warn('  Could not parse response: ' + e.message);
-      return [];
-    }
+  if (response.status === 429) {
+    console.log('  Rate limited - waiting 30s...');
+    await new Promise(r => setTimeout(r, 30000));
+    return callClaude(prompt, existingNames);
   }
-  return [];
+
+  if (!response.ok) {
+    const err = await response.text();
+    throw new Error('Claude API ' + response.status + ': ' + err.slice(0, 200));
+  }
+
+  const data = await response.json();
+  const textBlock = data.content.find(b => b.type === 'text');
+  if (!textBlock) return [];
+
+  try {
+    const cleaned = textBlock.text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+    const match = cleaned.match(/\[[\s\S]*\]/);
+    if (!match) return [];
+    const parsed = JSON.parse(match[0]);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    console.warn('  Could not parse: ' + e.message);
+    return [];
+  }
 }
 
 const VALID_TYPES = new Set(['drinkhh','foodhh','happyhour','trivia','karaoke','livemusic','jazz','comedy','drag','dj','bingo','openmic']);
@@ -193,8 +154,8 @@ function deduplicate(existing, incoming) {
 }
 
 async function main() {
-  console.log('Tonight.TO Weekly Scraper v2');
-  console.log('============================');
+  console.log('Tonight.TO Weekly Scraper v3 (knowledge-based)');
+  console.log('================================================');
 
   let existing = [];
   try {
@@ -205,20 +166,21 @@ async function main() {
     }
   } catch(e) { console.log('Could not read venues.json:', e.message); }
 
+  const existingNames = existing.map(v => v.name);
   const allFound = [];
-  for (let i = 0; i < SEARCHES.length; i++) {
-    const query = SEARCHES[i];
-    console.log('\n[' + (i+1) + '/' + SEARCHES.length + '] ' + query);
+
+  for (let i = 0; i < PROMPTS.length; i++) {
+    const prompt = PROMPTS[i];
+    console.log('\n[' + (i+1) + '/' + PROMPTS.length + '] ' + prompt.slice(0, 60) + '...');
     try {
-      const found = await callClaude(query);
+      const found = await callClaude(prompt, existingNames);
       const normalized = found.map(normalize).filter(isValid);
       console.log('  Found ' + normalized.length + ' valid venues');
       normalized.forEach(v => console.log('    - ' + v.name + ' (' + v.addr + ')'));
       allFound.push(...normalized);
-      await new Promise(r => setTimeout(r, 15000));
+      await new Promise(r => setTimeout(r, 3000));
     } catch (e) {
       console.error('  Error: ' + e.message);
-      await new Promise(r => setTimeout(r, 15000));
     }
   }
 
