@@ -875,6 +875,16 @@ async function fetchTicketmasterEvents(){
       const startH = start.getHours() + start.getMinutes()/60;
       const dayKey = DKEYS[start.getDay()];
 
+      // Real end time from API, fallback to start + 3hrs
+      const endLocal = ev.dates?.end?.localDate && ev.dates?.end?.localTime
+        ? new Date(ev.dates.end.localDate + 'T' + ev.dates.end.localTime)
+        : new Date(start.getTime() + 3*60*60*1000);
+      const endH = endLocal.getHours() + endLocal.getMinutes()/60;
+
+      // Skip if event has already ended
+      const now = new Date();
+      if(endLocal < now) return null;
+
       // Map classification to app type
       const seg = (ev.classifications?.[0]?.segment?.name||'').toLowerCase();
       const genre = (ev.classifications?.[0]?.genre?.name||'').toLowerCase();
@@ -899,7 +909,7 @@ async function fetchTicketmasterEvents(){
         type,
         days: [dayKey],
         start: startH,
-        end: startH + 3,
+        end: endH,
         detail: `${venue.name||''}${venue.address?.line1 ? ', '+venue.address.line1 : ''}. ${priceStr}.`,
         addr: (venue.address?.line1||'') + (venue.city?.name ? ', '+venue.city.name : ''),
         lat: parseFloat(loc.latitude) || 43.65,
@@ -907,7 +917,7 @@ async function fetchTicketmasterEvents(){
         url: ev.url || '',
         source: 'ticketmaster',
       };
-    }).filter(v => v.name && v.days[0] && v.addr);
+    }).filter(v => v && v.name && v.days[0] && v.addr);
   } catch(err){
     console.warn('Ticketmaster fetch failed:',err.message);
     return [];
@@ -1106,6 +1116,26 @@ function showView(v, el){
   } else {
     document.getElementById("map-view").classList.add("active");
     document.getElementById("nb-map").classList.add("active");
+
+    // Sync day pills from list → map
+    selectedMapDays = new Set(selectedDays);
+    document.querySelectorAll("#map-day-pills .day-pill").forEach(p=>{
+      p.classList.toggle("active", selectedMapDays.has(p.dataset.d));
+    });
+
+    // Sync time slider from list → map
+    const listSlider = document.getElementById("time-slider");
+    const mapSlider = document.getElementById("map-time-slider");
+    const listNowChk = document.getElementById("now-chk");
+    const mapNowChk = document.getElementById("map-now-chk");
+    if(listSlider && mapSlider){
+      mapSlider.value = listSlider.value;
+      updateMapTimeDisplay();
+    }
+    if(listNowChk && mapNowChk){
+      mapNowChk.checked = listNowChk.checked;
+    }
+
     setTimeout(initMap, 100);
   }
 }
