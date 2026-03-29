@@ -1686,7 +1686,14 @@ function showView(v, el){
       mapNowChk.checked = listNowChk.checked;
     }
 
-    setTimeout(initMap, 200);
+    // Always close sheet when switching to map so it doesn't block the header
+    closeSheet();
+
+    // Init map after DOM settles — invalidateSize fixes scale issues
+    setTimeout(()=>{
+      initMap();
+      if(leafletMap) leafletMap.invalidateSize();
+    }, 250);
   }
 }
 
@@ -1893,8 +1900,7 @@ function initMap(){
   if(leafletMap){
     setTimeout(()=>{ leafletMap.invalidateSize(); renderMap(); }, 50);
     return;
-  }
-  leafletMap=L.map("map",{center:[43.655,-79.385],zoom:13,zoomControl:true});
+  }  leafletMap=L.map("map",{center:[43.655,-79.385],zoom:13,zoomControl:true});
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",{
     attribution:'&copy; <a href="https://carto.com/">CARTO</a>',
     subdomains:"abcd",maxZoom:19
