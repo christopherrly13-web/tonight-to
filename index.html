@@ -449,11 +449,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 }
 #search-clear.visible{display:block}
 #search-suggestions{
-  position:absolute;left:0;right:0;top:calc(100% + 4px);
+  position:fixed;
+  left:0;right:0;
   background:var(--surface);
   border:1px solid var(--border2);
-  border-radius:var(--radius-sm);
-  overflow:hidden;z-index:9999;
+  border-radius:0 0 var(--radius-sm) var(--radius-sm);
+  overflow:hidden;
+  z-index:9999;
   box-shadow:0 12px 32px rgba(0,0,0,.7);
   display:none;
 }
@@ -2567,6 +2569,13 @@ function onSearch(){
   searchQuery=q;
   const clearBtn=document.getElementById("search-clear");
   const sugBox=document.getElementById("search-suggestions");
+
+  // Position suggestions fixed just below the search bar
+  const searchWrap=document.querySelector('.list-header-core .search-wrap');
+  if(searchWrap && sugBox){
+    const rect=searchWrap.getBoundingClientRect();
+    sugBox.style.top=(rect.bottom+2)+'px';
+  }
 
   if(!q){
     clearBtn.classList.remove("visible");
