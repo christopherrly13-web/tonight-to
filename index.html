@@ -150,14 +150,17 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 /* Filters fade */
 .filters-collapsible{
-  max-height:300px;
+  display:grid;
+  grid-template-rows:1fr;
   opacity:1;
-  overflow:hidden;
-  transition:max-height .5s ease, opacity .6s ease;
+  transition:grid-template-rows .45s ease, opacity .5s ease;
   flex-shrink:0;
 }
+.filters-collapsible > * {
+  overflow:hidden;
+}
 .filters-collapsible.hidden{
-  max-height:0;
+  grid-template-rows:0fr;
   opacity:0;
   pointer-events:none;
 }
@@ -834,7 +837,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="feed-scroll" id="feed-scroll">
 
     <!-- FILTERS (collapse on scroll) -->
-    <div class="filters-collapsible" id="filters-collapsible">
+    <div class="filters-collapsible" id="filters-collapsible"><div>
       <div class="filters" id="type-pills">
         <div class="pill active" data-t="all" onclick="setType(this)">All</div>
         <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
@@ -871,7 +874,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="onNowChkChange()"> Now</label>
         <span class="count-text" id="ct"></span>
       </div>
-    </div>
+    </div></div><!-- /filters-collapsible inner + outer -->
 
     <!-- CARDS -->
     <div class="cards-scroll" id="cards"></div>
@@ -1184,10 +1187,9 @@ function updateProfileBtn(){
 }
 
 function goToFeed(){
-  activeType='all';
+  activeTypes = new Set(['all']);
   document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
-  const allPill=document.querySelector('#type-pills [data-t="all"]');
-  if(allPill) allPill.classList.add('active');
+  document.querySelector('#type-pills [data-t="all"]')?.classList.add('active');
   showView('list', document.getElementById('nb-list'));
   render();
 }
@@ -1200,8 +1202,7 @@ function handleNavLists(){
   showView('list', null);
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('nb-lists').classList.add('active');
-  // Keep existing pill selection — just filter to favs on top of it
-  activeType='favs';
+  activeTypes = new Set(['favs']);
   render();
 }
 
@@ -1300,7 +1301,7 @@ function handleMenuFavs(){
   // Switch to favs pill
   document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
   const favPill = document.querySelector('#type-pills [data-t="favs"]');
-  if(favPill){ favPill.classList.add('active'); activeType='favs'; }
+  if(favPill){ favPill.classList.add('active'); activeTypes = new Set(['favs']); }
   render();
 }
 
@@ -1568,7 +1569,7 @@ const curHour=nowDate.getHours()+nowDate.getMinutes()/60;
 document.getElementById("today-lbl").textContent=DNAMES[todayIdx];
 document.getElementById("map-today-lbl").textContent=DNAMES[todayIdx];
 
-let activeTab="all", activeType="all", mapActiveTypes=new Set();
+let activeTab="all", activeTypes=new Set(["all"]), mapActiveTypes=new Set();
 let selectedDays=new Set([todayKey]);
 let selectedMapDays=new Set([todayKey]);
 let userLat=null, userLng=null;
@@ -1691,49 +1692,39 @@ function showView(v, el){
   if(v==="list"){
     document.getElementById("list-view").classList.add("active");
     document.getElementById("nb-list").classList.add("active");
-    // Sync map type → list type pill when returning from map
-    if(mapActiveTypes.size === 1){
-      const mapT = [...mapActiveTypes][0];
-      activeType = mapT;
-      document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
-      const match = document.querySelector(`#type-pills [data-t="${mapT}"]`);
-      if(match) match.classList.add('active');
-      else {
-        // map uses 'music' group — try to match
-        const allPill = document.querySelector('#type-pills [data-t="all"]');
-        if(allPill){ allPill.classList.add('active'); activeType='all'; }
-      }
-    } else if(mapActiveTypes.size === 0){
-      // Map had nothing selected — keep list as-is
+    // Sync map type → list type pills when returning from map
+    if(mapActiveTypes.size > 0){
+      activeTypes = new Set(mapActiveTypes);
+      document.querySelectorAll('#type-pills .pill').forEach(p=>{
+        p.classList.toggle('active', activeTypes.has(p.dataset.t));
+      });
     } else {
-      // Multiple map types selected — reset list to All
-      activeType='all';
+      // Nothing selected on map — reset list to All
+      activeTypes = new Set(['all']);
       document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
-      const allPill = document.querySelector('#type-pills [data-t="all"]');
-      if(allPill) allPill.classList.add('active');
+      document.querySelector('#type-pills [data-t="all"]')?.classList.add('active');
     }
     render();
   } else {
     document.getElementById("map-view").classList.add("active");
     document.getElementById("nb-map").classList.add("active");
 
-    // Sync list type → map type pills
+    // Sync list types → map type pills
     mapActiveTypes.clear();
     document.querySelectorAll("#map-type-pills .pill").forEach(p=>p.classList.remove("active"));
-    if(activeType && activeType !== 'all' && activeType !== 'favs' && activeType !== null){
-      mapActiveTypes.add(activeType);
-      const mapPill = document.querySelector(`#map-type-pills [data-t="${activeType}"]`);
-      if(mapPill) mapPill.classList.add('active');
-      else {
-        // No exact match — set All
-        const allPill = document.querySelector("#map-type-pills [data-t='all']");
-        if(allPill) allPill.classList.add('active');
-        mapActiveTypes.clear();
+    const nonSpecial = [...activeTypes].filter(t=>t!=='all'&&t!=='favs');
+    if(nonSpecial.length > 0){
+      nonSpecial.forEach(t=>{
+        mapActiveTypes.add(t);
+        const mapPill = document.querySelector(`#map-type-pills [data-t="${t}"]`);
+        if(mapPill) mapPill.classList.add('active');
+      });
+      // If none matched map pills, fall back to All
+      if(mapActiveTypes.size === 0){
+        document.querySelector("#map-type-pills [data-t='all']")?.classList.add('active');
       }
     } else {
-      // All or no selection — set map to All
-      const allPill = document.querySelector("#map-type-pills [data-t='all']");
-      if(allPill) allPill.classList.add('active');
+      document.querySelector("#map-type-pills [data-t='all']")?.classList.add('active');
     }
 
     // Sync day pills from list → map
@@ -1775,24 +1766,38 @@ function showView(v, el){
 })();
 
 function setNavFilter(t){
-  activeType=t==="event"?"all":"happyhour";
+  const typeVal = t==="event" ? "all" : "happyhour";
+  activeTypes = new Set([typeVal]);
   document.querySelectorAll("#type-pills .pill").forEach(p=>p.classList.remove("active"));
-  const target=document.querySelector(`#type-pills [data-t="${t==="event"?"all":t}"]`);
-  if(target)target.classList.add("active");
+  const target=document.querySelector(`#type-pills [data-t="${typeVal}"]`);
+  if(target) target.classList.add("active");
   render();
 }
 
 function setType(el){
-  const t=el.dataset.t;
-  if(el.classList.contains("active")){
-    // Deselect any active pill including All
-    el.classList.remove("active");
-    activeType=null;
+  const t = el.dataset.t;
+  if(t === 'all'){
+    // All toggles off everything else
+    if(activeTypes.has('all')){
+      activeTypes.clear();
+    } else {
+      activeTypes.clear();
+      activeTypes.add('all');
+    }
   } else {
-    document.querySelectorAll("#type-pills .pill").forEach(p=>p.classList.remove("active"));
-    el.classList.add("active");
-    activeType=t;
+    // Remove 'all' when selecting specific type
+    activeTypes.delete('all');
+    document.querySelector('#type-pills [data-t="all"]')?.classList.remove('active');
+    if(activeTypes.has(t)){
+      activeTypes.delete(t);
+    } else {
+      activeTypes.add(t);
+    }
   }
+  // Sync pill UI
+  document.querySelectorAll('#type-pills .pill').forEach(p=>{
+    p.classList.toggle('active', activeTypes.has(p.dataset.t));
+  });
   render();
 }
 
@@ -1829,9 +1834,10 @@ function fmt(h){
   return hr+(mins>0?":"+String(mins).padStart(2,"0"):"")+ap;
 }
 
-function getFiltered(typeFilter){
-  if(typeFilter===null) return []; // no pill selected — show empty state
-  const hood="all";
+function getFiltered(){
+  if(activeTypes.size === 0) return []; // no pill selected — show empty state
+  const isFavs = activeTypes.has('favs');
+  const isAll = activeTypes.has('all');
   const nowOnly=(document.getElementById("now-chk")?.checked||false)||searchNowOnly;
   const timeFilter=getTimeFilter();
   const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
@@ -1839,20 +1845,21 @@ function getFiltered(typeFilter){
   const q=searchQuery;
   const isSearchActive=!!(searchTypes||q);
   return ALL.filter(v=>{
-    if(typeFilter==="favs") return favourites.has(v.name);
+    if(isFavs) return favourites.has(v.name);
     if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
-    if(hood!=="all"&&v.hood!==hood)return false;
     if(searchTypes){
       if(!searchTypes.includes(v.type))return false;
     } else if(q&&!searchTypes){
       const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
       if(!hay.includes(q))return false;
-    } else {
-      if(typeFilter==="happyhour"&&!isHH(v.type))return false;
-      if(typeFilter==="music"&&!isMusic(v.type))return false;
-      if(typeFilter!=="all"&&typeFilter!=="happyhour"&&typeFilter!=="music"&&v.type!==typeFilter)return false;
-      if(activeTab==="happyhour"&&!isHH(v.type))return false;
-      if(activeTab==="events"&&isHH(v.type))return false;
+    } else if(!isAll){
+      // Multi-select type filter
+      const typeMatch = [...activeTypes].some(t=>{
+        if(t==='happyhour') return isHH(v.type);
+        if(t==='music') return isMusic(v.type);
+        return v.type===t;
+      });
+      if(!typeMatch) return false;
     }
     if(nowOnly&&!isNow(v))return false;
     if(timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
@@ -1885,7 +1892,7 @@ function daysUntilNext(v){
 
 function render(){
   const isSearchActive=!!(searchTypes||searchQuery);
-  let items=getFiltered(activeType);
+  let items=getFiltered();
 
   // Sort: live now first, then chronological by start time
   if(isSearchActive){
@@ -1913,7 +1920,7 @@ function render(){
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
 
   const c=document.getElementById("cards");
-  if(activeType===null){
+  if(activeTypes.size===0){
     c.innerHTML=`<div class="empty empty-no-selection">
       <div class="empty-icon">🍻</div>
       <p class="empty-title">No events selected</p>
@@ -2664,25 +2671,48 @@ function onSearch(){
   sugBox.classList.add("visible");
 }
 
-function syncDaysAndTime(venues){
+function syncDaysAndTime(venues, updateTypes=false){
   if(!venues||venues.length===0) return;
 
-  // Collect all days across matched venues
-  const allDays=new Set();
-  venues.forEach(v=>(v.days||[]).forEach(d=>allDays.add(d)));
+  // Find next upcoming event — prefer today, then soonest day
+  const today = todayKey;
+  const todayVenues = venues.filter(v=>v.days.includes(today));
+  const targetVenues = todayVenues.length ? todayVenues : venues;
 
-  // Update selectedDays and day pill UI
-  selectedDays=allDays;
+  // Set day pills to the next available day for this venue
+  const nextDays = new Set();
+  if(todayVenues.length){
+    nextDays.add(today);
+  } else {
+    // Find the soonest upcoming day
+    let minDays = 8;
+    venues.forEach(v=>{
+      const d = daysUntilNext(v);
+      if(d < minDays){ minDays = d; }
+    });
+    venues.forEach(v=>{
+      if(daysUntilNext(v) === minDays) v.days.forEach(d=>nextDays.add(d));
+    });
+  }
+  selectedDays = nextDays.size ? nextDays : new Set(venues.flatMap(v=>v.days));
   document.querySelectorAll("#day-pills .day-pill").forEach(p=>{
-    p.classList.toggle("active", allDays.has(p.dataset.d));
+    p.classList.toggle("active", selectedDays.has(p.dataset.d));
   });
 
-  // Set slider to the earliest start time across matched venues
-  const earliest=Math.min(...venues.map(v=>v.start||0));
-  if(earliest>0&&earliest<=24){
-    const slider=document.getElementById("time-slider");
-    slider.value=earliest;
-    updateTimeDisplay();
+  // Set time slider to earliest start among target venues
+  const earliest = Math.min(...targetVenues.map(v=>v.start||0));
+  if(earliest > 0 && earliest <= 24){
+    const slider = document.getElementById("time-slider");
+    if(slider){ slider.value = earliest; updateTimeDisplay(); }
+  }
+
+  // Auto-select relevant type pills
+  if(updateTypes){
+    const types = new Set(venues.map(v=>v.type));
+    activeTypes = types.size ? types : new Set(['all']);
+    document.querySelectorAll('#type-pills .pill').forEach(p=>{
+      p.classList.toggle('active', activeTypes.has(p.dataset.t));
+    });
   }
 }
 
@@ -2711,10 +2741,10 @@ function applySearchIntent(types, nowOnly){
     searchQuery="";
     document.getElementById("search-clear").classList.add("visible");
   }
-  // Sync days and time to matched venues
+  // Sync days and time to matched venues, and update type pills
   if(types){
     const matched=ALL.filter(v=>types.includes(v.type));
-    syncDaysAndTime(matched);
+    syncDaysAndTime(matched, true);
   }
   hideSuggestions();
   render();
@@ -2726,9 +2756,9 @@ function applyVenueSearch(name){
   document.getElementById("search-input").value=name;
   searchQuery=name.toLowerCase();
   document.getElementById("search-clear").classList.add("visible");
-  // Sync days and time to the specific venue
+  // Find venue and sync days, time AND type pills
   const venue=ALL.find(v=>v.name.toLowerCase()===name.toLowerCase());
-  if(venue) syncDaysAndTime([venue]);
+  if(venue) syncDaysAndTime([venue], true);
   hideSuggestions();
   render();
 }
