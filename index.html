@@ -134,11 +134,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 /* Filters fade transparent while scrolling */
 .filters-collapsible{
   flex-shrink:0;
-  transition:opacity .4s ease;
+  overflow:hidden;
+  max-height:300px;
   opacity:1;
+  transition:max-height .25s ease, opacity .2s ease;
 }
 .filters-collapsible.scrolling{
-  opacity:0.08;
+  max-height:0;
+  opacity:0;
   pointer-events:none;
 }
 /* Single scroll container */
@@ -2328,7 +2331,7 @@ function updateFeedPadding(){
 updateFeedPadding();
 window.addEventListener('resize', updateFeedPadding);
 
-// Feed scroll → only fade filters, header+search always stay solid
+// Feed scroll → collapse filters so cards show in their place
 let _feedScrollTimer = null;
 const _feedScroll = document.getElementById('feed-scroll');
 if(_feedScroll){
@@ -2336,9 +2339,12 @@ if(_feedScroll){
     const filters = document.getElementById('filters-collapsible');
     if(!filters) return;
     filters.classList.add('scrolling');
+    // Recalculate top padding after filters collapse
+    setTimeout(updateFeedPadding, 260);
     clearTimeout(_feedScrollTimer);
     _feedScrollTimer = setTimeout(()=>{
       filters.classList.remove('scrolling');
+      setTimeout(updateFeedPadding, 260);
     }, 600);
   }, {passive:true});
 }
