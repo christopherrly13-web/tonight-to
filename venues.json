@@ -95,24 +95,6 @@
       "lng": -79.419667
     },
     {
-      "name": "Coffee Oysters Champagne",
-      "hood": "Entertainment",
-      "type": "drinkhh",
-      "days": [
-        "tue",
-        "wed",
-        "thu",
-        "fri",
-        "sat"
-      ],
-      "start": 17,
-      "end": 23,
-      "detail": "🍸 $5 espresso martinis AND classic martinis all night Tue–Sat. Speakeasy vibes.",
-      "addr": "214 King St W",
-      "lat": 43.647385,
-      "lng": -79.386787
-    },
-    {
       "name": "Superpoint",
       "hood": "Ossington",
       "type": "drinkhh",
