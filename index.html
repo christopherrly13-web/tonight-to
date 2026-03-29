@@ -113,7 +113,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .view.active{display:flex}
 
 /* HEADER */
-.header{padding-top:calc(max(env(safe-area-inset-top),10px) + 64px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0}
+.header{padding-top:max(env(safe-area-inset-top),16px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0}
 .header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
 .logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
@@ -223,7 +223,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 /* Map header — compact */
 .map-header{
-  padding-top:calc(max(env(safe-area-inset-top),14px) + 58px);
+  padding-top:max(env(safe-area-inset-top),14px);
   padding-left:16px;padding-right:16px;padding-bottom:2px;
   flex-shrink:0;background:var(--bg);
 }
@@ -311,8 +311,34 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .leaflet-bar a:hover{background:#f5f5f0!important}
 
 /* TOP NAV */
-.bnav{position:fixed;top:0;left:0;right:0;background:rgba(15,15,15,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;padding:max(10px,env(safe-area-inset-top)) 12px 10px;z-index:3000;gap:8px}
-.nb{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:7px 4px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;transition:all .15s;border-radius:var(--radius-sm);border:1px solid transparent}
+/* ── BOTTOM NAV ── */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:rgba(15,15,15,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--border);display:flex;align-items:center;padding:8px 8px max(env(safe-area-inset-bottom),8px);z-index:3000;gap:0}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 4px;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;transition:color .15s;position:relative}
+.nb.active{color:var(--accent)}
+.nb.active svg{stroke:var(--accent)}
+.nb svg{transition:stroke .15s}
+.nb span{line-height:1}
+/* Plus button */
+.nb-plus{flex:0 0 64px}
+.nb-plus-icon{width:48px;height:48px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:0;box-shadow:0 4px 16px rgba(232,197,71,.35);transition:transform .15s}
+.nb-plus-icon svg{stroke:#0f0f0f}
+.nb-plus:active .nb-plus-icon{transform:scale(.93)}
+/* Profile avatar */
+.nb-avatar{width:26px;height:26px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:border-color .2s}
+.nb.active .nb-avatar{border-color:var(--accent)}
+
+/* ── FULL SEARCH OVERLAY ── */
+.full-search-overlay{position:fixed;inset:0;background:var(--bg);z-index:4000;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.full-search-overlay.open{transform:translateY(0)}
+.full-search-header{display:flex;align-items:center;justify-content:center;padding:max(env(safe-area-inset-top),16px) 16px 12px;border-bottom:1px solid var(--border);position:relative;flex-shrink:0}
+.full-search-title{font-size:16px;font-weight:700;color:var(--text)}
+.full-search-close{position:absolute;left:16px;top:50%;transform:translateY(-50%);background:var(--surface2);border:none;color:var(--text);font-size:16px;cursor:pointer;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:calc(max(env(safe-area-inset-top),16px)/2)}
+.full-search-body{flex:1;overflow-y:auto;padding:16px}
+.full-search-input-wrap{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.full-search-input-wrap svg{flex-shrink:0;color:var(--muted)}
+.full-search-input-wrap input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif}
+.full-search-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.full-search-results{display:flex;flex-direction:column;gap:10px}
 .nb.active{color:#0f0f0f;background:var(--accent);border-color:var(--accent)}
 .ni{font-size:14px;line-height:1}
 /* SEARCH */
@@ -407,8 +433,8 @@ html,body{overscroll-behavior:none}
 .card:active{transform:scale(.985);transition:transform .08s}
 
 /* Cards safe area clearance on mobile */
-.cards-scroll{padding-bottom:calc(70px + env(safe-area-inset-bottom))}
-#map-legend{bottom:calc(70px + env(safe-area-inset-bottom))}
+.cards-scroll{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+#map-legend{bottom:calc(90px + env(safe-area-inset-bottom))}
 
 /* Very small screens */
 @media (max-width:360px){
@@ -423,7 +449,7 @@ html,body{overscroll-behavior:none}
 @media (min-width:600px) and (max-width:1023px){
   body{background:var(--bg)}
   #list-view,#map-view{max-width:600px;margin:0 auto;box-shadow:0 0 80px rgba(0,0,0,.5)}
-  .bnav{max-width:600px;left:50%;transform:translateX(-50%);border-radius:0 0 var(--radius) var(--radius)}
+  .bnav{max-width:600px;left:50%;transform:translateX(-50%);border-radius:var(--radius) var(--radius) 0 0}
   .card-name{font-size:16px}
   .detail{font-size:14px}
   .logo{font-size:28px}
@@ -434,20 +460,20 @@ html,body{overscroll-behavior:none}
   html,body{height:100%;overflow:hidden;background:#0a0a0a}
 
   /* Hide mobile nav, show desktop nav */
-  .bnav{display:none!important}
-  .desktop-nav{display:flex!important}
+  .bnav{display:flex!important;max-width:100%;border-radius:0}
+  .desktop-nav{display:none!important}
 
-  /* Full-width views */
+  /* Full-width views - no top nav offset needed */
   #list-view{
     flex-direction:row;
-    height:calc(100vh - 52px);
-    margin-top:52px;
+    height:calc(100vh - 70px);
+    margin-top:0;
     max-width:100%;
   }
   #map-view{
     flex-direction:column;
-    height:calc(100vh - 52px);
-    margin-top:52px;
+    height:calc(100vh - 70px);
+    margin-top:0;
     max-width:100%;
   }
 
@@ -670,13 +696,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<!-- DESKTOP NAV (hidden on mobile via CSS) -->
-<nav class="desktop-nav" id="desktop-nav" style="display:none">
-  <div class="desktop-nav-logo">Tonight<span>.</span>TO</div>
-  <button class="desktop-nav-btn active" id="dnav-list" onclick="showView('list',this);document.getElementById('dnav-map').classList.remove('active');this.classList.add('active')">☰ List</button>
-  <button class="desktop-nav-btn" id="dnav-map" onclick="showView('map',this);document.getElementById('dnav-list').classList.remove('active');this.classList.add('active')">◎ Map</button>
-</nav>
-
 <!-- LIST VIEW -->
 <div class="view active" id="list-view">
   <!-- SIDEBAR (header + all filters) -->
@@ -888,9 +907,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <!-- BOTTOM NAV -->
-<div class="bnav">
-  <button class="nb active" id="nb-list" onclick="showView('list',this)"><span class="ni">☰</span>List</button>
-  <button class="nb" id="nb-map" onclick="showView('map',this)"><span class="ni">◎</span>Map</button>
+<div class="bnav" id="bnav">
+  <button class="nb active" id="nb-list" onclick="showView('list',this)">
+    <svg class="ni" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    <span>Feed</span>
+  </button>
+  <button class="nb" id="nb-lists" onclick="handleNavLists()">
+    <svg class="ni" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+    <span>My List</span>
+  </button>
+  <button class="nb nb-plus" id="nb-search-btn" onclick="openFullSearch()">
+    <div class="nb-plus-icon">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </div>
+  </button>
+  <button class="nb" id="nb-map" onclick="showView('map',this)">
+    <svg class="ni" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="3"/><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z"/></svg>
+    <span>Map</span>
+  </button>
+  <button class="nb" id="nb-profile" onclick="openProfileOrAuth()">
+    <div class="nb-avatar" id="nb-avatar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </div>
+    <span id="nb-profile-label">Profile</span>
+  </button>
+</div>
+
+<!-- FULL SEARCH OVERLAY -->
+<div class="full-search-overlay" id="full-search-overlay">
+  <div class="full-search-header">
+    <button class="full-search-close" onclick="closeFullSearch()">✕</button>
+    <div class="full-search-title">Search</div>
+  </div>
+  <div class="full-search-body">
+    <div class="full-search-input-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="full-search-input" placeholder="Venues, drinks, trivia, music…" autocomplete="off" autocorrect="off" spellcheck="false" oninput="onFullSearch()">
+      <button id="full-search-clear" onclick="clearFullSearch()" style="display:none">✕</button>
+    </div>
+    <div class="full-search-pills" id="full-search-type-pills">
+      <div class="pill active" data-t="all" onclick="setFullSearchType(this)">All</div>
+      <div class="pill" data-t="drinkhh" onclick="setFullSearchType(this)">🍸 Drink HH</div>
+      <div class="pill" data-t="foodhh" onclick="setFullSearchType(this)">🍔 Food HH</div>
+      <div class="pill" data-t="music" onclick="setFullSearchType(this)">🎵 Music</div>
+      <div class="pill" data-t="trivia" onclick="setFullSearchType(this)">Trivia</div>
+      <div class="pill" data-t="comedy" onclick="setFullSearchType(this)">Comedy</div>
+      <div class="pill" data-t="drag" onclick="setFullSearchType(this)">Drag</div>
+      <div class="pill" data-t="karaoke" onclick="setFullSearchType(this)">Karaoke</div>
+      <div class="pill" data-t="jazz" onclick="setFullSearchType(this)">Jazz</div>
+      <div class="pill" data-t="bingo" onclick="setFullSearchType(this)">Bingo</div>
+    </div>
+    <div id="full-search-results" class="full-search-results"></div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -900,9 +968,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 let HH=[], EV=[], ALL=[];
 
 // ── EVENTBRITE LIVE FETCH ─────────────────────────────────────────────────────
-const EB_KEY = 'LXGRIMIHHPLUZOD2SMPP';
-const EB_TORONTO_LAT = '43.6532';
-const EB_TORONTO_LNG = '-79.3832';
 const TM_KEY = '9AmpXrkGpcwi0mPuM7N4cfhxNGuRiFah';
 
 // ── SUPABASE AUTH + FAVOURITES ────────────────────────────────────────────────
@@ -931,14 +996,101 @@ supa.auth.onAuthStateChange((_event, session)=>{
 function updateProfileBtn(){
   const label = document.getElementById('menu-auth-label');
   const icon = document.getElementById('menu-auth-item')?.querySelector('.hamburger-item-icon');
+  const nbLabel = document.getElementById('nb-profile-label');
+  const nbAvatar = document.getElementById('nb-avatar');
   if(!label) return;
   if(currentUser){
-    label.textContent = currentUser.email.split('@')[0]; // show username part
+    label.textContent = currentUser.email.split('@')[0];
     if(icon) icon.textContent = '😊';
+    if(nbLabel) nbLabel.textContent = 'Profile';
+    if(nbAvatar) nbAvatar.style.borderColor = 'var(--accent)';
   } else {
     label.textContent = 'Sign In / Sign Up';
     if(icon) icon.textContent = '👤';
+    if(nbLabel) nbLabel.textContent = 'Sign In';
+    if(nbAvatar) nbAvatar.style.borderColor = '';
   }
+}
+
+// Nav: My List
+function handleNavLists(){
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nb-lists').classList.add('active');
+  if(!currentUser){ openAuth(); return; }
+  showView('list', null);
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('nb-lists').classList.add('active');
+  document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
+  activeType='favs';
+  render();
+}
+
+// Full search overlay
+let fullSearchType = 'all';
+function openFullSearch(){
+  document.getElementById('full-search-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('full-search-input').focus(), 300);
+  renderFullSearch();
+}
+function closeFullSearch(){
+  document.getElementById('full-search-overlay').classList.remove('open');
+}
+function clearFullSearch(){
+  document.getElementById('full-search-input').value='';
+  document.getElementById('full-search-clear').style.display='none';
+  renderFullSearch();
+}
+function setFullSearchType(el){
+  document.querySelectorAll('#full-search-type-pills .pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  fullSearchType = el.dataset.t;
+  renderFullSearch();
+}
+function onFullSearch(){
+  const val = document.getElementById('full-search-input').value;
+  document.getElementById('full-search-clear').style.display = val ? 'block' : 'none';
+  renderFullSearch();
+}
+function renderFullSearch(){
+  const q = (document.getElementById('full-search-input').value||'').toLowerCase().trim();
+  const results = ALL.filter(v=>{
+    if(fullSearchType!=='all'){
+      if(fullSearchType==='music'&&!MUSIC_TYPES.has(v.type)) return false;
+      if(fullSearchType!=='music'&&fullSearchType!==v.type) return false;
+    }
+    if(q){
+      const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  }).slice(0,30);
+
+  const el = document.getElementById('full-search-results');
+  if(!results.length && q){
+    el.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px 0">No results found</p>';
+    return;
+  }
+  if(!q && fullSearchType==='all'){
+    el.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px 0">Start typing to search venues…</p>';
+    return;
+  }
+  el.innerHTML = results.map(v=>{
+    const live = isNow(v);
+    return `<div class="card ${live?'live-card':''}" onclick="closeFullSearch();" style="cursor:pointer">
+      <div class="card-top">
+        <div>
+          <div class="card-name">${v.name}</div>
+          <div class="card-sub">${v.hood} · ${v.addr}</div>
+        </div>
+        <span class="badge ${TBADGE[v.type]||'b-hh'}">${TLABEL[v.type]||v.type}</span>
+      </div>
+      <div class="detail">${v.detail}</div>
+      <div class="card-ftr">
+        <div class="time-wrap"><span class="dot ${live?'on':''}"></span><span class="time-txt ${live?'on':''}">${fmt(v.start)}–${fmt(v.end)}</span></div>
+        <span class="days-txt">${v.days.map(d=>DABB[d]).join(' · ')}</span>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function toggleMenu(e){
@@ -1085,78 +1237,9 @@ async function signOut(){
 
 // Handle Enter key in auth form
 document.addEventListener('keydown', e=>{
-  if(e.key==='Escape'){ closeAuth(); closeProfileSheet(); }
+  if(e.key==='Escape'){ closeAuth(); closeProfileSheet(); closeFullSearch(); }
   if(e.key==='Enter' && document.getElementById('auth-overlay').style.display!=='none') submitAuth();
 });
-
-async function fetchEventbriteEvents(){
-  try {
-    // Search for events in Toronto within 10km, happening in the next 7 days
-    const now = new Date().toISOString().split('.')[0]+'Z';
-    const week = new Date(Date.now()+7*24*60*60*1000).toISOString().split('.')[0]+'Z';
-    const url = `https://www.eventbriteapi.com/v3/events/search/?` +
-      `location.latitude=${EB_TORONTO_LAT}&location.longitude=${EB_TORONTO_LNG}` +
-      `&location.within=10km` +
-      `&start_date.range_start=${now}` +
-      `&start_date.range_end=${week}` +
-      `&categories=103,105,110,113` + // music, performing arts, nightlife, food
-      `&expand=venue` +
-      `&page_size=50` +
-      `&token=${EB_KEY}`;
-
-    const res = await fetch(url);
-    if(!res.ok){ console.warn('Eventbrite API error:', res.status); return []; }
-    const data = await res.json();
-    const events = data.events || [];
-
-    return events.map(ev => {
-      const venue = ev.venue || {};
-      const addr = venue.address || {};
-      const start = new Date(ev.start?.local || ev.start?.utc);
-      const end = new Date(ev.end?.local || ev.end?.utc);
-      const startH = start.getHours() + start.getMinutes()/60;
-      const endH = end.getHours() + end.getMinutes()/60;
-      const dayKey = DKEYS[start.getDay()];
-
-      // Map Eventbrite category to app type
-      const cat = ev.category_id || '';
-      let type = 'livemusic';
-      if(cat==='103') type='livemusic';
-      else if(cat==='105') type='livemusic';
-      else if(cat==='110') type='livemusic'; // nightlife → livemusic as default
-      else if(cat==='113') type='foodhh';
-      const name = (ev.name?.text||'').toLowerCase();
-      if(name.includes('trivia')||name.includes('quiz')) type='trivia';
-      else if(name.includes('karaoke')) type='karaoke';
-      else if(name.includes('comedy')||name.includes('stand-up')||name.includes('standup')) type='comedy';
-      else if(name.includes('drag')) type='drag';
-      else if(name.includes('jazz')) type='jazz';
-      else if(name.includes('bingo')) type='bingo';
-      else if(name.includes('open mic')||name.includes('open-mic')) type='openmic';
-      else if(name.includes('dj ')||name.includes(' dj')) type='dj';
-
-      const price = ev.is_free ? 'Free entry' : ev.ticket_availability?.minimum_ticket_price?.display ? `From ${ev.ticket_availability.minimum_ticket_price.display}` : 'Tickets required';
-
-      return {
-        name: ev.name?.text || 'Unnamed Event',
-        hood: addr.city === 'Toronto' ? (addr.localized_area_display || 'Toronto') : 'Toronto',
-        type,
-        days: [dayKey],
-        start: startH,
-        end: endH || startH + 2,
-        detail: `${ev.description?.text?.slice(0,120) || ev.summary || 'Eventbrite event'}. ${price}.`,
-        addr: addr.localized_address_display || addr.address_1 || '',
-        lat: parseFloat(venue.latitude) || 43.65,
-        lng: parseFloat(venue.longitude) || -79.38,
-        url: ev.url,
-        source: 'eventbrite',
-      };
-    }).filter(v => v.name && v.days[0] && v.addr);
-  } catch(err){
-    console.warn('Eventbrite fetch failed:', err.message);
-    return [];
-  }
-}
 
 // ── TICKETMASTER LIVE FETCH ───────────────────────────────────────────────────
 async function fetchTicketmasterEvents(){
@@ -1236,8 +1319,8 @@ async function loadVenues(){
   const cards=document.getElementById("cards");
   if(cards) cards.innerHTML='<div class="empty"><p style="color:var(--muted)">⏳ Loading venues…</p></div>';
 
-  // Load venues.json, Eventbrite and Ticketmaster in parallel
-  const [venuesResult, ebEvents, tmEvents] = await Promise.allSettled([
+  // Load venues.json and Ticketmaster in parallel
+  const [venuesResult, tmEvents] = await Promise.allSettled([
     (async()=>{
       const cacheBust=Math.floor(Date.now()/60000);
       const url='https://tonightto.ca/venues.json?v='+cacheBust;
@@ -1245,7 +1328,6 @@ async function loadVenues(){
       if(!res.ok) throw new Error('HTTP '+res.status);
       return res.json();
     })(),
-    fetchEventbriteEvents(),
     fetchTicketmasterEvents()
   ]);
 
@@ -1258,24 +1340,17 @@ async function loadVenues(){
     console.warn('Could not fetch venues.json:', venuesResult.reason?.message);
   }
 
-  // Process Eventbrite events
-  const ebVenues = ebEvents.status==='fulfilled' ? ebEvents.value : [];
-  console.log('Loaded',ebVenues.length,'events from Eventbrite');
-
   // Process Ticketmaster events
   const tmVenues = tmEvents.status==='fulfilled' ? tmEvents.value : [];
   console.log('Loaded',tmVenues.length,'events from Ticketmaster');
 
-  // Merge — deduplicate by name across all sources
+  // Merge — deduplicate by name
   const existingNames = new Set(venues.map(v=>v.name.toLowerCase()));
-  const newEbVenues = ebVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
-  newEbVenues.forEach(v=>existingNames.add(v.name.toLowerCase()));
   const newTmVenues = tmVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
 
-  ALL = [...venues, ...newEbVenues, ...newTmVenues];
-
+  ALL = [...venues, ...newTmVenues];
+  const newEbVenues = ebVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
   if(ALL.length === 0){
-    // Fallback to bundled data
     ALL = [...(typeof FALLBACK_VENUES !== 'undefined' ? FALLBACK_VENUES : [])];
   }
 
