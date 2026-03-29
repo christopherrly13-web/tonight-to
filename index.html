@@ -281,28 +281,28 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   padding-top:max(env(safe-area-inset-top),14px);
   padding-left:16px;padding-right:16px;padding-bottom:2px;
   flex-shrink:0;background:var(--bg);
-  position:relative;z-index:1000;
+  position:relative;z-index:1002;
 }
 .map-header .header-top{margin-bottom:2px}
 
 /* Map search — same as list */
 .map-search-wrap{
-  padding:0 16px 4px;flex-shrink:0;position:relative;z-index:1000;
+  padding:0 16px 4px;flex-shrink:0;position:relative;z-index:1002;
   background:var(--bg);
 }
 
 /* Map time row */
-.map-time-wrap{
+.map-time-wrap{position:relative;z-index:1002;
   padding:0 16px 4px;flex-shrink:0;background:var(--bg);
 }
 
 .map-filters{padding:0 16px 2px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;background:var(--bg)}
 .map-filters::-webkit-scrollbar{display:none}
-.map-filters-wrap{position:relative;flex-shrink:0}
+.map-filters-wrap{position:relative;flex-shrink:0;z-index:1002}
 .map-filters-fade{position:absolute;top:0;right:0;bottom:0;width:48px;pointer-events:none;background:linear-gradient(to right,transparent,var(--bg))}
 
 /* Map day pills */
-#map-view .day-pills-wrap{
+#map-view .day-pills-wrap{position:relative;z-index:1002;
   padding:0 16px 4px;background:var(--bg);flex-shrink:0;
 }
 #map-view .day-pill{font-size:11px;min-height:30px;padding:3px 0}
@@ -1597,6 +1597,7 @@ async function loadVenues(){
 
   initDayPills();
   render();
+  setTimeout(updateFeedPadding, 50); // re-measure after content renders
 }
 const DKEYS=["sun","mon","tue","wed","thu","fri","sat"];
 const DNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -2391,6 +2392,7 @@ function updateFeedPadding(){
   if(filters) filters.style.top = coreH + 'px';
 }
 updateFeedPadding();
+setTimeout(updateFeedPadding, 100); // re-measure after DOM fully renders
 window.addEventListener('resize', updateFeedPadding);
 
 if(_feedScroll){
