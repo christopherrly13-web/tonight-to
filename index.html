@@ -3152,13 +3152,8 @@ document.getElementById("search-input").addEventListener("blur",()=>{
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 
-// Auto-set time to Now on load
-(function setNowTime(){
-  const s1=document.getElementById("time-slider");
-  const s2=document.getElementById("map-time-slider");
-  // Default to Any (0) so all venues show — user can manually filter by time or check Now
-  if(s1){s1.value=0;}
-  if(s2){s2.value=0;}
+// Sync time display to the current-time values already set by the inline slider scripts
+(function syncTimeDisplays(){
   updateTimeDisplay();
   if(typeof updateMapTimeDisplay==="function") updateMapTimeDisplay();
 })();
