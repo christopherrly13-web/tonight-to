@@ -972,15 +972,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="auth-modal">
     <button class="auth-close" onclick="closeAuth()">✕</button>
     <h2>Tonight.TO</h2>
-    <p>Sign in to save your favourite venues</p>
-    <div class="auth-tabs">
+    <p id="auth-subtitle">Sign in to save your favourite venues</p>
+
+    <!-- Sign in / Sign up tabs -->
+    <div class="auth-tabs" id="auth-tabs">
       <button class="auth-tab active" id="auth-tab-login" onclick="switchAuthTab('login')">Sign In</button>
       <button class="auth-tab" id="auth-tab-signup" onclick="switchAuthTab('signup')">Sign Up</button>
     </div>
+
     <input class="auth-input" type="email" id="auth-email" placeholder="Email address" autocomplete="email">
-    <input class="auth-input" type="password" id="auth-password" placeholder="Password" autocomplete="current-password">
+    <input class="auth-input" type="password" id="auth-password" placeholder="Password" autocomplete="current-password" id="auth-password-wrap">
+
     <p class="auth-err" id="auth-err"></p>
+
     <button class="auth-btn" id="auth-submit-btn" onclick="submitAuth()">Sign In</button>
+
+    <!-- Forgot password — only show on login tab -->
+    <button id="auth-forgot-btn" onclick="switchAuthTab('reset')" style="background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;margin-top:10px;width:100%;text-align:center;padding:4px">
+      Forgot your password?
+    </button>
   </div>
 </div>
 
@@ -1342,7 +1352,10 @@ let authMode = 'login';
 
 function openAuth(){
   document.getElementById('auth-overlay').style.display='flex';
-  document.getElementById('auth-email').focus();
+  switchAuthTab('login');
+  document.getElementById('auth-email').value='';
+  document.getElementById('auth-password').value='';
+  setTimeout(()=>document.getElementById('auth-email').focus(), 100);
 }
 function closeAuth(){
   document.getElementById('auth-overlay').style.display='none';
@@ -1350,19 +1363,57 @@ function closeAuth(){
 }
 function switchAuthTab(mode){
   authMode = mode;
-  document.getElementById('auth-tab-login').classList.toggle('active', mode==='login');
-  document.getElementById('auth-tab-signup').classList.toggle('active', mode==='signup');
-  document.getElementById('auth-submit-btn').textContent = mode==='login' ? 'Sign In' : 'Create Account';
+  const tabs = document.getElementById('auth-tabs');
+  const passwordInput = document.getElementById('auth-password');
+  const forgotBtn = document.getElementById('auth-forgot-btn');
+  const subtitle = document.getElementById('auth-subtitle');
+  const submitBtn = document.getElementById('auth-submit-btn');
   document.getElementById('auth-err').textContent='';
+
+  if(mode === 'reset'){
+    tabs.style.display='none';
+    passwordInput.style.display='none';
+    forgotBtn.style.display='none';
+    subtitle.textContent='Enter your email and we\'ll send you a reset link.';
+    submitBtn.textContent='Send Reset Link';
+    document.getElementById('auth-email').placeholder='Email address';
+  } else {
+    tabs.style.display='flex';
+    passwordInput.style.display='block';
+    forgotBtn.style.display = mode==='login' ? 'block' : 'none';
+    subtitle.textContent='Sign in to save your favourite venues';
+    document.getElementById('auth-tab-login').classList.toggle('active', mode==='login');
+    document.getElementById('auth-tab-signup').classList.toggle('active', mode==='signup');
+    submitBtn.textContent = mode==='login' ? 'Sign In' : 'Create Account';
+  }
 }
+
 async function submitAuth(){
   const email = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
   const errEl = document.getElementById('auth-err');
   const btn = document.getElementById('auth-submit-btn');
+  errEl.textContent='';
+
+  if(authMode === 'reset'){
+    if(!email){ errEl.textContent='Please enter your email.'; return; }
+    btn.disabled = true;
+    const {error} = await supa.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://tonightto.ca'
+    });
+    btn.disabled = false;
+    if(error){
+      errEl.textContent = error.message;
+    } else {
+      errEl.style.color='var(--green)';
+      errEl.textContent='✓ Reset link sent! Check your inbox.';
+      setTimeout(()=>{ errEl.style.color=''; switchAuthTab('login'); }, 3000);
+    }
+    return;
+  }
+
   if(!email||!password){ errEl.textContent='Please enter email and password.'; return; }
   btn.disabled = true;
-  errEl.textContent = '';
   const fn = authMode==='login'
     ? supa.auth.signInWithPassword({email, password})
     : supa.auth.signUp({email, password});
