@@ -1622,9 +1622,50 @@ function showView(v, el){
   if(v==="list"){
     document.getElementById("list-view").classList.add("active");
     document.getElementById("nb-list").classList.add("active");
+    // Sync map type → list type pill when returning from map
+    if(mapActiveTypes.size === 1){
+      const mapT = [...mapActiveTypes][0];
+      activeType = mapT;
+      document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
+      const match = document.querySelector(`#type-pills [data-t="${mapT}"]`);
+      if(match) match.classList.add('active');
+      else {
+        // map uses 'music' group — try to match
+        const allPill = document.querySelector('#type-pills [data-t="all"]');
+        if(allPill){ allPill.classList.add('active'); activeType='all'; }
+      }
+    } else if(mapActiveTypes.size === 0){
+      // Map had nothing selected — keep list as-is
+    } else {
+      // Multiple map types selected — reset list to All
+      activeType='all';
+      document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
+      const allPill = document.querySelector('#type-pills [data-t="all"]');
+      if(allPill) allPill.classList.add('active');
+    }
+    render();
   } else {
     document.getElementById("map-view").classList.add("active");
     document.getElementById("nb-map").classList.add("active");
+
+    // Sync list type → map type pills
+    mapActiveTypes.clear();
+    document.querySelectorAll("#map-type-pills .pill").forEach(p=>p.classList.remove("active"));
+    if(activeType && activeType !== 'all' && activeType !== 'favs' && activeType !== null){
+      mapActiveTypes.add(activeType);
+      const mapPill = document.querySelector(`#map-type-pills [data-t="${activeType}"]`);
+      if(mapPill) mapPill.classList.add('active');
+      else {
+        // No exact match — set All
+        const allPill = document.querySelector("#map-type-pills [data-t='all']");
+        if(allPill) allPill.classList.add('active');
+        mapActiveTypes.clear();
+      }
+    } else {
+      // All or no selection — set map to All
+      const allPill = document.querySelector("#map-type-pills [data-t='all']");
+      if(allPill) allPill.classList.add('active');
+    }
 
     // Sync day pills from list → map
     selectedMapDays = new Set(selectedDays);
