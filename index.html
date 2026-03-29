@@ -2591,29 +2591,73 @@ async function openVenuePage(v){
 
 const _photoCache = {};
 
-// Pick the photo whose aspect ratio is closest to 16:9 or 4:3 (ideal venue shots).
-// Skips portrait shots and ultra-wide banners/logos.
-function pickBestPhoto(photos){
-  if(!photos?.length) return null;
-  const IDEAL = 16/9; // ~1.78
-  const candidates = photos.slice(0, 10);
-  const scored = candidates.map(p => {
-    const ratio = (p.width && p.height) ? p.width / p.height : 0;
-    // Penalise portraits (ratio < 1) and ultra-wide banners (ratio > 2.5)
-    if(ratio < 1 || ratio > 2.5) return { photo: p, score: 999 };
-    return { photo: p, score: Math.abs(ratio - IDEAL) };
-  });
-  scored.sort((a, b) => a.score - b.score);
-  // If everything was penalised, fall back to first photo
-  return scored[0].score === 999 ? photos[0] : scored[0].photo;
-}
+// Fetch candidate photo URLs from Google Places, then ask Claude Vision to pick the best one.
+// "Best" = clearest view of the venue interior/exterior, not food/drinks close-ups.
 
+async function pickBestPhotoWithVision(photos){
+  if(!photos?.length) return null;
+  // Get up to 5 candidate URLs (landscape-ish only, skip obvious portraits)
+  const candidates = photos
+    .filter(p => p.width && p.height && p.width / p.height >= 0.9)
+    .slice(0, 5);
+  if(!candidates.length) return photos[0].getUrl({ maxWidth: 1200, maxHeight: 700 });
+
+  const urls = candidates.map(p => p.getUrl({ maxWidth: 1200, maxHeight: 700 }));
+
+  // If only one candidate skip the Vision call
+  if(urls.length === 1) return urls[0];
+
+  try {
+    // Convert each URL to base64 so Claude Vision can see them
+    const base64Images = await Promise.all(urls.map(async url => {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(blob);
+      });
+    }));
+
+    // Build a multi-image message for Claude Vision
+    const imageBlocks = base64Images.map((b64, i) => ([
+      { type: 'text', text: `Photo ${i + 1}:` },
+      { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: b64 } }
+    ])).flat();
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 16,
+        messages: [{
+          role: 'user',
+          content: [
+            ...imageBlocks,
+            { type: 'text', text: `You are picking the best hero photo for a Toronto bar/venue listing. Which photo number (1-${urls.length}) best shows the venue itself — interior atmosphere, exterior facade, or the overall space? Avoid food close-ups, drink shots, or random objects. Reply with ONLY the number.` }
+          ]
+        }]
+      })
+    });
+
+    if(response.ok){
+      const data = await response.json();
+      const pick = parseInt(data.content?.[0]?.text?.trim()) - 1;
+      if(pick >= 0 && pick < urls.length) return urls[pick];
+    }
+  } catch(e) {
+    console.warn('Vision photo pick failed:', e.message);
+  }
+
+  // Fallback: first landscape-ish photo
+  return urls[0];
+}
 
 async function fetchGooglePlacePhoto(v, photoEl, key){
   try {
     if(!window.google) await loadGoogleMapsSDK(key);
 
-    // Return cached result instantly
     const cacheKey = v.name + v.addr;
     if(_photoCache[cacheKey]){
       photoEl.style.backgroundImage = `url('${_photoCache[cacheKey]}')`;
@@ -2622,36 +2666,35 @@ async function fetchGooglePlacePhoto(v, photoEl, key){
 
     const service = new google.maps.places.PlacesService(document.createElement('div'));
 
-    // Single call - get place_id AND photos in one shot
     service.findPlaceFromQuery({
       query: `${v.name}, ${v.addr}, Toronto, Ontario`,
       fields: ['place_id', 'photos']
-    }, (results, status) => {
+    }, async (results, status) => {
       if(status !== google.maps.places.PlacesServiceStatus.OK || !results[0]) return;
 
-      const photos = results[0].photos;
-      if(photos?.length){
-        const best = pickBestPhoto(photos);
-        const photoUrl = best.getUrl({ maxWidth: 1200, maxHeight: 600 });
-        _photoCache[cacheKey] = photoUrl;
-        const img = new Image();
-        img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
-        img.src = photoUrl;
-      } else if(results[0].place_id) {
-        // Fallback: getDetails to get more photos
-        service.getDetails({
-          placeId: results[0].place_id,
-          fields: ['photos']
-        }, (place, s2) => {
-          if(s2 !== google.maps.places.PlacesServiceStatus.OK || !place.photos?.length) return;
-          const best = pickBestPhoto(place.photos);
-          const photoUrl = best.getUrl({ maxWidth: 1200, maxHeight: 600 });
-          _photoCache[cacheKey] = photoUrl;
-          const img = new Image();
-          img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
-          img.src = photoUrl;
+      let photos = results[0].photos;
+
+      // If findPlace gave us few photos, grab more via getDetails
+      if((!photos || photos.length < 3) && results[0].place_id){
+        await new Promise(resolve => {
+          service.getDetails({ placeId: results[0].place_id, fields: ['photos'] }, (place, s2) => {
+            if(s2 === google.maps.places.PlacesServiceStatus.OK && place.photos?.length){
+              photos = place.photos;
+            }
+            resolve();
+          });
         });
       }
+
+      if(!photos?.length) return;
+
+      const photoUrl = await pickBestPhotoWithVision(photos);
+      if(!photoUrl) return;
+
+      _photoCache[cacheKey] = photoUrl;
+      const img = new Image();
+      img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
+      img.src = photoUrl;
     });
   } catch(e) {
     console.warn('Google Places photo failed:', e.message);
