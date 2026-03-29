@@ -1933,8 +1933,9 @@ initDayPills();
   const mapSlider = document.getElementById('map-time-slider');
   const nowChk = document.getElementById('now-chk');
   const mapNowChk = document.getElementById('map-now-chk');
-  if(slider) slider.value = curHour;
-  if(mapSlider) mapSlider.value = curHour;
+  const currentTime = Math.round(curHour * 2) / 2; // round to nearest 0.5
+  if(slider) slider.value = currentTime;
+  if(mapSlider) mapSlider.value = currentTime;
   if(nowChk) nowChk.checked = true;
   if(mapNowChk) mapNowChk.checked = true;
   updateTimeDisplay();
