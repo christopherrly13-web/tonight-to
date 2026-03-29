@@ -2591,20 +2591,23 @@ async function openVenuePage(v){
 
 const _photoCache = {};
 
-// Score photos by aspect ratio — wider = more likely to be an exterior/interior overview
-// rather than a close-up food/object shot. Returns the best photo object.
+// Pick the photo whose aspect ratio is closest to 16:9 or 4:3 (ideal venue shots).
+// Skips portrait shots and ultra-wide banners/logos.
 function pickBestPhoto(photos){
   if(!photos?.length) return null;
-  // Score: aspect ratio (width/height). Bonus for very wide shots (panoramic).
-  // We look at up to 10 photos to give a good sample without hammering the API.
+  const IDEAL = 16/9; // ~1.78
   const candidates = photos.slice(0, 10);
-  const scored = candidates.map(p => ({
-    photo: p,
-    ratio: p.width && p.height ? p.width / p.height : 0,
-  }));
-  scored.sort((a, b) => b.ratio - a.ratio);
-  return scored[0].photo;
+  const scored = candidates.map(p => {
+    const ratio = (p.width && p.height) ? p.width / p.height : 0;
+    // Penalise portraits (ratio < 1) and ultra-wide banners (ratio > 2.5)
+    if(ratio < 1 || ratio > 2.5) return { photo: p, score: 999 };
+    return { photo: p, score: Math.abs(ratio - IDEAL) };
+  });
+  scored.sort((a, b) => a.score - b.score);
+  // If everything was penalised, fall back to first photo
+  return scored[0].score === 999 ? photos[0] : scored[0].photo;
 }
+
 
 async function fetchGooglePlacePhoto(v, photoEl, key){
   try {
@@ -3164,13 +3167,8 @@ document.getElementById("search-input").addEventListener("blur",()=>{
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 
-// Auto-set time to Now on load
-(function setNowTime(){
-  const s1=document.getElementById("time-slider");
-  const s2=document.getElementById("map-time-slider");
-  // Default to Any (0) so all venues show — user can manually filter by time or check Now
-  if(s1){s1.value=0;}
-  if(s2){s2.value=0;}
+// Sync time display labels to the current-time values already set by the inline slider scripts
+(function syncTimeDisplays(){
   updateTimeDisplay();
   if(typeof updateMapTimeDisplay==="function") updateMapTimeDisplay();
 })();
