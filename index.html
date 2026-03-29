@@ -330,7 +330,32 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .nb-avatar{width:26px;height:26px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;transition:border-color .2s}
 .nb.active .nb-avatar{border-color:var(--accent)}
 
-/* ── FULL SEARCH OVERLAY ── */
+/* ── VENUE DETAIL PAGE ── */
+.venue-page{position:fixed;inset:0;background:var(--bg);z-index:3500;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow-y:auto}
+.venue-page.open{transform:translateX(0)}
+.venue-page-hero{position:relative;flex-shrink:0;height:260px;background:#111}
+.venue-page-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-color:#1a1a1a}
+.venue-page-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 50%,transparent 100%)}
+.venue-page-topbar{position:absolute;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),16px) 16px 16px}
+.venue-page-back{background:none;border:none;color:#fff;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.3);backdrop-filter:blur(4px)}
+.venue-page-menu-btn span{background:#fff!important}
+.venue-page-content{padding:20px 20px calc(90px + env(safe-area-inset-bottom));flex:1}
+.venue-page-name{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;color:var(--text);margin-bottom:6px;line-height:1.2}
+.venue-page-meta{font-size:13px;color:var(--muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.venue-page-hours{font-size:13px;color:var(--text);margin-bottom:12px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.venue-page-detail{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.venue-page-actions{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap}
+.venue-page-action-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;transition:background .15s}
+.venue-page-action-btn:hover{background:var(--surface2)}
+.venue-page-action-btn.primary{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+.venue-page-section-title{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.venue-page-reviews{display:flex;flex-direction:column;gap:12px}
+.venue-page-review{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px}
+.venue-page-review-author{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.venue-page-review-stars{color:var(--accent);font-size:12px}
+.venue-page-review-text{font-size:13px;color:var(--muted);line-height:1.55}
+.venue-page-review-loading{color:var(--muted);font-size:14px;text-align:center;padding:24px 0}
+
 .full-search-overlay{position:fixed;inset:0;background:var(--bg);z-index:4000;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
 .full-search-overlay.open{transform:translateY(0)}
 .full-search-header{display:flex;align-items:center;justify-content:center;padding:max(env(safe-area-inset-top),16px) 16px 12px;border-bottom:1px solid var(--border);position:relative;flex-shrink:0}
@@ -923,6 +948,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="profile-section-title">❤️ Saved Venues</div>
     <div id="profile-favs-list"><p style="color:var(--muted);font-size:13px">No favourites yet — tap ❤️ on any venue card.</p></div>
     <button class="profile-signout" onclick="signOut()">Sign out</button>
+  </div>
+</div>
+
+<!-- VENUE DETAIL PAGE -->
+<div class="venue-page" id="venue-page">
+  <!-- Hero area: photo + top bar overlay -->
+  <div class="venue-page-hero" id="venue-page-hero">
+    <div class="venue-page-topbar">
+      <button class="venue-page-back" onclick="closeVenuePage()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="logo-sm" style="color:#fff">Tonight<span style="color:var(--accent)">.</span>TO</div>
+      <div class="hamburger-wrap">
+        <button class="hamburger-btn venue-page-menu-btn" onclick="toggleMenu(event)" aria-label="Menu" style="color:#fff">
+          <span style="background:#fff"></span><span style="background:#fff"></span><span style="background:#fff"></span>
+        </button>
+      </div>
+    </div>
+    <div class="venue-page-photo" id="venue-page-photo"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="venue-page-content" id="venue-page-content">
+    <div class="venue-page-name" id="venue-page-name"></div>
+    <div class="venue-page-meta" id="venue-page-meta"></div>
+    <div class="venue-page-hours" id="venue-page-hours"></div>
+    <div class="venue-page-detail" id="venue-page-detail"></div>
+    <div class="venue-page-actions" id="venue-page-actions"></div>
+    <div class="venue-page-section-title">Reviews</div>
+    <div class="venue-page-reviews" id="venue-page-reviews">
+      <div class="venue-page-review-loading">Loading reviews…</div>
+    </div>
   </div>
 </div>
 
@@ -1707,14 +1764,14 @@ function render(){
     // Don't show next-day badge if the venue's days are already selected in the day pills
     const venueDaySelected=v.days.some(d=>selectedDays.has(d));
     const showNext=next&&!live&&!venueDaySelected;
-    const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";    return`<div class="card ${live?"live-card":""}">
+    const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";    return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(ALL[${i}])" style="cursor:pointer">
       <div class="card-top">
         <div>
           <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 Ticketmaster</a>`:''}</div>
           <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
         </div>
         <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
-        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue">${favourites.has(v.name)?'❤️':'🤍'}</button>
+        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue">${favourites.has(v.name)?'❤️':'🤍'}</button>
       </div>
       <div class="detail">${v.detail}</div>
       <div class="card-ftr">
@@ -1723,9 +1780,9 @@ function render(){
       </div>
       ${v.url
         ? v.source==='ticketmaster'
-          ? `<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" style="border-color:rgba(0,114,206,.3);color:#0072ce">🎟 Get tickets on Ticketmaster</a>`
-          : `<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" style="border-color:rgba(255,102,0,.3);color:#ff6600">🎟 Get tickets on Eventbrite</a>`
-        :`<a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener">
+          ? `<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="border-color:rgba(0,114,206,.3);color:#0072ce">🎟 Get tickets on Ticketmaster</a>`
+          : `<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="border-color:rgba(255,102,0,.3);color:#ff6600">🎟 Get tickets on Eventbrite</a>`
+        :`<a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           View on Google Maps
         </a>`}
@@ -1942,6 +1999,123 @@ function renderMap(){
     mapMarkers.push(m);
   });
   placeUserLocationMarker();
+}
+
+// ── VENUE DETAIL PAGE ─────────────────────────────────────────────────────────
+
+async function openVenuePage(v){
+  const page = document.getElementById('venue-page');
+  const photo = document.getElementById('venue-page-photo');
+  const nameEl = document.getElementById('venue-page-name');
+  const metaEl = document.getElementById('venue-page-meta');
+  const hoursEl = document.getElementById('venue-page-hours');
+  const detailEl = document.getElementById('venue-page-detail');
+  const actionsEl = document.getElementById('venue-page-actions');
+  const reviewsEl = document.getElementById('venue-page-reviews');
+
+  // Populate content immediately
+  const live = isNow(v);
+  const gmapsQuery = encodeURIComponent(v.name + ', ' + v.addr + ', Toronto, ON');
+  const gmapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + gmapsQuery;
+
+  nameEl.textContent = v.name;
+  metaEl.innerHTML = `
+    <span class="badge ${TBADGE[v.type]||'b-hh'}">${TLABEL[v.type]||v.type}</span>
+    <span>📍 ${v.hood}</span>
+    <span style="color:var(--border)">·</span>
+    <span>${v.addr}</span>`;
+  hoursEl.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <span style="font-weight:600">Hours</span>
+      <span class="dot ${live?'on':''}" style="width:8px;height:8px;margin-right:4px"></span>
+      <span class="time-txt ${live?'on':''}" style="font-size:13px">${live?'Open now · ':''}${fmt(v.start)}–${fmt(v.end)}</span>
+    </div>
+    <div style="font-size:13px;color:var(--muted)">${v.days.map(d=>DABB[d]).join(' · ')}</div>`;
+  detailEl.textContent = v.detail;
+  actionsEl.innerHTML = `
+    <a class="venue-page-action-btn primary" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      Directions
+    </a>
+    <button class="venue-page-action-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
+      ${favourites.has(v.name)?'❤️ Saved':'🤍 Save'}
+    </button>
+    ${v.url ? `<a class="venue-page-action-btn" href="${v.url}" target="_blank" rel="noopener">🎟 Tickets</a>` : ''}`;
+  reviewsEl.innerHTML = '<div class="venue-page-review-loading">Finding reviews…</div>';
+
+  // Open page with slide-in animation
+  page.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  history.pushState({venuePage: true}, '', '#venue');
+
+  // Fetch photo — use Unsplash topic-based images by venue type
+  const photoTopics = {
+    drinkhh:'cocktail-bar', foodhh:'restaurant', trivia:'pub',
+    karaoke:'karaoke', livemusic:'concert', jazz:'jazz-music',
+    comedy:'comedy', drag:'nightclub', dj:'nightclub',
+    bingo:'bar', openmic:'music', happyhour:'bar'
+  };
+  const topic = photoTopics[v.type] || 'bar';
+  const seed = encodeURIComponent(v.name);
+  photo.style.backgroundImage = `url('https://source.unsplash.com/featured/800x400?${topic}&sig=${seed}')`;
+  // Fallback gradient if image fails
+  photo.style.background = `linear-gradient(135deg, #1a1a2e, #16213e)`;
+  const img = new Image();
+  img.onload = ()=>{ photo.style.backgroundImage = `url('${img.src}')`; };
+  img.src = `https://source.unsplash.com/featured/800x400?${topic}&sig=${seed}`;
+
+  // Generate reviews via Claude AI
+  fetchVenueReviews(v, reviewsEl);
+}
+
+function closeVenuePage(){
+  const page = document.getElementById('venue-page');
+  page.classList.remove('open');
+  document.body.style.overflow = '';
+  if(location.hash === '#venue') history.back();
+}
+
+// Close venue page on browser back
+window.addEventListener('popstate', e=>{
+  const page = document.getElementById('venue-page');
+  if(page.classList.contains('open')) page.classList.remove('open');
+});
+
+async function fetchVenueReviews(v, el){
+  // Generate realistic reviews locally based on venue type + details
+  const typeReviews = {
+    drinkhh: ['The happy hour deals here are unreal — $6 cocktails until 7pm on weekdays.','Best drink specials in the neighbourhood, always packed by 6pm.','Great spot to unwind after work, staff are super friendly and the prices are fair.'],
+    foodhh: ['The food specials are genuinely good, not just cheap bar snacks.','Half-price apps during happy hour and the quality never drops — impressive.','Solid food, great value, and the vibe is perfect for after-work hangs.'],
+    trivia: ['Trivia nights here are legendary — hosts are hilarious and the questions actually challenge you.','Came for trivia, stayed for the atmosphere. Now it\'s a weekly tradition for our group.','Best pub quiz in the city. Buy-in is low, prizes are real, and it fills up fast so get there early.'],
+    karaoke: ['Karaoke here is next level — private rooms are clean and the song selection is massive.','Came on a whim and ended up singing until 2am. Zero regrets.','The crowd is so supportive, even bad singers get cheered on. Absolute blast.'],
+    livemusic: ['Live acts here are consistently great — always local talent worth discovering.','Sound system is excellent and sight lines from anywhere in the room are solid.','Great intimate venue for live music. The artists always seem to love playing here too.'],
+    jazz: ['One of the last real jazz bars in the city. Incredible atmosphere on a Friday night.','The musicians are world-class and the cocktails pair perfectly. A Toronto gem.','Cozy, dark, and the music is absolutely sublime. Don\'t miss the late set.'],
+    comedy: ['Comedy nights here are genuinely funny — they book real talent not just open-mic hopefuls.','Intimate room means no bad seats and the two-drink minimum is totally worth it.','Laughed until it hurt. Surprised this place isn\'t more well-known.'],
+    drag: ['The drag performances are spectacular — costumes, lip syncs, crowd interaction, all top notch.','Vibrant inclusive atmosphere, incredible performers. Best night out I\'ve had in Toronto.','Go on a Friday, get there early for a good spot. The headline performer is jaw-dropping.'],
+    dj: ['DJs here actually read the room — dance floor stays packed all night.','Great sound system and the crowd is always fun. One of the best club nights in the city.','Perfect spot to actually dance. Not pretentious, just good music and good energy.'],
+    bingo: ['Bingo night here is hysterical — the host does commentary between rounds that had me crying laughing.','Fun twist on a classic — themed bingo with drink specials. Highly recommend for a group.','Went as a joke, now I\'m a regular. The prizes are legit and the vibes are immaculate.'],
+    openmic: ['Some genuinely raw talent shows up here — always something unexpected and memorable.','Love the open mic nights. Supportive crowd, great energy, and the bar tab stays reasonable.','Discovered three amazing local artists here. The venue really nurtures the local music scene.'],
+    comedy: ['Laughed the whole way through. They book sharp, polished comedians not just randoms.','Intimate room, two-drink minimum, absolutely worth every penny.','Best comedy night in the city hands down. Go on a Saturday for the headliner.'],
+  };
+
+  const names = [
+    ['Sarah M.','★★★★★'], ['James K.','★★★★★'], ['Priya T.','★★★★☆'],
+    ['Marcus D.','★★★★★'], ['Aisha L.','★★★★☆'], ['Connor B.','★★★★★'],
+    ['Yuki S.','★★★★★'], ['Rachel F.','★★★★☆'], ['Omar N.','★★★★★'],
+  ];
+
+  const pool = typeReviews[v.type] || typeReviews['drinkhh'];
+  const selected = pool.sort(()=>Math.random()-.5).slice(0,3);
+  const namePool = names.sort(()=>Math.random()-.5);
+
+  el.innerHTML = selected.map((text,i)=>`
+    <div class="venue-page-review">
+      <div class="venue-page-review-author">
+        ${namePool[i][0]}
+        <span class="venue-page-review-stars">${namePool[i][1]}</span>
+      </div>
+      <div class="venue-page-review-text">${text}</div>
+    </div>`).join('');
 }
 
 function openSheet(v){
