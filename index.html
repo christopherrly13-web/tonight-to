@@ -868,6 +868,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- SINGLE SCROLL CONTAINER -->
   <div class="feed-scroll" id="feed-scroll">
     <!-- CARDS -->
+    <!-- Static spacer so first card clears the filters overlay -->
+    <div id="filter-spacer"></div>
     <div class="cards-scroll" id="cards"></div>
   </div>
 </div>
@@ -2327,10 +2329,14 @@ function updateFeedPadding(){
   const core = document.querySelector('.list-header-core');
   const scroll = document.getElementById('feed-scroll');
   const filters = document.getElementById('filters-collapsible');
+  const spacer = document.getElementById('filter-spacer');
   if(!core || !scroll) return;
   const coreH = core.offsetHeight;
-  const filtersH = (filters && !filters.classList.contains('scrolling')) ? filters.scrollHeight : 0;
-  scroll.style.paddingTop = (coreH + filtersH) + 'px';
+  const filtersH = filters ? filters.scrollHeight : 0;
+  // Padding = core header only, never changes
+  scroll.style.paddingTop = coreH + 'px';
+  // Spacer = filters height, so first card sits below filters — also never changes
+  if(spacer) spacer.style.height = filtersH + 'px';
   if(filters) filters.style.top = coreH + 'px';
 }
 updateFeedPadding();
@@ -2344,14 +2350,13 @@ if(_feedScroll){
     if(!_feedIsScrolling){
       _feedIsScrolling = true;
       filters.classList.add('scrolling');
-      updateFeedPadding();
     }
 
     clearTimeout(_feedScrollTimer);
     _feedScrollTimer = setTimeout(()=>{
       _feedIsScrolling = false;
       filters.classList.remove('scrolling');
-      updateFeedPadding();
+      // No padding change — cards never move
     }, 800);
   }, {passive:true});
 }
