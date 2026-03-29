@@ -123,13 +123,23 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   position:fixed;
   top:0;left:0;right:0;
   z-index:200;
-  background:transparent;
-  transition:background .25s,backdrop-filter .25s,-webkit-backdrop-filter .25s;
+  background:var(--bg);
 }
-.list-header-fixed.scrolled{
-  background:rgba(15,15,15,.92);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
+/* Core (logo+search) — never fades */
+.list-header-core{
+  background:var(--bg);
+  position:relative;
+  z-index:1;
+}
+/* Filters fade transparent while scrolling */
+.filters-collapsible{
+  flex-shrink:0;
+  transition:opacity .4s ease;
+  opacity:1;
+}
+.filters-collapsible.scrolling{
+  opacity:0.08;
+  pointer-events:none;
 }
 /* Single scroll container */
 .feed-scroll{
@@ -137,32 +147,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   overflow-y:auto;
   overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  /* top padding = header+search height, will be set by JS */
   padding-top:0;
 }
-/* Cards no longer need their own scroll */
 .cards-scroll{
   padding:0 20px 0;
   display:flex;
   flex-direction:column;
   gap:10px;
-}
-
-/* Filters fade */
-.filters-collapsible{
-  display:grid;
-  grid-template-rows:1fr;
-  opacity:1;
-  transition:grid-template-rows .45s ease, opacity .5s ease;
-  flex-shrink:0;
-}
-.filters-collapsible > * {
-  overflow:hidden;
-}
-.filters-collapsible.hidden{
-  grid-template-rows:0fr;
-  opacity:0;
-  pointer-events:none;
 }
 .header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
 .logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1}
@@ -808,36 +799,35 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- LIST VIEW -->
 <div class="view active" id="list-view">
 
-  <!-- FIXED HEADER (always visible, frosted when scrolled) -->
+  <!-- FIXED HEADER — always fully visible -->
   <div class="list-header-fixed" id="list-sticky">
-    <div class="header">
-      <div class="header-top">
-        <div class="logo-sm">Tonight<span>.</span>TO</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="tonight-badge" id="today-lbl">Thursday</div>
-          <div class="hamburger-wrap" id="hamburger-wrap">
-            <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMenu(event)" aria-label="Menu">
-              <span></span><span></span><span></span>
-            </button>
+    <!-- Logo + search — never fade -->
+    <div class="list-header-core">
+      <div class="header">
+        <div class="header-top">
+          <div class="logo-sm">Tonight<span>.</span>TO</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="tonight-badge" id="today-lbl">Thursday</div>
+            <div class="hamburger-wrap" id="hamburger-wrap">
+              <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMenu(event)" aria-label="Menu">
+                <span></span><span></span><span></span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="search-wrap">
-      <div class="search-box">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="search-input" placeholder="Search venues, drinks, food, music…" oninput="onSearch()" onkeydown="if(event.key==='Enter'){commitSearch();this.blur()}" autocomplete="off" autocorrect="off" spellcheck="false">
-        <button id="search-clear" onclick="clearSearch()" aria-label="Clear">✕</button>
+      <div class="search-wrap">
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="search-input" placeholder="Search venues, drinks, food, music…" oninput="onSearch()" onkeydown="if(event.key==='Enter'){commitSearch();this.blur()}" autocomplete="off" autocorrect="off" spellcheck="false">
+          <button id="search-clear" onclick="clearSearch()" aria-label="Clear">✕</button>
+        </div>
+        <div id="search-suggestions"></div>
       </div>
-      <div id="search-suggestions"></div>
     </div>
-  </div>
 
-  <!-- SINGLE SCROLL CONTAINER -->
-  <div class="feed-scroll" id="feed-scroll">
-
-    <!-- FILTERS (collapse on scroll) -->
-    <div class="filters-collapsible" id="filters-collapsible"><div>
+    <!-- Filters — fade on scroll -->
+    <div class="filters-collapsible" id="filters-collapsible">
       <div class="filters" id="type-pills">
         <div class="pill active" data-t="all" onclick="setType(this)">All</div>
         <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
@@ -874,12 +864,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="onNowChkChange()"> Now</label>
         <span class="count-text" id="ct"></span>
       </div>
-    </div></div><!-- /filters-collapsible inner + outer -->
+    </div>
+  </div>
 
+  <!-- SINGLE SCROLL CONTAINER -->
+  <div class="feed-scroll" id="feed-scroll">
     <!-- CARDS -->
     <div class="cards-scroll" id="cards"></div>
-
-  </div><!-- /feed-scroll -->
+  </div>
 </div>
 
 <!-- MAP VIEW -->
@@ -2336,27 +2328,18 @@ function updateFeedPadding(){
 updateFeedPadding();
 window.addEventListener('resize', updateFeedPadding);
 
-// Feed scroll → frosted header + fade filters
+// Feed scroll → only fade filters, header+search always stay solid
 let _feedScrollTimer = null;
 const _feedScroll = document.getElementById('feed-scroll');
 if(_feedScroll){
   _feedScroll.addEventListener('scroll', function(){
-    const sticky = document.getElementById('list-sticky');
     const filters = document.getElementById('filters-collapsible');
-    if(!sticky || !filters) return;
-
-    if(this.scrollTop > 10){
-      sticky.classList.add('scrolled');
-      filters.classList.add('hidden');
-    } else {
-      sticky.classList.remove('scrolled');
-      filters.classList.remove('hidden');
-    }
-
+    if(!filters) return;
+    filters.classList.add('scrolling');
     clearTimeout(_feedScrollTimer);
     _feedScrollTimer = setTimeout(()=>{
-      filters.classList.remove('hidden');
-    }, 1200);
+      filters.classList.remove('scrolling');
+    }, 600);
   }, {passive:true});
 }
 
