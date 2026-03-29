@@ -1927,6 +1927,20 @@ function initDayPills(){
 }
 initDayPills();
 
+// Auto-select Now + set time slider to current time on load
+(function initNowAndTime(){
+  const slider = document.getElementById('time-slider');
+  const mapSlider = document.getElementById('map-time-slider');
+  const nowChk = document.getElementById('now-chk');
+  const mapNowChk = document.getElementById('map-now-chk');
+  if(slider) slider.value = curHour;
+  if(mapSlider) mapSlider.value = curHour;
+  if(nowChk) nowChk.checked = true;
+  if(mapNowChk) mapNowChk.checked = true;
+  updateTimeDisplay();
+  updateMapTimeDisplay();
+})();
+
 function toggleDay(el){
   const d=el.dataset.d;
   if(selectedDays.has(d)){
@@ -2041,11 +2055,22 @@ function showView(v, el){
         p.classList.toggle('active', activeTypes.has(p.dataset.t));
       });
     } else {
-      // Nothing selected on map — reset list to All
       activeTypes = new Set(['all']);
       document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
       document.querySelector('#type-pills [data-t="all"]')?.classList.add('active');
     }
+    // Sync map time + now → list
+    const mapSlider = document.getElementById("map-time-slider");
+    const listSlider = document.getElementById("time-slider");
+    const mapNowChk = document.getElementById("map-now-chk");
+    const listNowChk = document.getElementById("now-chk");
+    if(mapSlider && listSlider) { listSlider.value = mapSlider.value; updateTimeDisplay(); }
+    if(mapNowChk && listNowChk) { listNowChk.checked = mapNowChk.checked; }
+    // Sync map days → list days
+    selectedDays = new Set(selectedMapDays);
+    document.querySelectorAll("#day-pills .day-pill").forEach(p=>{
+      p.classList.toggle("active", selectedDays.has(p.dataset.d));
+    });
     render();
   } else {
     document.getElementById("map-view").classList.add("active");
