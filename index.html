@@ -975,7 +975,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- GLOBAL HAMBURGER MENU (shared across all views) -->
 <div class="hamburger-menu" id="hamburger-menu">
-  <div class="hamburger-item" onclick="closeMenu();showView('list',document.getElementById('nb-list'))">
+  <div class="hamburger-item" onclick="closeMenu();goToFeed()">
     <span class="hamburger-item-icon">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     </span>
@@ -1010,7 +1010,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- BOTTOM NAV -->
 <div class="bnav" id="bnav">
-  <button class="nb active" id="nb-list" onclick="showView('list',this)">
+  <button class="nb active" id="nb-list" onclick="goToFeed()">
     <svg class="ni" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span>Feed</span>
   </button>
@@ -1112,6 +1112,15 @@ function updateProfileBtn(){
     if(nbLabel) nbLabel.textContent = 'Sign In';
     if(nbAvatar) nbAvatar.style.borderColor = '';
   }
+}
+
+function goToFeed(){
+  activeType='all';
+  document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
+  const allPill=document.querySelector('#type-pills [data-t="all"]');
+  if(allPill) allPill.classList.add('active');
+  showView('list', document.getElementById('nb-list'));
+  render();
 }
 
 // Nav: My List
@@ -1613,14 +1622,6 @@ function showView(v, el){
   if(v==="list"){
     document.getElementById("list-view").classList.add("active");
     document.getElementById("nb-list").classList.add("active");
-    // Reset to full feed if coming from My List
-    if(activeType==='favs'){
-      activeType='all';
-      document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
-      const allPill=document.querySelector('#type-pills [data-t="all"]');
-      if(allPill) allPill.classList.add('active');
-      render();
-    }
   } else {
     document.getElementById("map-view").classList.add("active");
     document.getElementById("nb-map").classList.add("active");
