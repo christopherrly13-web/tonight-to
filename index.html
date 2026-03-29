@@ -2587,50 +2587,36 @@ async function openVenuePage(v){
 }
 
 const _photoCache = {};
-const GPLACES_KEY = 'AIzaSyAo5sRSN0Qp7WR3mquuIkzaL51USat-cp8';
 
-// Fetch the featured photo from the Google Maps listing for this venue.
-// getDetails returns photos sorted by Google's own ranking — index 0 is the
-// cover/featured photo, exactly what you see at the top of a Maps listing.
-async function fetchVenuePhoto(v, photoEl){
+// Unsplash Source — high quality stock photos by venue type.
+// Not the actual venue but always well-composed and relevant.
+const UNSPLASH_QUERIES = {
+  drinkhh:    'cocktail bar interior',
+  foodhh:     'restaurant interior dining',
+  happyhour:  'bar interior drinks',
+  trivia:     'pub interior night',
+  karaoke:    'karaoke neon bar',
+  livemusic:  'live music concert venue',
+  jazz:       'jazz bar moody',
+  comedy:     'comedy club stage',
+  drag:       'nightclub stage show',
+  dj:         'nightclub dance floor dj',
+  bingo:      'bar night social',
+  openmic:    'open mic stage spotlight',
+};
+
+function fetchVenuePhoto(v, photoEl){
   const cacheKey = v.name + v.addr;
   if(_photoCache[cacheKey]){
     photoEl.style.backgroundImage = `url('${_photoCache[cacheKey]}')`;
     return;
   }
-
-  try {
-    if(!window.google) await loadGoogleMapsSDK(GPLACES_KEY);
-    const service = new google.maps.places.PlacesService(document.createElement('div'));
-
-    // Step 1: find the place to get its place_id
-    service.findPlaceFromQuery({
-      query: `${v.name}, ${v.addr}, Toronto, Ontario`,
-      fields: ['place_id']
-    }, (results, status) => {
-      if(status !== google.maps.places.PlacesServiceStatus.OK || !results[0]?.place_id) return;
-
-      // Step 2: getDetails — get first 5 photos, pick the one with the largest pixel area
-      // (high-res wide shots tend to be establishment overviews, not close-up detail shots)
-      service.getDetails({
-        placeId: results[0].place_id,
-        fields: ['photos']
-      }, (place, s2) => {
-        if(s2 !== google.maps.places.PlacesServiceStatus.OK || !place.photos?.length) return;
-
-        const candidates = place.photos.slice(0, 5);
-        // Sort by total pixel area descending — wide establishment shots are typically larger
-        candidates.sort((a, b) => (b.width * b.height) - (a.width * a.height));
-        const photoUrl = candidates[0].getUrl({ maxWidth: 1600, maxHeight: 900 });
-        _photoCache[cacheKey] = photoUrl;
-        const img = new Image();
-        img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
-        img.src = photoUrl;
-      });
-    });
-  } catch(e) {
-    console.warn('Places photo failed:', e.message);
-  }
+  const query = encodeURIComponent(UNSPLASH_QUERIES[v.type] || 'bar interior');
+  // venue name as sig keeps the same photo for the same venue every session
+  const sig = encodeURIComponent(v.name);
+  const url = `https://source.unsplash.com/1600x900/?${query}&sig=${sig}`;
+  _photoCache[cacheKey] = url;
+  photoEl.style.backgroundImage = `url('${url}')`;
 }
 
 function loadGoogleMapsSDK(key){
