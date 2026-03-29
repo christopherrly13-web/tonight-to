@@ -119,23 +119,29 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .header{padding-top:max(env(safe-area-inset-top),16px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0;transition:background .2s,backdrop-filter .2s;position:relative;z-index:100}
 /* Sticky header+search wrap when scrolled */
 .list-sticky{
-  position:sticky;top:0;z-index:200;
+  position:relative;
+  z-index:200;
   background:transparent;
   transition:background .25s,backdrop-filter .25s,-webkit-backdrop-filter .25s;
   flex-shrink:0;
 }
 .list-sticky.scrolled{
-  background:rgba(15,15,15,.88);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  position:sticky;
+  top:0;
+  background:rgba(15,15,15,.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
 }
 /* Filters fade on scroll */
 .filters-collapsible{
-  transition:opacity .25s,max-height .3s;
+  max-height:300px;
   opacity:1;
   overflow:hidden;
+  transition:max-height .3s ease, opacity .2s ease;
+  flex-shrink:0;
 }
 .filters-collapsible.hidden{
+  max-height:0;
   opacity:0;
   pointer-events:none;
 }
