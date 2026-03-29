@@ -397,7 +397,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .venue-page{position:fixed;inset:0;background:var(--bg);z-index:3500;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden}
 .venue-page.open{transform:translateX(0)}
 .venue-page-hero{position:relative;flex-shrink:0;height:320px;background:#111}
-.venue-page-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-color:#1a1a1a}
+.venue-page-photo{position:absolute;inset:0;background-size:cover;background-position:center top;background-color:#111}
 .venue-page-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 50%,transparent 100%)}
 .venue-page-topbar{position:fixed;top:0;left:0;right:0;z-index:3600;display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),16px) 16px 16px;transition:background .2s,backdrop-filter .2s;background:transparent}
 .venue-page-topbar.scrolled{background:rgba(15,15,15,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -2610,15 +2610,18 @@ async function fetchVenuePhoto(v, photoEl){
     }, (results, status) => {
       if(status !== google.maps.places.PlacesServiceStatus.OK || !results[0]?.place_id) return;
 
-      // Step 2: getDetails to get the featured photo (index 0 = Google's cover photo)
+      // Step 2: getDetails — get first 5 photos, pick the one with the largest pixel area
+      // (high-res wide shots tend to be establishment overviews, not close-up detail shots)
       service.getDetails({
         placeId: results[0].place_id,
         fields: ['photos']
       }, (place, s2) => {
         if(s2 !== google.maps.places.PlacesServiceStatus.OK || !place.photos?.length) return;
 
-        // Google sorts photos with the most representative one first
-        const photoUrl = place.photos[0].getUrl({ maxWidth: 1200, maxHeight: 700 });
+        const candidates = place.photos.slice(0, 5);
+        // Sort by total pixel area descending — wide establishment shots are typically larger
+        candidates.sort((a, b) => (b.width * b.height) - (a.width * a.height));
+        const photoUrl = candidates[0].getUrl({ maxWidth: 1600, maxHeight: 900 });
         _photoCache[cacheKey] = photoUrl;
         const img = new Image();
         img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
