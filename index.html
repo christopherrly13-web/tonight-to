@@ -838,6 +838,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="time-row">
           <label>Time</label>
           <input type="range" id="time-slider" min="0" max="24" step="0.5" value="0" oninput="document.getElementById('now-chk').checked=false;updateTimeDisplay();render()">
+          <script>document.getElementById('time-slider').value=Math.round((new Date().getHours()+new Date().getMinutes()/60)*2)/2;</script>
           <span class="time-display" id="time-display">Any</span>
           <button class="locate-btn" id="locate-btn" onclick="getLocation()">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
@@ -946,6 +947,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="time-row">
       <label>Time</label>
       <input type="range" id="map-time-slider" min="0" max="24" step="0.5" value="0" oninput="document.getElementById('map-now-chk').checked=false;updateMapTimeDisplay();renderMap()">
+      <script>document.getElementById('map-time-slider').value=Math.round((new Date().getHours()+new Date().getMinutes()/60)*2)/2;</script>
       <span class="time-display" id="map-time-display">Any</span>
       <label class="now-lbl"><input type="checkbox" id="map-now-chk" onchange="onMapNowChkChange()"> Now</label>
     </div>
@@ -1909,7 +1911,7 @@ function initDayPills(){
 initDayPills();
 
 // Auto-select Now + set time slider to current time on load
-// initNowAndTime called after function definitions below
+// initNowAndTime sets time display after functions are defined
 
 function toggleDay(el){
   const d=el.dataset.d;
@@ -2458,16 +2460,10 @@ function updateMapTimeDisplay(){
   el.classList.add("active");
 }
 
-// Also call immediately so UI reflects current time before venues finish loading
-// initNowAndTime called here after updateTimeDisplay/updateMapTimeDisplay are defined
+// Update time displays and check Now — slider value already set inline above
 function initNowAndTime(){
-  const currentTime = Math.round(curHour * 2) / 2;
-  const slider = document.getElementById('time-slider');
-  const mapSlider = document.getElementById('map-time-slider');
   const nowChk = document.getElementById('now-chk');
   const mapNowChk = document.getElementById('map-now-chk');
-  if(slider) slider.value = currentTime;
-  if(mapSlider) mapSlider.value = currentTime;
   if(nowChk) nowChk.checked = true;
   if(mapNowChk) mapNowChk.checked = true;
   updateTimeDisplay();
