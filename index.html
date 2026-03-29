@@ -131,13 +131,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   position:relative;
   z-index:1;
 }
-/* Filters fade transparent while scrolling */
+/* Filters overlay below header core — don't affect scroll layout */
 .filters-collapsible{
-  flex-shrink:0;
+  position:absolute;
+  left:0;right:0;
+  background:var(--bg);
   overflow:hidden;
   max-height:300px;
   opacity:1;
   transition:max-height .5s ease, opacity .6s ease;
+  z-index:199;
 }
 .filters-collapsible.scrolling{
   max-height:0;
@@ -2323,10 +2326,13 @@ document.getElementById('venue-page-scroll').addEventListener('scroll', function
 
 // Measure header height and set feed-scroll padding so content starts below it
 function updateFeedPadding(){
-  const header = document.getElementById('list-sticky');
+  const core = document.querySelector('.list-header-core');
   const scroll = document.getElementById('feed-scroll');
-  if(header && scroll){
-    scroll.style.paddingTop = header.offsetHeight + 'px';
+  const filters = document.getElementById('filters-collapsible');
+  if(core && scroll){
+    const coreH = core.offsetHeight;
+    scroll.style.paddingTop = coreH + 'px';
+    if(filters) filters.style.top = coreH + 'px';
   }
 }
 updateFeedPadding();
@@ -2345,7 +2351,7 @@ if(_feedScroll){
     if(!_feedIsScrolling){
       _feedIsScrolling = true;
       filters.classList.add('scrolling');
-      updateFeedPadding();
+      // Don't update padding — keep cards in same scroll position
     }
 
     // Reset timer on every scroll event
@@ -2353,7 +2359,7 @@ if(_feedScroll){
     _feedScrollTimer = setTimeout(()=>{
       _feedIsScrolling = false;
       filters.classList.remove('scrolling');
-      updateFeedPadding();
+      // Don't touch scrollTop or padding — cards stay exactly where they are
     }, 800);
   }, {passive:true});
 }
