@@ -9,6 +9,9 @@
 <meta name="apple-mobile-web-app-title" content="Tonight TO">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="shortcut icon" href="icon-192.png">
 <title>Tonight.TO — Toronto Happy Hours, Trivia, Karaoke & Events</title>
 
 <!-- ── SEO META ── -->
@@ -119,6 +122,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .logo span{color:var(--accent)}
 .logo-sm{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text);line-height:1}
 .logo-sm span{color:var(--accent)}
+
 .tonight-badge{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:4px 10px;border-radius:20px;border:1px solid rgba(232,197,71,.2)}
 .subhead{font-size:12px;color:var(--muted);margin-bottom:6px}
 
@@ -935,7 +939,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button class="venue-page-back" onclick="closeVenuePage()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
-    <div class="logo-sm" style="color:#fff">Tonight<span style="color:var(--accent)">.</span>TO</div>
+    <div class="logo-sm">Tonight<span>.</span>TO</div>
     <div class="hamburger-wrap">
       <button class="hamburger-btn venue-page-menu-btn" onclick="toggleMenu(event)" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -1237,7 +1241,7 @@ async function loadFavourites(){
 }
 
 async function toggleFav(e, name, type){
-  e.stopPropagation();
+  if(e) e.stopPropagation();
   if(!currentUser){ openAuth(); return; }
   if(favourites.has(name)){
     favourites.delete(name);
@@ -1245,6 +1249,12 @@ async function toggleFav(e, name, type){
   } else {
     favourites.add(name);
     await supa.from('favourites').upsert({user_id: currentUser.id, venue_name: name, venue_type: type});
+  }
+  // Update venue page save button if open
+  const actionsEl = document.getElementById('venue-page-actions');
+  if(actionsEl){
+    const saveBtn = actionsEl.querySelector('.save-btn');
+    if(saveBtn) saveBtn.textContent = favourites.has(name) ? '❤️ Saved' : '🤍 Save';
   }
   render();
 }
@@ -2071,7 +2081,7 @@ async function openVenuePage(v){
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       Directions
     </a>
-    <button class="venue-page-action-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
+    <button class="venue-page-action-btn save-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
       ${favourites.has(v.name)?'❤️ Saved':'🤍 Save'}
     </button>
     ${v.url ? `<a class="venue-page-action-btn" href="${v.url}" target="_blank" rel="noopener">🎟 Tickets</a>` : ''}`;
