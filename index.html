@@ -177,6 +177,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .next-day-badge{font-size:11px;font-weight:600;color:var(--muted);background:var(--surface2);padding:3px 8px;border-radius:20px;border:1px solid var(--border)}
 .next-day-badge.next-soon{color:var(--accent);border-color:rgba(232,197,71,.3);background:var(--accent-dim)}
 .empty{text-align:center;padding:50px 20px;color:var(--muted)}
+.empty-no-selection{padding:60px 20px}
+.empty-icon{font-size:48px;margin-bottom:16px;line-height:1}
+.empty-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text);margin-bottom:8px}
+.empty-sub{font-size:14px;color:var(--muted);line-height:1.5;max-width:280px;margin:0 auto}
 .empty p{font-size:14px;line-height:1.6}
 .card-gmaps{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--muted);font-family:"DM Sans",sans-serif;cursor:pointer;text-decoration:none;transition:all .15s}
 .card-gmaps:active{background:var(--surface2)}
@@ -1662,10 +1666,10 @@ function setNavFilter(t){
 
 function setType(el){
   const t=el.dataset.t;
-  if(el.classList.contains("active") && t!=="all"){
-    // Deselect — no pill active means show all
+  if(el.classList.contains("active")){
+    // Deselect any active pill including All
     el.classList.remove("active");
-    activeType="all";
+    activeType=null;
   } else {
     document.querySelectorAll("#type-pills .pill").forEach(p=>p.classList.remove("active"));
     el.classList.add("active");
@@ -1708,6 +1712,7 @@ function fmt(h){
 }
 
 function getFiltered(typeFilter){
+  if(typeFilter===null) return []; // no pill selected — show empty state
   const hood="all";
   const nowOnly=(document.getElementById("now-chk")?.checked||false)||searchNowOnly;
   const timeFilter=getTimeFilter();
@@ -1790,6 +1795,14 @@ function render(){
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
 
   const c=document.getElementById("cards");
+  if(activeType===null){
+    c.innerHTML=`<div class="empty empty-no-selection">
+      <div class="empty-icon">🍻</div>
+      <p class="empty-title">No events selected</p>
+      <p class="empty-sub">Make a selection above to find what's happening tonight!</p>
+    </div>`;
+    return;
+  }
   if(!items.length){
     const msg=searchQuery||searchTypes
       ?`<div class="empty"><p>😕 Nothing found for "<strong style="color:var(--text)">${document.getElementById("search-input").value||"your search"}</strong>".<br>Try something else — like "drinks", "trivia", or a venue name.</p></div>`
