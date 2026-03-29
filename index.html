@@ -117,6 +117,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
 .logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
+.logo-sm{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text);line-height:1}
+.logo-sm span{color:var(--accent)}
 .tonight-badge{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:4px 10px;border-radius:20px;border:1px solid rgba(232,197,71,.2)}
 .subhead{font-size:12px;color:var(--muted);margin-bottom:6px}
 
@@ -339,7 +341,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .full-search-input-wrap input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif}
 .full-search-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
 .full-search-results{display:flex;flex-direction:column;gap:10px}
-.nb.active{color:#0f0f0f;background:var(--accent);border-color:var(--accent)}
 .ni{font-size:14px;line-height:1}
 /* SEARCH */
 .search-wrap{padding:4px 20px 6px;flex-shrink:0;position:relative;z-index:1000}
@@ -702,7 +703,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="sidebar">
     <div class="header">
       <div class="header-top">
-        <div class="logo">Tonight<span>.</span>TO</div>
+        <div class="logo-sm">Tonight<span>.</span>TO</div>
         <div style="display:flex;align-items:center;gap:8px">
           <div class="tonight-badge" id="today-lbl">Thursday</div>
           <div class="hamburger-wrap" id="hamburger-wrap">
@@ -710,18 +711,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <span></span><span></span><span></span>
             </button>
             <div class="hamburger-menu" id="hamburger-menu">
-              <div class="hamburger-item" id="menu-auth-item" onclick="handleMenuAuth()">
-                <span class="hamburger-item-icon">👤</span>
-                <span id="menu-auth-label">Sign In / Sign Up</span>
+              <div class="hamburger-item" onclick="closeMenu();showView('list',document.getElementById('nb-list'))">
+                <span class="hamburger-item-icon">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </span>
+                Feed
+              </div>
+              <div class="hamburger-item" onclick="closeMenu();handleNavLists()">
+                <span class="hamburger-item-icon">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                </span>
+                My List
+              </div>
+              <div class="hamburger-item" onclick="closeMenu();openFullSearch()">
+                <span class="hamburger-item-icon">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </span>
+                Search
+              </div>
+              <div class="hamburger-item" onclick="closeMenu();showView('map',document.getElementById('nb-map'))">
+                <span class="hamburger-item-icon">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="3"/><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z"/></svg>
+                </span>
+                Map
               </div>
               <div class="hamburger-divider"></div>
-              <div class="hamburger-item" onclick="handleMenuFavs()">
-                <span class="hamburger-item-icon">❤️</span>
-                Favourites
-              </div>
-              <div class="hamburger-item" onclick="handleMenuForYou()">
-                <span class="hamburger-item-icon">✨</span>
-                For You
+              <div class="hamburger-item" id="menu-auth-item" onclick="handleMenuAuth()">
+                <span class="hamburger-item-icon">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <span id="menu-auth-label">Sign In / Sign Up</span>
               </div>
             </div>
           </div>
@@ -793,7 +812,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- Header -->
   <div class="map-header">
     <div class="header-top">
-      <div class="logo">Tonight<span>.</span>TO</div>
+      <div class="logo-sm">Tonight<span>.</span>TO</div>
       <div class="tonight-badge" id="map-today-lbl">Thursday</div>
     </div>
   </div>
@@ -909,7 +928,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- BOTTOM NAV -->
 <div class="bnav" id="bnav">
   <button class="nb active" id="nb-list" onclick="showView('list',this)">
-    <svg class="ni" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+    <svg class="ni" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
     <span>Feed</span>
   </button>
   <button class="nb" id="nb-lists" onclick="handleNavLists()">
