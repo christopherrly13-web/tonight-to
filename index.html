@@ -2332,29 +2332,28 @@ function updateFeedPadding(){
 updateFeedPadding();
 window.addEventListener('resize', updateFeedPadding);
 
-// Feed scroll → collapse filters so cards show in their place
+// Feed scroll → collapse filters while scrolling, restore when stopped
 let _feedScrollTimer = null;
+let _feedIsScrolling = false;
 const _feedScroll = document.getElementById('feed-scroll');
 if(_feedScroll){
   _feedScroll.addEventListener('scroll', function(){
     const filters = document.getElementById('filters-collapsible');
     if(!filters) return;
-    if(!filters.classList.contains('scrolling')){
+
+    // Collapse filters on first scroll
+    if(!_feedIsScrolling){
+      _feedIsScrolling = true;
       filters.classList.add('scrolling');
-      setTimeout(updateFeedPadding, 260);
+      updateFeedPadding();
     }
+
+    // Reset timer on every scroll event
     clearTimeout(_feedScrollTimer);
     _feedScrollTimer = setTimeout(()=>{
-      // Measure filter height before showing it
-      const filtersBefore = filters.offsetHeight;
+      _feedIsScrolling = false;
       filters.classList.remove('scrolling');
-      // After filters expand, compensate scroll so cards don't move
-      requestAnimationFrame(()=>{
-        const filtersAfter = filters.scrollHeight;
-        const diff = filtersAfter - filtersBefore;
-        if(diff > 0) _feedScroll.scrollTop += diff;
-        updateFeedPadding();
-      });
+      updateFeedPadding();
     }, 800);
   }, {passive:true});
 }
