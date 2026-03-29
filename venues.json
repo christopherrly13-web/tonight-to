@@ -1,7 +1,7 @@
 {
   "version": 1,
   "updated": "2026-03-29",
-  "total": 165,
+  "total": 183,
   "venues": [
     {
       "name": "Bar Raval",
@@ -2881,6 +2881,349 @@
       "addr": "522 King Street West, Toronto, ON",
       "lat": 43.645138,
       "lng": -79.397363
+    },
+    {
+      "name": "1208 Yonge St Bar",
+      "hood": "Yorkville",
+      "type": "drinkhh",
+      "days": [
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "start": 16,
+      "end": 19,
+      "detail": "$5 shots and beers, $7 spritz and wine",
+      "addr": "1208 Yonge St",
+      "lat": 43.681698,
+      "lng": -79.391648
+    },
+    {
+      "name": "Bar at 100 King St W",
+      "hood": "Downtown",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 17,
+      "detail": "$10 cocktails, $5 off all food",
+      "addr": "100 King St W",
+      "lat": 43.648768,
+      "lng": -79.381692
+    },
+    {
+      "name": "Fresh Kitchen + Juice Bar",
+      "hood": "Eglinton",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 17,
+      "detail": "$5 juices, $8 food items under $10",
+      "addr": "101 Eglinton Ave E",
+      "lat": 43.707366,
+      "lng": -79.394484
+    },
+    {
+      "name": "Comrade",
+      "hood": "South Riverdale",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "start": 17,
+      "end": 19,
+      "detail": "$12 classic cocktails and $16 prime rib burgers",
+      "addr": "758 Queen St. E.",
+      "lat": 43.659418,
+      "lng": -79.34795
+    },
+    {
+      "name": "Blue Bovine",
+      "hood": "Financial District",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "start": 15,
+      "end": 18,
+      "detail": "Half-price cocktails, highballs, martinis, champagne, beer, wine. $10 lobster rolls, $12 steak tartare, $15 half dozen oysters",
+      "addr": "65 Front St. W.",
+      "lat": 43.644661,
+      "lng": -79.381749
+    },
+    {
+      "name": "Fioca",
+      "hood": "Little Italy",
+      "type": "foodhh",
+      "days": [
+        "thu",
+        "fri"
+      ],
+      "start": 20,
+      "end": 26,
+      "detail": "Pachanga Hour: drink special with complementary snack, escalating from olives to rib-eye or duck wings",
+      "addr": "585 College St.",
+      "lat": 43.655199,
+      "lng": -79.413334
+    },
+    {
+      "name": "Casa Madera",
+      "hood": "Wellington",
+      "type": "drinkhh",
+      "days": [
+        "sun",
+        "mon",
+        "tue",
+        "wed",
+        "thu"
+      ],
+      "start": 17,
+      "end": 19,
+      "detail": "Golden Hour: cocktails, wine, dips $10 each; $15 tacos; $50 sangria kit",
+      "addr": "550 Wellington St. W.",
+      "lat": 43.642841,
+      "lng": -79.401797
+    },
+    {
+      "name": "Amano Pasta",
+      "hood": "Financial District",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "start": 14,
+      "end": 17,
+      "detail": "Aperitivo Hour: Henry of Pelham wine $1 per ounce, $6 negronis, $5 assagini",
+      "addr": "65 Front St. W.",
+      "lat": 43.644661,
+      "lng": -79.381749
+    },
+    {
+      "name": "Brickworks Cider",
+      "hood": "East End",
+      "type": "foodhh",
+      "days": [
+        "sun",
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "start": 16,
+      "end": 19,
+      "detail": "Batch:1904 cider, Mill Street beer $5; tabbouleh hummus, fries $5; specialty ciders, wings, poutine $7",
+      "addr": "709 Queen St. E.",
+      "lat": 43.658802,
+      "lng": -79.349552
+    },
+    {
+      "name": "Prohibition Gastrohouse",
+      "hood": "East End",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "start": 16,
+      "end": 19,
+      "detail": "$5.09 draught, house wine, top-shelf rail spirits. $2.50 Jägermeister all day",
+      "addr": "696 Queen St. E.",
+      "lat": 43.658874,
+      "lng": -79.350406
+    },
+    {
+      "name": "Wide Open Bar",
+      "hood": "Kensington",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "start": 17,
+      "end": 20,
+      "detail": "Thu: $2.75 all drinks 5-8pm. Mon $4 everything. Fri-Sat $5 mixed drinks, $15 pitchers",
+      "addr": "139A Spadina Ave.",
+      "lat": 43.647616,
+      "lng": -79.395608
+    },
+    {
+      "name": "Rodney's Oyster House",
+      "hood": "King West",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "start": 15,
+      "end": 18,
+      "detail": "$2 oysters each, $5 lager or ale, happy hour Mon-Fri 3-6pm",
+      "addr": "469 King St W",
+      "lat": 43.646773,
+      "lng": -79.388931
+    },
+    {
+      "name": "Cluny Bistro",
+      "hood": "King West",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 18,
+      "detail": "50% off oysters and half-priced drinks (champagne, wine, beer). Mon 4-6pm, Tue-Sun 2-6pm",
+      "addr": "391 King St W",
+      "lat": 43.644377,
+      "lng": -79.400443
+    },
+    {
+      "name": "Oyster Boy",
+      "hood": "Bloor West",
+      "type": "foodhh",
+      "days": [
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 19,
+      "detail": "$2 oysters all night Wednesday, $1.50 Malpeque Happy Hour Thursday 5-7pm, Sunday pop-up $1.50",
+      "addr": "1165 Bloor St W",
+      "lat": 43.65925,
+      "lng": -79.437747
+    },
+    {
+      "name": "Drake Hotel - Dinner with a Side of Sounds",
+      "hood": "Parkdale",
+      "type": "livemusic",
+      "days": [
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "start": 19,
+      "end": 23,
+      "detail": "Supper club-style with piano sets, live vocals, prix fixe dining and classic cocktails",
+      "addr": "1150 Queen St. W.",
+      "lat": 43.643255,
+      "lng": -79.424546
+    },
+    {
+      "name": "Jean Darlene Piano Room",
+      "hood": "Dundas West",
+      "type": "karaoke",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 20,
+      "end": 2,
+      "detail": "Live pianists, drag shows, samba beats, themed singalongs",
+      "addr": "1203 Dundas St. W.",
+      "lat": 43.649242,
+      "lng": -79.422523
+    },
+    {
+      "name": "M2 Cocktail Bar (Matcha Matcha)",
+      "hood": "Church Wellesley",
+      "type": "drinkhh",
+      "days": [
+        "fri",
+        "sat"
+      ],
+      "start": 21,
+      "end": 26,
+      "detail": "Tea-enhanced cocktails, shots $9, desserts available",
+      "addr": "407 Church St.",
+      "lat": 43.70352,
+      "lng": -79.524619
+    },
+    {
+      "name": "Noonan's",
+      "hood": "Danforth",
+      "type": "livemusic",
+      "days": [
+        "tue"
+      ],
+      "start": 11,
+      "end": 22,
+      "detail": "Weekly trad sessions, $20 cover, Irish pub fare",
+      "addr": "141 Danforth Ave.",
+      "lat": 43.676359,
+      "lng": -79.357339
+    },
+    {
+      "name": "Echo Karaoke",
+      "hood": "Koreatown",
+      "type": "karaoke",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 19,
+      "detail": "Korean-style private karaoke, open 7 days a week",
+      "addr": "693 Bloor Street West, Toronto, ON",
+      "lat": 43.663675,
+      "lng": -79.41732
     }
   ]
 }
