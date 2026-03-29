@@ -1050,6 +1050,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- GLOBAL SEARCH SUGGESTIONS — body level so it's above all fixed elements -->
 <div id="search-suggestions" style="position:fixed;left:0;right:0;z-index:99999;display:none;background:var(--surface);border:1px solid var(--border2);border-radius:0 0 var(--radius-sm) var(--radius-sm);overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.7)"></div>
 
+<!-- NEW PASSWORD MODAL (shown after clicking reset link in email) -->
+<div class="auth-overlay" id="new-password-overlay" style="display:none">
+  <div class="auth-modal">
+    <h2>Tonight.TO</h2>
+    <p id="new-password-subtitle">Choose a new password for your account</p>
+    <input class="auth-input" type="password" id="new-password-input" placeholder="New password" autocomplete="new-password">
+    <input class="auth-input" type="password" id="new-password-confirm" placeholder="Confirm new password" autocomplete="new-password">
+    <p class="auth-err" id="new-password-err"></p>
+    <button class="auth-btn" id="new-password-btn" onclick="submitNewPassword()">Set New Password</button>
+  </div>
+</div>
+
 <!-- GLOBAL HAMBURGER MENU (shared across all views) -->
 <div class="hamburger-menu" id="hamburger-menu">
   <div class="hamburger-item" onclick="closeMenu();goToFeed()">
@@ -1166,11 +1178,64 @@ supa.auth.getSession().then(({data:{session}})=>{
   }
 });
 supa.auth.onAuthStateChange((_event, session)=>{
+  if(_event === 'PASSWORD_RECOVERY'){
+    // Don't log them in — show set new password form instead
+    openSetNewPassword();
+    return;
+  }
   currentUser = session?.user || null;
   if(currentUser){ loadFavourites(); } else { favourites.clear(); }
   updateProfileBtn();
   render();
 });
+
+function openSetNewPassword(){
+  // Sign out any auto-session so they're not logged in during reset
+  currentUser = null;
+  updateProfileBtn();
+  document.getElementById('new-password-overlay').style.display='flex';
+  setTimeout(()=>document.getElementById('new-password-input').focus(), 100);
+}
+
+async function submitNewPassword(){
+  const pass = document.getElementById('new-password-input').value;
+  const confirm = document.getElementById('new-password-confirm').value;
+  const errEl = document.getElementById('new-password-err');
+  const btn = document.getElementById('new-password-btn');
+  errEl.textContent='';
+
+  if(!pass || pass.length < 6){
+    errEl.textContent='Password must be at least 6 characters.'; return;
+  }
+  if(pass !== confirm){
+    errEl.textContent='Passwords don\'t match.'; return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  const { error } = await supa.auth.updateUser({ password: pass });
+  btn.disabled = false;
+  btn.textContent = 'Set New Password';
+
+  if(error){
+    errEl.textContent = error.message;
+  } else {
+    errEl.style.color='var(--green)';
+    errEl.textContent='✓ Password updated! Signing you in…';
+    setTimeout(()=>{
+      document.getElementById('new-password-overlay').style.display='none';
+      errEl.style.color='';
+      errEl.textContent='';
+      document.getElementById('new-password-input').value='';
+      document.getElementById('new-password-confirm').value='';
+      // Refresh session so they're logged in with new password
+      supa.auth.getSession().then(({data:{session}})=>{
+        currentUser = session?.user || null;
+        if(currentUser){ loadFavourites(); updateProfileBtn(); render(); }
+      });
+    }, 1500);
+  }
+}
 
 function updateProfileBtn(){
   const label = document.getElementById('menu-auth-label');
@@ -1978,7 +2043,7 @@ function render(){
   if(!items.length){
     const msg=searchQuery||searchTypes
       ?`<div class="empty"><p>😕 Nothing found for "<strong style="color:var(--text)">${document.getElementById("search-input").value||"your search"}</strong>".<br>Try something else — like "drinks", "trivia", or a venue name.</p></div>`
-      :`<div class="empty"><p>Nothing matches your filters.<br>Try a different day or neighbourhood.</p></div>`;
+      :`<div class="empty"><p>Nothing matches your filters.<br>Try a different time or day.</p></div>`;
     c.innerHTML=msg;return;
   }
   c.innerHTML=items.map((v,i)=>{
