@@ -2318,58 +2318,40 @@ document.getElementById('venue-page-scroll').addEventListener('scroll', function
   }
 }, {passive:true});
 
-// Measure header height and set feed-scroll padding so content starts below it
-let _suppressScroll = false;
-function updateFeedPadding(compensate=false){
-  const core = document.querySelector('.list-header-core');
-  const scroll = document.getElementById('feed-scroll');
-  const filters = document.getElementById('filters-collapsible');
-  if(core && scroll){
-    const coreH = core.offsetHeight;
-    const filtersVisible = filters && !filters.classList.contains('scrolling');
-    const filtersH = filtersVisible ? filters.scrollHeight : 0;
-    const newPadding = coreH + filtersH;
-    if(compensate){
-      const oldPadding = parseInt(scroll.style.paddingTop)||0;
-      const diff = newPadding - oldPadding;
-      scroll.style.paddingTop = newPadding + 'px';
-      if(diff !== 0){
-        _suppressScroll = true;
-        scroll.scrollTop += diff;
-        requestAnimationFrame(()=>{ _suppressScroll = false; });
-      }
-    } else {
-      scroll.style.paddingTop = newPadding + 'px';
-    }
-    if(filters) filters.style.top = coreH + 'px';
-  }
-}
-updateFeedPadding();
-window.addEventListener('resize', updateFeedPadding);
-
 // Feed scroll → collapse filters while scrolling, restore when stopped
 let _feedScrollTimer = null;
 let _feedIsScrolling = false;
 const _feedScroll = document.getElementById('feed-scroll');
+
+function updateFeedPadding(){
+  const core = document.querySelector('.list-header-core');
+  const scroll = document.getElementById('feed-scroll');
+  const filters = document.getElementById('filters-collapsible');
+  if(!core || !scroll) return;
+  const coreH = core.offsetHeight;
+  const filtersH = (filters && !filters.classList.contains('scrolling')) ? filters.scrollHeight : 0;
+  scroll.style.paddingTop = (coreH + filtersH) + 'px';
+  if(filters) filters.style.top = coreH + 'px';
+}
+updateFeedPadding();
+window.addEventListener('resize', updateFeedPadding);
+
 if(_feedScroll){
   _feedScroll.addEventListener('scroll', function(){
-    if(_suppressScroll) return; // ignore programmatic scroll
     const filters = document.getElementById('filters-collapsible');
     if(!filters) return;
 
-    // Collapse filters and shrink padding on first scroll
     if(!_feedIsScrolling){
       _feedIsScrolling = true;
       filters.classList.add('scrolling');
-      updateFeedPadding(false);
+      updateFeedPadding();
     }
 
-    // Reset timer on every scroll event
     clearTimeout(_feedScrollTimer);
     _feedScrollTimer = setTimeout(()=>{
       _feedIsScrolling = false;
       filters.classList.remove('scrolling');
-      updateFeedPadding(true); // restore padding + compensate scrollTop
+      updateFeedPadding();
     }, 800);
   }, {passive:true});
 }
