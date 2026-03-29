@@ -2053,34 +2053,54 @@ async function openVenuePage(v){
   history.pushState({venuePage: true}, '', '#venue');
 
   // Photo: use Pexels curated IDs by venue type (reliable, no API key)
-  const photoIds = {
-    drinkhh:   [3407777, 1283219, 2531728, 1267244, 3407718],
-    foodhh:    [1639557, 958545,  1640777, 2983101, 1640772],
-    trivia:    [1267244, 3407777, 2531728, 1283219, 3407718],
-    karaoke:   [1190298, 2111015, 1540406, 1190297, 2111016],
-    livemusic: [1190298, 1540406, 2111015, 1190297, 167636],
-    jazz:      [1407313, 1407314, 167636,  1407315, 1190298],
-    comedy:    [1267244, 3407777, 1283219, 2531728, 3407718],
-    drag:      [1540406, 2111015, 1190298, 1190297, 2111016],
-    dj:        [1540406, 2111015, 1190297, 1190298, 167636],
-    bingo:     [3407777, 1267244, 1283219, 2531728, 3407718],
-    openmic:   [167636,  1190298, 1407313, 1540406, 2111015],
-    happyhour: [3407777, 1283219, 2531728, 1267244, 3407718],
-  };
-  const ids = photoIds[v.type] || photoIds.happyhour;
-  // Pick a deterministic photo based on venue name
-  const nameHash = v.name.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
-  const photoId = ids[nameHash % ids.length];
-  const photoUrl = `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop`;
-
-  photo.style.background = `linear-gradient(135deg, #1a1a2e, #16213e)`;
-  const img = new Image();
-  img.onload = ()=>{ photo.style.backgroundImage = `url('${img.src}')`; };
-  img.onerror = ()=>{ photo.style.backgroundImage = `url('https://picsum.photos/seed/${encodeURIComponent(v.name)}/800/400')`; };
-  img.src = photoUrl;
+  // Fetch real venue photo via Google Places API
+  const GPLACES_KEY = 'AIzaSyAo5sRSN0Qp7WR3mquuIkzaL51USat-cp8';
+  photo.style.background = 'linear-gradient(135deg, #1a1a2e, #16213e)';
+  fetchGooglePlacePhoto(v, photo, GPLACES_KEY);
 
   // Generate reviews via Claude AI
   fetchVenueReviews(v, reviewsEl);
+}
+
+async function fetchGooglePlacePhoto(v, photoEl, key){
+  try {
+    // Step 1: Find place ID by searching venue name + address
+    const query = encodeURIComponent(`${v.name} ${v.addr} Toronto`);
+    const findUrl = `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${query}&inputtype=textquery&fields=place_id,photos,name&key=${key}`;
+
+    // Can't call directly due to CORS — use the Places JS SDK approach instead
+    // Load Places library and use PlacesService
+    if(!window.google) {
+      await loadGoogleMapsSDK(key);
+    }
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+    service.findPlaceFromQuery({
+      query: `${v.name}, ${v.addr}, Toronto`,
+      fields: ['place_id','photos','name']
+    }, (results, status) => {
+      if(status === google.maps.places.PlacesServiceStatus.OK && results[0]?.photos?.length) {
+        const photoRef = results[0].photos[0];
+        const photoUrl = photoRef.getUrl({maxWidth: 800, maxHeight: 400});
+        const img = new Image();
+        img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
+        img.src = photoUrl;
+      }
+    });
+  } catch(e) {
+    console.warn('Google Places photo failed:', e.message);
+  }
+}
+
+function loadGoogleMapsSDK(key){
+  return new Promise((resolve, reject) => {
+    if(window.google) { resolve(); return; }
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
+    script.async = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
 }
 
 function closeVenuePage(){
@@ -2097,7 +2117,50 @@ window.addEventListener('popstate', e=>{
 });
 
 async function fetchVenueReviews(v, el){
-  // Generate realistic reviews locally based on venue type + details
+  // Try Google Places reviews first
+  try {
+    if(!window.google) await loadGoogleMapsSDK('AIzaSyAo5sRSN0Qp7WR3mquuIkzaL51USat-cp8');
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+    service.findPlaceFromQuery({
+      query: `${v.name}, ${v.addr}, Toronto`,
+      fields: ['place_id']
+    }, (results, status) => {
+      if(status === google.maps.places.PlacesServiceStatus.OK && results[0]?.place_id) {
+        service.getDetails({
+          placeId: results[0].place_id,
+          fields: ['reviews','rating','user_ratings_total']
+        }, (place, detailStatus) => {
+          if(detailStatus === google.maps.places.PlacesServiceStatus.OK && place.reviews?.length) {
+            const reviews = place.reviews.slice(0,3);
+            el.innerHTML = `
+              ${place.rating ? `<div style="font-size:13px;color:var(--muted);margin-bottom:12px">
+                <span style="color:var(--accent);font-size:16px">${'★'.repeat(Math.round(place.rating))}${'☆'.repeat(5-Math.round(place.rating))}</span>
+                <strong style="color:var(--text)">${place.rating}</strong> · ${place.user_ratings_total?.toLocaleString()} Google reviews
+              </div>` : ''}
+              ${reviews.map(r=>`
+              <div class="venue-page-review">
+                <div class="venue-page-review-author">
+                  ${r.author_name}
+                  <span class="venue-page-review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
+                  <span style="font-size:11px;color:var(--muted);font-weight:400;margin-left:auto">${r.relative_time_description}</span>
+                </div>
+                <div class="venue-page-review-text">${r.text.slice(0,200)}${r.text.length>200?'…':''}</div>
+              </div>`).join('')}`;
+          } else {
+            renderFallbackReviews(v, el);
+          }
+        });
+      } else {
+        renderFallbackReviews(v, el);
+      }
+    });
+    return;
+  } catch(e) {
+    renderFallbackReviews(v, el);
+  }
+}
+
+function renderFallbackReviews(v, el){
   const typeReviews = {
     drinkhh: ['The happy hour deals here are unreal — $6 cocktails until 7pm on weekdays.','Best drink specials in the neighbourhood, always packed by 6pm.','Great spot to unwind after work, staff are super friendly and the prices are fair.'],
     foodhh: ['The food specials are genuinely good, not just cheap bar snacks.','Half-price apps during happy hour and the quality never drops — impressive.','Solid food, great value, and the vibe is perfect for after-work hangs.'],
