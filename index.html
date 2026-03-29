@@ -1114,7 +1114,7 @@ function handleNavLists(){
   showView('list', null);
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('nb-lists').classList.add('active');
-  document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
+  // Keep existing pill selection — just filter to favs on top of it
   activeType='favs';
   render();
 }
@@ -2084,44 +2084,54 @@ async function openVenuePage(v){
   fetchVenueReviews(v, reviewsEl);
 }
 
+const _photoCache = {};
+
 async function fetchGooglePlacePhoto(v, photoEl, key){
   try {
     if(!window.google) await loadGoogleMapsSDK(key);
+
+    // Return cached result instantly
+    const cacheKey = v.name + v.addr;
+    if(_photoCache[cacheKey]){
+      photoEl.style.backgroundImage = `url('${_photoCache[cacheKey]}')`;
+      return;
+    }
+
     const service = new google.maps.places.PlacesService(document.createElement('div'));
 
-    // Step 1: find place_id
+    // Single call - get place_id AND photos in one shot
     service.findPlaceFromQuery({
       query: `${v.name}, ${v.addr}, Toronto, Ontario`,
-      fields: ['place_id']
+      fields: ['place_id', 'photos']
     }, (results, status) => {
-      if(status !== google.maps.places.PlacesServiceStatus.OK || !results[0]?.place_id) return;
+      if(status !== google.maps.places.PlacesServiceStatus.OK || !results[0]) return;
 
-      // Step 2: get full details with all photos
-      service.getDetails({
-        placeId: results[0].place_id,
-        fields: ['photos']
-      }, (place, detailStatus) => {
-        if(detailStatus !== google.maps.places.PlacesServiceStatus.OK || !place.photos?.length) return;
-
-        // Pick best photo: prefer landscape shots (width > height), highest res
-        const photos = place.photos;
+      const photos = results[0].photos;
+      if(photos?.length){
+        // Pick best landscape photo from what we already have
         const landscape = photos.filter(p => p.width >= p.height);
         const pool = landscape.length ? landscape : photos;
-        // Try a few photos and pick the first that loads cleanly
-        const tryPhoto = (i) => {
-          if(i >= Math.min(pool.length, 5)) return;
-          const photoUrl = pool[i].getUrl({ maxWidth: 1200, maxHeight: 600 });
+        const photoUrl = pool[0].getUrl({ maxWidth: 800, maxHeight: 500 });
+        _photoCache[cacheKey] = photoUrl;
+        const img = new Image();
+        img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
+        img.src = photoUrl;
+      } else if(results[0].place_id) {
+        // Fallback: getDetails only if no photos in findPlace result
+        service.getDetails({
+          placeId: results[0].place_id,
+          fields: ['photos']
+        }, (place, s2) => {
+          if(s2 !== google.maps.places.PlacesServiceStatus.OK || !place.photos?.length) return;
+          const landscape = place.photos.filter(p => p.width >= p.height);
+          const pool = landscape.length ? landscape : place.photos;
+          const photoUrl = pool[0].getUrl({ maxWidth: 800, maxHeight: 500 });
+          _photoCache[cacheKey] = photoUrl;
           const img = new Image();
-          img.onload = () => {
-            photoEl.style.backgroundImage = `url('${img.src}')`;
-            photoEl.style.backgroundSize = 'cover';
-            photoEl.style.backgroundPosition = 'center';
-          };
-          img.onerror = () => tryPhoto(i + 1);
+          img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
           img.src = photoUrl;
-        };
-        tryPhoto(0);
-      });
+        });
+      }
     });
   } catch(e) {
     console.warn('Google Places photo failed:', e.message);
