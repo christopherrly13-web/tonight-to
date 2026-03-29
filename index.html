@@ -1345,10 +1345,14 @@ function handleNavLists(){
   document.getElementById('mylist-view').classList.add('active');
   history.replaceState(null,'','#mylist');
   renderMyList();
-  // Set mylist header padding
-  const core = document.querySelector('#mylist-sticky .list-header-core');
-  const scroll = document.getElementById('mylist-scroll');
-  if(core && scroll) scroll.style.paddingTop = core.offsetHeight + 'px';
+  // Set mylist header padding after DOM renders
+  const setMyListPadding = () => {
+    const core = document.querySelector('#mylist-sticky .list-header-core');
+    const scroll = document.getElementById('mylist-scroll');
+    if(core && scroll) scroll.style.paddingTop = (core.offsetHeight + 8) + 'px';
+  };
+  setMyListPadding();
+  setTimeout(setMyListPadding, 100);
 }
 
 function renderMyList(){
@@ -1362,6 +1366,13 @@ function renderMyList(){
     </div>`;
     return;
   }
+
+  // Sort: live now first, then by distance
+  saved.sort((a,b)=>{
+    const liveDiff = isNow(b) - isNow(a);
+    if(liveDiff !== 0) return liveDiff;
+    return distKm(a) - distKm(b);
+  });
   c.innerHTML = saved.map((v,i)=>{
     const live = isNow(v);
     const gmapsQuery = encodeURIComponent(v.name+', '+v.addr+', Toronto, ON');
