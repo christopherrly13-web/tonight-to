@@ -1898,19 +1898,7 @@ function initDayPills(){
 initDayPills();
 
 // Auto-select Now + set time slider to current time on load
-(function initNowAndTime(){
-  const slider = document.getElementById('time-slider');
-  const mapSlider = document.getElementById('map-time-slider');
-  const nowChk = document.getElementById('now-chk');
-  const mapNowChk = document.getElementById('map-now-chk');
-  const currentTime = Math.round(curHour * 2) / 2; // round to nearest 0.5
-  if(slider) slider.value = currentTime;
-  if(mapSlider) mapSlider.value = currentTime;
-  if(nowChk) nowChk.checked = true;
-  if(mapNowChk) mapNowChk.checked = true;
-  updateTimeDisplay();
-  updateMapTimeDisplay();
-})();
+// initNowAndTime called after function definitions below
 
 function toggleDay(el){
   const d=el.dataset.d;
@@ -2458,6 +2446,21 @@ function updateMapTimeDisplay(){
   el.textContent=hr+":"+m+(val===24?"am":ap);
   el.classList.add("active");
 }
+
+// Init Now checkbox + time slider to current time on load
+(function initNowAndTime(){
+  const currentTime = Math.round(curHour * 2) / 2;
+  const slider = document.getElementById('time-slider');
+  const mapSlider = document.getElementById('map-time-slider');
+  const nowChk = document.getElementById('now-chk');
+  const mapNowChk = document.getElementById('map-now-chk');
+  if(slider) slider.value = currentTime;
+  if(mapSlider) mapSlider.value = currentTime;
+  if(nowChk) nowChk.checked = true;
+  if(mapNowChk) mapNowChk.checked = true;
+  updateTimeDisplay();
+  updateMapTimeDisplay();
+})();
 function onMapNowChkChange(){
   const chk=document.getElementById("map-now-chk");
   if(chk.checked){
