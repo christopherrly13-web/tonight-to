@@ -414,9 +414,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 .full-search-overlay{position:fixed;inset:0;background:var(--bg);z-index:4000;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
 .full-search-overlay.open{transform:translateY(0)}
-.full-search-header{display:flex;align-items:center;justify-content:center;padding:max(env(safe-area-inset-top),16px) 16px 12px;border-bottom:1px solid var(--border);position:relative;flex-shrink:0}
-.full-search-title{font-size:16px;font-weight:700;color:var(--text)}
-.full-search-close{position:absolute;left:16px;top:50%;transform:translateY(-50%);background:var(--surface2);border:none;color:var(--text);font-size:16px;cursor:pointer;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-top:calc(max(env(safe-area-inset-top),16px)/2)}
+.full-search-header{display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),16px) 16px 12px;border-bottom:1px solid var(--border);position:relative;flex-shrink:0;background:var(--bg)}
+.full-search-close{background:none;border:none;color:var(--text);cursor:pointer;width:36px;height:36px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .full-search-body{flex:1;overflow-y:auto;padding:16px}
 .full-search-input-wrap{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:14px}
 .full-search-input-wrap svg{flex-shrink:0;color:var(--muted)}
@@ -882,6 +881,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
+<!-- MY LIST VIEW -->
+<div class="view" id="mylist-view">
+  <div class="list-header-fixed" id="mylist-sticky">
+    <div class="list-header-core">
+      <div class="header">
+        <div class="header-top">
+          <div class="logo-sm">Tonight<span>.</span>TO</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="tonight-badge">My List</div>
+            <div class="hamburger-wrap">
+              <button class="hamburger-btn" onclick="toggleMenu(event)" aria-label="Menu">
+                <span></span><span></span><span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="feed-scroll" id="mylist-scroll">
+    <div class="cards-scroll" id="mylist-cards"></div>
+  </div>
+</div>
+
 <!-- MAP VIEW -->
 <div class="view" id="map-view">
 
@@ -1168,8 +1191,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- FULL SEARCH OVERLAY -->
 <div class="full-search-overlay" id="full-search-overlay">
   <div class="full-search-header">
-    <button class="full-search-close" onclick="closeFullSearch()">✕</button>
-    <div class="full-search-title">Search</div>
+    <button class="full-search-close" onclick="closeFullSearch()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="logo-sm">Tonight<span>.</span>TO</div>
+    <div class="hamburger-wrap">
+      <button class="hamburger-btn" onclick="toggleMenu(event)" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
   </div>
   <div class="full-search-body">
     <div class="full-search-input-wrap">
@@ -1304,25 +1335,71 @@ function goToFeed(){
   showView('list', document.getElementById('nb-list'));
   render();
 }
-
 // Nav: My List
 function handleNavLists(){
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('nb-lists').classList.add('active');
   if(!currentUser){ openAuth(); return; }
-  showView('list', null);
-  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
-  document.getElementById('nb-lists').classList.add('active');
-  activeTypes = new Set(['favs']);
-  render();
+  // Show dedicated My List view
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('mylist-view').classList.add('active');
+  history.replaceState(null,'','#mylist');
+  renderMyList();
+  // Set mylist header padding
+  const core = document.querySelector('#mylist-sticky .list-header-core');
+  const scroll = document.getElementById('mylist-scroll');
+  if(core && scroll) scroll.style.paddingTop = core.offsetHeight + 'px';
+}
+
+function renderMyList(){
+  const c = document.getElementById('mylist-cards');
+  const saved = ALL.filter(v=>favourites.has(v.name));
+  if(!saved.length){
+    c.innerHTML=`<div class="empty empty-no-selection" style="margin-top:20px">
+      <div class="empty-icon">🔖</div>
+      <p class="empty-title">No saved venues yet</p>
+      <p class="empty-sub">Tap ❤️ on any venue card to save it here.</p>
+    </div>`;
+    return;
+  }
+  c.innerHTML = saved.map((v,i)=>{
+    const live = isNow(v);
+    const gmapsQuery = encodeURIComponent(v.name+', '+v.addr+', Toronto, ON');
+    const gmapsUrl = 'https://www.google.com/maps/search/?api=1&query='+gmapsQuery;
+    return `<div class="card ${live?'live-card':''}" onclick="openVenuePage(window._mylistCache[${i}])" style="cursor:pointer">
+      <div class="card-top">
+        <div>
+          <div class="card-name">${v.name}</div>
+          <div class="card-sub">${v.hood} · ${v.addr}</div>
+        </div>
+        <span class="badge ${TBADGE[v.type]||'b-hh'}">${MUSIC_TYPES.has(v.type)?'🎵 Music · '+MUSIC_SUBLABEL[v.type]:(TLABEL[v.type]||v.type)}</span>
+        <button class="fav-btn active" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Remove">❤️</button>
+      </div>
+      <div class="detail">${v.detail}</div>
+      <div class="card-ftr">
+        <div class="time-wrap"><span class="dot ${live?'on':''}"></span><span class="time-txt ${live?'on':''}">${fmt(v.start)}–${fmt(v.end)}</span></div>
+        <span class="days-txt">${v.days.map(d=>DABB[d]).join(' · ')}</span>
+      </div>
+      <a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        View on Google Maps
+      </a>
+    </div>`;
+  }).join('');
+  window._mylistCache = saved;
 }
 
 // Full search overlay
-let fullSearchType = 'all';
+let fullSearchType = null;
 function openFullSearch(){
   document.getElementById('full-search-overlay').classList.add('open');
-  setTimeout(()=>document.getElementById('full-search-input').focus(), 300);
+  // Reset pills to none selected
+  fullSearchType = null;
+  document.querySelectorAll('#full-search-type-pills .pill').forEach(p=>p.classList.remove('active'));
+  document.getElementById('full-search-input').value='';
+  document.getElementById('full-search-clear').style.display='none';
   renderFullSearch();
+  setTimeout(()=>document.getElementById('full-search-input').focus(), 300);
 }
 function closeFullSearch(){
   document.getElementById('full-search-overlay').classList.remove('open');
@@ -1333,23 +1410,60 @@ function clearFullSearch(){
   renderFullSearch();
 }
 function setFullSearchType(el){
-  document.querySelectorAll('#full-search-type-pills .pill').forEach(p=>p.classList.remove('active'));
-  el.classList.add('active');
-  fullSearchType = el.dataset.t;
+  const t = el.dataset.t;
+  if(t === 'all'){
+    if(el.classList.contains('active')){
+      // Deselect All
+      el.classList.remove('active');
+      fullSearchType = null;
+    } else {
+      document.querySelectorAll('#full-search-type-pills .pill').forEach(p=>p.classList.remove('active'));
+      el.classList.add('active');
+      fullSearchType = 'all';
+    }
+  } else {
+    // Deselect All when picking specific type
+    document.querySelector('#full-search-type-pills [data-t="all"]')?.classList.remove('active');
+    if(el.classList.contains('active')){
+      el.classList.remove('active');
+      // If nothing left active, set null
+      const anyActive = document.querySelector('#full-search-type-pills .pill.active');
+      fullSearchType = anyActive ? anyActive.dataset.t : null;
+    } else {
+      el.classList.add('active');
+      fullSearchType = t;
+    }
+  }
   renderFullSearch();
 }
+
 function onFullSearch(){
   const val = document.getElementById('full-search-input').value;
   document.getElementById('full-search-clear').style.display = val ? 'block' : 'none';
   renderFullSearch();
 }
+
 function renderFullSearch(){
   const q = (document.getElementById('full-search-input').value||'').toLowerCase().trim();
+  const el = document.getElementById('full-search-results');
+
+  // No pill selected — show empty state
+  if(fullSearchType === null && !q){
+    el.innerHTML=`<div class="empty empty-no-selection">
+      <div class="empty-icon">🍻</div>
+      <p class="empty-title">No events selected</p>
+      <p class="empty-sub">Make a selection above to find what's happening tonight!</p>
+    </div>`;
+    return;
+  }
+
   const results = ALL.filter(v=>{
-    if(fullSearchType!=='all'){
-      if(fullSearchType==='music'&&!MUSIC_TYPES.has(v.type)) return false;
-      if(fullSearchType!=='music'&&fullSearchType!==v.type) return false;
+    // Type filter
+    if(fullSearchType && fullSearchType !== 'all'){
+      if(fullSearchType==='music' && !MUSIC_TYPES.has(v.type)) return false;
+      if(fullSearchType!=='music' && fullSearchType!==v.type) return false;
     }
+    // Text filter
     if(q){
       const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
       if(!hay.includes(q)) return false;
@@ -1357,15 +1471,11 @@ function renderFullSearch(){
     return true;
   }).slice(0,30);
 
-  const el = document.getElementById('full-search-results');
-  if(!results.length && q){
+  if(!results.length){
     el.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px 0">No results found</p>';
     return;
   }
-  if(!q && fullSearchType==='all'){
-    el.innerHTML='<p style="color:var(--muted);font-size:14px;text-align:center;padding:40px 0">Start typing to search venues…</p>';
-    return;
-  }
+
   el.innerHTML = results.map(v=>{
     const live = isNow(v);
     return `<div class="card ${live?'live-card':''}" onclick="closeFullSearch();" style="cursor:pointer">
@@ -1450,7 +1560,12 @@ async function toggleFav(e, name, type){
     const saveBtn = actionsEl.querySelector('.save-btn');
     if(saveBtn) saveBtn.textContent = favourites.has(name) ? '❤️ Saved' : '🤍 Save';
   }
-  render();
+  // Re-render My List if it's active
+  if(document.getElementById('mylist-view')?.classList.contains('active')){
+    renderMyList();
+  } else {
+    render();
+  }
 }
 
 // ── AUTH MODAL ────────────────────────────────────────────────────────────────
