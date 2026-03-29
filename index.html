@@ -448,18 +448,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   display:none;
 }
 #search-clear.visible{display:block}
-#search-suggestions{
-  position:fixed;
-  left:0;right:0;
-  background:var(--surface);
-  border:1px solid var(--border2);
-  border-radius:0 0 var(--radius-sm) var(--radius-sm);
-  overflow:hidden;
-  z-index:9999;
-  box-shadow:0 12px 32px rgba(0,0,0,.7);
-  display:none;
-}
-#search-suggestions.visible{display:block}
+#search-suggestions.visible{display:block!important}
 .sugg-item{
   display:flex;align-items:center;gap:10px;
   padding:12px 14px;cursor:pointer;
@@ -831,7 +820,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <input type="text" id="search-input" placeholder="Search venues, drinks, food, music…" oninput="onSearch()" onkeydown="if(event.key==='Enter'){commitSearch();this.blur()}" autocomplete="off" autocorrect="off" spellcheck="false">
           <button id="search-clear" onclick="clearSearch()" aria-label="Clear">✕</button>
         </div>
-        <div id="search-suggestions"></div>
+        <div id="search-suggestions-anchor"></div>
       </div>
     </div>
 
@@ -1045,6 +1034,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </div>
+
+<!-- GLOBAL SEARCH SUGGESTIONS — body level so it's above all fixed elements -->
+<div id="search-suggestions" style="position:fixed;left:0;right:0;z-index:99999;display:none;background:var(--surface);border:1px solid var(--border2);border-radius:0 0 var(--radius-sm) var(--radius-sm);overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.7)"></div>
 
 <!-- GLOBAL HAMBURGER MENU (shared across all views) -->
 <div class="hamburger-menu" id="hamburger-menu">
