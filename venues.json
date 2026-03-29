@@ -16,10 +16,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $6 pintxos, $7 vermouth & natural wine, $5 beer. Best Spanish bar in the city.",
+      "detail": "\ud83c\udf78 $6 pintxos, $7 vermouth & natural wine, $5 beer. Best Spanish bar in the city.",
       "addr": "505 College St",
       "lat": 43.655877,
-      "lng": -79.409924
+      "lng": -79.409924,
+      "website": "https://www.thisisbarraval.com"
     },
     {
       "name": "BarChef",
@@ -33,10 +34,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $10 cocktails (reg $18–22), $7 wine, $6 beer. Award-winning cocktail bar.",
+      "detail": "\ud83c\udf78 $10 cocktails (reg $18\u201322), $7 wine, $6 beer. Award-winning cocktail bar.",
       "addr": "472 Queen St W",
       "lat": 43.648075,
-      "lng": -79.400118
+      "lng": -79.400118,
+      "website": "https://barcheftoronto.com"
     },
     {
       "name": "Canoe",
@@ -51,10 +53,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $10 wine & beer, $12 cocktails. 54th floor views over Toronto.",
+      "detail": "\ud83c\udf78 $10 wine & beer, $12 cocktails. 54th floor views over Toronto.",
       "addr": "66 Wellington St W",
       "lat": 43.647261,
-      "lng": -79.381453
+      "lng": -79.381453,
+      "website": "https://canoerestaurant.com"
     },
     {
       "name": "Reposado",
@@ -69,10 +72,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $8 margaritas, $6 Mexican beer, 2-for-1 shots. Best tequila bar in Toronto.",
+      "detail": "\ud83c\udf78 $8 margaritas, $6 Mexican beer, 2-for-1 shots. Best tequila bar in Toronto.",
       "addr": "136 Ossington Ave",
       "lat": 43.647276,
-      "lng": -79.42015
+      "lng": -79.42015,
+      "website": "https://www.reposado.ca"
     },
     {
       "name": "Bar Koukla",
@@ -89,10 +93,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 Half-price wine bottles nightly. $10 classic martinis after 9pm.",
+      "detail": "\ud83c\udf78 Half-price wine bottles nightly. $10 classic martinis after 9pm.",
       "addr": "88 Ossington Ave",
       "lat": 43.646092,
-      "lng": -79.419667
+      "lng": -79.419667,
+      "website": "https://barkoukla.com"
     },
     {
       "name": "Superpoint",
@@ -109,10 +114,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $5 Peroni, $6 natural wine, $7 spritz. Every day all week.",
+      "detail": "\ud83c\udf78 $5 Peroni, $6 natural wine, $7 spritz. Every day all week.",
       "addr": "184 Ossington Ave",
       "lat": 43.648382,
-      "lng": -79.420704
+      "lng": -79.420704,
+      "website": "https://www.superpoint.ca"
     },
     {
       "name": "Bellwoods Brewery",
@@ -126,10 +132,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $6 pints on select house beers Mon–Thu.",
+      "detail": "\ud83c\udf78 $6 pints on select house beers Mon\u2013Thu.",
       "addr": "124 Ossington Ave",
       "lat": 43.647033,
-      "lng": -79.420176
+      "lng": -79.420176,
+      "website": "https://bellwoodsbrewery.com"
     },
     {
       "name": "Birreria Volo",
@@ -144,10 +151,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $6.50 house draft Tuesdays. Half-price wine Wednesdays. Craft beer cave.",
+      "detail": "\ud83c\udf78 $6.50 house draft Tuesdays. Half-price wine Wednesdays. Craft beer cave.",
       "addr": "612 College St",
       "lat": 43.655188,
-      "lng": -79.414603
+      "lng": -79.414603,
+      "website": "https://www.birreriavolo.com"
     },
     {
       "name": "Bar Volo",
@@ -162,10 +170,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $13 Italian spritzes. $6.50 house beers Tue. Half-price wine Wed. Bay-Cloverhill's best beer bar.",
+      "detail": "\ud83c\udf78 $13 Italian spritzes. $6.50 house beers Tue. Half-price wine Wed. Bay-Cloverhill's best beer bar.",
       "addr": "17 St Nicholas St",
       "lat": 43.665552,
-      "lng": -79.385651
+      "lng": -79.385651,
+      "website": "https://www.barvolo.com"
     },
     {
       "name": "Archive Bar",
@@ -180,10 +189,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $7 wine & craft beer, $10 cocktails.",
+      "detail": "\ud83c\udf78 $7 wine & craft beer, $10 cocktails.",
       "addr": "909 Dundas St W",
       "lat": 43.650876,
-      "lng": -79.412473
+      "lng": -79.412473,
+      "website": "https://www.archivebar.ca"
     },
     {
       "name": "Ace Hotel Bar",
@@ -198,10 +208,11 @@
       ],
       "start": 16,
       "end": 19,
-      "detail": "🍸 $12 wine by the glass, select cocktails weekdays 4–7pm. Sexy hotel bar.",
+      "detail": "\ud83c\udf78 $12 wine by the glass, select cocktails weekdays 4\u20137pm. Sexy hotel bar.",
       "addr": "51 Camden St",
       "lat": 43.646715,
-      "lng": -79.398055
+      "lng": -79.398055,
+      "website": "https://acehotel.com/toronto"
     },
     {
       "name": "Bar Isabel",
@@ -216,10 +227,11 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍸 $10 wine glasses, $6 lagers, $12 Dillon's cocktails. Closest thing to Spain in Toronto.",
+      "detail": "\ud83c\udf78 $10 wine glasses, $6 lagers, $12 Dillon's cocktails. Closest thing to Spain in Toronto.",
       "addr": "797 College St",
       "lat": 43.654669,
-      "lng": -79.420714
+      "lng": -79.420714,
+      "website": "https://www.barisabel.com"
     },
     {
       "name": "King Taps",
@@ -236,10 +248,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 50% off wine Tue & Wed, $5 beers, $6 wines. Late night Sun–Wed too.",
+      "detail": "\ud83c\udf78 50% off wine Tue & Wed, $5 beers, $6 wines. Late night Sun\u2013Wed too.",
       "addr": "100 King St W",
       "lat": 43.648768,
-      "lng": -79.381692
+      "lng": -79.381692,
+      "website": "https://www.kingtaps.com"
     },
     {
       "name": "Bar Hop",
@@ -254,10 +267,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 Craft beer HH on rotating taps. Multiple taprooms downtown.",
+      "detail": "\ud83c\udf78 Craft beer HH on rotating taps. Multiple taprooms downtown.",
       "addr": "391 King St W",
       "lat": 43.64874,
-      "lng": -79.379877
+      "lng": -79.379877,
+      "website": "https://www.barhoptoronto.com"
     },
     {
       "name": "Richmond Station",
@@ -272,10 +286,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $7 draft, $9 wine, $12 cocktails Mon–Fri.",
+      "detail": "\ud83c\udf78 $7 draft, $9 wine, $12 cocktails Mon\u2013Fri.",
       "addr": "1 Richmond St W",
       "lat": 43.65144,
-      "lng": -79.379004
+      "lng": -79.379004,
+      "website": "https://richmondstation.ca"
     },
     {
       "name": "The Pilot Tavern",
@@ -290,10 +305,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 Craft brewery deals before Tuesday trivia. No cover for trivia.",
+      "detail": "\ud83c\udf78 Craft brewery deals before Tuesday trivia. No cover for trivia.",
       "addr": "22 Cumberland St",
       "lat": 43.671033,
-      "lng": -79.388051
+      "lng": -79.388051,
+      "website": "https://www.thepilot.ca"
     },
     {
       "name": "Boxcar Social",
@@ -308,10 +324,11 @@
       ],
       "start": 16,
       "end": 19,
-      "detail": "🍸 $5 shots & beers, $7 spritz & wine. Victorian two-storey bar with back patio.",
+      "detail": "\ud83c\udf78 $5 shots & beers, $7 spritz & wine. Victorian two-storey bar with back patio.",
       "addr": "1208 Yonge St",
       "lat": 43.681698,
-      "lng": -79.391648
+      "lng": -79.391648,
+      "website": "https://boxcarsocial.ca"
     },
     {
       "name": "Lapinou",
@@ -326,13 +343,14 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $10 cocktails + Tue & Wed 50% off wine bottles. Cozy French bistro bar.",
+      "detail": "\ud83c\udf78 $10 cocktails + Tue & Wed 50% off wine bottles. Cozy French bistro bar.",
       "addr": "642 King St W",
       "lat": 43.644307,
-      "lng": -79.401536
+      "lng": -79.401536,
+      "website": "https://www.lapinou.ca"
     },
     {
-      "name": "Añejo",
+      "name": "A\u00f1ejo",
       "hood": "King West",
       "type": "drinkhh",
       "days": [
@@ -346,10 +364,11 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍸 $7 margaritas & beers. Also 10pm–midnight daily. Canada's best tequila bar.",
+      "detail": "\ud83c\udf78 $7 margaritas & beers. Also 10pm\u2013midnight daily. Canada's best tequila bar.",
       "addr": "600 King St W",
       "lat": 43.644661,
-      "lng": -79.399939
+      "lng": -79.399939,
+      "website": "https://www.anejotoronto.com"
     },
     {
       "name": "The Rabbit Hole",
@@ -365,10 +384,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $7 beers, $12 cocktails, $10 wine. British gastropub with great patio.",
+      "detail": "\ud83c\udf78 $7 beers, $12 cocktails, $10 wine. British gastropub with great patio.",
       "addr": "21 Adelaide St W",
       "lat": 43.649838,
-      "lng": -79.38059
+      "lng": -79.38059,
+      "website": "https://therabbitholetoronto.com"
     },
     {
       "name": "Melrose on Adelaide",
@@ -385,10 +405,11 @@
       ],
       "start": 14,
       "end": 18,
-      "detail": "🍸 Half-price bottles of wine 2–6pm daily. Late night Sun–Wed too.",
+      "detail": "\ud83c\udf78 Half-price bottles of wine 2\u20136pm daily. Late night Sun\u2013Wed too.",
       "addr": "270 Adelaide St W",
       "lat": 43.648104,
-      "lng": -79.389902
+      "lng": -79.389902,
+      "website": "https://www.melrosebar.ca"
     },
     {
       "name": "Cocktail Bar",
@@ -405,10 +426,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 Daily $12 menu drinks 5–7pm. Perfect back patio.",
+      "detail": "\ud83c\udf78 Daily $12 menu drinks 5\u20137pm. Perfect back patio.",
       "addr": "923 Dundas St W",
       "lat": 43.650705,
-      "lng": -79.413268
+      "lng": -79.413268,
+      "website": "https://www.cocktailbar.ca"
     },
     {
       "name": "The Comrade",
@@ -425,10 +447,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $12 select cocktails every day 5–7pm. Dark, sexy taxidermy bar.",
+      "detail": "\ud83c\udf78 $12 select cocktails every day 5\u20137pm. Dark, sexy taxidermy bar.",
       "addr": "758 Queen St E",
       "lat": 43.659418,
-      "lng": -79.34795
+      "lng": -79.34795,
+      "website": "https://www.thecomrade.ca"
     },
     {
       "name": "Chez Nous",
@@ -445,10 +468,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $9 house wines, $6 select beers, $12 cocktails 5–7pm. Half-price bottles after 11pm & all day Sun.",
+      "detail": "\ud83c\udf78 $9 house wines, $6 select beers, $12 cocktails 5\u20137pm. Half-price bottles after 11pm & all day Sun.",
       "addr": "798 Queen St E",
       "lat": 43.659665,
-      "lng": -79.346956
+      "lng": -79.346956,
+      "website": "https://cheznoustoronto.com"
     },
     {
       "name": "Paradise Grapevine",
@@ -465,10 +489,11 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍸 $10 glasses of house-label wine 5–6pm daily. Natural wine bar & urban winery.",
+      "detail": "\ud83c\udf78 $10 glasses of house-label wine 5\u20136pm daily. Natural wine bar & urban winery.",
       "addr": "218 Geary Ave",
       "lat": 43.669784,
-      "lng": -79.438487
+      "lng": -79.438487,
+      "website": "https://www.paradisegrapevine.com"
     },
     {
       "name": "Le Tigre",
@@ -485,10 +510,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 Half-price martinis all night Monday + Tue–Sun 5–7pm. If Barbie had a neon-pink cocktail bar.",
+      "detail": "\ud83c\udf78 Half-price martinis all night Monday + Tue\u2013Sun 5\u20137pm. If Barbie had a neon-pink cocktail bar.",
       "addr": "1060 Yonge St",
       "lat": 43.677514,
-      "lng": -79.389945
+      "lng": -79.389945,
+      "website": "https://www.letigretoronto.com"
     },
     {
       "name": "Gloria",
@@ -505,10 +531,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $10 martinis 5–7pm daily. Casual French-American bistro in the Great Hall.",
+      "detail": "\ud83c\udf78 $10 martinis 5\u20137pm daily. Casual French-American bistro in the Great Hall.",
       "addr": "1087 Queen St W",
       "lat": 43.643343,
-      "lng": -79.4221
+      "lng": -79.4221,
+      "website": "https://www.gloriarestaurant.ca"
     },
     {
       "name": "Compton Ave.",
@@ -525,10 +552,11 @@
       ],
       "start": 18,
       "end": 20,
-      "detail": "🍸 Daily $12 martinis 6–8pm. Moody cocktail bar, looks like a wealthy Londoner's home.",
+      "detail": "\ud83c\udf78 Daily $12 martinis 6\u20138pm. Moody cocktail bar, looks like a wealthy Londoner's home.",
       "addr": "1282 Dundas St W",
       "lat": 43.649592,
-      "lng": -79.425416
+      "lng": -79.425416,
+      "website": "https://www.comptonave.ca"
     },
     {
       "name": "Hey Lucy",
@@ -539,10 +567,11 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍸 $6.99 select martinis every Wednesday. Wood-fired pizza bar.",
+      "detail": "\ud83c\udf78 $6.99 select martinis every Wednesday. Wood-fired pizza bar.",
       "addr": "295 King St W",
       "lat": 43.646294,
-      "lng": -79.390055
+      "lng": -79.390055,
+      "website": "https://www.heylucy.ca"
     },
     {
       "name": "Maison Selby",
@@ -559,10 +588,11 @@
       ],
       "start": 14,
       "end": 18,
-      "detail": "🍸 $7 beer, $12 cocktails 2–6pm + 9pm–close daily.",
+      "detail": "\ud83c\udf78 $7 beer, $12 cocktails 2\u20136pm + 9pm\u2013close daily.",
       "addr": "592 Sherbourne St",
       "lat": 43.671281,
-      "lng": -79.376596
+      "lng": -79.376596,
+      "website": "https://maisonselby.com"
     },
     {
       "name": "General Public",
@@ -579,10 +609,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 Cocktails, beer & wine from $8 daily 4–6pm. Also the only time to get their legendary limited cheeseburger.",
+      "detail": "\ud83c\udf78 Cocktails, beer & wine from $8 daily 4\u20136pm. Also the only time to get their legendary limited cheeseburger.",
       "addr": "201 Geary Ave",
       "lat": 43.669566,
-      "lng": -79.437819
+      "lng": -79.437819,
+      "website": "https://www.generalpublicbar.com"
     },
     {
       "name": "Lulu Bar",
@@ -599,10 +630,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $10 tropical cocktails, $7 draught, half-price wine during Honolulu Hour 3–6pm daily.",
+      "detail": "\ud83c\udf78 $10 tropical cocktails, $7 draught, half-price wine during Honolulu Hour 3\u20136pm daily.",
       "addr": "427 Wellington St W",
       "lat": 43.646503,
-      "lng": -79.383547
+      "lng": -79.383547,
+      "website": "https://www.lulubar.ca"
     },
     {
       "name": "Bridgette Bar",
@@ -619,10 +651,11 @@
       ],
       "start": 14,
       "end": 17,
-      "detail": "🍸 50% off wine, $10 cocktails 2–5pm daily.",
+      "detail": "\ud83c\udf78 50% off wine, $10 cocktails 2\u20135pm daily.",
       "addr": "423 Wellington St W",
       "lat": 43.643428,
-      "lng": -79.395608
+      "lng": -79.395608,
+      "website": "https://bridgettebar.com"
     },
     {
       "name": "Pigeon",
@@ -639,10 +672,11 @@
       ],
       "start": 15.5,
       "end": 19,
-      "detail": "🍸 $4.50 shots, $8 wine, $10 cocktails 3:30–7pm.",
+      "detail": "\ud83c\udf78 $4.50 shots, $8 wine, $10 cocktails 3:30\u20137pm.",
       "addr": "337 King St W",
       "lat": 43.646081,
-      "lng": -79.391435
+      "lng": -79.391435,
+      "website": "https://www.pigeonbar.ca"
     },
     {
       "name": "Ruby Soho",
@@ -659,13 +693,14 @@
       ],
       "start": 15,
       "end": 19,
-      "detail": "🍸 Beer, cocktails & specials 3–7pm daily. Vinyl bar, TIFF celeb hotspot.",
+      "detail": "\ud83c\udf78 Beer, cocktails & specials 3\u20137pm daily. Vinyl bar, TIFF celeb hotspot.",
       "addr": "587 King St W",
       "lat": 43.644329,
-      "lng": -79.4002
+      "lng": -79.4002,
+      "website": "https://www.rubysohotoronto.com"
     },
     {
-      "name": "Café Renée",
+      "name": "Caf\u00e9 Ren\u00e9e",
       "hood": "King West",
       "type": "drinkhh",
       "days": [
@@ -679,10 +714,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $12 martinis 5–7pm daily.",
+      "detail": "\ud83c\udf78 $12 martinis 5\u20137pm daily.",
       "addr": "100 Portland St",
       "lat": 43.619875,
-      "lng": -79.496359
+      "lng": -79.496359,
+      "website": "https://caferenetoronto.com"
     },
     {
       "name": "Locals Only",
@@ -699,10 +735,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 50% off wine & oysters 5–7pm.",
+      "detail": "\ud83c\udf78 50% off wine & oysters 5\u20137pm.",
       "addr": "589 King St W",
       "lat": 43.64432,
-      "lng": -79.400243
+      "lng": -79.400243,
+      "website": "https://www.localsonly.ca"
     },
     {
       "name": "Burdock Brewery",
@@ -717,10 +754,11 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍸 $5 draft beer weekdays 5–6pm. Half-price wine Sundays. Half-price cellar Tuesdays.",
+      "detail": "\ud83c\udf78 $5 draft beer weekdays 5\u20136pm. Half-price wine Sundays. Half-price cellar Tuesdays.",
       "addr": "1184 Bloor St W",
       "lat": 43.659508,
-      "lng": -79.437826
+      "lng": -79.437826,
+      "website": "https://burdockbrewery.com"
     },
     {
       "name": "The Wedge",
@@ -735,10 +773,11 @@
       ],
       "start": 16,
       "end": 19,
-      "detail": "🍸 $5 beers, $9 cocktails + food 4–7pm. Neighbourhood gem in the Junction.",
+      "detail": "\ud83c\udf78 $5 beers, $9 cocktails + food 4\u20137pm. Neighbourhood gem in the Junction.",
       "addr": "1627 Dupont St",
       "lat": 43.664725,
-      "lng": -79.455243
+      "lng": -79.455243,
+      "website": "https://thewedgeto.com"
     },
     {
       "name": "Indie Ale House",
@@ -752,10 +791,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $7 beers Tue–Fri 3–6pm. Junction's beloved craft brewery.",
+      "detail": "\ud83c\udf78 $7 beers Tue\u2013Fri 3\u20136pm. Junction's beloved craft brewery.",
       "addr": "2876 Dundas St W",
       "lat": 43.665543,
-      "lng": -79.4654
+      "lng": -79.4654,
+      "website": "https://indieale.com"
     },
     {
       "name": "The Draft Room",
@@ -770,10 +810,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 25% off cocktails, $6 beer 4–6pm Mon–Fri.",
+      "detail": "\ud83c\udf78 25% off cocktails, $6 beer 4\u20136pm Mon\u2013Fri.",
       "addr": "395 Keele St",
       "lat": 43.665995,
-      "lng": -79.464613
+      "lng": -79.464613,
+      "website": "https://thedraftroomto.com"
     },
     {
       "name": "Brazen Head",
@@ -790,10 +831,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 Irish pub pint specials all day. $9 wine, $10 off wine bottles.",
+      "detail": "\ud83c\udf78 Irish pub pint specials all day. $9 wine, $10 off wine bottles.",
       "addr": "165 East Liberty St",
       "lat": 43.638409,
-      "lng": -79.417442
+      "lng": -79.417442,
+      "website": "https://brazenhead.ca"
     },
     {
       "name": "Liberal Commons",
@@ -808,10 +850,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 $5 domestic draft, $7 wine Mon–Fri 4–6pm.",
+      "detail": "\ud83c\udf78 $5 domestic draft, $7 wine Mon\u2013Fri 4\u20136pm.",
       "addr": "42 Liberty St",
       "lat": 43.637508,
-      "lng": -79.424717
+      "lng": -79.424717,
+      "website": "https://liberalcommons.ca"
     },
     {
       "name": "Danforth Sidebar",
@@ -828,10 +871,11 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍸 $6 drinks on show nights 5–6pm. Oyster deals Wednesdays.",
+      "detail": "\ud83c\udf78 $6 drinks on show nights 5\u20136pm. Oyster deals Wednesdays.",
       "addr": "161 Danforth Ave",
       "lat": 43.676442,
-      "lng": -79.356898
+      "lng": -79.356898,
+      "website": "https://danforthsidebar.com"
     },
     {
       "name": "Ballyhoo Riverdale",
@@ -844,10 +888,11 @@
       ],
       "start": 16,
       "end": 17,
-      "detail": "🍸 $0.99 wings, $5 lager, $9 cocktails Mon–Wed 4–5pm. Thu–Fri 3–5pm.",
+      "detail": "\ud83c\udf78 $0.99 wings, $5 lager, $9 cocktails Mon\u2013Wed 4\u20135pm. Thu\u2013Fri 3\u20135pm.",
       "addr": "526 Danforth Ave",
       "lat": 43.678426,
-      "lng": -79.348171
+      "lng": -79.348171,
+      "website": "https://ballyhoobar.ca"
     },
     {
       "name": "The Fortunate Fox",
@@ -864,10 +909,11 @@
       ],
       "start": 22,
       "end": 26,
-      "detail": "🍸 Food & drinks from $6 after 10pm nightly.",
+      "detail": "\ud83c\udf78 Food & drinks from $6 after 10pm nightly.",
       "addr": "280 Bloor St W",
       "lat": 43.667667,
-      "lng": -79.400985
+      "lng": -79.400985,
+      "website": "https://thefortunatefox.com"
     },
     {
       "name": "Left Field Brewery",
@@ -880,10 +926,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 Taproom HH on house beers Wed–Fri 4–6pm. Brass Facts trivia Wednesdays.",
+      "detail": "\ud83c\udf78 Taproom HH on house beers Wed\u2013Fri 4\u20136pm. Brass Facts trivia Wednesdays.",
       "addr": "36 Wagstaff Dr",
       "lat": 43.67369,
-      "lng": -79.330479
+      "lng": -79.330479,
+      "website": "https://leftfieldbrewery.ca"
     },
     {
       "name": "Avling",
@@ -897,10 +944,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $6 house lager, $8 natural wine Tue–Fri 5–7pm. Farm-to-table craft beer.",
+      "detail": "\ud83c\udf78 $6 house lager, $8 natural wine Tue\u2013Fri 5\u20137pm. Farm-to-table craft beer.",
       "addr": "1042 Queen St E",
       "lat": 43.661729,
-      "lng": -79.338263
+      "lng": -79.338263,
+      "website": "https://avling.ca"
     },
     {
       "name": "Bar Niro",
@@ -917,10 +965,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $15 martinis daily aperitivo hour. Saxophones on Fridays. Roman jazz postcard vibes.",
+      "detail": "\ud83c\udf78 $15 martinis daily aperitivo hour. Saxophones on Fridays. Roman jazz postcard vibes.",
       "addr": "1334 Dundas St W",
       "lat": 43.655021,
-      "lng": -79.387073
+      "lng": -79.387073,
+      "website": "https://barniro.com"
     },
     {
       "name": "Grossman's Tavern",
@@ -937,10 +986,11 @@
       ],
       "start": 17,
       "end": 20,
-      "detail": "🍸 Drink specials nightly with live blues & jazz. No cover ever. Chinatown since 1943.",
+      "detail": "\ud83c\udf78 Drink specials nightly with live blues & jazz. No cover ever. Chinatown since 1943.",
       "addr": "379 Spadina Ave",
       "lat": 43.65603,
-      "lng": -79.398947
+      "lng": -79.398947,
+      "website": "https://grossmanstavern.com"
     },
     {
       "name": "Dina's Tavern",
@@ -957,10 +1007,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $6 beer, $9 wine. Monday jazz nights. Built on the Silver Dollar Room.",
+      "detail": "\ud83c\udf78 $6 beer, $9 wine. Monday jazz nights. Built on the Silver Dollar Room.",
       "addr": "486 Spadina Ave",
       "lat": 43.65882,
-      "lng": -79.400495
+      "lng": -79.400495,
+      "website": "https://dinastavern.com"
     },
     {
       "name": "Cactus Club",
@@ -977,10 +1028,11 @@
       ],
       "start": 14,
       "end": 17,
-      "detail": "🍸 $5–$8.25 beers, $8.25–$14.25 cocktails 2–5pm & 9pm–close. All day Sunday.",
+      "detail": "\ud83c\udf78 $5\u2013$8.25 beers, $8.25\u2013$14.25 cocktails 2\u20135pm & 9pm\u2013close. All day Sunday.",
       "addr": "77 Adelaide St W",
       "lat": 43.649414,
-      "lng": -79.382084
+      "lng": -79.382084,
+      "website": "https://www.cactusclubcafe.com"
     },
     {
       "name": "Earl's",
@@ -997,10 +1049,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 Half-price drinks 3–6pm & 10pm–close every day.",
+      "detail": "\ud83c\udf78 Half-price drinks 3\u20136pm & 10pm\u2013close every day.",
       "addr": "55 Bloor St W",
       "lat": 43.668994,
-      "lng": -79.388359
+      "lng": -79.388359,
+      "website": "https://www.earls.ca"
     },
     {
       "name": "Joey Restaurant",
@@ -1017,10 +1070,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 Drinks from $5. Daily 3–6pm + Sun–Thu 9pm–close, Fri–Sat 10pm–close.",
+      "detail": "\ud83c\udf78 Drinks from $5. Daily 3\u20136pm + Sun\u2013Thu 9pm\u2013close, Fri\u2013Sat 10pm\u2013close.",
       "addr": "1 Dundas St W",
       "lat": 43.655794,
-      "lng": -79.381677
+      "lng": -79.381677,
+      "website": "https://www.joeyrestaurants.com"
     },
     {
       "name": "The Keg Esplanade",
@@ -1037,10 +1091,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍸 Cocktails & food from $7, 4–6pm & 10pm–close daily.",
+      "detail": "\ud83c\udf78 Cocktails & food from $7, 4\u20136pm & 10pm\u2013close daily.",
       "addr": "1 King St E",
       "lat": 43.649058,
-      "lng": -79.377843
+      "lng": -79.377843,
+      "website": "https://www.kegsteakhouse.com"
     },
     {
       "name": "Shameful Tiki Room",
@@ -1057,10 +1112,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍸 $13 best-selling cocktails, $5 shots, $6 Miller High Life 5–7pm daily. Retro tropical kitsch.",
+      "detail": "\ud83c\udf78 $13 best-selling cocktails, $5 shots, $6 Miller High Life 5\u20137pm daily. Retro tropical kitsch.",
       "addr": "777 Queen St W",
       "lat": 43.64626,
-      "lng": -79.40808
+      "lng": -79.40808,
+      "website": "https://www.shamefultikiroom.com"
     },
     {
       "name": "Big Trouble",
@@ -1075,10 +1131,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍔 $5 snacks, $8 dumplings, $6 house lager, $10 cocktails (NO TAX!) Wed–Sun 5:30–7:30pm.",
+      "detail": "\ud83c\udf54 $5 snacks, $8 dumplings, $6 house lager, $10 cocktails (NO TAX!) Wed\u2013Sun 5:30\u20137:30pm.",
       "addr": "270 Spadina Ave",
       "lat": 43.652306,
-      "lng": -79.398088
+      "lng": -79.398088,
+      "website": "https://www.bigtroubletor.com"
     },
     {
       "name": "Chantecler",
@@ -1094,10 +1151,11 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍔 $2 oysters, $10 snacks, $10 cocktails 5–6pm daily (closed Tue). Half-price wine bottles Monday.",
+      "detail": "\ud83c\udf54 $2 oysters, $10 snacks, $10 cocktails 5\u20136pm daily (closed Tue). Half-price wine bottles Monday.",
       "addr": "1320 Queen St W",
       "lat": 43.641846,
-      "lng": -79.43127
+      "lng": -79.43127,
+      "website": "https://www.chanteclerto.com"
     },
     {
       "name": "Good Company",
@@ -1113,10 +1171,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $1/oz house wine, half-price oysters & wine list, discounted snacks Tue–Sun 3–6pm. Café-barbershop-snackbar.",
+      "detail": "\ud83c\udf54 $1/oz house wine, half-price oysters & wine list, discounted snacks Tue\u2013Sun 3\u20136pm. Caf\u00e9-barbershop-snackbar.",
       "addr": "1184 Queen St W",
       "lat": 43.642903,
-      "lng": -79.425851
+      "lng": -79.425851,
+      "website": "https://goodcompanyto.com"
     },
     {
       "name": "Pearl Diver",
@@ -1133,10 +1192,11 @@
       ],
       "start": 16.5,
       "end": 18.5,
-      "detail": "🍔 $2 oysters by the dozen daily 4:30–6:30pm. 100 oysters for $100 on Thursdays (res required).",
+      "detail": "\ud83c\udf54 $2 oysters by the dozen daily 4:30\u20136:30pm. 100 oysters for $100 on Thursdays (res required).",
       "addr": "89 Front St E",
       "lat": 43.648758,
-      "lng": -79.372962
+      "lng": -79.372962,
+      "website": "https://www.pearldivertoronto.com"
     },
     {
       "name": "Watson's",
@@ -1148,13 +1208,14 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 Buck-a-shuck oysters + half-price wine Sunday & Monday. Cocktail bar.",
+      "detail": "\ud83c\udf54 Buck-a-shuck oysters + half-price wine Sunday & Monday. Cocktail bar.",
       "addr": "9 Church St",
       "lat": 43.647856,
-      "lng": -79.373379
+      "lng": -79.373379,
+      "website": "https://watsonsto.com"
     },
     {
-      "name": "ēst",
+      "name": "\u0113st",
       "hood": "Riverside",
       "type": "foodhh",
       "days": [
@@ -1163,10 +1224,11 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 Buck-a-Shuck + 25% off sparkling wine Tuesdays & Thursdays. Modern French dining.",
+      "detail": "\ud83c\udf54 Buck-a-Shuck + 25% off sparkling wine Tuesdays & Thursdays. Modern French dining.",
       "addr": "1168 Queen St E",
       "lat": 43.662889,
-      "lng": -79.332389
+      "lng": -79.332389,
+      "website": "https://estrestaurant.ca"
     },
     {
       "name": "Island Oysters",
@@ -1178,10 +1240,11 @@
       ],
       "start": 17,
       "end": 21,
-      "detail": "🍔 $2 rotating oysters all night Wednesday. $1.50 Malpeques Thu 5–7pm. Slice of the Maritimes.",
+      "detail": "\ud83c\udf54 $2 rotating oysters all night Wednesday. $1.50 Malpeques Thu 5\u20137pm. Slice of the Maritimes.",
       "addr": "1371 Bloor St W",
       "lat": 43.657465,
-      "lng": -79.446225
+      "lng": -79.446225,
+      "website": "https://islandoysters.ca"
     },
     {
       "name": "Nuna Kitchen",
@@ -1192,10 +1255,11 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 Buck-a-Shuck oysters all Wednesday evening ($1–$2 while supplies last). HH drinks Tue–Sat 5–7pm.",
+      "detail": "\ud83c\udf54 Buck-a-Shuck oysters all Wednesday evening ($1\u2013$2 while supplies last). HH drinks Tue\u2013Sat 5\u20137pm.",
       "addr": "883 Queen St W",
       "lat": 43.645509,
-      "lng": -79.411532
+      "lng": -79.411532,
+      "website": "https://www.nunakitchen.com"
     },
     {
       "name": "Gusto 101",
@@ -1209,10 +1273,11 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍔 $1/oz house wine always available. $7+ food deals Mon–Thu 3–5pm. Invented dollar-an-ounce wine.",
+      "detail": "\ud83c\udf54 $1/oz house wine always available. $7+ food deals Mon\u2013Thu 3\u20135pm. Invented dollar-an-ounce wine.",
       "addr": "101 Portland St",
       "lat": 43.644601,
-      "lng": -79.400024
+      "lng": -79.400024,
+      "website": "https://gusto101.com"
     },
     {
       "name": "Gusto 501",
@@ -1227,10 +1292,11 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍔 $6 Moretti, $10 red wine, $12 negronis. Focaccia $5, burger $16, pizza $14. Mon–Wed 5–6pm, Thu–Fri 3–5pm.",
+      "detail": "\ud83c\udf54 $6 Moretti, $10 red wine, $12 negronis. Focaccia $5, burger $16, pizza $14. Mon\u2013Wed 5\u20136pm, Thu\u2013Fri 3\u20135pm.",
       "addr": "501 King St E",
       "lat": 43.654608,
-      "lng": -79.359712
+      "lng": -79.359712,
+      "website": "https://gusto501.com"
     },
     {
       "name": "Lulu Bar (Food)",
@@ -1247,10 +1313,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $8 salt-and-pepper pork belly bites, $6 hot dog bao, half-price wine. Honolulu Hour 3–6pm.",
+      "detail": "\ud83c\udf54 $8 salt-and-pepper pork belly bites, $6 hot dog bao, half-price wine. Honolulu Hour 3\u20136pm.",
       "addr": "427 Wellington St W",
       "lat": 43.646503,
-      "lng": -79.383547
+      "lng": -79.383547,
+      "website": "https://www.lulubar.ca"
     },
     {
       "name": "Chubby's Jamaican",
@@ -1265,10 +1332,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $6 baked jerk wings, $6 fried plantains, rum punch from $12. Island Time HH 3–6pm.",
+      "detail": "\ud83c\udf54 $6 baked jerk wings, $6 fried plantains, rum punch from $12. Island Time HH 3\u20136pm.",
       "addr": "104 Portland St",
       "lat": 43.645313,
-      "lng": -79.400582
+      "lng": -79.400582,
+      "website": "https://www.chubbysjamaican.com"
     },
     {
       "name": "Petty Cash",
@@ -1283,10 +1351,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍔 Half-price pizza + $7 bar rail all week. King West pizza bar.",
+      "detail": "\ud83c\udf54 Half-price pizza + $7 bar rail all week. King West pizza bar.",
       "addr": "487 Adelaide St W",
       "lat": 43.6456,
-      "lng": -79.400769
+      "lng": -79.400769,
+      "website": "https://pettycashbar.ca"
     },
     {
       "name": "El Catrin",
@@ -1301,13 +1370,14 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $7 margaritas, $6 Modelo, half-price guac & queso, $5 tacos 3–6pm.",
+      "detail": "\ud83c\udf54 $7 margaritas, $6 Modelo, half-price guac & queso, $5 tacos 3\u20136pm.",
       "addr": "18 Tank House Ln",
       "lat": 43.650572,
-      "lng": -79.358703
+      "lng": -79.358703,
+      "website": "https://elcatrin.ca"
     },
     {
-      "name": "Añejo (Food)",
+      "name": "A\u00f1ejo (Food)",
       "hood": "King West",
       "type": "foodhh",
       "days": [
@@ -1321,10 +1391,11 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍔 $4 classic tacos + $7 margaritas 3–5pm & 10pm–midnight. Best deal in the city.",
+      "detail": "\ud83c\udf54 $4 classic tacos + $7 margaritas 3\u20135pm & 10pm\u2013midnight. Best deal in the city.",
       "addr": "600 King St W",
       "lat": 43.644661,
-      "lng": -79.399939
+      "lng": -79.399939,
+      "website": "https://www.anejotoronto.com"
     },
     {
       "name": "Baro",
@@ -1339,10 +1410,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍔 Half-price tacos, $8 cocktails, $6 beer & wine 4–6pm. Rooftop patio in season.",
+      "detail": "\ud83c\udf54 Half-price tacos, $8 cocktails, $6 beer & wine 4\u20136pm. Rooftop patio in season.",
       "addr": "485 King St W",
       "lat": 43.644891,
-      "lng": -79.396977
+      "lng": -79.396977,
+      "website": "https://barorestaurant.com"
     },
     {
       "name": "Craft Beer Market",
@@ -1359,10 +1431,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 HH eats from $5. Beer salt fries $5, Cabo fish taco $6, pizza $16. 3–6pm daily.",
+      "detail": "\ud83c\udf54 HH eats from $5. Beer salt fries $5, Cabo fish taco $6, pizza $16. 3\u20136pm daily.",
       "addr": "1 Adelaide St E",
       "lat": 43.65022,
-      "lng": -79.377879
+      "lng": -79.377879,
+      "website": "https://craftbeermarket.ca"
     },
     {
       "name": "Fox on John",
@@ -1379,10 +1452,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 Half-price margaritas + comfort food deals. Wings, burgers & truffle fries all on special.",
+      "detail": "\ud83c\udf54 Half-price margaritas + comfort food deals. Wings, burgers & truffle fries all on special.",
       "addr": "184 John St",
       "lat": 43.705391,
-      "lng": -79.510666
+      "lng": -79.510666,
+      "website": "https://www.foxonjohn.com"
     },
     {
       "name": "The Keg (Food)",
@@ -1399,10 +1473,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍔 Cocktails + food from $7 during HH. 4–6pm & 10pm–close.",
+      "detail": "\ud83c\udf54 Cocktails + food from $7 during HH. 4\u20136pm & 10pm\u2013close.",
       "addr": "1 King St E",
       "lat": 43.649058,
-      "lng": -79.377843
+      "lng": -79.377843,
+      "website": "https://www.kegsteakhouse.com"
     },
     {
       "name": "Little Sister",
@@ -1419,13 +1494,14 @@
       ],
       "start": 16.5,
       "end": 18.5,
-      "detail": "🍔 Happy Jam snacks & drinks from $7 daily 4:30–6:30pm. Dutch-Indonesian food bar.",
+      "detail": "\ud83c\udf54 Happy Jam snacks & drinks from $7 daily 4:30\u20136:30pm. Dutch-Indonesian food bar.",
       "addr": "628 King St W",
       "lat": 43.644318,
-      "lng": -79.401152
+      "lng": -79.401152,
+      "website": "https://littlesistertoronto.com"
     },
     {
-      "name": "Waterworks — Tantxo",
+      "name": "Waterworks \u2014 Tantxo",
       "hood": "King West",
       "type": "foodhh",
       "days": [
@@ -1433,13 +1509,14 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 $20 steak frites every Monday. Argentinian steak house in the Waterworks Food Hall.",
+      "detail": "\ud83c\udf54 $20 steak frites every Monday. Argentinian steak house in the Waterworks Food Hall.",
       "addr": "505 Richmond St W",
       "lat": 43.647147,
-      "lng": -79.399584
+      "lng": -79.399584,
+      "website": "https://waterworksfoodhall.com"
     },
     {
-      "name": "Waterworks — Grape Witches",
+      "name": "Waterworks \u2014 Grape Witches",
       "hood": "King West",
       "type": "foodhh",
       "days": [
@@ -1451,13 +1528,14 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $12 rotating wine glasses + 20% off snacks weekdays 3–6pm. Natural wine in an Architectural Digest space.",
+      "detail": "\ud83c\udf54 $12 rotating wine glasses + 20% off snacks weekdays 3\u20136pm. Natural wine in an Architectural Digest space.",
       "addr": "505 Richmond St W",
       "lat": 43.647147,
-      "lng": -79.399584
+      "lng": -79.399584,
+      "website": "https://waterworksfoodhall.com"
     },
     {
-      "name": "Waterworks — Central Bar",
+      "name": "Waterworks \u2014 Central Bar",
       "hood": "King West",
       "type": "foodhh",
       "days": [
@@ -1471,10 +1549,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $6 local beer, $10 cocktails 3–6pm daily.",
+      "detail": "\ud83c\udf54 $6 local beer, $10 cocktails 3\u20136pm daily.",
       "addr": "505 Richmond St W",
       "lat": 43.647147,
-      "lng": -79.399584
+      "lng": -79.399584,
+      "website": "https://waterworksfoodhall.com"
     },
     {
       "name": "Jules Bistro",
@@ -1485,10 +1564,11 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 Half-price côte de boeuf Tuesdays — 24oz AAA ribeye with fries & salad for ~$59. Book ahead.",
+      "detail": "\ud83c\udf54 Half-price c\u00f4te de boeuf Tuesdays \u2014 24oz AAA ribeye with fries & salad for ~$59. Book ahead.",
       "addr": "147 Spadina Ave",
       "lat": 43.648163,
-      "lng": -79.395675
+      "lng": -79.395675,
+      "website": "https://julesbistro.ca"
     },
     {
       "name": "The Carbon Bar",
@@ -1505,10 +1585,11 @@
       ],
       "start": 17,
       "end": 20,
-      "detail": "🍔 $11 cocktails (Smokin' Manhattan, Tokyo Breeze), BBQ comfort food deals. Sun–Wed 8pm–close, Thu–Sat 9pm–close.",
+      "detail": "\ud83c\udf54 $11 cocktails (Smokin' Manhattan, Tokyo Breeze), BBQ comfort food deals. Sun\u2013Wed 8pm\u2013close, Thu\u2013Sat 9pm\u2013close.",
       "addr": "99 Queen St E",
       "lat": 43.653271,
-      "lng": -79.374863
+      "lng": -79.374863,
+      "website": "https://www.thecarbonbar.com"
     },
     {
       "name": "Ficoa",
@@ -1520,10 +1601,11 @@
       ],
       "start": 20,
       "end": 26,
-      "detail": "🍔 Pachanga Hour: each drink order unlocks a free snack — starts with marinated olives, escalates to duck wings and rib-eye bites. Thu–Fri 8pm–close.",
+      "detail": "\ud83c\udf54 Pachanga Hour: each drink order unlocks a free snack \u2014 starts with marinated olives, escalates to duck wings and rib-eye bites. Thu\u2013Fri 8pm\u2013close.",
       "addr": "585 College St",
       "lat": 43.655199,
-      "lng": -79.413334
+      "lng": -79.413334,
+      "website": "https://www.ficoa.ca"
     },
     {
       "name": "Ricky + Oliva",
@@ -1538,10 +1620,11 @@
       ],
       "start": 15,
       "end": 17,
-      "detail": "🍔 $10 wine glasses, $6 lagers, $12 batched cocktails + food deals Tue–Sat 3–5pm.",
+      "detail": "\ud83c\udf54 $10 wine glasses, $6 lagers, $12 batched cocktails + food deals Tue\u2013Sat 3\u20135pm.",
       "addr": "978 Queen St E",
       "lat": 43.661465,
-      "lng": -79.339892
+      "lng": -79.339892,
+      "website": "https://rickyandoliva.com"
     },
     {
       "name": "Ladybug Wine Bar",
@@ -1552,10 +1635,11 @@
       ],
       "start": 17,
       "end": 22,
-      "detail": "🍔 $30 prix fixe menu Tuesdays. Retail Sunday — sip any bottle at takeaway prices.",
+      "detail": "\ud83c\udf54 $30 prix fixe menu Tuesdays. Retail Sunday \u2014 sip any bottle at takeaway prices.",
       "addr": "926 Queen St E",
       "lat": 43.660793,
-      "lng": -79.341673
+      "lng": -79.341673,
+      "website": "https://ladybugwinebar.ca"
     },
     {
       "name": "Henry's",
@@ -1566,10 +1650,11 @@
       ],
       "start": 18,
       "end": 22,
-      "detail": "🍔 Family-style prix fixe $40pp Tuesdays — roast chicken, kale salad, potato pavé. Wine shop + restaurant.",
+      "detail": "\ud83c\udf54 Family-style prix fixe $40pp Tuesdays \u2014 roast chicken, kale salad, potato pav\u00e9. Wine shop + restaurant.",
       "addr": "600 Queen St W",
       "lat": 43.647197,
-      "lng": -79.404627
+      "lng": -79.404627,
+      "website": "https://henrysrestaurant.ca"
     },
     {
       "name": "Pai",
@@ -1584,10 +1669,11 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍔 $7 Chang beer, $8 cocktails, $9 bar snacks 5–6pm. Best Thai in the Financial District.",
+      "detail": "\ud83c\udf54 $7 Chang beer, $8 cocktails, $9 bar snacks 5\u20136pm. Best Thai in the Financial District.",
       "addr": "18 Duncan St",
       "lat": 43.647836,
-      "lng": -79.388714
+      "lng": -79.388714,
+      "website": "https://www.paitoronto.com"
     },
     {
       "name": "The Citizen",
@@ -1602,10 +1688,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍔 $6 draft, $7 wine, $9 apps Mon–Fri 4–6pm.",
+      "detail": "\ud83c\udf54 $6 draft, $7 wine, $9 apps Mon\u2013Fri 4\u20136pm.",
       "addr": "147 King St W",
       "lat": 43.645295,
-      "lng": -79.395917
+      "lng": -79.395917,
+      "website": "https://thecitizentoronto.com"
     },
     {
       "name": "Minami",
@@ -1622,10 +1709,11 @@
       ],
       "start": 14,
       "end": 17,
-      "detail": "🍔 Japanese-inspired drinks & mini eats all under $12. 2–5pm daily + late nights.",
+      "detail": "\ud83c\udf54 Japanese-inspired drinks & mini eats all under $12. 2\u20135pm daily + late nights.",
       "addr": "225 King St W",
       "lat": 43.646658,
-      "lng": -79.388189
+      "lng": -79.388189,
+      "website": "https://minamitoronto.com"
     },
     {
       "name": "Chotto Matte",
@@ -1640,10 +1728,11 @@
       ],
       "start": 16,
       "end": 18,
-      "detail": "🍔 2-for-1 all drinks! $5 edamame, $9 salmon tostada, $14 nikkei gyoza. Nikkei cuisine.",
+      "detail": "\ud83c\udf54 2-for-1 all drinks! $5 edamame, $9 salmon tostada, $14 nikkei gyoza. Nikkei cuisine.",
       "addr": "161 Bay St",
       "lat": 43.646903,
-      "lng": -79.379206
+      "lng": -79.379206,
+      "website": "https://www.chotto-matte.com/toronto"
     },
     {
       "name": "Vinny's",
@@ -1658,10 +1747,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "🍔 $2 oysters w/ yuzu mignonette, $12 fried chicken bucket, $10 cocktails Sun–Thu 5–7pm.",
+      "detail": "\ud83c\udf54 $2 oysters w/ yuzu mignonette, $12 fried chicken bucket, $10 cocktails Sun\u2013Thu 5\u20137pm.",
       "addr": "480 King St W",
       "lat": 43.645389,
-      "lng": -79.39614
+      "lng": -79.39614,
+      "website": "https://vinnystoronto.com"
     },
     {
       "name": "CKTL & Co",
@@ -1676,10 +1766,11 @@
       ],
       "start": 14,
       "end": 17,
-      "detail": "🍔 $7 wine, $7 beer + food Mon–Fri 2–5pm.",
+      "detail": "\ud83c\udf54 $7 wine, $7 beer + food Mon\u2013Fri 2\u20135pm.",
       "addr": "77 Adelaide St W",
       "lat": 43.649414,
-      "lng": -79.382084
+      "lng": -79.382084,
+      "website": "https://cktlco.com"
     },
     {
       "name": "La Palma",
@@ -1694,10 +1785,11 @@
       ],
       "start": 17,
       "end": 18,
-      "detail": "🍔 $8 Aperol spritz, $7 wine, $10 pizza slices 5–6pm weekdays.",
+      "detail": "\ud83c\udf54 $8 Aperol spritz, $7 wine, $10 pizza slices 5\u20136pm weekdays.",
       "addr": "849 Dundas St W",
       "lat": 43.651348,
-      "lng": -79.410118
+      "lng": -79.410118,
+      "website": "https://lapalma.to"
     },
     {
       "name": "The Cottage Cheese",
@@ -1712,10 +1804,11 @@
       ],
       "start": 12,
       "end": 16,
-      "detail": "🍔 $10–$12 Indian small plates & drink specials weekdays noon–4pm. Local fave comfort food.",
+      "detail": "\ud83c\udf54 $10\u2013$12 Indian small plates & drink specials weekdays noon\u20134pm. Local fave comfort food.",
       "addr": "503 College St",
       "lat": 43.655849,
-      "lng": -79.40982
+      "lng": -79.40982,
+      "website": "https://thecottagecheese.ca"
     },
     {
       "name": "Bar Raval (Food)",
@@ -1730,10 +1823,11 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $6 pintxos, Spanish bar snacks & bites 3–6pm weekdays. Best tapas in Toronto.",
+      "detail": "\ud83c\udf54 $6 pintxos, Spanish bar snacks & bites 3\u20136pm weekdays. Best tapas in Toronto.",
       "addr": "505 College St",
       "lat": 43.655877,
-      "lng": -79.409924
+      "lng": -79.409924,
+      "website": "https://www.thisisbarraval.com"
     },
     {
       "name": "The Drake Hotel",
@@ -1748,10 +1842,11 @@
       ],
       "start": 17,
       "end": 19,
-      "detail": "$6 drafts, $8 house wine, $10 bar bites. HH Mon–Fri 5–7pm. Spicy sake maki hand roll special.",
+      "detail": "$6 drafts, $8 house wine, $10 bar bites. HH Mon\u2013Fri 5\u20137pm. Spicy sake maki hand roll special.",
       "addr": "1150 Queen St W",
       "lat": 43.643255,
-      "lng": -79.424546
+      "lng": -79.424546,
+      "website": "https://www.thedrakehotel.ca"
     },
     {
       "name": "Dasha",
@@ -1769,7 +1864,8 @@
       "detail": "Half-price wine bottles, $16 cocktails. Private karaoke rooms available.",
       "addr": "690 King St W",
       "lat": 43.646773,
-      "lng": -79.388931
+      "lng": -79.388931,
+      "website": "https://dashabar.ca"
     },
     {
       "name": "Snakes & Lattes Annex",
@@ -1780,10 +1876,11 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "General trivia — 6 rounds, free popcorn, $50 gift card for 1st. $5 pints",
+      "detail": "General trivia \u2014 6 rounds, free popcorn, $50 gift card for 1st. $5 pints",
       "addr": "600 Bloor St W",
       "lat": 43.664817,
-      "lng": -79.41321
+      "lng": -79.41321,
+      "website": "https://www.snakesandlattes.com"
     },
     {
       "name": "The Handlebar",
@@ -1797,7 +1894,8 @@
       "detail": "Pub trivia by Quiz Me Quick. Free to play, prizes for top 3",
       "addr": "159 Augusta Ave",
       "lat": 43.652823,
-      "lng": -79.401185
+      "lng": -79.401185,
+      "website": "https://handlebar.ca"
     },
     {
       "name": "The Piston",
@@ -1811,7 +1909,8 @@
       "detail": "Wednesday trivia, bar prizes. Teams up to 6. Free entry",
       "addr": "937 Bloor St W",
       "lat": 43.661417,
-      "lng": -79.427613
+      "lng": -79.427613,
+      "website": "https://thepiston.ca"
     },
     {
       "name": "Habits Gastropub",
@@ -1825,7 +1924,8 @@
       "detail": "Weekly pub quiz. $2 off drinks during trivia",
       "addr": "148 College St",
       "lat": 43.659223,
-      "lng": -79.39275
+      "lng": -79.39275,
+      "website": "https://www.habitsgastropub.com"
     },
     {
       "name": "Madisons",
@@ -1836,10 +1936,11 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "Monday Night Trivia — Name That Tune rounds, prizes. Free",
+      "detail": "Monday Night Trivia \u2014 Name That Tune rounds, prizes. Free",
       "addr": "14 Baldwin St",
       "lat": 43.656283,
-      "lng": -79.392963
+      "lng": -79.392963,
+      "website": "https://madisonave.ca"
     },
     {
       "name": "Harbord House",
@@ -1850,10 +1951,11 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "Monday trivia 7–9:30pm. No fee. Get there early",
+      "detail": "Monday trivia 7\u20139:30pm. No fee. Get there early",
       "addr": "2 Harbord St",
       "lat": 43.662663,
-      "lng": -79.404109
+      "lng": -79.404109,
+      "website": "https://harbordhouse.ca"
     },
     {
       "name": "Pegasus On Church",
@@ -1865,10 +1967,11 @@
       ],
       "start": 20,
       "end": 22,
-      "detail": "LGBTQ+ trivia nights Tue & Wed — themed rounds, bingo too",
+      "detail": "LGBTQ+ trivia nights Tue & Wed \u2014 themed rounds, bingo too",
       "addr": "489 Church St",
       "lat": 43.665086,
-      "lng": -79.380521
+      "lng": -79.380521,
+      "website": "https://pegasusbar.ca"
     },
     {
       "name": "The Ossington",
@@ -1879,10 +1982,11 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "Brass Facts trivia Sundays — karaoke follows at 10pm",
+      "detail": "Brass Facts trivia Sundays \u2014 karaoke follows at 10pm",
       "addr": "61 Ossington Ave",
       "lat": 43.645598,
-      "lng": -79.419182
+      "lng": -79.419182,
+      "website": "https://theossington.com"
     },
     {
       "name": "The 3030",
@@ -1896,7 +2000,8 @@
       "detail": "Pub trivia Tuesdays. Cash prizes. $5 entry per person",
       "addr": "3030 Dundas St W",
       "lat": 43.665714,
-      "lng": -79.470134
+      "lng": -79.470134,
+      "website": "https://the3030.ca"
     },
     {
       "name": "Kramer's Bar & Grill",
@@ -1908,10 +2013,11 @@
       ],
       "start": 20,
       "end": 22,
-      "detail": "Trivia Tue & Wed — so popular they added a second night",
+      "detail": "Trivia Tue & Wed \u2014 so popular they added a second night",
       "addr": "177 Harbord St",
       "lat": 43.661719,
-      "lng": -79.407971
+      "lng": -79.407971,
+      "website": "https://kramersbar.ca"
     },
     {
       "name": "Left Field Brewery (Trivia)",
@@ -1922,10 +2028,11 @@
       ],
       "start": 19,
       "end": 21,
-      "detail": "Brass Facts Trivia — geography, music, sports, history",
+      "detail": "Brass Facts Trivia \u2014 geography, music, sports, history",
       "addr": "36 Wagstaff Dr",
       "lat": 43.67369,
-      "lng": -79.330479
+      "lng": -79.330479,
+      "website": "https://leftfieldbrewery.ca"
     },
     {
       "name": "The Meltdown",
@@ -1939,7 +2046,8 @@
       "detail": "Comedy open mic every Monday. Show up, go up. 5-min spots. Happy hour",
       "addr": "686 College St",
       "lat": 43.655361,
-      "lng": -79.417542
+      "lng": -79.417542,
+      "website": "https://meltdownto.com"
     },
     {
       "name": "The Communist's Daughter",
@@ -1950,10 +2058,11 @@
       ],
       "start": 20,
       "end": 23,
-      "detail": "Open mic — free entry, sign up from 8pm. Rotating acoustic sets",
+      "detail": "Open mic \u2014 free entry, sign up from 8pm. Rotating acoustic sets",
       "addr": "1149 Dundas St W",
       "lat": 43.649239,
-      "lng": -79.421082
+      "lng": -79.421082,
+      "website": "https://thecommunistsdaughter.com"
     },
     {
       "name": "The Dakota Tavern",
@@ -1967,7 +2076,8 @@
       "detail": "Bluegrass open mic every Monday. No cover. Bring your instrument",
       "addr": "249 Ossington Ave",
       "lat": 43.649753,
-      "lng": -79.420728
+      "lng": -79.420728,
+      "website": "https://thedakotatavernto.com"
     },
     {
       "name": "The Cameron House",
@@ -1982,7 +2092,8 @@
       "detail": "Nightly live music & open mic. No cover. Legendary Toronto venue",
       "addr": "408 Queen St W",
       "lat": 43.648584,
-      "lng": -79.397588
+      "lng": -79.397588,
+      "website": "https://thecameronhouse.ca"
     },
     {
       "name": "The Garrison",
@@ -1993,10 +2104,11 @@
       ],
       "start": 20,
       "end": 23,
-      "detail": "Open mic — all genres welcome. Free entry. 10 slots per night",
+      "detail": "Open mic \u2014 all genres welcome. Free entry. 10 slots per night",
       "addr": "1197 Dundas St W",
       "lat": 43.649153,
-      "lng": -79.422336
+      "lng": -79.422336,
+      "website": "https://thegarrison.ca"
     },
     {
       "name": "The Bovine Sex Club",
@@ -2007,10 +2119,11 @@
       ],
       "start": 21,
       "end": 24,
-      "detail": "Open mic Wed — rock/punk/experimental. $5 cover",
+      "detail": "Open mic Wed \u2014 rock/punk/experimental. $5 cover",
       "addr": "542 Queen St W",
       "lat": 43.64757,
-      "lng": -79.402711
+      "lng": -79.402711,
+      "website": "https://www.bovinesexclub.com"
     },
     {
       "name": "The Burdock",
@@ -2024,7 +2137,8 @@
       "detail": "Sunday songwriter circle. Intimate acoustic sets. Free",
       "addr": "1184 Bloor St W",
       "lat": 43.659508,
-      "lng": -79.437826
+      "lng": -79.437826,
+      "website": "https://burdockbrewery.com"
     },
     {
       "name": "The Corner Comedy Club",
@@ -2036,10 +2150,11 @@
       ],
       "start": 20,
       "end": 23,
-      "detail": "Open mic nights — max 50 guests. Back alley entrance",
+      "detail": "Open mic nights \u2014 max 50 guests. Back alley entrance",
       "addr": "381 King St W",
       "lat": 43.64573,
-      "lng": -79.393333
+      "lng": -79.393333,
+      "website": "https://cornercomedyclub.ca"
     },
     {
       "name": "Comedy Bar",
@@ -2052,10 +2167,11 @@
       ],
       "start": 20,
       "end": 23,
-      "detail": "150+ shows/month — stand-up, sketch, alternative. $15–20",
+      "detail": "150+ shows/month \u2014 stand-up, sketch, alternative. $15\u201320",
       "addr": "945 Bloor St W",
       "lat": 43.661362,
-      "lng": -79.427872
+      "lng": -79.427872,
+      "website": "https://www.comedybar.ca"
     },
     {
       "name": "Yuk Yuk's",
@@ -2072,7 +2188,8 @@
       "detail": "Canada's iconic comedy club since 1976. Headline acts + showcases",
       "addr": "224 Richmond St W",
       "lat": 43.649852,
-      "lng": -79.387994
+      "lng": -79.387994,
+      "website": "https://yukyuks.com"
     },
     {
       "name": "The Monarch Tavern",
@@ -2086,7 +2203,8 @@
       "detail": "Comedy night every Thursday. $10 includes a drink ticket",
       "addr": "12 Clinton St",
       "lat": 43.654057,
-      "lng": -79.413578
+      "lng": -79.413578,
+      "website": "https://themonarchtavern.com"
     },
     {
       "name": "The Rivoli",
@@ -2100,7 +2218,8 @@
       "detail": "Stand-up showcase Wednesdays. $8 cover. Rotating local comics",
       "addr": "334 Queen St W",
       "lat": 43.649408,
-      "lng": -79.394943
+      "lng": -79.394943,
+      "website": "https://www.rivoli.ca"
     },
     {
       "name": "Absolute Comedy",
@@ -2117,7 +2236,8 @@
       "detail": "Canadian & American comedians. Classic uptown comedy bar",
       "addr": "2335 Yonge St",
       "lat": 43.708576,
-      "lng": -79.398535
+      "lng": -79.398535,
+      "website": "https://absolutecomedy.com"
     },
     {
       "name": "Bad Dog Theatre",
@@ -2132,7 +2252,8 @@
       "detail": "Improv since 1982. Colin Mochrie, Mike Myers alumni",
       "addr": "875 Bloor St W",
       "lat": 43.661993,
-      "lng": -79.425041
+      "lng": -79.425041,
+      "website": "https://baddogtheatre.com"
     },
     {
       "name": "Bar+ Karaoke",
@@ -2149,10 +2270,11 @@
       ],
       "start": 18,
       "end": 26,
-      "detail": "Premier private karaoke rooms — English, Korean, Chinese, Japanese",
+      "detail": "Premier private karaoke rooms \u2014 English, Korean, Chinese, Japanese",
       "addr": "360 Yonge St",
       "lat": 43.658295,
-      "lng": -79.381975
+      "lng": -79.381975,
+      "website": "https://barpluskaraoke.com"
     },
     {
       "name": "Bar Neon",
@@ -2168,7 +2290,8 @@
       "detail": "Private karaoke rooms. Walk-ins welcome. $15/person/hr",
       "addr": "230 Augusta Ave",
       "lat": 43.655104,
-      "lng": -79.402343
+      "lng": -79.402343,
+      "website": "https://barneonkaraoke.com"
     },
     {
       "name": "Karaoke Lounge 99",
@@ -2183,10 +2306,11 @@
       ],
       "start": 19,
       "end": 26,
-      "detail": "Private rooms, 50,000+ songs. $12–18/person/hr",
+      "detail": "Private rooms, 50,000+ songs. $12\u201318/person/hr",
       "addr": "99 Spadina Ave",
       "lat": 43.646172,
-      "lng": -79.394797
+      "lng": -79.394797,
+      "website": "https://karaokelounge99.com"
     },
     {
       "name": "The Rec Room (karaoke)",
@@ -2201,7 +2325,8 @@
       "detail": "Open karaoke stage Fri & Sat. Free entry. Slots fill fast",
       "addr": "255 Bremner Blvd",
       "lat": 43.640647,
-      "lng": -79.385956
+      "lng": -79.385956,
+      "website": "https://therecroom.com"
     },
     {
       "name": "Penny's Bar",
@@ -2216,7 +2341,8 @@
       "detail": "Local fave karaoke Wed & Thu. Free popcorn, $5 sliders",
       "addr": "1306 Bloor St W",
       "lat": 43.658536,
-      "lng": -79.442462
+      "lng": -79.442462,
+      "website": "https://pennysbar.ca"
     },
     {
       "name": "Church St Garage",
@@ -2230,10 +2356,11 @@
       ],
       "start": 22,
       "end": 26,
-      "detail": "Host Steve-Oh. Church Village karaoke. Wed–Sat 10pm–2am",
+      "detail": "Host Steve-Oh. Church Village karaoke. Wed\u2013Sat 10pm\u20132am",
       "addr": "477 Church St",
       "lat": 43.664799,
-      "lng": -79.380445
+      "lng": -79.380445,
+      "website": "https://churchstgarage.com"
     },
     {
       "name": "Echo Karaoke & Lounge",
@@ -2253,7 +2380,8 @@
       "detail": "Top-rated karaoke. Private rooms, multi-language songbook",
       "addr": "256 Spadina Ave",
       "lat": 43.651713,
-      "lng": -79.39782
+      "lng": -79.39782,
+      "website": "https://echokaraoke.ca"
     },
     {
       "name": "B-Boss KTV",
@@ -2273,7 +2401,8 @@
       "detail": "Sleek private rooms, Asian & English songs",
       "addr": "280 Spadina Ave",
       "lat": 43.652507,
-      "lng": -79.398297
+      "lng": -79.398297,
+      "website": "https://bbossktv.com"
     },
     {
       "name": "Twister Karaoke",
@@ -2290,10 +2419,11 @@
       ],
       "start": 18,
       "end": 26,
-      "detail": "Koreatown staple — 300,000+ songs",
+      "detail": "Koreatown staple \u2014 300,000+ songs",
       "addr": "691 Bloor St W",
       "lat": 43.663643,
-      "lng": -79.416962
+      "lng": -79.416962,
+      "website": "https://twisterkaraoke.ca"
     },
     {
       "name": "The Gladstone House",
@@ -2308,7 +2438,8 @@
       "detail": "Drag bingo Wed ($15, sells out). Drag shows Sat",
       "addr": "1214 Queen St W",
       "lat": 43.642768,
-      "lng": -79.426925
+      "lng": -79.426925,
+      "website": "https://www.gladstonehouse.ca"
     },
     {
       "name": "Crews & Tangos",
@@ -2325,7 +2456,8 @@
       "detail": "Church Village drag performances, dance floor, multiple bars",
       "addr": "508 Church St",
       "lat": 43.664252,
-      "lng": -79.380473
+      "lng": -79.380473,
+      "website": "https://www.crewsandtangos.com"
     },
     {
       "name": "Pegasus On Church",
@@ -2340,7 +2472,8 @@
       "detail": "Drag shows & LGBTQ+ events on weekends",
       "addr": "489 Church St",
       "lat": 43.665086,
-      "lng": -79.380521
+      "lng": -79.380521,
+      "website": "https://pegasusbar.ca"
     },
     {
       "name": "The Drake Hotel",
@@ -2355,7 +2488,8 @@
       "detail": "Resident DJ sets in the Underground. No cover before 11pm",
       "addr": "1150 Queen St W",
       "lat": 43.643255,
-      "lng": -79.424546
+      "lng": -79.424546,
+      "website": "https://www.thedrakehotel.ca"
     },
     {
       "name": "Baro",
@@ -2368,10 +2502,11 @@
       ],
       "start": 22,
       "end": 26,
-      "detail": "DJ nights Thu–Sat. Latin & Afrobeats. $10 cover after 10pm",
+      "detail": "DJ nights Thu\u2013Sat. Latin & Afrobeats. $10 cover after 10pm",
       "addr": "485 King St W",
       "lat": 43.644891,
-      "lng": -79.396977
+      "lng": -79.396977,
+      "website": "https://barorestaurant.com"
     },
     {
       "name": "Sneaky Dee's",
@@ -2386,7 +2521,8 @@
       "detail": "Free DJ nights upstairs on weekends. Cheap drinks",
       "addr": "431 College St",
       "lat": 43.656246,
-      "lng": -79.407432
+      "lng": -79.407432,
+      "website": "https://sneakydees.com"
     },
     {
       "name": "The Ballroom",
@@ -2400,7 +2536,8 @@
       "detail": "Music bingo Thursdays. Free to play. Prizes every round",
       "addr": "145 John St",
       "lat": 43.649046,
-      "lng": -79.390625
+      "lng": -79.390625,
+      "website": "https://theballroomto.com"
     },
     {
       "name": "Jazz Bistro",
@@ -2415,10 +2552,11 @@
       ],
       "start": 19,
       "end": 23,
-      "detail": "Premier Toronto jazz venue — live jazz nightly from 7pm",
+      "detail": "Premier Toronto jazz venue \u2014 live jazz nightly from 7pm",
       "addr": "251 Victoria St",
       "lat": 43.655813,
-      "lng": -79.379061
+      "lng": -79.379061,
+      "website": "https://jazzbistro.ca"
     },
     {
       "name": "The Rex Hotel Jazz Bar",
@@ -2438,7 +2576,8 @@
       "detail": "Live jazz & blues every night. Two shows daily. No cover",
       "addr": "194 Queen St W",
       "lat": 43.650536,
-      "lng": -79.38847
+      "lng": -79.38847,
+      "website": "https://www.therex.ca"
     },
     {
       "name": "Emmet Ray",
@@ -2458,7 +2597,8 @@
       "detail": "Jazz bar with rotating performers. Whisky specialists",
       "addr": "924 College St",
       "lat": 43.653874,
-      "lng": -79.425699
+      "lng": -79.425699,
+      "website": "https://theemmetray.com"
     },
     {
       "name": "The Horseshoe Tavern",
@@ -2478,7 +2618,8 @@
       "detail": "Toronto's most iconic live music venue since 1947",
       "addr": "370 Queen St W",
       "lat": 43.649049,
-      "lng": -79.395904
+      "lng": -79.395904,
+      "website": "https://horseshoetavern.com"
     },
     {
       "name": "Lee's Palace",
@@ -2491,10 +2632,11 @@
       ],
       "start": 20,
       "end": 24,
-      "detail": "Legendary mid-size venue — indie, rock, metal",
+      "detail": "Legendary mid-size venue \u2014 indie, rock, metal",
       "addr": "529 Bloor St W",
       "lat": 43.6653,
-      "lng": -79.409455
+      "lng": -79.409455,
+      "website": "https://www.leespalace.com"
     },
     {
       "name": "Sweaty Betty's",
@@ -2511,7 +2653,8 @@
       "detail": "Live bands most nights. No cover early. Classic dive bar",
       "addr": "13 Ossington Ave",
       "lat": 43.644598,
-      "lng": -79.418778
+      "lng": -79.418778,
+      "website": "https://sweatybettys.com"
     },
     {
       "name": "Drake Hotel",
@@ -2525,7 +2668,8 @@
       "detail": "Half-price sushi, $5 Sapporo",
       "addr": "1150 Queen St. W",
       "lat": 43.643255,
-      "lng": -79.424546
+      "lng": -79.424546,
+      "website": "https://www.thedrakehotel.ca"
     },
     {
       "name": "Everyside",
@@ -2545,7 +2689,8 @@
       "detail": "Afternoon happy hour 2-5pm, late-night happy hour 9pm-2am",
       "addr": "120 Adelaide St. W",
       "lat": 43.649929,
-      "lng": -79.383122
+      "lng": -79.383122,
+      "website": "https://everyside.ca"
     },
     {
       "name": "Central",
@@ -2562,7 +2707,8 @@
       "detail": "$5 highballs, $5 Shaft on Draft, $4 sliders, $6 sushi rolls",
       "addr": "114 Ossington Ave",
       "lat": 43.646756,
-      "lng": -79.419907
+      "lng": -79.419907,
+      "website": "https://centralbar.ca"
     },
     {
       "name": "Tranzac Club",
@@ -2576,7 +2722,8 @@
       "detail": "Shab-e She'r Poetry Night open mic, poetry in any language, 3 minute slots. Sign-up 6:30pm, show 7-10pm. Admission $10-20 sliding scale.",
       "addr": "292 Brunswick Ave",
       "lat": 43.66522,
-      "lng": -79.407534
+      "lng": -79.407534,
+      "website": "https://tranzac.org"
     },
     {
       "name": "Storm Crow Manor",
@@ -2590,7 +2737,8 @@
       "detail": "Brunch and bingo card included",
       "addr": "580 Church St, Toronto, ON M4Y 2E5",
       "lat": 43.666801,
-      "lng": -79.381749
+      "lng": -79.381749,
+      "website": "https://stormcrowmanor.com"
     },
     {
       "name": "Cheesewerks",
@@ -2605,7 +2753,8 @@
       "detail": "$5 entry, food trivia with challenges, winning team gets 50% of cover plus prizes",
       "addr": "56 Bathurst St., Toronto",
       "lat": 43.642247,
-      "lng": -79.402255
+      "lng": -79.402255,
+      "website": "https://cheesewerks.ca"
     },
     {
       "name": "Owl's Club",
@@ -2619,7 +2768,8 @@
       "detail": "$50 annual membership",
       "addr": "305 Bloor St W, Toronto",
       "lat": 43.633727,
-      "lng": -79.570233
+      "lng": -79.570233,
+      "website": "https://owlsclub.ca"
     },
     {
       "name": "Tammy's Wine Bar",
@@ -2633,7 +2783,8 @@
       "detail": "Everybody Flirts queer karaoke, natural wine program",
       "addr": "1444 Dupont St, Toronto",
       "lat": 43.666293,
-      "lng": -79.449412
+      "lng": -79.449412,
+      "website": "https://tammyswinebar.ca"
     },
     {
       "name": "Kissa",
@@ -2648,7 +2799,8 @@
       "detail": "Private karaoke room available",
       "addr": "619 King St W, Toronto",
       "lat": 43.64874,
-      "lng": -79.379877
+      "lng": -79.379877,
+      "website": "https://kissatoronto.com"
     },
     {
       "name": "Tha Phae Tavern",
@@ -2663,7 +2815,8 @@
       "detail": "Karaoke rooms, Thai cuisine",
       "addr": "180 Ossington Ave, Toronto",
       "lat": 43.648316,
-      "lng": -79.420525
+      "lng": -79.420525,
+      "website": "https://thaphaetavern.com"
     },
     {
       "name": "BMB Karaoke",
@@ -2682,7 +2835,8 @@
       "detail": "$5 per person per hour late night private rooms",
       "addr": "429 Bloor St W, Toronto",
       "lat": 43.633727,
-      "lng": -79.570233
+      "lng": -79.570233,
+      "website": "https://bmbkaraoke.ca"
     },
     {
       "name": "The Company We Keep",
@@ -2702,7 +2856,8 @@
       "detail": "$5 beers, $7 glasses of wine",
       "addr": "634 St. Clair Ave. W",
       "lat": 43.682222,
-      "lng": -79.42394
+      "lng": -79.42394,
+      "website": "https://thecompanywekeep.ca"
     },
     {
       "name": "Joey",
@@ -2722,7 +2877,8 @@
       "detail": "Daily happy hour 3pm-6pm; Sun-Thu 9pm-close; Fri-Sat 10pm-close with snacks and drinks from $5",
       "addr": "600 King St W, Toronto, ON",
       "lat": 43.644598,
-      "lng": -79.399896
+      "lng": -79.399896,
+      "website": "https://www.joeyrestaurants.com"
     },
     {
       "name": "Midnight Snack Bar",
@@ -2741,7 +2897,8 @@
       "detail": "5:30pm-7:30pm with BOGO appetizers, beer $5, Tsingtao $5",
       "addr": "434 College St, Toronto, ON",
       "lat": 43.656714,
-      "lng": -79.407316
+      "lng": -79.407316,
+      "website": "https://midnightsnackbar.ca"
     },
     {
       "name": "Piccolo Caffe",
@@ -2760,7 +2917,8 @@
       "detail": "Mon-Fri 11am-4pm Aperol Spritz $10 and 50% off appetizers; Sun-Wed 10pm-2am",
       "addr": "111 John St, Toronto, ON",
       "lat": 43.64807,
-      "lng": -79.390035
+      "lng": -79.390035,
+      "website": "https://piccolocaffe.ca"
     },
     {
       "name": "Azhar Kitchen & Bar",
@@ -2780,7 +2938,8 @@
       "detail": "Monday-Friday 5-6:30pm, Saturday-Sunday 3-5pm. $5 menu items, $5 Burdock beer cans, half-off selected wine bottles",
       "addr": "96 Ossington Ave, Toronto",
       "lat": 43.651664,
-      "lng": -79.421637
+      "lng": -79.421637,
+      "website": "https://azharkitchen.com"
     },
     {
       "name": "Abrielle",
@@ -2800,7 +2959,8 @@
       "detail": "Cocktails $15, Sapporo $9, select wines $12, 3-6pm daily",
       "addr": "355 King Street West, Toronto, ON",
       "lat": 43.645945,
-      "lng": -79.392073
+      "lng": -79.392073,
+      "website": "https://abrielle.ca"
     },
     {
       "name": "Earls King West",
@@ -2820,7 +2980,8 @@
       "detail": "Cocktails and food deals, 3-7pm daily",
       "addr": "601 King Street West, Toronto, ON",
       "lat": 43.644267,
-      "lng": -79.4005
+      "lng": -79.4005,
+      "website": "https://www.earls.ca"
     },
     {
       "name": "Chamberlain's Pony Bar",
@@ -2840,7 +3001,8 @@
       "detail": "Happy hour 3-7pm",
       "addr": "585 King Street West, Toronto, ON",
       "lat": 43.639204,
-      "lng": -79.426085
+      "lng": -79.426085,
+      "website": "https://chamberlainsponybar.com"
     },
     {
       "name": "The Parlour",
@@ -2860,7 +3022,8 @@
       "detail": "Discounted food, wine and beer, 3-6pm",
       "addr": "642 King Street West, Toronto, ON",
       "lat": 43.644307,
-      "lng": -79.401536
+      "lng": -79.401536,
+      "website": "https://theparlour.ca"
     },
     {
       "name": "Myth Restaurant",
@@ -2880,7 +3043,8 @@
       "detail": "50% off bottle of Prosecco, 2-6pm",
       "addr": "522 King Street West, Toronto, ON",
       "lat": 43.645138,
-      "lng": -79.397363
+      "lng": -79.397363,
+      "website": "https://mythrestaurant.ca"
     },
     {
       "name": "1208 Yonge St Bar",
@@ -2898,7 +3062,8 @@
       "detail": "$5 shots and beers, $7 spritz and wine",
       "addr": "1208 Yonge St",
       "lat": 43.681698,
-      "lng": -79.391648
+      "lng": -79.391648,
+      "website": "https://boxcarsocial.ca"
     },
     {
       "name": "Bar at 100 King St W",
@@ -2918,7 +3083,8 @@
       "detail": "$10 cocktails, $5 off all food",
       "addr": "100 King St W",
       "lat": 43.648768,
-      "lng": -79.381692
+      "lng": -79.381692,
+      "website": "https://www.kingtaps.com"
     },
     {
       "name": "Fresh Kitchen + Juice Bar",
@@ -2938,7 +3104,8 @@
       "detail": "$5 juices, $8 food items under $10",
       "addr": "101 Eglinton Ave E",
       "lat": 43.707366,
-      "lng": -79.394484
+      "lng": -79.394484,
+      "website": "https://freshrestaurants.ca"
     },
     {
       "name": "Comrade",
@@ -2957,7 +3124,8 @@
       "detail": "$12 classic cocktails and $16 prime rib burgers",
       "addr": "758 Queen St. E.",
       "lat": 43.659418,
-      "lng": -79.34795
+      "lng": -79.34795,
+      "website": "https://www.thecomrade.ca"
     },
     {
       "name": "Blue Bovine",
@@ -2975,7 +3143,8 @@
       "detail": "Half-price cocktails, highballs, martinis, champagne, beer, wine. $10 lobster rolls, $12 steak tartare, $15 half dozen oysters",
       "addr": "65 Front St. W.",
       "lat": 43.644661,
-      "lng": -79.381749
+      "lng": -79.381749,
+      "website": "https://bluebovine.ca"
     },
     {
       "name": "Fioca",
@@ -2990,7 +3159,8 @@
       "detail": "Pachanga Hour: drink special with complementary snack, escalating from olives to rib-eye or duck wings",
       "addr": "585 College St.",
       "lat": 43.655199,
-      "lng": -79.413334
+      "lng": -79.413334,
+      "website": "https://www.ficoa.ca"
     },
     {
       "name": "Casa Madera",
@@ -3008,7 +3178,8 @@
       "detail": "Golden Hour: cocktails, wine, dips $10 each; $15 tacos; $50 sangria kit",
       "addr": "550 Wellington St. W.",
       "lat": 43.642841,
-      "lng": -79.401797
+      "lng": -79.401797,
+      "website": "https://casamadera.ca"
     },
     {
       "name": "Amano Pasta",
@@ -3026,7 +3197,8 @@
       "detail": "Aperitivo Hour: Henry of Pelham wine $1 per ounce, $6 negronis, $5 assagini",
       "addr": "65 Front St. W.",
       "lat": 43.644661,
-      "lng": -79.381749
+      "lng": -79.381749,
+      "website": "https://amanopasta.com"
     },
     {
       "name": "Brickworks Cider",
@@ -3045,7 +3217,8 @@
       "detail": "Batch:1904 cider, Mill Street beer $5; tabbouleh hummus, fries $5; specialty ciders, wings, poutine $7",
       "addr": "709 Queen St. E.",
       "lat": 43.658802,
-      "lng": -79.349552
+      "lng": -79.349552,
+      "website": "https://brickworkscider.com"
     },
     {
       "name": "Prohibition Gastrohouse",
@@ -3060,10 +3233,11 @@
       ],
       "start": 16,
       "end": 19,
-      "detail": "$5.09 draught, house wine, top-shelf rail spirits. $2.50 Jägermeister all day",
+      "detail": "$5.09 draught, house wine, top-shelf rail spirits. $2.50 J\u00e4germeister all day",
       "addr": "696 Queen St. E.",
       "lat": 43.658874,
-      "lng": -79.350406
+      "lng": -79.350406,
+      "website": "https://prohibitiongastrohouse.com"
     },
     {
       "name": "Wide Open Bar",
@@ -3082,7 +3256,8 @@
       "detail": "Thu: $2.75 all drinks 5-8pm. Mon $4 everything. Fri-Sat $5 mixed drinks, $15 pitchers",
       "addr": "139A Spadina Ave.",
       "lat": 43.647616,
-      "lng": -79.395608
+      "lng": -79.395608,
+      "website": "https://wideopenbar.ca"
     },
     {
       "name": "Rodney's Oyster House",
@@ -3100,7 +3275,8 @@
       "detail": "$2 oysters each, $5 lager or ale, happy hour Mon-Fri 3-6pm",
       "addr": "469 King St W",
       "lat": 43.646773,
-      "lng": -79.388931
+      "lng": -79.388931,
+      "website": "https://rodneysoysterhouse.com"
     },
     {
       "name": "Cluny Bistro",
@@ -3120,7 +3296,8 @@
       "detail": "50% off oysters and half-priced drinks (champagne, wine, beer). Mon 4-6pm, Tue-Sun 2-6pm",
       "addr": "391 King St W",
       "lat": 43.644377,
-      "lng": -79.400443
+      "lng": -79.400443,
+      "website": "https://clunybistro.com"
     },
     {
       "name": "Oyster Boy",
@@ -3138,7 +3315,8 @@
       "detail": "$2 oysters all night Wednesday, $1.50 Malpeque Happy Hour Thursday 5-7pm, Sunday pop-up $1.50",
       "addr": "1165 Bloor St W",
       "lat": 43.65925,
-      "lng": -79.437747
+      "lng": -79.437747,
+      "website": "https://oysterboy.ca"
     },
     {
       "name": "Drake Hotel - Dinner with a Side of Sounds",
@@ -3154,7 +3332,8 @@
       "detail": "Supper club-style with piano sets, live vocals, prix fixe dining and classic cocktails",
       "addr": "1150 Queen St. W.",
       "lat": 43.643255,
-      "lng": -79.424546
+      "lng": -79.424546,
+      "website": "https://www.thedrakehotel.ca"
     },
     {
       "name": "Jean Darlene Piano Room",
@@ -3174,7 +3353,8 @@
       "detail": "Live pianists, drag shows, samba beats, themed singalongs",
       "addr": "1203 Dundas St. W.",
       "lat": 43.649242,
-      "lng": -79.422523
+      "lng": -79.422523,
+      "website": "https://jeandarlene.com"
     },
     {
       "name": "M2 Cocktail Bar (Matcha Matcha)",
@@ -3189,7 +3369,8 @@
       "detail": "Tea-enhanced cocktails, shots $9, desserts available",
       "addr": "407 Church St.",
       "lat": 43.70352,
-      "lng": -79.524619
+      "lng": -79.524619,
+      "website": "https://matchamatcha.ca"
     },
     {
       "name": "Noonan's",
@@ -3203,7 +3384,8 @@
       "detail": "Weekly trad sessions, $20 cover, Irish pub fare",
       "addr": "141 Danforth Ave.",
       "lat": 43.676359,
-      "lng": -79.357339
+      "lng": -79.357339,
+      "website": "https://noonanstoronto.com"
     },
     {
       "name": "Echo Karaoke",
@@ -3223,7 +3405,8 @@
       "detail": "Korean-style private karaoke, open 7 days a week",
       "addr": "693 Bloor Street West, Toronto, ON",
       "lat": 43.663675,
-      "lng": -79.41732
+      "lng": -79.41732,
+      "website": "https://echokaraoke.ca"
     }
   ]
 }

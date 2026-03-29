@@ -397,7 +397,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .venue-page{position:fixed;inset:0;background:var(--bg);z-index:3500;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden}
 .venue-page.open{transform:translateX(0)}
 .venue-page-hero{position:relative;flex-shrink:0;height:320px;background:#111}
-.venue-page-photo{position:absolute;inset:0;background-size:cover;background-position:center top;background-color:#111}
+.venue-page-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-color:#1a1a1a}
 .venue-page-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 50%,transparent 100%)}
 .venue-page-topbar{position:fixed;top:0;left:0;right:0;z-index:3600;display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),16px) 16px 16px;transition:background .2s,backdrop-filter .2s;background:transparent}
 .venue-page-topbar.scrolled{background:rgba(15,15,15,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -2579,6 +2579,8 @@ async function openVenuePage(v){
   document.body.style.overflow = 'hidden';
   history.pushState({venuePage: true}, '', '#venue');
 
+  // Photo: use Pexels curated IDs by venue type (reliable, no API key)
+  // Fetch real venue photo via Google Places API
   photo.style.background = 'linear-gradient(135deg, #1a1a2e, #16213e)';
   fetchVenuePhoto(v, photo);
 
@@ -2588,35 +2590,35 @@ async function openVenuePage(v){
 
 const _photoCache = {};
 
-// Unsplash Source — high quality stock photos by venue type.
-// Not the actual venue but always well-composed and relevant.
-const UNSPLASH_QUERIES = {
-  drinkhh:    'cocktail bar interior',
-  foodhh:     'restaurant interior dining',
-  happyhour:  'bar interior drinks',
-  trivia:     'pub interior night',
-  karaoke:    'karaoke neon bar',
-  livemusic:  'live music concert venue',
-  jazz:       'jazz bar moody',
-  comedy:     'comedy club stage',
-  drag:       'nightclub stage show',
-  dj:         'nightclub dance floor dj',
-  bingo:      'bar night social',
-  openmic:    'open mic stage spotlight',
-};
-
-function fetchVenuePhoto(v, photoEl){
+// Fetch the venue's og:image from their own website via Microlink API (free, no key needed).
+// This pulls the exact photo the venue chose to represent themselves —
+// always their best, most curated image. Falls back to gradient if unavailable.
+async function fetchVenuePhoto(v, photoEl){
   const cacheKey = v.name + v.addr;
-  if(_photoCache[cacheKey]){
-    photoEl.style.backgroundImage = `url('${_photoCache[cacheKey]}')`;
+  if(cacheKey in _photoCache){
+    if(_photoCache[cacheKey]) photoEl.style.backgroundImage = `url('${_photoCache[cacheKey]}')`;
     return;
   }
-  const query = encodeURIComponent(UNSPLASH_QUERIES[v.type] || 'bar interior');
-  // venue name as sig keeps the same photo for the same venue every session
-  const sig = encodeURIComponent(v.name);
-  const url = `https://source.unsplash.com/1600x900/?${query}&sig=${sig}`;
-  _photoCache[cacheKey] = url;
-  photoEl.style.backgroundImage = `url('${url}')`;
+  _photoCache[cacheKey] = null; // mark in-progress
+
+  if(!v.website) return; // no website = keep gradient
+
+  try {
+    const res = await fetch(
+      `https://api.microlink.io/?url=${encodeURIComponent(v.website)}&meta=true`
+    );
+    if(!res.ok) return;
+    const data = await res.json();
+    const imgUrl = data?.data?.image?.url;
+    if(imgUrl){
+      _photoCache[cacheKey] = imgUrl;
+      const preload = new Image();
+      preload.onload = () => { photoEl.style.backgroundImage = `url('${imgUrl}')`; };
+      preload.src = imgUrl;
+    }
+  } catch(e) {
+    // Silently keep gradient on any error
+  }
 }
 
 function loadGoogleMapsSDK(key){
@@ -3128,7 +3130,7 @@ document.getElementById("search-input").addEventListener("blur",()=>{
 
 if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 
-// Sync time display labels to the current-time values already set by the inline slider scripts
+// Sync time display to current-time values set by inline slider scripts
 (function syncTimeDisplays(){
   updateTimeDisplay();
   if(typeof updateMapTimeDisplay==="function") updateMapTimeDisplay();
