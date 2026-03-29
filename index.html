@@ -2587,33 +2587,47 @@ async function openVenuePage(v){
 }
 
 const _photoCache = {};
+const GPLACES_KEY = 'AIzaSyAo5sRSN0Qp7WR3mquuIkzaL51USat-cp8';
 
-// Google Street View Static API — uses venue lat/lng for a real exterior shot.
-// Consistent framing, free up to 25k requests/month, no JS SDK needed.
-const GSTREETVIEW_KEY = 'AIzaSyAo5sRSN0Qp7WR3mquuIkzaL51USat-cp8';
-
-function fetchVenuePhoto(v, photoEl){
+// Fetch the featured photo from the Google Maps listing for this venue.
+// getDetails returns photos sorted by Google's own ranking — index 0 is the
+// cover/featured photo, exactly what you see at the top of a Maps listing.
+async function fetchVenuePhoto(v, photoEl){
   const cacheKey = v.name + v.addr;
   if(_photoCache[cacheKey]){
     photoEl.style.backgroundImage = `url('${_photoCache[cacheKey]}')`;
     return;
   }
 
-  // Use lat/lng if available, otherwise fall back to address string
-  const location = (v.lat && v.lng)
-    ? `${v.lat},${v.lng}`
-    : encodeURIComponent(`${v.addr}, Toronto, Ontario, Canada`);
+  try {
+    if(!window.google) await loadGoogleMapsSDK(GPLACES_KEY);
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
 
-  const url = `https://maps.googleapis.com/maps/api/streetview?`
-    + `size=1200x600`
-    + `&location=${location}`
-    + `&fov=90`       // field of view — 90 gives a natural wide shot
-    + `&pitch=5`      // slight upward tilt looks better than dead-straight
-    + `&source=outdoor` // prefer outdoor/street-level photos, skip indoor 360s
-    + `&key=${GSTREETVIEW_KEY}`;
+    // Step 1: find the place to get its place_id
+    service.findPlaceFromQuery({
+      query: `${v.name}, ${v.addr}, Toronto, Ontario`,
+      fields: ['place_id']
+    }, (results, status) => {
+      if(status !== google.maps.places.PlacesServiceStatus.OK || !results[0]?.place_id) return;
 
-  _photoCache[cacheKey] = url;
-  photoEl.style.backgroundImage = `url('${url}')`;
+      // Step 2: getDetails to get the featured photo (index 0 = Google's cover photo)
+      service.getDetails({
+        placeId: results[0].place_id,
+        fields: ['photos']
+      }, (place, s2) => {
+        if(s2 !== google.maps.places.PlacesServiceStatus.OK || !place.photos?.length) return;
+
+        // Google sorts photos with the most representative one first
+        const photoUrl = place.photos[0].getUrl({ maxWidth: 1200, maxHeight: 700 });
+        _photoCache[cacheKey] = photoUrl;
+        const img = new Image();
+        img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
+        img.src = photoUrl;
+      });
+    });
+  } catch(e) {
+    console.warn('Places photo failed:', e.message);
+  }
 }
 
 function loadGoogleMapsSDK(key){
