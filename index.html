@@ -705,6 +705,14 @@ html,body{overscroll-behavior:none}
 .fav-chip{display:inline-flex;align-items:center;gap:6px;background:#222;border:1px solid var(--border);border-radius:20px;padding:5px 10px 5px 12px;font-size:13px;margin:3px}
 .fav-chip-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;line-height:1;padding:0}
 .profile-signout{margin-top:24px;width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;cursor:pointer}
+.profile-setting-block{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px}
+.profile-setting-header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;cursor:pointer;font-size:14px;color:var(--text);background:var(--surface);transition:background .15s}
+.profile-setting-header:hover{background:var(--surface2)}
+.profile-setting-chevron{transition:transform .2s;color:var(--muted);flex-shrink:0}
+.profile-setting-chevron.open{transform:rotate(180deg)}
+.profile-setting-body{padding:12px 14px;background:var(--surface);border-top:1px solid var(--border)}
+.profile-setting-body .auth-input{margin-bottom:8px}
+.profile-setting-body .auth-btn{margin-top:4px}
 .profile-signout:hover{border-color:#ff5555;color:#ff5555}
 
 
@@ -997,15 +1005,48 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- PROFILE SHEET -->
 <div class="profile-sheet" id="profile-sheet" style="display:none" onclick="if(event.target===this)closeProfileSheet()">
   <div class="profile-panel">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
       <div>
         <h2>My Profile</h2>
         <p class="email" id="profile-email"></p>
       </div>
       <button style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer" onclick="closeProfileSheet()">✕</button>
     </div>
-    <div class="profile-section-title">❤️ Saved Venues</div>
+
+    <!-- Account settings -->
+    <div class="profile-section-title">⚙️ Account</div>
+
+    <!-- Change email -->
+    <div class="profile-setting-block" id="profile-email-block">
+      <div class="profile-setting-header" onclick="toggleProfileSection('email')">
+        <span>Change Email</span>
+        <svg class="profile-setting-chevron" id="chevron-email" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="profile-setting-body" id="body-email" style="display:none">
+        <input class="auth-input" type="email" id="profile-new-email" placeholder="New email address" autocomplete="email">
+        <p class="auth-err" id="profile-email-err"></p>
+        <button class="auth-btn" onclick="submitChangeEmail()">Update Email</button>
+      </div>
+    </div>
+
+    <!-- Change password -->
+    <div class="profile-setting-block" id="profile-password-block">
+      <div class="profile-setting-header" onclick="toggleProfileSection('password')">
+        <span>Change Password</span>
+        <svg class="profile-setting-chevron" id="chevron-password" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="profile-setting-body" id="body-password" style="display:none">
+        <input class="auth-input" type="password" id="profile-new-password" placeholder="New password" autocomplete="new-password">
+        <input class="auth-input" type="password" id="profile-confirm-password" placeholder="Confirm new password" autocomplete="new-password">
+        <p class="auth-err" id="profile-password-err"></p>
+        <button class="auth-btn" onclick="submitChangePassword()">Update Password</button>
+      </div>
+    </div>
+
+    <!-- Saved venues -->
+    <div class="profile-section-title" style="margin-top:16px">❤️ Saved Venues</div>
     <div id="profile-favs-list"><p style="color:var(--muted);font-size:13px">No favourites yet — tap ❤️ on any venue card.</p></div>
+
     <button class="profile-signout" onclick="signOut()">Sign out</button>
   </div>
 </div>
@@ -1501,6 +1542,70 @@ async function openProfileSheet(){
 }
 function closeProfileSheet(){
   document.getElementById('profile-sheet').style.display='none';
+  // Reset all setting sections
+  ['email','password'].forEach(s=>{
+    const body = document.getElementById('body-'+s);
+    const chevron = document.getElementById('chevron-'+s);
+    if(body) body.style.display='none';
+    if(chevron) chevron.classList.remove('open');
+  });
+}
+
+function toggleProfileSection(section){
+  const body = document.getElementById('body-'+section);
+  const chevron = document.getElementById('chevron-'+section);
+  const isOpen = body.style.display !== 'none';
+  // Close all sections first
+  ['email','password'].forEach(s=>{
+    document.getElementById('body-'+s).style.display='none';
+    document.getElementById('chevron-'+s).classList.remove('open');
+    document.getElementById('profile-'+s+'-err').textContent='';
+  });
+  // Toggle clicked section
+  if(!isOpen){
+    body.style.display='block';
+    chevron.classList.add('open');
+  }
+}
+
+async function submitChangeEmail(){
+  const newEmail = document.getElementById('profile-new-email').value.trim();
+  const errEl = document.getElementById('profile-email-err');
+  errEl.textContent=''; errEl.style.color='';
+  if(!newEmail){ errEl.textContent='Please enter a new email.'; return; }
+  const btn = event.target;
+  btn.disabled=true; btn.textContent='Saving…';
+  const {error} = await supa.auth.updateUser({ email: newEmail });
+  btn.disabled=false; btn.textContent='Update Email';
+  if(error){
+    errEl.textContent=error.message;
+  } else {
+    errEl.style.color='var(--green)';
+    errEl.textContent='✓ Confirmation sent to '+newEmail+'. Check your inbox.';
+    document.getElementById('profile-new-email').value='';
+  }
+}
+
+async function submitChangePassword(){
+  const newPass = document.getElementById('profile-new-password').value;
+  const confirm = document.getElementById('profile-confirm-password').value;
+  const errEl = document.getElementById('profile-password-err');
+  errEl.textContent=''; errEl.style.color='';
+  if(!newPass || newPass.length < 6){ errEl.textContent='Password must be at least 6 characters.'; return; }
+  if(newPass !== confirm){ errEl.textContent="Passwords don't match."; return; }
+  const btn = event.target;
+  btn.disabled=true; btn.textContent='Saving…';
+  const {error} = await supa.auth.updateUser({ password: newPass });
+  btn.disabled=false; btn.textContent='Update Password';
+  if(error){
+    errEl.textContent=error.message;
+  } else {
+    errEl.style.color='var(--green)';
+    errEl.textContent='✓ Password updated successfully.';
+    document.getElementById('profile-new-password').value='';
+    document.getElementById('profile-confirm-password').value='';
+    setTimeout(()=>toggleProfileSection('password'), 2000);
+  }
 }
 async function renderProfileFavs(){
   const {data} = await supa.from('favourites').select('venue_name,venue_type').eq('user_id', currentUser.id).order('created_at');
