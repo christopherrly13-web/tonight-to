@@ -501,10 +501,12 @@ html,body{overscroll-behavior:none}
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
     align-content:start;
+    align-items:stretch;
     overflow-y:auto;
   }
   .cards-scroll{padding-bottom:24px}
-  .card{height:fit-content}
+  .card{height:100%;display:flex;flex-direction:column}
+  .card .detail{flex:1}
   .card-name{font-size:15px}
   .empty{grid-column:1/-1;padding:60px 20px}
 
@@ -1467,31 +1469,32 @@ function setNavFilter(t){
 }
 
 function setType(el){
-  document.querySelectorAll("#type-pills .pill").forEach(p=>p.classList.remove("active"));
-  el.classList.add("active");
-  activeType=el.dataset.t;
+  const t=el.dataset.t;
+  if(el.classList.contains("active") && t!=="all"){
+    // Deselect — no pill active means show all
+    el.classList.remove("active");
+    activeType="all";
+  } else {
+    document.querySelectorAll("#type-pills .pill").forEach(p=>p.classList.remove("active"));
+    el.classList.add("active");
+    activeType=t;
+  }
   render();
 }
 
 function setMapType(el){
   const t=el.dataset.t;
   if(t==="all"){
-    // All clears everything and selects all
     mapActiveTypes.clear();
     document.querySelectorAll("#map-type-pills .pill").forEach(p=>p.classList.remove("active"));
     el.classList.add("active");
   } else {
-    // Deselect "All" if it was active
     const allPill=document.querySelector("#map-type-pills [data-t='all']");
     allPill.classList.remove("active");
-    // Toggle this type
     if(mapActiveTypes.has(t)){
       mapActiveTypes.delete(t);
       el.classList.remove("active");
-      // If nothing selected, revert to All
-      if(mapActiveTypes.size===0){
-        allPill.classList.add("active");
-      }
+      // No auto-revert to All — allow empty selection (shows all)
     } else {
       mapActiveTypes.add(t);
       el.classList.add("active");
