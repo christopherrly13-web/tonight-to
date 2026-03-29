@@ -265,12 +265,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   border-top:1px solid var(--border2);
   transform:translateY(100%);
   transition:transform .3s cubic-bezier(.32,.72,0,1);
-  z-index:800;
+  z-index:801;
   height:auto;
-  max-height:48vh;
+  max-height:55vh;
   display:flex;flex-direction:column;
   touch-action:none;
-  padding-bottom:max(env(safe-area-inset-bottom),8px);
+  padding-bottom:calc(max(env(safe-area-inset-bottom),8px) + 70px);
 }
 .sheet.open{transform:translateY(0)}
 .sheet.dragging{transition:none}
