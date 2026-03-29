@@ -2052,21 +2052,32 @@ async function openVenuePage(v){
   document.body.style.overflow = 'hidden';
   history.pushState({venuePage: true}, '', '#venue');
 
-  // Fetch photo — use Unsplash topic-based images by venue type
-  const photoTopics = {
-    drinkhh:'cocktail-bar', foodhh:'restaurant', trivia:'pub',
-    karaoke:'karaoke', livemusic:'concert', jazz:'jazz-music',
-    comedy:'comedy', drag:'nightclub', dj:'nightclub',
-    bingo:'bar', openmic:'music', happyhour:'bar'
+  // Photo: use Pexels curated IDs by venue type (reliable, no API key)
+  const photoIds = {
+    drinkhh:   [3407777, 1283219, 2531728, 1267244, 3407718],
+    foodhh:    [1639557, 958545,  1640777, 2983101, 1640772],
+    trivia:    [1267244, 3407777, 2531728, 1283219, 3407718],
+    karaoke:   [1190298, 2111015, 1540406, 1190297, 2111016],
+    livemusic: [1190298, 1540406, 2111015, 1190297, 167636],
+    jazz:      [1407313, 1407314, 167636,  1407315, 1190298],
+    comedy:    [1267244, 3407777, 1283219, 2531728, 3407718],
+    drag:      [1540406, 2111015, 1190298, 1190297, 2111016],
+    dj:        [1540406, 2111015, 1190297, 1190298, 167636],
+    bingo:     [3407777, 1267244, 1283219, 2531728, 3407718],
+    openmic:   [167636,  1190298, 1407313, 1540406, 2111015],
+    happyhour: [3407777, 1283219, 2531728, 1267244, 3407718],
   };
-  const topic = photoTopics[v.type] || 'bar';
-  const seed = encodeURIComponent(v.name);
-  photo.style.backgroundImage = `url('https://source.unsplash.com/featured/800x400?${topic}&sig=${seed}')`;
-  // Fallback gradient if image fails
+  const ids = photoIds[v.type] || photoIds.happyhour;
+  // Pick a deterministic photo based on venue name
+  const nameHash = v.name.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const photoId = ids[nameHash % ids.length];
+  const photoUrl = `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop`;
+
   photo.style.background = `linear-gradient(135deg, #1a1a2e, #16213e)`;
   const img = new Image();
   img.onload = ()=>{ photo.style.backgroundImage = `url('${img.src}')`; };
-  img.src = `https://source.unsplash.com/featured/800x400?${topic}&sig=${seed}`;
+  img.onerror = ()=>{ photo.style.backgroundImage = `url('https://picsum.photos/seed/${encodeURIComponent(v.name)}/800/400')`; };
+  img.src = photoUrl;
 
   // Generate reviews via Claude AI
   fetchVenueReviews(v, reviewsEl);
