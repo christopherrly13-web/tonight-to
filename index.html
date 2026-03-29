@@ -1756,7 +1756,7 @@ function render(){
       :`<div class="empty"><p>Nothing matches your filters.<br>Try a different day or neighbourhood.</p></div>`;
     c.innerHTML=msg;return;
   }
-  c.innerHTML=items.map(v=>{
+  c.innerHTML=items.map((v,i)=>{
     const live=isNow(v);
     const gmapsQuery=encodeURIComponent(v.name+", "+v.addr+", Toronto, ON");
     const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
@@ -1764,7 +1764,11 @@ function render(){
     // Don't show next-day badge if the venue's days are already selected in the day pills
     const venueDaySelected=v.days.some(d=>selectedDays.has(d));
     const showNext=next&&!live&&!venueDaySelected;
-    const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";    return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(ALL[${i}])" style="cursor:pointer">
+    // Store venue in a lookup so onclick can retrieve it
+    window._venueCache = window._venueCache || {};
+    const cacheKey = 'v_' + i + '_' + Date.now();
+    window._venueCache[i] = v;
+    const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";    return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(window._venueCache[${i}])" style="cursor:pointer">
       <div class="card-top">
         <div>
           <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 Ticketmaster</a>`:''}</div>
