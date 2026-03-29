@@ -116,7 +116,29 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .view.active{display:flex}
 
 /* HEADER */
-.header{padding-top:max(env(safe-area-inset-top),16px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0}
+.header{padding-top:max(env(safe-area-inset-top),16px);padding-left:20px;padding-right:20px;padding-bottom:0;flex-shrink:0;transition:background .2s,backdrop-filter .2s;position:relative;z-index:100}
+/* Sticky header+search wrap when scrolled */
+.list-sticky{
+  position:sticky;top:0;z-index:200;
+  background:transparent;
+  transition:background .25s,backdrop-filter .25s,-webkit-backdrop-filter .25s;
+  flex-shrink:0;
+}
+.list-sticky.scrolled{
+  background:rgba(15,15,15,.88);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+/* Filters fade on scroll */
+.filters-collapsible{
+  transition:opacity .25s,max-height .3s;
+  opacity:1;
+  overflow:hidden;
+}
+.filters-collapsible.hidden{
+  opacity:0;
+  pointer-events:none;
+}
 .header-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
 .logo{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);line-height:1}
 .logo span{color:var(--accent)}
@@ -738,72 +760,75 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="view active" id="list-view">
   <!-- SIDEBAR (header + all filters) -->
   <div class="sidebar">
-    <div class="header">
-      <div class="header-top">
-        <div class="logo-sm">Tonight<span>.</span>TO</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="tonight-badge" id="today-lbl">Thursday</div>
-          <div class="hamburger-wrap" id="hamburger-wrap">
-            <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMenu(event)" aria-label="Menu">
-              <span></span><span></span><span></span>
-            </button>
+    <div class="list-sticky" id="list-sticky">
+      <div class="header">
+        <div class="header-top">
+          <div class="logo-sm">Tonight<span>.</span>TO</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="tonight-badge" id="today-lbl">Thursday</div>
+            <div class="hamburger-wrap" id="hamburger-wrap">
+              <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMenu(event)" aria-label="Menu">
+                <span></span><span></span><span></span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- SEARCH BAR -->
-    <div class="search-wrap">
-      <div class="search-box">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="search-input" placeholder="Search venues, drinks, food, music…" oninput="onSearch()" onkeydown="if(event.key==='Enter'){commitSearch();this.blur()}" autocomplete="off" autocorrect="off" spellcheck="false">
-        <button id="search-clear" onclick="clearSearch()" aria-label="Clear">✕</button>
+      <!-- SEARCH BAR -->
+      <div class="search-wrap">
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="search-input" placeholder="Search venues, drinks, food, music…" oninput="onSearch()" onkeydown="if(event.key==='Enter'){commitSearch();this.blur()}" autocomplete="off" autocorrect="off" spellcheck="false">
+          <button id="search-clear" onclick="clearSearch()" aria-label="Clear">✕</button>
+        </div>
+        <div id="search-suggestions"></div>
       </div>
-      <div id="search-suggestions"></div>
-    </div>
+    </div><!-- /list-sticky -->
 
-    <!-- TYPE PILLS -->
-    <div class="filters" id="type-pills">
-      <div class="pill active" data-t="all" onclick="setType(this)">All</div>
-      <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
-      <div class="pill" data-t="foodhh" onclick="setType(this)">🍔 Food HH</div>
-      <div class="pill" data-t="music" onclick="setType(this)">🎵 Music</div>
-      <div class="pill" data-t="trivia" onclick="setType(this)">Trivia</div>
-      <div class="pill" data-t="comedy" onclick="setType(this)">Comedy</div>
-      <div class="pill" data-t="drag" onclick="setType(this)">Drag</div>
-      <div class="pill" data-t="bingo" onclick="setType(this)">Bingo</div>
-    </div>
-
-
-    <!-- MULTI-DAY SELECTOR -->
-    <div class="day-pills-wrap">
-      <div class="day-pills" id="day-pills">
-        <button class="day-pill" data-d="mon" onclick="toggleDay(this)">Mon</button>
-        <button class="day-pill" data-d="tue" onclick="toggleDay(this)">Tue</button>
-        <button class="day-pill" data-d="wed" onclick="toggleDay(this)">Wed</button>
-        <button class="day-pill" data-d="thu" onclick="toggleDay(this)">Thu</button>
-        <button class="day-pill" data-d="fri" onclick="toggleDay(this)">Fri</button>
-        <button class="day-pill" data-d="sat" onclick="toggleDay(this)">Sat</button>
-        <button class="day-pill" data-d="sun" onclick="toggleDay(this)">Sun</button>
+    <div class="filters-collapsible" id="filters-collapsible">
+      <!-- TYPE PILLS -->
+      <div class="filters" id="type-pills">
+        <div class="pill active" data-t="all" onclick="setType(this)">All</div>
+        <div class="pill" data-t="drinkhh" onclick="setType(this)">🍸 Drink HH</div>
+        <div class="pill" data-t="foodhh" onclick="setType(this)">🍔 Food HH</div>
+        <div class="pill" data-t="music" onclick="setType(this)">🎵 Music</div>
+        <div class="pill" data-t="trivia" onclick="setType(this)">Trivia</div>
+        <div class="pill" data-t="comedy" onclick="setType(this)">Comedy</div>
+        <div class="pill" data-t="drag" onclick="setType(this)">Drag</div>
+        <div class="pill" data-t="bingo" onclick="setType(this)">Bingo</div>
       </div>
-    </div>
 
-    <div class="time-control">
-      <div class="time-row">
-        <label>Time</label>
-        <input type="range" id="time-slider" min="0" max="24" step="0.5" value="0" oninput="document.getElementById('now-chk').checked=false;updateTimeDisplay();render()">
-        <span class="time-display" id="time-display">Any</span>
-        <button class="locate-btn" id="locate-btn" onclick="getLocation()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
-          Near me
-        </button>
+      <!-- MULTI-DAY SELECTOR -->
+      <div class="day-pills-wrap">
+        <div class="day-pills" id="day-pills">
+          <button class="day-pill" data-d="mon" onclick="toggleDay(this)">Mon</button>
+          <button class="day-pill" data-d="tue" onclick="toggleDay(this)">Tue</button>
+          <button class="day-pill" data-d="wed" onclick="toggleDay(this)">Wed</button>
+          <button class="day-pill" data-d="thu" onclick="toggleDay(this)">Thu</button>
+          <button class="day-pill" data-d="fri" onclick="toggleDay(this)">Fri</button>
+          <button class="day-pill" data-d="sat" onclick="toggleDay(this)">Sat</button>
+          <button class="day-pill" data-d="sun" onclick="toggleDay(this)">Sun</button>
+        </div>
       </div>
-    </div>
 
-    <div class="count-bar">
-      <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="onNowChkChange()"> Now</label>
-      <span class="count-text" id="ct"></span>
-    </div>
+      <div class="time-control">
+        <div class="time-row">
+          <label>Time</label>
+          <input type="range" id="time-slider" min="0" max="24" step="0.5" value="0" oninput="document.getElementById('now-chk').checked=false;updateTimeDisplay();render()">
+          <span class="time-display" id="time-display">Any</span>
+          <button class="locate-btn" id="locate-btn" onclick="getLocation()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+            Near me
+          </button>
+        </div>
+      </div>
+
+      <div class="count-bar">
+        <label class="now-lbl"><input type="checkbox" id="now-chk" onchange="onNowChkChange()"> Now</label>
+        <span class="count-text" id="ct"></span>
+      </div>
+    </div><!-- /filters-collapsible -->
   </div><!-- /sidebar -->
 
   <!-- MAIN CARDS AREA -->
@@ -2247,6 +2272,28 @@ document.getElementById('venue-page-scroll').addEventListener('scroll', function
   } else {
     topbar.classList.remove('scrolled');
   }
+}, {passive:true});
+
+// Feed cards scroll → sticky frosted header + fade filters
+let _feedScrollTimer = null;
+document.getElementById('cards').addEventListener('scroll', function(){
+  const sticky = document.getElementById('list-sticky');
+  const filters = document.getElementById('filters-collapsible');
+  if(!sticky || !filters) return;
+
+  if(this.scrollTop > 10){
+    sticky.classList.add('scrolled');
+    filters.classList.add('hidden');
+  } else {
+    sticky.classList.remove('scrolled');
+    filters.classList.remove('hidden');
+  }
+
+  // Show filters again when scrolling stops
+  clearTimeout(_feedScrollTimer);
+  _feedScrollTimer = setTimeout(()=>{
+    filters.classList.remove('hidden');
+  }, 800);
 }, {passive:true});
 
 // Close venue page on browser back
