@@ -1599,6 +1599,14 @@ function showView(v, el){
   if(v==="list"){
     document.getElementById("list-view").classList.add("active");
     document.getElementById("nb-list").classList.add("active");
+    // Reset to full feed if coming from My List
+    if(activeType==='favs'){
+      activeType='all';
+      document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
+      const allPill=document.querySelector('#type-pills [data-t="all"]');
+      if(allPill) allPill.classList.add('active');
+      render();
+    }
   } else {
     document.getElementById("map-view").classList.add("active");
     document.getElementById("nb-map").classList.add("active");
