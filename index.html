@@ -137,12 +137,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   overflow:hidden;
   max-height:300px;
   opacity:1;
-  transition:max-height .25s ease, opacity .2s ease;
+  transition:max-height .5s ease, opacity .6s ease;
 }
 .filters-collapsible.scrolling{
   max-height:0;
   opacity:0;
   pointer-events:none;
+  transition:max-height .25s ease, opacity .2s ease;
 }
 /* Single scroll container */
 .feed-scroll{
@@ -2338,14 +2339,23 @@ if(_feedScroll){
   _feedScroll.addEventListener('scroll', function(){
     const filters = document.getElementById('filters-collapsible');
     if(!filters) return;
-    filters.classList.add('scrolling');
-    // Recalculate top padding after filters collapse
-    setTimeout(updateFeedPadding, 260);
+    if(!filters.classList.contains('scrolling')){
+      filters.classList.add('scrolling');
+      setTimeout(updateFeedPadding, 260);
+    }
     clearTimeout(_feedScrollTimer);
     _feedScrollTimer = setTimeout(()=>{
+      // Measure filter height before showing it
+      const filtersBefore = filters.offsetHeight;
       filters.classList.remove('scrolling');
-      setTimeout(updateFeedPadding, 260);
-    }, 600);
+      // After filters expand, compensate scroll so cards don't move
+      requestAnimationFrame(()=>{
+        const filtersAfter = filters.scrollHeight;
+        const diff = filtersAfter - filtersBefore;
+        if(diff > 0) _feedScroll.scrollTop += diff;
+        updateFeedPadding();
+      });
+    }, 800);
   }, {passive:true});
 }
 
