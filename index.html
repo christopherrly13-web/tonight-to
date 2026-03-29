@@ -2331,7 +2331,8 @@ function updateFeedPadding(){
   const filters = document.getElementById('filters-collapsible');
   if(core && scroll){
     const coreH = core.offsetHeight;
-    scroll.style.paddingTop = coreH + 'px';
+    const filtersH = filters ? filters.scrollHeight : 0;
+    scroll.style.paddingTop = (coreH + filtersH) + 'px';
     if(filters) filters.style.top = coreH + 'px';
   }
 }
