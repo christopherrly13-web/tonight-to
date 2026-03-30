@@ -2326,8 +2326,6 @@ function render(){
     items.sort((a,b)=>{
       const ld=isNow(b)-isNow(a);
       if(ld!==0) return ld;
-      const timeDiff=a.start - b.start;
-      if(timeDiff!==0) return timeDiff;
       return distKm(a)-distKm(b);
     });
   } else {
