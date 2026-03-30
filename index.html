@@ -195,7 +195,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 }
 /* Filters overlay below header core — don't affect scroll layout */
 .filters-collapsible{
-  position:absolute;
+  position:relative;
   left:0;right:0;
   background:var(--bg);
   overflow:hidden;
@@ -203,6 +203,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   opacity:1;
   transition:max-height .5s ease, opacity .6s ease;
   z-index:199;
+  flex-shrink:0;
 }
 .filters-collapsible.scrolling{
   max-height:0;
@@ -904,7 +905,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="time-row">
           <label>Time</label>
           <input type="range" id="time-slider" min="0" max="24" step="0.5" value="0" oninput="document.getElementById('now-chk').checked=false;updateTimeDisplay();render()">
-          <script>document.getElementById('time-slider').value=Math.round((new Date().getHours()+new Date().getMinutes()/60)*2)/2;</script>
+          <script>(function(){var s=document.getElementById('time-slider');s.value=Math.round((new Date().getHours()+new Date().getMinutes()/60)*2)/2;if(typeof updateTimeDisplay==='function')updateTimeDisplay();})();</script>
           <span class="time-display" id="time-display">Any</span>
           <button class="locate-btn" id="locate-btn" onclick="getLocation()">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
@@ -2750,16 +2751,12 @@ const _feedScroll = document.getElementById('feed-scroll');
 function updateFeedPadding(){
   const core = document.querySelector('.list-header-core');
   const scroll = document.getElementById('feed-scroll');
-  const filters = document.getElementById('filters-collapsible');
   const spacer = document.getElementById('filter-spacer');
   if(!core || !scroll) return;
   const coreH = core.offsetHeight;
-  const filtersH = filters ? filters.scrollHeight : 0;
-  // Padding = core header + filters so first card is never hidden
-  scroll.style.paddingTop = (coreH + filtersH) + 'px';
-  // Spacer no longer needed for spacing — zero it out
+  // Filters are in normal flow now — padding = core header only
+  scroll.style.paddingTop = coreH + 'px';
   if(spacer) spacer.style.height = '0px';
-  if(filters) filters.style.top = coreH + 'px';
 }
 updateFeedPadding();
 setTimeout(updateFeedPadding, 100);
