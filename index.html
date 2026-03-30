@@ -448,12 +448,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 /* ── VENUE DETAIL PAGE ── */
 .venue-page{position:fixed;inset:0;background:var(--bg);z-index:3500;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden}
 .venue-page.open{transform:translateX(0)}
-.venue-page-hero{position:relative;flex-shrink:0;height:280px;background:#111;overflow:hidden}
+.venue-page-hero{position:relative;flex-shrink:0;background:#111;overflow:hidden;min-height:220px}
 .venue-page-hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 20px 28px;z-index:2;background:linear-gradient(160deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.7) 100%)}
 .venue-page-hero-type{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.8;margin-bottom:6px;color:#fff}
 .venue-page-hero-name{font-family:'DM Serif Display',serif;font-size:30px;color:#fff;line-height:1.15;margin-bottom:6px}
 .venue-page-hero-hood{font-size:13px;color:rgba(255,255,255,.7)}
-.venue-page-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-color:#111;z-index:0}
+.venue-page-photo{width:100%;display:block;z-index:0;min-height:220px;object-fit:cover}
+.venue-page-photo.has-img{min-height:0}
 .venue-page-topbar{position:fixed;top:0;left:0;right:0;z-index:3600;display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),16px) 16px 16px;transition:background .2s,backdrop-filter .2s;background:transparent}
 .venue-page-topbar.scrolled{background:rgba(15,15,15,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 .venue-page-back{background:none;border:none;color:#fff;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.3);backdrop-filter:blur(4px);transition:background .2s}
@@ -1130,7 +1131,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="venue-page-scroll" id="venue-page-scroll">
     <!-- Hero photo -->
     <div class="venue-page-hero" id="venue-page-hero">
-      <div class="venue-page-photo" id="venue-page-photo"></div>
+      <img class="venue-page-photo" id="venue-page-photo" src="" alt="" style="display:none">
       <div class="venue-page-hero-overlay" id="venue-page-hero-overlay">
         <div class="venue-page-hero-type" id="venue-page-hero-type"></div>
         <div class="venue-page-hero-name" id="venue-page-hero-name"></div>
@@ -2668,22 +2669,41 @@ async function openVenuePage(v){
 
   // Photo: use Pexels curated IDs by venue type (reliable, no API key)
   // Fetch real venue photo via Google Places API
-  photo.style.background = gradient || 'linear-gradient(135deg, #1a1a2e, #16213e)';
+  // Set gradient on hero (photo is now an <img> tag)
+  const hero = document.getElementById('venue-page-hero');
+  if(hero) hero.style.background = gradient || 'linear-gradient(135deg, #1a1a2e, #16213e)';
+  hero.style.height = '220px'; // reset before photo loads
   fetchVenuePhoto(v, photo);
 
   // Generate reviews via Claude AI
   fetchVenueReviews(v, reviewsEl);
 }
 
-// Use photo URL stored directly in venues.json — set by fetch-photos.cjs.
-// Instant, no API calls, no rate limits.
+// Use photo URL stored directly in venues.json.
+// Uses <img> tag with object-fit:contain so the full photo is always visible.
 function fetchVenuePhoto(v, photoEl){
+  const hero = document.getElementById('venue-page-hero');
   if(v.photo){
-    const img = new Image();
-    img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
-    img.src = v.photo;
+    photoEl.style.display = 'block';
+    photoEl.style.background = 'none';
+    photoEl.alt = v.name;
+    photoEl.onload = () => {
+      photoEl.classList.add('has-img');
+      // Size hero to match the natural image ratio, capped at 400px
+      const ratio = photoEl.naturalHeight / photoEl.naturalWidth;
+      const w = photoEl.offsetWidth || window.innerWidth;
+      const h = Math.min(Math.round(w * ratio), 400);
+      hero.style.height = h + 'px';
+    };
+    photoEl.onerror = () => {
+      photoEl.style.display = 'none';
+      hero.style.height = '220px';
+    };
+    photoEl.src = v.photo;
+  } else {
+    photoEl.style.display = 'none';
+    hero.style.height = '220px';
   }
-  // No photo = keep the dark gradient placeholder
 }
 
 function loadGoogleMapsSDK(key){
@@ -2710,7 +2730,7 @@ function closeVenuePage(){
 // Venue page scroll → topbar opacity
 document.getElementById('venue-page-scroll').addEventListener('scroll', function(){
   const topbar = document.getElementById('venue-page-topbar');
-  const heroH = document.getElementById('venue-page-hero')?.offsetHeight || 280;
+  const heroH = document.getElementById('venue-page-hero')?.offsetHeight || 220;
   if(this.scrollTop > heroH - 80){
     topbar.classList.add('scrolled');
   } else {
