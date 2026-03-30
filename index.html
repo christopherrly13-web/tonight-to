@@ -2749,13 +2749,12 @@ let _feedIsScrolling = false;
 const _feedScroll = document.getElementById('feed-scroll');
 
 function updateFeedPadding(){
-  const core = document.querySelector('.list-header-core');
+  const fixed = document.getElementById('list-sticky');
   const scroll = document.getElementById('feed-scroll');
   const spacer = document.getElementById('filter-spacer');
-  if(!core || !scroll) return;
-  const coreH = core.offsetHeight;
-  // Filters are in normal flow now — padding = core header only
-  scroll.style.paddingTop = coreH + 'px';
+  if(!fixed || !scroll) return;
+  // Pad by full fixed header height (core + filters) + small gap
+  scroll.style.paddingTop = (fixed.offsetHeight + 8) + 'px';
   if(spacer) spacer.style.height = '0px';
 }
 updateFeedPadding();
