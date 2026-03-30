@@ -2315,6 +2315,25 @@ function render(){
   const isSearchActive=!!(searchTypes||searchQuery);
   let items=getFiltered();
 
+  // Merge duplicate venues (same address + same times) into one card with combined badges
+  const mergeKey = v => `${v.addr.toLowerCase().trim()}|${v.start}|${v.end}|${v.days.slice().sort().join(',')}`;
+  const cleanName = name => name.replace(/\s*\((food|drink|drinks|hh|happy hour)\)\s*$/i, '').trim();
+  const merged = [];
+  const seen = new Map();
+  items.forEach(v => {
+    const key = mergeKey(v);
+    if(seen.has(key)){
+      seen.get(key).extraTypes = seen.get(key).extraTypes || [];
+      seen.get(key).extraTypes.push(v.type);
+    } else {
+      const clone = Object.assign({}, v, {extraTypes: [], name: cleanName(v.name)});
+      seen.set(key, clone);
+      merged.push(clone);
+    }
+  });
+  items = merged;
+
+
   // Sort: live now first, then chronological by start time
   if(isSearchActive){
     items.sort((a,b)=>{
@@ -2371,7 +2390,7 @@ function render(){
           <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 Ticketmaster</a>`:''}</div>
           <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
         </div>
-        <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
+        <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>${(v.extraTypes||[]).map(t=>`<span class="badge ${TBADGE[t]||'b-hh'}" style="margin-left:4px">${TLABEL[t]||t}</span>`).join('')}
         <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue">${favourites.has(v.name)?'❤️':'🤍'}</button>
       </div>
       <div class="detail">${v.detail}</div>
