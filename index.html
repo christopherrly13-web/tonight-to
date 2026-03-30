@@ -2683,7 +2683,7 @@ async function openVenuePage(v){
     <button class="venue-page-action-btn" data-name="${v.name.replace(/"/g,'&quot;')}" data-addr="${v.addr.replace(/"/g,'&quot;')}" onclick="openHoursModal(this.dataset.name,this.dataset.addr)">
       🕐 Hours
     </button>
-    <a class="venue-page-action-btn" href="${v.reserve || v.website || 'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener">📅 Reserve</a>
+    ${v.source !== 'ticketmaster' ? `<a class="venue-page-action-btn" href="${v.reserve || v.website || 'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener">📅 Reserve</a>` : ''}
     <button class="venue-page-action-btn save-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
       ${favourites.has(v.name)?'❤️ Saved':'🤍 Save'}
     </button>
@@ -2711,13 +2711,25 @@ async function openVenuePage(v){
 // Uses <img> tag with object-fit:contain so the full photo is always visible.
 function fetchVenuePhoto(v, photoEl){
   const hero = document.getElementById('venue-page-hero');
-  if(v.photo){
+
+  // For Ticketmaster events with no photo, try to match the host venue by name
+  let photoUrl = v.photo;
+  if(!photoUrl && v.source === 'ticketmaster' && v.hood){
+    const hostName = v.hood.toLowerCase();
+    const match = ALL.find(known =>
+      known.photo &&
+      known.source !== 'ticketmaster' &&
+      (hostName.includes(known.name.toLowerCase()) || known.name.toLowerCase().includes(hostName))
+    );
+    if(match) photoUrl = match.photo;
+  }
+
+  if(photoUrl){
     photoEl.style.display = 'block';
     photoEl.style.background = 'none';
     photoEl.alt = v.name;
     photoEl.onload = () => {
       photoEl.classList.add('has-img');
-      // Size hero to match the natural image ratio, capped at 400px
       const ratio = photoEl.naturalHeight / photoEl.naturalWidth;
       const w = photoEl.offsetWidth || window.innerWidth;
       const h = Math.min(Math.round(w * ratio), 400);
@@ -2727,7 +2739,7 @@ function fetchVenuePhoto(v, photoEl){
       photoEl.style.display = 'none';
       hero.style.height = '220px';
     };
-    photoEl.src = v.photo;
+    photoEl.src = photoUrl;
   } else {
     photoEl.style.display = 'none';
     hero.style.height = '220px';
