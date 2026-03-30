@@ -2528,10 +2528,8 @@ function updateMapTimeDisplay(){
 
 // Update time displays and check Now — slider value already set inline above
 function initNowAndTime(){
-  const nowChk = document.getElementById('now-chk');
-  const mapNowChk = document.getElementById('map-now-chk');
-  if(nowChk) nowChk.checked = true;
-  if(mapNowChk) mapNowChk.checked = true;
+  // Don't auto-check Now on load — venues haven't loaded yet so it shows nothing.
+  // The slider is already at current time so currently-open venues appear naturally.
   updateTimeDisplay();
   updateMapTimeDisplay();
 }
