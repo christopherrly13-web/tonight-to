@@ -331,7 +331,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
 
 /* MAP VIEW — fully contained, zero scroll */
-#map-view{position:relative;overflow:hidden}
+#map-view{position:relative}
 #map-view.active{
   display:flex;flex-direction:column;
   height:calc(100vh - env(safe-area-inset-bottom));
@@ -343,28 +343,28 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   padding-top:max(env(safe-area-inset-top),14px);
   padding-left:16px;padding-right:16px;padding-bottom:2px;
   flex-shrink:0;background:var(--bg);
-  position:relative;z-index:1002;
+  position:sticky;top:0;z-index:1010;
 }
 .map-header .header-top{margin-bottom:2px}
 
 /* Map search — same as list */
 .map-search-wrap{
-  padding:0 16px 4px;flex-shrink:0;position:relative;z-index:1002;
+  padding:0 16px 4px;flex-shrink:0;position:sticky;top:0;z-index:1010;
   background:var(--bg);
 }
 
 /* Map time row */
-.map-time-wrap{position:relative;z-index:1002;
+.map-time-wrap{position:sticky;top:0;z-index:1010;
   padding:0 16px 4px;flex-shrink:0;background:var(--bg);
 }
 
 .map-filters{padding:0 16px 2px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex-shrink:0;background:var(--bg)}
 .map-filters::-webkit-scrollbar{display:none}
-.map-filters-wrap{position:relative;flex-shrink:0;z-index:1002}
+.map-filters-wrap{position:sticky;top:0;flex-shrink:0;z-index:1010}
 .map-filters-fade{position:absolute;top:0;right:0;bottom:0;width:48px;pointer-events:none;background:linear-gradient(to right,transparent,var(--bg))}
 
 /* Map day pills */
-#map-view .day-pills-wrap{position:relative;z-index:1002;
+#map-view .day-pills-wrap{position:sticky;top:0;z-index:1010;
   padding:0 16px 4px;background:var(--bg);flex-shrink:0;
 }
 #map-view .day-pill{font-size:11px;min-height:30px;padding:3px 0}
@@ -374,7 +374,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 
 /* Sheet always fully in view — compact fixed height */
 .sheet{
-  position:absolute;bottom:0;left:0;right:0;
+  position:fixed;bottom:0;left:0;right:0;
   background:var(--surface);
   border-radius:20px 20px 0 0;
   border-top:1px solid var(--border2);
@@ -1949,7 +1949,8 @@ async function loadVenues(){
   initDayPills();
   initNowAndTime();
   render();
-  setTimeout(updateFeedPadding, 50); // re-measure after content renders
+  setTimeout(updateFeedPadding, 50);
+  setTimeout(updateFeedPadding, 300); // re-measure after content + filters fully render
 }
 const DKEYS=["sun","mon","tue","wed","thu","fri","sat"];
 const DNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -2655,6 +2656,9 @@ async function openVenuePage(v){
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       Directions
     </a>
+    <button class="venue-page-action-btn" onclick="openHoursModal('${v.name.replace(/'/g,'\\'')}','${v.addr.replace(/'/g,'\\'')}')">
+      🕐 Hours
+    </button>
     <button class="venue-page-action-btn save-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
       ${favourites.has(v.name)?'❤️ Saved':'🤍 Save'}
     </button>
@@ -2722,6 +2726,7 @@ function closeVenuePage(){
   const scroll = document.getElementById('venue-page-scroll');
   page.classList.remove('open');
   document.body.style.overflow = '';
+  document.body.style.position = '';
   if(scroll) scroll.scrollTop = 0;
   if(location.hash === '#venue') history.back();
 }
@@ -2750,14 +2755,15 @@ function updateFeedPadding(){
   if(!core || !scroll) return;
   const coreH = core.offsetHeight;
   const filtersH = filters ? filters.scrollHeight : 0;
-  // Padding = core header only, never changes
-  scroll.style.paddingTop = coreH + 'px';
-  // Spacer = filters height, so first card sits below filters — also never changes
-  if(spacer) spacer.style.height = filtersH + 'px';
+  // Padding = core header + filters so first card is never hidden
+  scroll.style.paddingTop = (coreH + filtersH) + 'px';
+  // Spacer no longer needed for spacing — zero it out
+  if(spacer) spacer.style.height = '0px';
   if(filters) filters.style.top = coreH + 'px';
 }
 updateFeedPadding();
-setTimeout(updateFeedPadding, 100); // re-measure after DOM fully renders
+setTimeout(updateFeedPadding, 100);
+setTimeout(updateFeedPadding, 400); // re-measure after fonts/content fully render
 window.addEventListener('resize', updateFeedPadding);
 
 if(_feedScroll){
@@ -2782,7 +2788,23 @@ if(_feedScroll){
 // Close venue page on browser back
 window.addEventListener('popstate', e=>{
   const page = document.getElementById('venue-page');
-  if(page.classList.contains('open')) page.classList.remove('open');
+  if(page.classList.contains('open')){
+    page.classList.remove('open');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    // If we're returning to map, make sure map header is visible
+    if(location.hash === '#map' || currentView === 'map'){
+      const mapHeader = document.querySelector('.map-header');
+      const mapFilters = document.querySelector('.map-filters-wrap');
+      const mapTime = document.querySelector('.map-time-wrap');
+      const mapDays = document.querySelector('#map-view .day-pills-wrap');
+      const mapSearch = document.querySelector('.map-search-wrap');
+      [mapHeader, mapFilters, mapTime, mapDays, mapSearch].forEach(el=>{
+        if(el) el.style.display = '';
+      });
+      setTimeout(()=>{ if(leafletMap) leafletMap.invalidateSize(); }, 100);
+    }
+  }
 });
 
 async function fetchVenueReviews(v, el){
@@ -2806,15 +2828,15 @@ async function fetchVenueReviews(v, el){
                 <span style="color:var(--accent);font-size:16px">${'★'.repeat(Math.round(place.rating))}${'☆'.repeat(5-Math.round(place.rating))}</span>
                 <strong style="color:var(--text)">${place.rating}</strong> · ${place.user_ratings_total?.toLocaleString()} Google reviews
               </div>` : ''}
-              ${reviews.map(r=>`
+              ${reviews.map((r,ri)=>`
               <div class="venue-page-review">
                 <div class="venue-page-review-author">
                   ${r.author_name}
                   <span class="venue-page-review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
                   <span style="font-size:11px;color:var(--muted);font-weight:400;margin-left:auto">${r.relative_time_description}</span>
                 </div>
-                <div class="venue-page-review-text" id="review-${i}-${r.author_name.replace(/\s/g,'')}">${r.text}</div>
-                ${r.text.length>120?`<button class="venue-page-review-expand" onclick="toggleReview('review-${i}-${r.author_name.replace(/\s/g,'')}',this)">Show more</button>`:''}
+                <div class="venue-page-review-text" id="review-g-${ri}">${r.text}</div>
+                ${r.text.length>120?`<button class="venue-page-review-expand" onclick="toggleReview('review-g-${ri}',this)">Show more</button>`:''}
               </div>`).join('')}`;
           } else {
             renderFallbackReviews(v, el);
@@ -3268,7 +3290,7 @@ function updateThemeToggleUI(isLight){
 // Apply saved theme on load
 (function initTheme(){
   const saved = localStorage.getItem('tonightto-theme');
-  if(saved === 'light'){
+  if(saved !== 'dark'){
     document.body.classList.add('light-mode');
     updateThemeToggleUI(true);
   }
