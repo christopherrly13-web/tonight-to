@@ -118,6 +118,55 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root{--bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.12);--text:#f0ede8;--muted:#888;--muted2:#aaa;--accent:#e8c547;--accent-dim:rgba(232,197,71,0.12);--green:#4caf7d;--radius:14px;--radius-sm:8px}
+
+/* ── LIGHT MODE ── */
+body.light-mode{
+  --bg:#ffffff;
+  --surface:#f5f5f0;
+  --surface2:#ebebe5;
+  --border:rgba(0,0,0,0.09);
+  --border2:rgba(0,0,0,0.13);
+  --text:#111111;
+  --muted:#666666;
+  --muted2:#444444;
+  --accent:#c8a010;
+  --accent-dim:rgba(200,160,16,0.12);
+  --green:#2e8a55;
+}
+body.light-mode .bnav{background:rgba(255,255,255,.97);border-top:1px solid rgba(0,0,0,.1)}
+body.light-mode .hamburger-menu{background:#ffffff;box-shadow:0 8px 32px rgba(0,0,0,.12)}
+body.light-mode .hamburger-item:hover{background:rgba(0,0,0,.05)}
+body.light-mode .hamburger-btn span{background:var(--text)}
+body.light-mode .list-header-fixed,
+body.light-mode .list-header-core,
+body.light-mode .filters-collapsible,
+body.light-mode .map-header,
+body.light-mode .map-search-wrap,
+body.light-mode .map-filters-wrap,
+body.light-mode .map-time-wrap,
+body.light-mode .map-filters,
+body.light-mode #map-view .day-pills-wrap{background:var(--bg)}
+body.light-mode .search-box{background:#efefea}
+body.light-mode .card{background:var(--surface);border-color:rgba(0,0,0,.08)}
+body.light-mode .card.live-card{border-color:rgba(46,138,85,.3)}
+body.light-mode .auth-modal{background:#ffffff}
+body.light-mode .auth-input{background:#f5f5f0;color:var(--text)}
+body.light-mode .hamburger-menu{background:#fff}
+body.light-mode .leaflet-container{background:#e8e8e0!important}
+body.light-mode .sheet{background:var(--surface)}
+body.light-mode .nb-plus-icon{box-shadow:0 4px 16px rgba(200,160,16,.3)}
+body.light-mode .tonight-badge{background:rgba(200,160,16,.1);color:var(--accent);border-color:rgba(200,160,16,.25)}
+body.light-mode .logo span,body.light-mode .logo-sm span{color:var(--accent)}
+body.light-mode .desktop-nav{background:rgba(255,255,255,.98)}
+body.light-mode #venue-overlay{background:rgba(0,0,0,.4)}
+body.light-mode #venue-sheet{background:var(--surface)}
+body.light-mode .full-search-overlay{background:var(--bg)}
+body.light-mode .profile-panel{background:#ffffff}
+body.light-mode .auth-overlay{background:rgba(0,0,0,.5)}
+body.light-mode .venue-page{background:var(--bg)}
+body.light-mode .venue-page-hours{background:var(--surface)}
+body.light-mode .venue-page-review{background:var(--surface)}
+body.light-mode #search-suggestions{background:var(--surface)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;overscroll-behavior:none}
 
@@ -1148,6 +1197,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </span>
     <span id="menu-auth-label">Sign In / Sign Up</span>
+  </div>
+  <div class="hamburger-divider"></div>
+  <div class="hamburger-item" onclick="closeMenu();toggleTheme()" id="theme-toggle-item">
+    <span class="hamburger-item-icon" id="theme-toggle-icon">☀️</span>
+    <span id="theme-toggle-label">Light Mode</span>
   </div>
 </div>
 
@@ -3142,6 +3196,29 @@ if("serviceWorker"in navigator){navigator.serviceWorker.register("sw.js").catch(
 (function syncTimeDisplays(){
   updateTimeDisplay();
   if(typeof updateMapTimeDisplay==="function") updateMapTimeDisplay();
+})();
+
+// ── THEME TOGGLE ─────────────────────────────────────────────────────────────
+function toggleTheme(){
+  const isLight = document.body.classList.toggle('light-mode');
+  localStorage.setItem('tonightto-theme', isLight ? 'light' : 'dark');
+  updateThemeToggleUI(isLight);
+}
+
+function updateThemeToggleUI(isLight){
+  const icon = document.getElementById('theme-toggle-icon');
+  const label = document.getElementById('theme-toggle-label');
+  if(icon) icon.textContent = isLight ? '🌙' : '☀️';
+  if(label) label.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+}
+
+// Apply saved theme on load
+(function initTheme(){
+  const saved = localStorage.getItem('tonightto-theme');
+  if(saved === 'light'){
+    document.body.classList.add('light-mode');
+    updateThemeToggleUI(true);
+  }
 })();
 
 // Load venue data from venues.json then render
