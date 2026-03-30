@@ -2588,37 +2588,15 @@ async function openVenuePage(v){
   fetchVenueReviews(v, reviewsEl);
 }
 
-const _photoCache = {};
-
-// Fetch the venue's og:image from their own website via Microlink API (free, no key needed).
-// This pulls the exact photo the venue chose to represent themselves —
-// always their best, most curated image. Falls back to gradient if unavailable.
-async function fetchVenuePhoto(v, photoEl){
-  const cacheKey = v.name + v.addr;
-  if(cacheKey in _photoCache){
-    if(_photoCache[cacheKey]) photoEl.style.backgroundImage = `url('${_photoCache[cacheKey]}')`;
-    return;
+// Use photo URL stored directly in venues.json — set by fetch-photos.cjs.
+// Instant, no API calls, no rate limits.
+function fetchVenuePhoto(v, photoEl){
+  if(v.photo){
+    const img = new Image();
+    img.onload = () => { photoEl.style.backgroundImage = `url('${img.src}')`; };
+    img.src = v.photo;
   }
-  _photoCache[cacheKey] = null; // mark in-progress
-
-  if(!v.website) return; // no website = keep gradient
-
-  try {
-    const res = await fetch(
-      `https://api.microlink.io/?url=${encodeURIComponent(v.website)}&meta=true`
-    );
-    if(!res.ok) return;
-    const data = await res.json();
-    const imgUrl = data?.data?.image?.url;
-    if(imgUrl){
-      _photoCache[cacheKey] = imgUrl;
-      const preload = new Image();
-      preload.onload = () => { photoEl.style.backgroundImage = `url('${imgUrl}')`; };
-      preload.src = imgUrl;
-    }
-  } catch(e) {
-    // Silently keep gradient on any error
-  }
+  // No photo = keep the dark gradient placeholder
 }
 
 function loadGoogleMapsSDK(key){
