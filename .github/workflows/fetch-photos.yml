@@ -18,5 +18,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Test Places API
-        run: node test-places.cjs
+      - name: Run photo fetcher
+        run: node fetch-photos-v3.cjs
+
+      - name: Commit updated venues.json
+        run: |
+          git config user.name "Tonight.TO Bot"
+          git config user.email "bot@tonightto.ca"
+          git add venues.json
+          git diff --staged --quiet || git commit -m "Add venue photos from Google Maps $(date +'%Y-%m-%d')"
+          git push
