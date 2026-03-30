@@ -1939,7 +1939,7 @@ async function loadVenues(){
   const newTmVenues = tmVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
 
   ALL = [...venues, ...newTmVenues];
-  const newEbVenues = ebVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
+
   if(ALL.length === 0){
     ALL = [...(typeof FALLBACK_VENUES !== 'undefined' ? FALLBACK_VENUES : [])];
   }
