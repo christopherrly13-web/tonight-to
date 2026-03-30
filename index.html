@@ -1385,6 +1385,8 @@ function updateProfileBtn(){
 }
 
 function goToFeed(){
+  const vp = document.getElementById('venue-page');
+  if(vp && vp.classList.contains('open')) closeVenuePage();
   activeTypes = new Set(['all']);
   document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
   document.querySelector('#type-pills [data-t="all"]')?.classList.add('active');
@@ -1393,6 +1395,8 @@ function goToFeed(){
 }
 // Nav: My List
 function handleNavLists(){
+  const vp = document.getElementById('venue-page');
+  if(vp && vp.classList.contains('open')) closeVenuePage();
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
   document.getElementById('nb-lists').classList.add('active');
   if(!currentUser){ openAuth(); return; }
@@ -2085,6 +2089,8 @@ function placeUserLocationMarker(){
 }
 
 function showView(v, el){
+  const vp = document.getElementById('venue-page');
+  if(vp && vp.classList.contains('open')) closeVenuePage();
   document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
   document.querySelectorAll(".nb").forEach(x=>x.classList.remove("active"));
   if(el) el.classList.add("active");
@@ -2660,7 +2666,7 @@ async function openVenuePage(v){
     <button class="venue-page-action-btn" data-name="${v.name.replace(/"/g,'&quot;')}" data-addr="${v.addr.replace(/"/g,'&quot;')}" onclick="openHoursModal(this.dataset.name,this.dataset.addr)">
       🕐 Hours
     </button>
-    ${v.website ? `<a class="venue-page-action-btn" href="${v.website}" target="_blank" rel="noopener">📅 Reserve</a>` : `<a class="venue-page-action-btn" href="https://www.opentable.com/s?term=${encodeURIComponent(v.name)}&dateTime=${new Date().toISOString().split('T')[0]}T19:00:00&covers=2&metroId=81" target="_blank" rel="noopener">📅 Reserve</a>`}
+    <a class="venue-page-action-btn" href="${v.reserve || v.website || 'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener">📅 Reserve</a>
     <button class="venue-page-action-btn save-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
       ${favourites.has(v.name)?'❤️ Saved':'🤍 Save'}
     </button>
