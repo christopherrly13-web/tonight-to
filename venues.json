@@ -2001,7 +2001,8 @@
       "addr": "3030 Dundas St W",
       "lat": 43.665714,
       "lng": -79.470134,
-      "website": "https://the3030.ca"
+      "website": "https://the3030.ca",
+      "photo": "https://www.eventsource.ca/listings/3030DundasWest/gallery/3030-dundas-west-toronto-001-full_size.jpg"
     },
     {
       "name": "Kramer's Bar & Grill",
@@ -2047,7 +2048,8 @@
       "addr": "686 College St",
       "lat": 43.655361,
       "lng": -79.417542,
-      "website": "https://meltdownto.com"
+      "website": "https://meltdownto.com",
+      "photo": "https://assets.untappd.com/photos/2019_06_05/2cf2397e1ff4307fd1e600e31bc861f0_raw.jpg"
     },
     {
       "name": "The Communist's Daughter",
@@ -2326,7 +2328,8 @@
       "addr": "255 Bremner Blvd",
       "lat": 43.640647,
       "lng": -79.385956,
-      "website": "https://therecroom.com"
+      "website": "https://therecroom.com",
+      "photo": "https://assets.untappd.com/photos/2025_04_19/bb989709d13659af20215dded3a274fa_c_1472363350_raw.jpg"
     },
     {
       "name": "Penny's Bar",
