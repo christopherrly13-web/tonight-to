@@ -470,12 +470,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .venue-page-action-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 16px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;font-family:'DM Sans',sans-serif;transition:background .15s}
 .venue-page-action-btn:hover{background:var(--surface2)}
 .venue-page-action-btn.primary{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+.hours-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:5000;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.hours-modal{background:var(--surface);border-radius:20px 20px 0 0;border-top:1px solid var(--border2);width:100%;max-width:540px;padding:24px 20px calc(max(env(safe-area-inset-bottom),20px) + 16px)}
+.hours-modal-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.hours-modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1;padding:0}
+.hours-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px}
+.hours-row:last-child{border-bottom:none}
+.hours-row.today{color:var(--accent);font-weight:600}
+.hours-loading{color:var(--muted);font-size:14px;text-align:center;padding:20px 0}
 .venue-page-section-title{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .venue-page-reviews{display:flex;flex-direction:column;gap:12px}
 .venue-page-review{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px}
 .venue-page-review-author{font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .venue-page-review-stars{color:var(--accent);font-size:12px}
-.venue-page-review-text{font-size:13px;color:var(--muted);line-height:1.55}
+.venue-page-review-text{font-size:13px;color:var(--muted);line-height:1.55;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
+.venue-page-review-text.expanded{display:block;-webkit-line-clamp:unset}
+.venue-page-review-expand{font-size:12px;color:var(--accent);cursor:pointer;margin-top:4px;display:inline-block;background:none;border:none;padding:0;font-family:'DM Sans',sans-serif}
 .venue-page-review-loading{color:var(--muted);font-size:14px;text-align:center;padding:24px 0}
 
 .full-search-overlay{position:fixed;inset:0;background:var(--bg);z-index:4000;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
@@ -1141,8 +1151,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <!-- Content -->
     <div class="venue-page-content" id="venue-page-content">
-      <div class="venue-page-name" id="venue-page-name"></div>
-      <div class="venue-page-meta" id="venue-page-meta"></div>
       <div class="venue-page-hours" id="venue-page-hours"></div>
       <div class="venue-page-detail" id="venue-page-detail"></div>
       <div class="venue-page-actions" id="venue-page-actions"></div>
@@ -2601,8 +2609,6 @@ function renderMap(){
 async function openVenuePage(v){
   const page = document.getElementById('venue-page');
   const photo = document.getElementById('venue-page-photo');
-  const nameEl = document.getElementById('venue-page-name');
-  const metaEl = document.getElementById('venue-page-meta');
   const hoursEl = document.getElementById('venue-page-hours');
   const detailEl = document.getElementById('venue-page-detail');
   const actionsEl = document.getElementById('venue-page-actions');
@@ -2635,12 +2641,7 @@ async function openVenuePage(v){
   };
   const gradient = TYPE_GRADIENTS[v.type] || 'linear-gradient(135deg,#1a1a2e,#16213e)';
 
-  nameEl.textContent = v.name;
-  metaEl.innerHTML = `
-    <span class="badge ${TBADGE[v.type]||'b-hh'}">${TLABEL[v.type]||v.type}</span>
-    <span>📍 ${v.hood}</span>
-    <span style="color:var(--border)">·</span>
-    <span>${v.addr}</span>`;
+
   hoursEl.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
       <span style="font-weight:600">Hours</span>
@@ -2812,7 +2813,8 @@ async function fetchVenueReviews(v, el){
                   <span class="venue-page-review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span>
                   <span style="font-size:11px;color:var(--muted);font-weight:400;margin-left:auto">${r.relative_time_description}</span>
                 </div>
-                <div class="venue-page-review-text">${r.text.slice(0,200)}${r.text.length>200?'…':''}</div>
+                <div class="venue-page-review-text" id="review-${i}-${r.author_name.replace(/\s/g,'')}">${r.text}</div>
+                ${r.text.length>120?`<button class="venue-page-review-expand" onclick="toggleReview('review-${i}-${r.author_name.replace(/\s/g,'')}',this)">Show more</button>`:''}
               </div>`).join('')}`;
           } else {
             renderFallbackReviews(v, el);
@@ -2860,11 +2862,16 @@ function renderFallbackReviews(v, el){
         ${namePool[i][0]}
         <span class="venue-page-review-stars">${namePool[i][1]}</span>
       </div>
-      <div class="venue-page-review-text">${text}</div>
+      <div class="venue-page-review-text" id="review-fallback-${i}">${text}</div>
+      ${text.length>120?`<button class="venue-page-review-expand" onclick="toggleReview('review-fallback-${i}',this)">Show more</button>`:''}
     </div>`).join('');
 }
 
+// Store current sheet venue so the "View details" button can reference it
+let _sheetVenue = null;
+
 function openSheet(v){
+  _sheetVenue = v;
   const live=isNow(v);
   const gmapsQuery=encodeURIComponent(v.name+", "+v.addr+", Toronto, ON");
   const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
@@ -2879,10 +2886,15 @@ function openSheet(v){
       <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now · "+fmt(v.start)+"–"+fmt(v.end):fmt(v.start)+"–"+fmt(v.end)}</span></div>
       <span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>
     </div>
-    <a class="gmaps-btn" href="${gmapsUrl}" target="_blank" rel="noopener">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-      View on Google Maps
-    </a>`;
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button onclick="closeSheet();openVenuePage(_sheetVenue)" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--accent);color:#0f0f0f;border:none;border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer">
+        View Details
+      </button>
+      <a class="gmaps-btn" href="${gmapsUrl}" target="_blank" rel="noopener" style="flex:1;margin-top:0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        Google Maps
+      </a>
+    </div>`;
   document.getElementById("sheet").classList.add("open");
 }
 
@@ -3261,6 +3273,81 @@ function updateThemeToggleUI(isLight){
     updateThemeToggleUI(true);
   }
 })();
+
+// ── HOURS MODAL ──────────────────────────────────────────────────────────────
+const DAY_NAMES_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+async function openHoursModal(name, addr){
+  // Create and show modal immediately with loading state
+  const existing = document.getElementById('hours-modal-overlay');
+  if(existing) existing.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'hours-modal-overlay';
+  overlay.className = 'hours-modal-overlay';
+  overlay.innerHTML = `
+    <div class="hours-modal">
+      <div class="hours-modal-title">
+        <span>Hours of Operation</span>
+        <button class="hours-modal-close" onclick="closeHoursModal()">✕</button>
+      </div>
+      <div id="hours-modal-body"><div class="hours-loading">Loading hours…</div></div>
+    </div>`;
+  overlay.addEventListener('click', e => { if(e.target === overlay) closeHoursModal(); });
+  document.body.appendChild(overlay);
+
+  try {
+    if(!window.google) await loadGoogleMapsSDK('AIzaSyAo5sRSN0Qp7WR3mquuIkzaL51USat-cp8');
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+
+    service.findPlaceFromQuery({
+      query: `${name}, ${addr}, Toronto`,
+      fields: ['place_id']
+    }, (results, status) => {
+      if(status !== google.maps.places.PlacesServiceStatus.OK || !results[0]?.place_id){
+        document.getElementById('hours-modal-body').innerHTML = '<div class="hours-loading">Hours not available</div>';
+        return;
+      }
+      service.getDetails({
+        placeId: results[0].place_id,
+        fields: ['opening_hours']
+      }, (place, s2) => {
+        const body = document.getElementById('hours-modal-body');
+        if(!body) return;
+        const todayIdx = new Date().getDay();
+        if(s2 === google.maps.places.PlacesServiceStatus.OK && place.opening_hours?.weekday_text?.length){
+          // weekday_text starts Monday (index 0 = Monday in Google's format)
+          // Reorder to start from today
+          const days = place.opening_hours.weekday_text; // Mon–Sun (0–6)
+          // Google: 0=Mon,1=Tue,...,6=Sun. JS: 0=Sun,1=Mon,...,6=Sat
+          const googleTodayIdx = todayIdx === 0 ? 6 : todayIdx - 1;
+          body.innerHTML = days.map((d, i) => `
+            <div class="hours-row ${i === googleTodayIdx ? 'today' : ''}">
+              <span>${d.split(':')[0]}</span>
+              <span>${d.split(/:\s(.+)/)[1] || 'Closed'}</span>
+            </div>`).join('');
+        } else {
+          body.innerHTML = '<div class="hours-loading">Hours not available</div>';
+        }
+      });
+    });
+  } catch(e) {
+    const body = document.getElementById('hours-modal-body');
+    if(body) body.innerHTML = '<div class="hours-loading">Could not load hours</div>';
+  }
+}
+
+function closeHoursModal(){
+  const overlay = document.getElementById('hours-modal-overlay');
+  if(overlay) overlay.remove();
+}
+
+function toggleReview(id, btn){
+  const el = document.getElementById(id);
+  if(!el) return;
+  const expanded = el.classList.toggle('expanded');
+  btn.textContent = expanded ? 'Show less' : 'Show more';
+}
 
 // Load venue data from venues.json then render
 loadVenues();
