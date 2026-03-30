@@ -2660,6 +2660,7 @@ async function openVenuePage(v){
     <button class="venue-page-action-btn" data-name="${v.name.replace(/"/g,'&quot;')}" data-addr="${v.addr.replace(/"/g,'&quot;')}" onclick="openHoursModal(this.dataset.name,this.dataset.addr)">
       🕐 Hours
     </button>
+    ${v.website ? `<a class="venue-page-action-btn" href="${v.website}" target="_blank" rel="noopener">📅 Reserve</a>` : `<a class="venue-page-action-btn" href="https://www.opentable.com/s?term=${encodeURIComponent(v.name)}&dateTime=${new Date().toISOString().split('T')[0]}T19:00:00&covers=2&metroId=81" target="_blank" rel="noopener">📅 Reserve</a>`}
     <button class="venue-page-action-btn save-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
       ${favourites.has(v.name)?'❤️ Saved':'🤍 Save'}
     </button>
