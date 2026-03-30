@@ -20,7 +20,8 @@
       "addr": "505 College St",
       "lat": 43.655877,
       "lng": -79.409924,
-      "website": "https://www.thisisbarraval.com"
+      "website": "https://www.thisisbarraval.com",
+      "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerWpzjJxRV9_SIC9Qx47_ny2Mff2wKY8SKUilDVYYTC9sBMo50g0DxC87oxjzqPGQxNJqsrbvdFU-yDxQ_ld2o8IRy8DrJFccf_7OCrWg8rJ4OBeAwl6xaOxHveDJeLksBxjp9vMfwrWG4=s680-w680-h510-rw"
     },
     {
       "name": "BarChef",
@@ -39,6 +40,7 @@
       "lat": 43.648075,
       "lng": -79.400118,
       "website": "https://barcheftoronto.com"
+      "photo": "https://lh3.googleusercontent.com/p/AF1QipOQ3IVtBDO-yseY8ldWtmSLrWrWniQkDF02Y8Lz=s680-w680-h510-rw"
     },
     {
       "name": "Canoe",
