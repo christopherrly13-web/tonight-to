@@ -3081,37 +3081,57 @@ function onSearch(){
 function syncDaysAndTime(venues, updateTypes=false){
   if(!venues||venues.length===0) return;
 
-  // Find next upcoming event — prefer today, then soonest day
-  const today = todayKey;
-  const todayVenues = venues.filter(v=>v.days.includes(today));
-  const targetVenues = todayVenues.length ? todayVenues : venues;
+  const nowChk = document.getElementById("now-chk");
+  const slider = document.getElementById("time-slider");
 
-  // Set day pills to the next available day for this venue
-  const nextDays = new Set();
-  if(todayVenues.length){
-    nextDays.add(today);
+  // Check if any venue is happening right now
+  const liveNow = venues.find(v=>isNow(v));
+
+  if(liveNow){
+    // Happening now — check Now, set day to today, slide to current time
+    selectedDays = new Set([todayKey]);
+    if(nowChk){ nowChk.checked = true; }
+    const currentTime = Math.round((new Date().getHours() + new Date().getMinutes()/60)*2)/2;
+    if(slider){ slider.value = currentTime; updateTimeDisplay(); }
   } else {
-    // Find the soonest upcoming day
-    let minDays = 8;
-    venues.forEach(v=>{
-      const d = daysUntilNext(v);
-      if(d < minDays){ minDays = d; }
-    });
-    venues.forEach(v=>{
-      if(daysUntilNext(v) === minDays) v.days.forEach(d=>nextDays.add(d));
-    });
+    // Not happening now — find next future occurrence
+    if(nowChk){ nowChk.checked = false; }
+
+    const todayVenues = venues.filter(v=>v.days.includes(todayKey));
+    // Check if it happens later today (started in future)
+    const laterToday = todayVenues.filter(v=>curHour < v.start);
+
+    if(laterToday.length){
+      // Happens later today — set to today, slide to start time
+      selectedDays = new Set([todayKey]);
+      const earliest = Math.min(...laterToday.map(v=>v.start));
+      if(slider){ slider.value = earliest; updateTimeDisplay(); }
+    } else {
+      // Not today — find soonest upcoming day
+      let minDays = 8;
+      venues.forEach(v=>{
+        const d = daysUntilNext(v);
+        if(d < minDays){ minDays = d; }
+      });
+      const nextDays = new Set();
+      venues.forEach(v=>{
+        if(daysUntilNext(v) === minDays) v.days.forEach(d=>nextDays.add(d));
+      });
+      selectedDays = nextDays.size ? nextDays : new Set(venues.flatMap(v=>v.days));
+
+      // Slide to earliest start on that next day
+      const nextDayVenues = venues.filter(v=>v.days.some(d=>nextDays.has(d)));
+      const earliest = Math.min(...nextDayVenues.map(v=>v.start||0));
+      if(earliest > 0 && earliest <= 24){
+        if(slider){ slider.value = earliest; updateTimeDisplay(); }
+      }
+    }
   }
-  selectedDays = nextDays.size ? nextDays : new Set(venues.flatMap(v=>v.days));
+
+  // Update day pill UI
   document.querySelectorAll("#day-pills .day-pill").forEach(p=>{
     p.classList.toggle("active", selectedDays.has(p.dataset.d));
   });
-
-  // Set time slider to earliest start among target venues
-  const earliest = Math.min(...targetVenues.map(v=>v.start||0));
-  if(earliest > 0 && earliest <= 24){
-    const slider = document.getElementById("time-slider");
-    if(slider){ slider.value = earliest; updateTimeDisplay(); }
-  }
 
   // Auto-select relevant type pills
   if(updateTypes){
