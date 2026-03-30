@@ -396,9 +396,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 /* ── VENUE DETAIL PAGE ── */
 .venue-page{position:fixed;inset:0;background:var(--bg);z-index:3500;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);overflow:hidden}
 .venue-page.open{transform:translateX(0)}
-.venue-page-hero{position:relative;flex-shrink:0;height:320px;background:#111}
-.venue-page-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-color:#1a1a1a}
-.venue-page-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 50%,transparent 100%)}
+.venue-page-hero{position:relative;flex-shrink:0;height:280px;background:#111;overflow:hidden}
+.venue-page-hero-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 20px 28px;z-index:2;background:linear-gradient(160deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.7) 100%)}
+.venue-page-hero-type{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.8;margin-bottom:6px;color:#fff}
+.venue-page-hero-name{font-family:'DM Serif Display',serif;font-size:30px;color:#fff;line-height:1.15;margin-bottom:6px}
+.venue-page-hero-hood{font-size:13px;color:rgba(255,255,255,.7)}
+.venue-page-photo{position:absolute;inset:0;background-size:cover;background-position:center;background-color:#111;z-index:0}
 .venue-page-topbar{position:fixed;top:0;left:0;right:0;z-index:3600;display:flex;align-items:center;justify-content:space-between;padding:max(env(safe-area-inset-top),16px) 16px 16px;transition:background .2s,backdrop-filter .2s;background:transparent}
 .venue-page-topbar.scrolled{background:rgba(15,15,15,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 .venue-page-back{background:none;border:none;color:#fff;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.3);backdrop-filter:blur(4px);transition:background .2s}
@@ -1076,6 +1079,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Hero photo -->
     <div class="venue-page-hero" id="venue-page-hero">
       <div class="venue-page-photo" id="venue-page-photo"></div>
+      <div class="venue-page-hero-overlay" id="venue-page-hero-overlay">
+        <div class="venue-page-hero-type" id="venue-page-hero-type"></div>
+        <div class="venue-page-hero-name" id="venue-page-hero-name"></div>
+        <div class="venue-page-hero-hood" id="venue-page-hero-hood"></div>
+      </div>
     </div>
 
     <!-- Content -->
@@ -2549,6 +2557,28 @@ async function openVenuePage(v){
   const gmapsQuery = encodeURIComponent(v.name + ', ' + v.addr + ', Toronto, ON');
   const gmapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + gmapsQuery;
 
+  // Populate hero overlay
+  document.getElementById('venue-page-hero-type').textContent = TLABEL[v.type] || v.type;
+  document.getElementById('venue-page-hero-name').textContent = v.name;
+  document.getElementById('venue-page-hero-hood').textContent = '📍 ' + v.hood + ' · ' + v.addr;
+
+  // Type-specific gradient backgrounds
+  const TYPE_GRADIENTS = {
+    drinkhh:   'linear-gradient(135deg,#1a0a2e,#2d1b4e)',
+    foodhh:    'linear-gradient(135deg,#1a1200,#3d2a00)',
+    happyhour: 'linear-gradient(135deg,#1a0a2e,#2d1b4e)',
+    trivia:    'linear-gradient(135deg,#0a1a2e,#0d2d4e)',
+    karaoke:   'linear-gradient(135deg,#2e0a1a,#4e1a35)',
+    livemusic: 'linear-gradient(135deg,#0a2e1a,#1a4e2d)',
+    jazz:      'linear-gradient(135deg,#1a0800,#3d1800)',
+    comedy:    'linear-gradient(135deg,#2e1a00,#4e2d00)',
+    drag:      'linear-gradient(135deg,#2e0a2e,#4e1a4e)',
+    dj:        'linear-gradient(135deg,#0a002e,#1a004e)',
+    bingo:     'linear-gradient(135deg,#002e2e,#004e4e)',
+    openmic:   'linear-gradient(135deg,#002e0a,#004e1a)',
+  };
+  const gradient = TYPE_GRADIENTS[v.type] || 'linear-gradient(135deg,#1a1a2e,#16213e)';
+
   nameEl.textContent = v.name;
   metaEl.innerHTML = `
     <span class="badge ${TBADGE[v.type]||'b-hh'}">${TLABEL[v.type]||v.type}</span>
@@ -2581,7 +2611,7 @@ async function openVenuePage(v){
 
   // Photo: use Pexels curated IDs by venue type (reliable, no API key)
   // Fetch real venue photo via Google Places API
-  photo.style.background = 'linear-gradient(135deg, #1a1a2e, #16213e)';
+  photo.style.background = gradient || 'linear-gradient(135deg, #1a1a2e, #16213e)';
   fetchVenuePhoto(v, photo);
 
   // Generate reviews via Claude AI
