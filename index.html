@@ -161,6 +161,10 @@ body.light-mode .venue-page-topbar .logo-sm{color:#ffffff}
 body.light-mode .venue-page-topbar .logo-sm span{color:#ffffff}
 body.light-mode .venue-page-topbar .hamburger-btn span{background:#ffffff}
 body.light-mode .desktop-nav{background:rgba(255,255,255,.98)}
+body.light-mode .desktop-sidebar{background:var(--bg);border-color:var(--border)}
+body.light-mode .desktop-topbar{background:var(--bg);border-color:var(--border)}
+body.light-mode .desktop-nav-item:hover{background:var(--surface)}
+body.light-mode .desktop-sidebar-today{background:var(--accent-dim)}
 body.light-mode #venue-overlay{background:rgba(0,0,0,.4)}
 body.light-mode #venue-sheet{background:var(--surface)}
 body.light-mode .full-search-overlay{background:var(--bg)}
@@ -607,104 +611,306 @@ html,body{overscroll-behavior:none}
 
 /* ── DESKTOP: 1024px+ ──────────────────────────────────── */
 @media (min-width:1024px){
-  html,body{height:100%;overflow:hidden;background:#0a0a0a}
+  html,body{height:100%;overflow:hidden;background:var(--bg)}
 
-  /* ── BOTTOM NAV on desktop ── */
-  .bnav{max-width:100%;border-radius:0}
+  /* Hide mobile bottom nav */
+  .bnav{display:none!important}
 
-  /* ── LIST VIEW ── */
-  #list-view{
-    height:calc(100vh - 70px);
-    max-width:100%;
+  /* Show desktop sidebar nav */
+  .desktop-sidebar{display:flex!important}
+
+  /* ── APP SHELL: sidebar + content ── */
+  #app-shell{
+    display:flex;
+    height:100vh;
+    width:100%;
+    overflow:hidden;
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  .desktop-sidebar{
+    width:260px;
+    flex-shrink:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:var(--bg);
+    border-right:1px solid var(--border);
+    padding:32px 0 24px;
+    position:fixed;
+    left:0;top:0;bottom:0;
+    z-index:500;
+    overflow-y:auto;
+  }
+  .desktop-sidebar-logo{
+    font-family:'DM Serif Display',serif;
+    font-size:26px;
+    color:var(--text);
+    padding:0 24px 32px;
+    line-height:1;
+    border-bottom:1px solid var(--border);
+    margin-bottom:16px;
+  }
+  .desktop-sidebar-logo span{color:var(--accent)}
+  .desktop-sidebar-logo small{
+    display:block;
+    font-family:'DM Sans',sans-serif;
+    font-size:11px;
+    color:var(--muted);
+    font-weight:500;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin-top:4px;
+  }
+  .desktop-nav-section{
+    padding:0 12px;
+    margin-bottom:8px;
+  }
+  .desktop-nav-label{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--muted);
+    padding:0 12px;
+    margin-bottom:6px;
+    margin-top:16px;
+    display:block;
+  }
+  .desktop-nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:500;
+    color:var(--muted);
+    transition:all .15s;
+    border:none;
+    background:none;
+    width:100%;
+    text-align:left;
+    font-family:'DM Sans',sans-serif;
+    margin-bottom:2px;
+  }
+  .desktop-nav-item:hover{background:var(--surface);color:var(--text)}
+  .desktop-nav-item.active{background:var(--accent-dim);color:var(--accent)}
+  .desktop-nav-item.active svg{stroke:var(--accent)}
+  .desktop-nav-item svg{flex-shrink:0;opacity:.7}
+  .desktop-nav-item.active svg{opacity:1}
+  .desktop-sidebar-bottom{
+    margin-top:auto;
+    padding:16px 12px 0;
+    border-top:1px solid var(--border);
+  }
+  .desktop-sidebar-today{
+    padding:12px;
+    background:var(--accent-dim);
+    border-radius:10px;
+    margin:0 12px 16px;
+    border:1px solid rgba(232,197,71,.2);
+  }
+  .desktop-sidebar-today-label{
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:2px;
+  }
+  .desktop-sidebar-today-day{
+    font-family:'DM Serif Display',serif;
+    font-size:18px;
+    color:var(--text);
+  }
+
+  /* ── MAIN CONTENT AREA ── */
+  #app-content{
+    margin-left:260px;
+    flex:1;
+    height:100vh;
     overflow:hidden;
     display:flex;
     flex-direction:column;
   }
 
-  /* Fixed header max-width centered on desktop */
-  .list-header-fixed{
-    max-width:800px;
-    left:50%;
-    transform:translateX(-50%);
+  /* ── TOP BAR ── */
+  .desktop-topbar{
+    display:flex!important;
+    align-items:center;
+    gap:16px;
+    padding:16px 32px;
+    border-bottom:1px solid var(--border);
+    background:var(--bg);
+    flex-shrink:0;
+    position:sticky;
+    top:0;
+    z-index:200;
   }
+  .desktop-topbar-title{
+    font-family:'DM Serif Display',serif;
+    font-size:22px;
+    color:var(--text);
+    flex-shrink:0;
+  }
+  .desktop-topbar .search-wrap{
+    flex:1;
+    max-width:480px;
+    padding:0;
+  }
+  .desktop-topbar-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-left:auto;
+  }
+  .desktop-topbar-btn{
+    padding:8px 16px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--text);
+    font-size:13px;
+    font-weight:500;
+    cursor:pointer;
+    font-family:'DM Sans',sans-serif;
+    transition:all .15s;
+  }
+  .desktop-topbar-btn:hover{background:var(--surface2)}
+  .desktop-topbar-btn.primary{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
 
-  /* Feed scroll centered, limited width */
-  .feed-scroll{
-    max-width:800px;
-    margin:0 auto;
-    width:100%;
+  /* ── FILTER SIDEBAR (right of nav, left of cards) ── */
+  .desktop-filters-bar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 32px;
+    border-bottom:1px solid var(--border);
+    background:var(--bg);
+    flex-shrink:0;
+    flex-wrap:wrap;
   }
+  .desktop-filters-bar .filters{
+    padding:0;
+    flex-wrap:wrap;
+    overflow:visible;
+    -webkit-mask-image:none;
+    mask-image:none;
+    gap:6px;
+  }
+  .desktop-filters-bar .day-pills-wrap{padding:0}
+  .desktop-filters-bar .day-pills{gap:4px}
+  .desktop-filters-bar .day-pill{min-height:32px;font-size:11px;padding:4px 10px;flex:none;width:auto}
+  .desktop-filters-bar .time-control{padding:0}
+  .desktop-filters-bar .time-row{gap:8px}
+  .desktop-filters-bar .now-lbl{font-size:12px}
+  .desktop-divider{width:1px;height:24px;background:var(--border);flex-shrink:0;margin:0 4px}
+
+  /* ── LIST VIEW on desktop ── */
+  #list-view{
+    height:100%;
+    max-width:100%;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    background:var(--bg);
+  }
+  /* Hide mobile header in list view — desktop uses topbar */
+  #list-view .list-header-fixed{display:none!important}
+  #list-view .feed-scroll{
+    max-width:100%;
+    margin:0;
+    padding-top:0!important;
+    padding-bottom:40px;
+  }
+  #filter-spacer{display:none}
 
   /* Cards grid on desktop */
   .cards-scroll{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
     align-content:start;
     align-items:stretch;
     gap:16px;
-    padding:0 24px 24px;
+    padding:24px 32px 40px;
   }
-  .card{height:100%;display:flex;flex-direction:column}
+  .card{height:100%;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
   .card .detail{flex:1}
   .card-name{font-size:15px}
   .empty{grid-column:1/-1;padding:60px 20px}
 
-  /* Filters wrap on desktop */
-  .filters{
-    flex-wrap:wrap;
-    overflow-x:visible;
-    gap:6px;
-  }
-
-  /* ── MAP VIEW ── */
+  /* ── MAP VIEW on desktop ── */
   #map-view{
     flex-direction:column;
-    height:calc(100vh - 70px);
+    height:100%;
     max-width:100%;
   }
-  #map-view .map-header{
-    padding:12px 20px 8px;
-    border-bottom:1px solid var(--border);
-    flex-shrink:0;
+  #map-view .map-header{display:none!important}
+  #map-view .map-search-wrap{
+    padding:12px 32px 0;
+    position:relative;
+    z-index:10;
   }
   #map-view .map-filters-wrap,
   #map-view .day-pills-wrap,
-  #map-view .map-time-wrap,
-  #map-view .map-search-wrap{ display:flex; flex-shrink:0; }
-  #map-view .map-filters{flex-wrap:nowrap;overflow-x:auto;padding:4px 16px;gap:6px}
-  #map-view .day-pills-wrap{padding:4px 16px}
+  #map-view .map-time-wrap{ display:flex; flex-shrink:0; }
+  #map-view .map-filters{flex-wrap:nowrap;overflow-x:auto;padding:8px 32px;gap:6px}
+  #map-view .day-pills-wrap{padding:4px 32px 8px}
+  #map-view .map-time-wrap{padding:0 32px 8px}
   #map{flex:1;min-height:0;width:100%}
-  #map-legend{bottom:90px;right:24px;background:rgba(20,20,20,.97)}
+  #map-legend{bottom:24px;right:24px;background:rgba(20,20,20,.97)}
 
-  /* ── MY LIST VIEW ── */
+  /* ── MY LIST VIEW on desktop ── */
   #mylist-view{
-    height:calc(100vh - 70px);
+    height:100%;
     max-width:100%;
     overflow:hidden;
   }
   #mylist-sticky{
-    max-width:800px;
-    left:50%;
-    transform:translateX(-50%);
+    display:none!important;
   }
   #mylist-scroll{
-    max-width:800px;
-    margin:0 auto;
-    width:100%;
+    max-width:100%;
+    margin:0;
+    padding-top:0!important;
+    padding-bottom:40px;
+  }
+  #mylist-scroll .cards-scroll{
+    padding:24px 32px;
   }
 
-  /* ── SEARCH OVERLAY ── */
-  .full-search-overlay{max-width:680px;left:50%;transform:translateX(-50%) translateY(100%)}
+  /* ── SEARCH OVERLAY on desktop ── */
+  .full-search-overlay{
+    max-width:640px;
+    left:50%;
+    margin-left:130px;
+    transform:translateX(-50%) translateY(100%);
+    border-radius:16px;
+    top:80px;
+    bottom:auto;
+    height:auto;
+    max-height:70vh;
+  }
   .full-search-overlay.open{transform:translateX(-50%) translateY(0)}
+
+  /* ── VENUE PAGE on desktop ── */
+  .venue-page{
+    left:260px;
+  }
+
+  /* Hide filters-collapsible on desktop — using topbar filters instead */
+  #filters-collapsible{display:none!important}
 }
 
 /* ── LARGE DESKTOP: 1400px+ ────────────────────────────── */
 @media (min-width:1400px){
-  .list-header-fixed{max-width:960px}
-  .feed-scroll{max-width:960px}
-  .cards-scroll{grid-template-columns:repeat(auto-fill,minmax(380px,1fr))}
-  #mylist-sticky{max-width:960px}
-  #mylist-scroll{max-width:960px}
+  .desktop-sidebar{width:280px}
+  #app-content{margin-left:280px}
+  .cards-scroll{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+  .venue-page{left:280px}
 }
 /* ── AUTH MODAL ── */
 .auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -847,6 +1053,106 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
+
+<!-- DESKTOP SIDEBAR — hidden on mobile, shown on desktop -->
+<nav class="desktop-sidebar" style="display:none">
+  <div class="desktop-sidebar-logo">
+    Tonight<span>.</span>TO
+    <small>Toronto Tonight</small>
+  </div>
+
+  <div class="desktop-sidebar-today" id="desktop-sidebar-today">
+    <div class="desktop-sidebar-today-label">Today</div>
+    <div class="desktop-sidebar-today-day" id="desktop-today-name">Thursday</div>
+  </div>
+
+  <span class="desktop-nav-label">Discover</span>
+  <div class="desktop-nav-section">
+    <button class="desktop-nav-item active" id="dnav-feed" onclick="goToFeed();updateDesktopNav('feed')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Feed
+    </button>
+    <button class="desktop-nav-item" id="dnav-map" onclick="showView('map',document.getElementById('nb-map'));updateDesktopNav('map')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="3"/><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0z"/></svg>
+      Map
+    </button>
+    <button class="desktop-nav-item" id="dnav-mylist" onclick="handleNavLists();updateDesktopNav('mylist')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      My List
+    </button>
+  </div>
+
+  <span class="desktop-nav-label">Filter by Type</span>
+  <div class="desktop-nav-section" id="desktop-type-filters">
+    <button class="desktop-nav-item active" data-t="all" onclick="setTypeDesktop(this)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      All Events
+    </button>
+    <button class="desktop-nav-item" data-t="drinkhh" onclick="setTypeDesktop(this)">🍸 Drink HH</button>
+    <button class="desktop-nav-item" data-t="foodhh" onclick="setTypeDesktop(this)">🍔 Food HH</button>
+    <button class="desktop-nav-item" data-t="music" onclick="setTypeDesktop(this)">🎵 Music</button>
+    <button class="desktop-nav-item" data-t="trivia" onclick="setTypeDesktop(this)">🧠 Trivia</button>
+    <button class="desktop-nav-item" data-t="comedy" onclick="setTypeDesktop(this)">😂 Comedy</button>
+    <button class="desktop-nav-item" data-t="drag" onclick="setTypeDesktop(this)">👑 Drag</button>
+    <button class="desktop-nav-item" data-t="bingo" onclick="setTypeDesktop(this)">🎱 Bingo</button>
+  </div>
+
+  <div class="desktop-sidebar-bottom">
+    <button class="desktop-nav-item" onclick="openProfileOrAuth()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span id="desktop-profile-label">Sign In</span>
+    </button>
+    <button class="desktop-nav-item" onclick="toggleTheme()">
+      <span id="desktop-theme-icon">☀️</span>
+      <span id="desktop-theme-label">Light Mode</span>
+    </button>
+  </div>
+</nav>
+
+<!-- APP CONTENT WRAPPER -->
+<div id="app-content">
+
+<!-- DESKTOP TOPBAR — shown inside app-content on desktop -->
+<div class="desktop-topbar" style="display:none" id="desktop-topbar">
+  <div class="desktop-topbar-title" id="desktop-topbar-title">Tonight</div>
+  <div class="search-wrap" style="flex:1;max-width:480px;padding:0">
+    <div class="search-box">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="desktop-search-input" placeholder="Search venues, drinks, music…" oninput="onDesktopSearch()" autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:14px;flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif">
+      <button onclick="clearDesktopSearch()" id="desktop-search-clear" style="display:none;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px">✕</button>
+    </div>
+  </div>
+  <div class="desktop-topbar-actions">
+    <div class="desktop-filters-bar" id="desktop-filters-bar">
+      <!-- Day pills -->
+      <div class="day-pills" style="display:flex;gap:4px">
+        <button class="day-pill" data-d="mon" onclick="toggleDay(this)">Mon</button>
+        <button class="day-pill" data-d="tue" onclick="toggleDay(this)">Tue</button>
+        <button class="day-pill" data-d="wed" onclick="toggleDay(this)">Wed</button>
+        <button class="day-pill" data-d="thu" onclick="toggleDay(this)">Thu</button>
+        <button class="day-pill" data-d="fri" onclick="toggleDay(this)">Fri</button>
+        <button class="day-pill" data-d="sat" onclick="toggleDay(this)">Sat</button>
+        <button class="day-pill" data-d="sun" onclick="toggleDay(this)">Sun</button>
+      </div>
+      <div class="desktop-divider"></div>
+      <!-- Time slider -->
+      <div style="display:flex;align-items:center;gap:6px">
+        <label style="font-size:12px;color:var(--accent);font-weight:600;white-space:nowrap">Time</label>
+        <input type="range" id="desktop-time-slider" min="0" max="24" step="0.5" value="0" oninput="syncDesktopTime(this.value)" style="width:120px;accent-color:var(--accent)">
+        <span id="desktop-time-display" style="font-size:12px;font-weight:600;color:var(--accent);min-width:36px">Any</span>
+      </div>
+      <div class="desktop-divider"></div>
+      <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;white-space:nowrap">
+        <input type="checkbox" id="desktop-now-chk" onchange="syncDesktopNow()" style="accent-color:var(--accent)"> Now
+      </label>
+      <button class="locate-btn" onclick="getLocation()" style="padding:6px 12px;font-size:12px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06z"/></svg>
+        Near me
+      </button>
+    </div>
+    <span id="desktop-count" style="font-size:12px;color:var(--muted);white-space:nowrap;margin-left:8px"></span>
+  </div>
+</div>
 
 <!-- LIST VIEW -->
 <div class="view active" id="list-view">
@@ -1177,6 +1483,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button class="auth-btn" id="new-password-btn" onclick="submitNewPassword()">Set New Password</button>
   </div>
 </div>
+
+</div><!-- end #app-content -->
 
 <!-- GLOBAL HAMBURGER MENU (shared across all views) -->
 <div class="hamburger-menu" id="hamburger-menu">
@@ -1910,81 +2218,12 @@ async function fetchTicketmasterEvents(){
   }
 }
 
-async function fetchEventbriteEvents(){
-  const EB_KEY = 'LXGRIMIHHPLUZOD2SMPP';
-  try {
-    const today = new Date().toISOString().split('T')[0];
-    const nextWeek = new Date(Date.now()+7*24*60*60*1000).toISOString().split('T')[0];
-    const url = `https://www.eventbriteapi.com/v3/events/search/?`+
-      `token=${EB_KEY}`+
-      `&location.address=Toronto,ON,Canada`+
-      `&location.within=10km`+
-      `&start_date.range_start=${today}T00:00:00`+
-      `&start_date.range_end=${nextWeek}T23:59:59`+
-      `&categories=103,105,110,113`+ // music, arts, food, nightlife
-      `&expand=venue,organizer`+
-      `&page_size=50`;
-    const res = await fetch(url);
-    if(!res.ok){ console.warn('Eventbrite API error:',res.status); return []; }
-    const data = await res.json();
-    const events = data.events || [];
-
-    return events.map(ev => {
-      const venue = ev.venue || {};
-      const start = new Date(ev.start?.local || ev.start?.utc);
-      const end = new Date(ev.end?.local || ev.end?.utc);
-      const startH = start.getHours() + start.getMinutes()/60;
-      const endH = end.getHours() + end.getMinutes()/60;
-      const dayKey = DKEYS[start.getDay()];
-
-      // Skip if already ended
-      if(end < new Date()) return null;
-
-      // Map category to type
-      const name = (ev.name?.text||'').toLowerCase();
-      const cat = ev.category_id || '';
-      let type = 'livemusic';
-      if(name.includes('trivia')||name.includes('quiz')) type='trivia';
-      else if(name.includes('karaoke')) type='karaoke';
-      else if(name.includes('comedy')||name.includes('stand-up')||name.includes('standup')) type='comedy';
-      else if(name.includes('drag')) type='drag';
-      else if(name.includes('bingo')) type='bingo';
-      else if(name.includes('jazz')) type='jazz';
-      else if(name.includes('open mic')) type='openmic';
-      else if(name.includes('dj ')||name.includes('dj night')) type='dj';
-
-      const addr = [venue.address?.address_1, venue.address?.city].filter(Boolean).join(', ');
-      const isFree = ev.is_free;
-      const priceStr = isFree ? 'Free' : 'Check tickets';
-
-      return {
-        name: ev.name?.text || 'Unnamed Event',
-        hood: venue.name || venue.address?.city || 'Toronto',
-        type,
-        days: [dayKey],
-        start: startH,
-        end: endH || startH + 3,
-        detail: `${venue.name||''}${addr ? ', '+addr : ''}. ${priceStr}.`,
-        addr: venue.address?.address_1 || addr,
-        lat: parseFloat(venue.latitude) || 43.65,
-        lng: parseFloat(venue.longitude) || -79.38,
-        url: ev.url || '',
-        source: 'eventbrite',
-        photo: ev.logo?.url || '',
-      };
-    }).filter(v => v && v.name && v.days[0] && v.addr);
-  } catch(err){
-    console.warn('Eventbrite fetch failed:',err.message);
-    return [];
-  }
-}
-
 async function loadVenues(){
   const cards=document.getElementById("cards");
   if(cards) cards.innerHTML='<div class="empty"><p style="color:var(--muted)">⏳ Loading venues…</p></div>';
 
-  // Load venues.json, Ticketmaster and Eventbrite in parallel
-  const [venuesResult, tmEvents, ebEvents] = await Promise.allSettled([
+  // Load venues.json and Ticketmaster in parallel
+  const [venuesResult, tmEvents] = await Promise.allSettled([
     (async()=>{
       const cacheBust=Math.floor(Date.now()/60000);
       const url='https://tonightto.ca/venues.json?v='+cacheBust;
@@ -1992,8 +2231,7 @@ async function loadVenues(){
       if(!res.ok) throw new Error('HTTP '+res.status);
       return res.json();
     })(),
-    fetchTicketmasterEvents(),
-    fetchEventbriteEvents()
+    fetchTicketmasterEvents()
   ]);
 
   // Process venues.json
@@ -2009,17 +2247,11 @@ async function loadVenues(){
   const tmVenues = tmEvents.status==='fulfilled' ? tmEvents.value : [];
   console.log('Loaded',tmVenues.length,'events from Ticketmaster');
 
-  // Process Eventbrite events
-  const ebVenues = ebEvents.status==='fulfilled' ? ebEvents.value : [];
-  console.log('Loaded',ebVenues.length,'events from Eventbrite');
-
   // Merge — deduplicate by name
   const existingNames = new Set(venues.map(v=>v.name.toLowerCase()));
   const newTmVenues = tmVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
-  newTmVenues.forEach(v=>existingNames.add(v.name.toLowerCase()));
-  const newEbVenues = ebVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
 
-  ALL = [...venues, ...newTmVenues, ...newEbVenues];
+  ALL = [...venues, ...newTmVenues];
 
   if(ALL.length === 0){
     ALL = [...(typeof FALLBACK_VENUES !== 'undefined' ? FALLBACK_VENUES : [])];
@@ -2032,7 +2264,7 @@ async function loadVenues(){
   initNowAndTime();
   render();
   setTimeout(updateFeedPadding, 50);
-  setTimeout(updateFeedPadding, 300); // re-measure after content + filters fully render
+  setTimeout(updateFeedPadding, 300);
 }
 const DKEYS=["sun","mon","tue","wed","thu","fri","sat"];
 const DNAMES=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -3514,34 +3746,149 @@ if(navigator.geolocation){
 // ── DESKTOP LAYOUT ────────────────────────────────────────
 function isDesktop(){return window.innerWidth>=1024;}
 
-function applyLayout(){
-  const desktop=isDesktop();
-  const desktopNav=document.getElementById("desktop-nav");
-  const mobileNav=document.querySelector(".bnav");
-  if(desktop){
-    desktopNav.style.display="flex";
-    if(mobileNav)mobileNav.style.display="none";
-    // On desktop the sidebar elements live inside the view,
-    // so we need the header to contain filters etc.
-    // Move sidebar elements into the header div if not already there
-    ensureDesktopSidebar();
+function updateDesktopNav(active){
+  document.querySelectorAll('.desktop-nav-item[id^="dnav-"]').forEach(el=>{
+    el.classList.toggle('active', el.id === 'dnav-'+active);
+  });
+  const titles = {feed:'Tonight', map:'Map', mylist:'My List'};
+  const titleEl = document.getElementById('desktop-topbar-title');
+  if(titleEl) titleEl.textContent = titles[active] || 'Tonight';
+}
+
+function setTypeDesktop(el){
+  const t = el.dataset.t;
+  // Sync to mobile type pills
+  document.querySelectorAll('#type-pills .pill').forEach(p=>p.classList.remove('active'));
+  const mobilePill = document.querySelector(`#type-pills [data-t="${t}"]`);
+  if(mobilePill){ mobilePill.classList.add('active'); }
+  // Update desktop sidebar active state
+  document.querySelectorAll('#desktop-type-filters .desktop-nav-item').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  // Apply type filter
+  if(t==='all'){
+    activeTypes = new Set(['all']);
   } else {
-    desktopNav.style.display="none";
-    if(mobileNav)mobileNav.style.display="flex";
+    activeTypes = new Set([t]);
+  }
+  render();
+  updateDesktopCount();
+}
+
+function syncDesktopTime(val){
+  // Sync desktop time slider to mobile
+  const mobileSlider = document.getElementById('time-slider');
+  if(mobileSlider) mobileSlider.value = val;
+  updateTimeDisplay();
+  // Update desktop display
+  const display = document.getElementById('desktop-time-display');
+  if(display){
+    const v = parseFloat(val);
+    if(v===0){ display.textContent='Any'; }
+    else {
+      const h=Math.floor(v)%24, m=v%1===0.5?'30':'00', ap=h>=12?'pm':'am', hr=h>12?h-12:(h===0?12:h);
+      display.textContent=hr+':'+m+ap;
+    }
+  }
+  render();
+  updateDesktopCount();
+}
+
+function syncDesktopNow(){
+  const desktopChk = document.getElementById('desktop-now-chk');
+  const mobileChk = document.getElementById('now-chk');
+  if(mobileChk) mobileChk.checked = desktopChk.checked;
+  if(desktopChk.checked){
+    const t = Math.round((new Date().getHours()+new Date().getMinutes()/60)*2)/2;
+    const mobileSlider = document.getElementById('time-slider');
+    const desktopSlider = document.getElementById('desktop-time-slider');
+    if(mobileSlider) mobileSlider.value = t;
+    if(desktopSlider) desktopSlider.value = t;
+    syncDesktopTime(t);
+  }
+  render();
+  updateDesktopCount();
+}
+
+function onDesktopSearch(){
+  const q = document.getElementById('desktop-search-input').value;
+  document.getElementById('search-input').value = q;
+  document.getElementById('desktop-search-clear').style.display = q ? 'block' : 'none';
+  searchQuery = q.trim().toLowerCase();
+  searchTypes = null;
+  render();
+  updateDesktopCount();
+}
+
+function clearDesktopSearch(){
+  document.getElementById('desktop-search-input').value = '';
+  document.getElementById('search-input').value = '';
+  document.getElementById('desktop-search-clear').style.display = 'none';
+  searchQuery = '';
+  render();
+  updateDesktopCount();
+}
+
+function updateDesktopCount(){
+  const el = document.getElementById('desktop-count');
+  const ct = document.getElementById('ct');
+  if(el && ct) el.textContent = ct.textContent;
+}
+
+function applyLayout(){
+  const desktop = isDesktop();
+  const sidebar = document.querySelector('.desktop-sidebar');
+  const topbar = document.getElementById('desktop-topbar');
+  const mobileNav = document.querySelector('.bnav');
+  const appContent = document.getElementById('app-content');
+
+  if(desktop){
+    if(sidebar) sidebar.style.display = 'flex';
+    if(topbar) topbar.style.display = 'flex';
+    if(mobileNav) mobileNav.style.display = 'none';
+    // Init desktop today label
+    const todayNameEl = document.getElementById('desktop-today-name');
+    if(todayNameEl) todayNameEl.textContent = DNAMES[todayIdx];
+    // Sync desktop day pills to selected days
+    document.querySelectorAll('#desktop-filters-bar .day-pill').forEach(p=>{
+      p.classList.toggle('active', selectedDays.has(p.dataset.d));
+    });
+    // Init desktop time slider
+    const mobileSlider = document.getElementById('time-slider');
+    const desktopSlider = document.getElementById('desktop-time-slider');
+    if(mobileSlider && desktopSlider){
+      desktopSlider.value = mobileSlider.value;
+      syncDesktopTime(mobileSlider.value);
+    }
+    updateDesktopCount();
+    // Update profile label
+    const profileLabel = document.getElementById('desktop-profile-label');
+    if(profileLabel) profileLabel.textContent = currentUser ? currentUser.email.split('@')[0] : 'Sign In';
+    // Update theme toggle
+    const themeIcon = document.getElementById('desktop-theme-icon');
+    const themeLabel = document.getElementById('desktop-theme-label');
+    const isLight = document.body.classList.contains('light-mode');
+    if(themeIcon) themeIcon.textContent = isLight ? '🌙' : '☀️';
+    if(themeLabel) themeLabel.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+  } else {
+    if(sidebar) sidebar.style.display = 'none';
+    if(topbar) topbar.style.display = 'none';
+    if(mobileNav) mobileNav.style.display = 'flex';
   }
 }
 
 function ensureDesktopSidebar(){
-  const header=document.querySelector("#list-view .header");
-  if(!header||header.dataset.sidebarBuilt) return;
-  header.dataset.sidebarBuilt="1";
-  // Move search, filters, controls, day pills, time, count into header
-  const order=["search-wrap","type-pills","controls-wrap","day-pills-wrap","time-control","count-bar-wrap"];
-  // Already in the right order in the DOM — just need CSS to treat them as sidebar
+  // No-op — sidebar is now a permanent HTML element
 }
 
 applyLayout();
-window.addEventListener("resize",applyLayout);
+window.addEventListener('resize', applyLayout);
+
+// Keep desktop count in sync after render
+const _origRender = render;
+function render(){
+  _origRender();
+  if(isDesktop()) setTimeout(updateDesktopCount, 0);
+}
 
 
 
