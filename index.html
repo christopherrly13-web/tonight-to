@@ -177,6 +177,9 @@ body.light-mode #search-suggestions{background:var(--surface)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;overscroll-behavior:none}
 
+/* APP CONTENT — transparent on mobile, content area on desktop */
+#app-content{display:contents} /* transparent wrapper on mobile */
+
 /* VIEWS */
 .view{display:none;flex-direction:column;height:100vh;overflow:hidden}
 .view.active{display:flex}
@@ -728,12 +731,16 @@ html,body{overscroll-behavior:none}
 
   /* ── MAIN CONTENT AREA ── */
   #app-content{
-    margin-left:260px;
-    flex:1;
-    height:100vh;
-    overflow:hidden;
     display:flex;
     flex-direction:column;
+    margin-left:260px;
+    width:calc(100vw - 260px);
+    height:100vh;
+    overflow:hidden;
+  }
+  #app-content .view{
+    height:100%;
+    flex:1;
   }
 
   /* ── TOP BAR ── */
@@ -3107,12 +3114,17 @@ let _feedIsScrolling = false;
 const _feedScroll = document.getElementById('feed-scroll');
 
 function updateFeedPadding(){
-  const fixed = document.getElementById('list-sticky');
   const scroll = document.getElementById('feed-scroll');
   const spacer = document.getElementById('filter-spacer');
-  if(!fixed || !scroll) return;
-  // Pad by full fixed header height (core + filters) + small gap
-  scroll.style.paddingTop = (fixed.offsetHeight + 8) + 'px';
+  if(!scroll) return;
+  if(isDesktop()){
+    // On desktop the topbar is outside feed-scroll, no padding needed
+    scroll.style.paddingTop = '0px';
+  } else {
+    const fixed = document.getElementById('list-sticky');
+    if(!fixed) return;
+    scroll.style.paddingTop = (fixed.offsetHeight + 8) + 'px';
+  }
   if(spacer) spacer.style.height = '0px';
 }
 updateFeedPadding();
