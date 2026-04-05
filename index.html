@@ -2658,6 +2658,8 @@ function render(){
   }
 
   document.getElementById("ct").textContent=items.length+" spot"+(items.length!==1?"s":"")+" found";
+  // Sync desktop count display
+  setTimeout(()=>{ const el=document.getElementById('desktop-count'); const ct=document.getElementById('ct'); if(el&&ct) el.textContent=ct.textContent; }, 0);
 
   const c=document.getElementById("cards");
   if(activeTypes.size===0){
@@ -3880,11 +3882,8 @@ setTimeout(applyLayout, 50);
 setTimeout(applyLayout, 300);
 
 // Keep desktop count in sync after render
-const _origRender = render;
-function render(){
-  _origRender();
-  if(isDesktop()) setTimeout(updateDesktopCount, 0);
-}
+// Keep desktop count in sync after render — patch via direct call in render
+const _desktopCountUpdate = () => { if(isDesktop()) updateDesktopCount(); };
 
 
 
