@@ -177,8 +177,15 @@ body.light-mode #search-suggestions{background:var(--surface)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;overscroll-behavior:none}
 
-/* APP CONTENT — transparent on mobile, content area on desktop */
-#app-content{display:contents} /* transparent wrapper on mobile */
+/* APP CONTENT — full viewport on mobile, content column on desktop */
+#app-content{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:100%;
+  min-height:100vh;
+  overflow:hidden;
+}
 
 /* VIEWS */
 .view{display:none;flex-direction:column;height:100vh;overflow:hidden}
@@ -619,6 +626,11 @@ html,body{overscroll-behavior:none}
   /* Hide mobile bottom nav */
   .bnav{display:none!important}
 
+  /* Hide mobile-only overlapping elements on desktop */
+  .full-search-overlay{display:none!important}
+  #filters-collapsible{display:none!important}
+  #filter-spacer{display:none!important}
+
   /* Show desktop sidebar nav */
   .desktop-sidebar{display:flex!important}
 
@@ -737,10 +749,18 @@ html,body{overscroll-behavior:none}
     width:calc(100vw - 260px);
     height:100vh;
     overflow:hidden;
+    position:relative;
   }
+  /* Override mobile 100vh on views — use full parent height instead */
   #app-content .view{
     height:100%;
+    min-height:0;
     flex:1;
+  }
+  /* Hide mobile-only header elements on desktop */
+  #app-content .list-header-fixed,
+  #app-content #mylist-sticky{
+    display:none!important;
   }
 
   /* ── TOP BAR ── */
@@ -831,6 +851,17 @@ html,body{overscroll-behavior:none}
     margin:0;
     padding-top:0!important;
     padding-bottom:40px;
+    /* Override mobile safe-area padding */
+    padding-bottom:40px!important;
+  }
+  /* Fix feed-scroll height on desktop */
+  #list-view{
+    overflow:hidden;
+  }
+  #list-view .feed-scroll{
+    flex:1;
+    overflow-y:auto;
+    height:0;
   }
   #filter-spacer{display:none}
 
@@ -915,7 +946,7 @@ html,body{overscroll-behavior:none}
 /* ── LARGE DESKTOP: 1400px+ ────────────────────────────── */
 @media (min-width:1400px){
   .desktop-sidebar{width:280px}
-  #app-content{margin-left:280px}
+  #app-content{margin-left:280px;width:calc(100vw - 280px)}
   .cards-scroll{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
   .venue-page{left:280px}
 }
@@ -3894,6 +3925,9 @@ function ensureDesktopSidebar(){
 
 applyLayout();
 window.addEventListener('resize', applyLayout);
+// Re-apply after DOM fully settles
+setTimeout(applyLayout, 50);
+setTimeout(applyLayout, 300);
 
 // Keep desktop count in sync after render
 const _origRender = render;
