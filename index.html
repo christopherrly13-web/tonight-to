@@ -2715,7 +2715,7 @@ function getFiltered(){
       if(!typeMatch) return false;
     }
     if(nowOnly&&!isNow(v))return false;
-    if(timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
+    if(!q&&timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
     return true;
   });
 }
@@ -3739,6 +3739,21 @@ function applySearchIntent(types, nowOnly){
   }
   hideSuggestions();
   render();
+  // Sync desktop controls
+  if(isDesktop()){
+    const dsi = document.getElementById('desktop-search-input');
+    if(intent && dsi) dsi.value = intent.label;
+    document.querySelectorAll('#desktop-day-pills .day-pill').forEach(p=>{
+      p.classList.toggle('active', selectedDays.has(p.dataset.d));
+    });
+    const mobileSlider = document.getElementById('time-slider');
+    const desktopSlider = document.getElementById('desktop-time-slider');
+    if(mobileSlider && desktopSlider){ desktopSlider.value = mobileSlider.value; syncDesktopTime(mobileSlider.value); }
+    document.querySelectorAll('#desktop-type-filters .desktop-type-pill').forEach(p=>{
+      p.classList.toggle('active', activeTypes.has(p.dataset.t));
+    });
+    updateDesktopCount();
+  }
 }
 
 function applyVenueSearch(name){
@@ -3746,6 +3761,9 @@ function applyVenueSearch(name){
   searchTypes=null;
   searchNowOnly=false;
   document.getElementById("search-input").value=name;
+  // Also sync desktop search input
+  const dsi = document.getElementById('desktop-search-input');
+  if(dsi) dsi.value=name;
   searchQuery=name.toLowerCase();
   document.getElementById("search-clear").classList.add("visible");
   // Find venue and sync days, time AND type pills
@@ -3753,6 +3771,23 @@ function applyVenueSearch(name){
   if(venue) syncDaysAndTime([venue], true);
   hideSuggestions();
   render();
+  // Sync desktop day pills and time slider after syncDaysAndTime
+  if(isDesktop()){
+    document.querySelectorAll('#desktop-day-pills .day-pill').forEach(p=>{
+      p.classList.toggle('active', selectedDays.has(p.dataset.d));
+    });
+    const mobileSlider = document.getElementById('time-slider');
+    const desktopSlider = document.getElementById('desktop-time-slider');
+    if(mobileSlider && desktopSlider){
+      desktopSlider.value = mobileSlider.value;
+      syncDesktopTime(mobileSlider.value);
+    }
+    // Sync desktop type pills
+    document.querySelectorAll('#desktop-type-filters .desktop-type-pill').forEach(p=>{
+      p.classList.toggle('active', activeTypes.has(p.dataset.t));
+    });
+    updateDesktopCount();
+  }
 }
 
 function hideSuggestions(){
@@ -3977,18 +4012,14 @@ function onDesktopSearch(){
   const q = document.getElementById('desktop-search-input').value;
   document.getElementById('search-input').value = q;
   document.getElementById('desktop-search-clear').style.display = q ? 'block' : 'none';
-  searchQuery = q.trim().toLowerCase();
-  searchTypes = null;
-  render();
+  // Use same search logic as mobile — triggers suggestions + live filtering
+  onSearch();
   updateDesktopCount();
 }
 
 function clearDesktopSearch(){
   document.getElementById('desktop-search-input').value = '';
-  document.getElementById('search-input').value = '';
-  document.getElementById('desktop-search-clear').style.display = 'none';
-  searchQuery = '';
-  render();
+  clearSearch();
   updateDesktopCount();
 }
 
