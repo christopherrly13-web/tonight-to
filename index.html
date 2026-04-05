@@ -898,6 +898,124 @@ html,body{overscroll-behavior:none}
   #filters-collapsible{display:none!important}
 }
 
+/* ── DESKTOP TYPE PILLS in topbar ── */
+.desktop-type-pill{
+  padding:6px 14px;
+  border-radius:6px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  white-space:nowrap;
+  transition:all .15s;
+  flex-shrink:0;
+}
+.desktop-type-pill:hover{background:var(--surface);color:var(--text)}
+.desktop-type-pill.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+
+/* ── DESKTOP CARD: full-width rectangle with photo ── */
+@media(min-width:1024px){
+  .cards-scroll{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    padding:0;
+  }
+  .card{
+    display:flex;
+    flex-direction:row;
+    align-items:stretch;
+    height:110px;
+    border-radius:0;
+    border:none;
+    border-bottom:1px solid var(--border);
+    padding:0;
+    position:relative;
+    overflow:hidden;
+    background:var(--bg);
+    transition:background .15s;
+  }
+  .card:hover{
+    background:var(--surface);
+    transform:none;
+    box-shadow:none;
+  }
+  .card:active{transform:none}
+  .card-body{
+    flex:1;
+    padding:16px 24px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-width:0;
+    z-index:1;
+  }
+  .card-photo-right{
+    width:180px;
+    flex-shrink:0;
+    position:relative;
+    overflow:hidden;
+    background:var(--surface2);
+  }
+  .card-photo-right img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .card-photo-right::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to right, var(--bg) 0%, transparent 40%);
+  }
+  .card-photo-right.no-photo{
+    background:linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+  }
+  .card-top{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:4px;
+  }
+  .card-name{
+    font-size:15px;
+    font-weight:600;
+    color:var(--text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .card-sub{font-size:11px;color:var(--muted);margin-top:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card .detail{
+    font-size:12px;
+    color:var(--muted);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-bottom:6px;
+    flex:0;
+  }
+  .card-ftr{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:auto;
+  }
+  .card .fav-btn{
+    position:absolute;
+    right:190px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:2;
+  }
+  .card .card-gmaps{display:none}
+  .card .eb-badge{font-size:9px;padding:1px 5px}
+}
+
 /* ── LARGE DESKTOP: 1400px+ ────────────────────────────── */
 @media (min-width:1400px){
   .desktop-sidebar{width:280px}
@@ -1076,21 +1194,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </button>
   </div>
 
-  <span class="desktop-nav-label">Filter by Type</span>
-  <div class="desktop-nav-section" id="desktop-type-filters">
-    <button class="desktop-nav-item active" data-t="all" onclick="setTypeDesktop(this)">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-      All Events
-    </button>
-    <button class="desktop-nav-item" data-t="drinkhh" onclick="setTypeDesktop(this)">🍸 Drink HH</button>
-    <button class="desktop-nav-item" data-t="foodhh" onclick="setTypeDesktop(this)">🍔 Food HH</button>
-    <button class="desktop-nav-item" data-t="music" onclick="setTypeDesktop(this)">🎵 Music</button>
-    <button class="desktop-nav-item" data-t="trivia" onclick="setTypeDesktop(this)">🧠 Trivia</button>
-    <button class="desktop-nav-item" data-t="comedy" onclick="setTypeDesktop(this)">😂 Comedy</button>
-    <button class="desktop-nav-item" data-t="drag" onclick="setTypeDesktop(this)">👑 Drag</button>
-    <button class="desktop-nav-item" data-t="bingo" onclick="setTypeDesktop(this)">🎱 Bingo</button>
-  </div>
-
   <div class="desktop-sidebar-bottom">
     <button class="desktop-nav-item" onclick="openProfileOrAuth()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -1116,6 +1219,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="desktop-topbar-actions">
     <div class="desktop-filters-bar" id="desktop-filters-bar">
+      <!-- Type filter pills -->
+      <div style="display:flex;gap:4px;flex-shrink:0" id="desktop-type-filters">
+        <button class="desktop-type-pill active" data-t="all" onclick="setTypeDesktop(this)">All</button>
+        <button class="desktop-type-pill" data-t="drinkhh" onclick="setTypeDesktop(this)">Drink Happy Hour</button>
+        <button class="desktop-type-pill" data-t="foodhh" onclick="setTypeDesktop(this)">Food Happy Hour</button>
+        <button class="desktop-type-pill" data-t="music" onclick="setTypeDesktop(this)">Music</button>
+        <button class="desktop-type-pill" data-t="trivia" onclick="setTypeDesktop(this)">Trivia</button>
+        <button class="desktop-type-pill" data-t="comedy" onclick="setTypeDesktop(this)">Comedy</button>
+        <button class="desktop-type-pill" data-t="drag" onclick="setTypeDesktop(this)">Drag</button>
+        <button class="desktop-type-pill" data-t="bingo" onclick="setTypeDesktop(this)">Bingo</button>
+      </div>
+      <div class="desktop-divider"></div>
       <!-- Day pills -->
       <div class="day-pills" style="display:flex;gap:4px">
         <button class="day-pill" data-d="mon" onclick="toggleDay(this)">Mon</button>
@@ -2688,9 +2803,12 @@ function render(){
     window._venueCache = window._venueCache || {};
     const cacheKey = 'v_' + i + '_' + Date.now();
     window._venueCache[i] = v;
-    const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";    return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(window._venueCache[${i}])" style="cursor:pointer">
+    const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";
+    const photoRight = v.photo ? `<div class="card-photo-right"><img src="${v.photo}" alt="${v.name}" loading="lazy"></div>` : `<div class="card-photo-right no-photo" style="background:linear-gradient(135deg,${TYPE_COLOR[v.type]||'#e8c547'}22,${TYPE_COLOR[v.type]||'#e8c547'}44)"></div>`;
+    return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(window._venueCache[${i}])" style="cursor:pointer">
+      <div class="card-body">
       <div class="card-top">
-        <div>
+        <div style="min-width:0;flex:1">
           <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 Ticketmaster</a>`:''}</div>
           <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
         </div>
@@ -2710,6 +2828,8 @@ function render(){
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           View on Google Maps
         </a>`}
+      </div>
+      ${photoRight}
     </div>`;
   }).join("");
 }
@@ -3759,7 +3879,7 @@ function setTypeDesktop(el){
   const mobilePill = document.querySelector(`#type-pills [data-t="${t}"]`);
   if(mobilePill){ mobilePill.classList.add('active'); }
   // Update desktop sidebar active state
-  document.querySelectorAll('#desktop-type-filters .desktop-nav-item').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#desktop-type-filters .desktop-type-pill').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
   // Apply type filter
   if(t==='all'){
