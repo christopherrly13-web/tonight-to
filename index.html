@@ -898,6 +898,44 @@ html,body{overscroll-behavior:none}
   #filters-collapsible{display:none!important}
 }
 
+/* ── DESKTOP TIME SLIDER ── */
+@media(min-width:1024px){
+  #desktop-time-slider{
+    -webkit-appearance:none;
+    appearance:none;
+    height:4px;
+    border-radius:2px;
+    background:var(--border2);
+    outline:none;
+    cursor:pointer;
+    transition:background .2s;
+  }
+  #desktop-time-slider::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:16px;height:16px;
+    border-radius:50%;
+    background:var(--accent);
+    cursor:pointer;
+    box-shadow:0 1px 4px rgba(0,0,0,.2);
+    transition:transform .15s,box-shadow .15s;
+  }
+  #desktop-time-slider::-webkit-slider-thumb:hover{
+    transform:scale(1.2);
+    box-shadow:0 2px 8px rgba(232,197,71,.4);
+  }
+  #desktop-time-slider::-moz-range-thumb{
+    width:16px;height:16px;
+    border-radius:50%;border:none;
+    background:var(--accent);
+    cursor:pointer;
+    box-shadow:0 1px 4px rgba(0,0,0,.2);
+  }
+  #desktop-time-slider::-webkit-slider-runnable-track{
+    height:4px;border-radius:2px;
+    background:linear-gradient(to right, var(--accent) 0%, var(--accent) var(--val,50%), var(--border2) var(--val,50%));
+  }
+}
+
 /* ── DESKTOP TYPE PILLS in topbar ── */
 .desktop-type-pill{
   padding:6px 14px;
@@ -930,17 +968,18 @@ html,body{overscroll-behavior:none}
   .card-body{
     flex:1;
     display:grid;
-    grid-template-columns:220px 1fr 260px 120px;
-    align-items:center;
-    padding:0 32px;
+    grid-template-columns:260px 1fr 220px;
+    align-items:stretch;
+    padding:0;
     gap:0;
     min-width:0;
-    height:100%;
   }
   /* Col 1: venue name + address */
   .card-top{
-    display:flex;flex-direction:column;gap:5px;
-    min-width:0;margin-bottom:0;padding-right:20px;
+    display:flex;flex-direction:column;gap:5px;justify-content:center;
+    min-width:0;margin-bottom:0;
+    padding:20px 24px 20px 32px;
+    border-right:1px solid var(--border);
   }
   .card-top > div:first-child{min-width:0}
   .card-name{
@@ -948,25 +987,21 @@ html,body{overscroll-behavior:none}
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .card-sub{font-size:11px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  /* Col 2: description — wraps if needed */
+  /* Col 2: description — centered vertically, wraps */
   .card .detail{
     font-size:12px;color:var(--muted2);
     white-space:normal;
     overflow:hidden;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
-    margin-bottom:0;padding:0 20px;line-height:1.5;
+    margin-bottom:0;padding:20px 40px;line-height:1.55;
+    border-right:1px solid var(--border);
+    align-content:center;
   }
-  /* Col 3: time + days */
-  .card-ftr{
-    display:flex;flex-direction:column;align-items:flex-start;
-    gap:4px;margin-top:0;padding:0 16px;
-  }
-  .card-ftr .time-wrap{white-space:nowrap}
-  .card-ftr .days-txt,.card-ftr .next-day-badge{font-size:10px;color:var(--muted)}
-  /* Col 4: badge + fav */
+  /* Col 3: badge + time + days + fav */
+  .card-ftr{display:none}
   .card-right{
-    display:flex;flex-direction:column;align-items:flex-end;
-    gap:6px;flex-shrink:0;padding-left:8px;
+    display:flex;flex-direction:column;align-items:flex-end;justify-content:center;
+    gap:5px;padding:20px 32px 20px 16px;
   }
   .card-top .badge,.card-top .fav-btn{display:none}
   .card .card-gmaps{display:none}
@@ -1209,7 +1244,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="desktop-divider"></div>
       <label style="font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap">Time</label>
-      <input type="range" id="desktop-time-slider" min="0" max="24" step="0.5" value="0" oninput="syncDesktopTime(this.value)" style="width:100px;accent-color:var(--accent)">
+      <input type="range" id="desktop-time-slider" min="0" max="24" step="0.25" value="0" oninput="syncDesktopTime(this.value)" style="width:200px;accent-color:var(--accent);cursor:pointer">
       <span id="desktop-time-display" style="font-size:11px;font-weight:600;color:var(--accent);min-width:36px">Any</span>
       <div class="desktop-divider"></div>
       <label style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);cursor:pointer;white-space:nowrap">
@@ -2781,7 +2816,9 @@ function render(){
         </div>
         <div class="card-right">
           <span class="badge ${TBADGE[v.type]||"b-hh"}" style="font-size:10px">${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>${(v.extraTypes||[]).map(t=>`<span class="badge ${TBADGE[t]||'b-hh'}" style="font-size:10px;display:block;margin-top:2px">${TLABEL[t]||t}</span>`).join('')}
-          <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}',' ${v.type}')" title="Save venue"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <span style="font-size:12px;color:${live?'var(--green)':'var(--muted)'};white-space:nowrap;font-weight:${live?'600':'400'}">${live?'● Now · ':''}<span style="color:var(--text);font-weight:500">${fmt(v.start)}–${fmt(v.end)}</span></span>
+          <span style="font-size:10px;color:var(--muted)">${v.days.map(d=>DABB[d]).join(' · ')}</span>
+          <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue"><svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
         </div>
       </div>
     </div>`;
@@ -3846,6 +3883,13 @@ function setTypeDesktop(el){
 }
 
 function syncDesktopTime(val){
+  // Update track fill
+  const slider = document.getElementById('desktop-time-slider');
+  if(slider){
+    const pct = (parseFloat(val) / 24 * 100).toFixed(1) + '%';
+    slider.style.setProperty('--val', pct);
+    slider.style.background = `linear-gradient(to right, var(--accent) 0%, var(--accent) ${pct}, var(--border2) ${pct})`;
+  }
   // Sync desktop time slider to mobile
   const mobileSlider = document.getElementById('time-slider');
   if(mobileSlider) mobileSlider.value = val;
