@@ -177,16 +177,6 @@ body.light-mode #search-suggestions{background:var(--surface)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;overscroll-behavior:none}
 
-/* APP CONTENT — full viewport on mobile, content column on desktop */
-#app-content{
-  display:flex;
-  flex-direction:column;
-  width:100%;
-  height:100%;
-  min-height:100vh;
-  overflow:hidden;
-}
-
 /* VIEWS */
 .view{display:none;flex-direction:column;height:100vh;overflow:hidden}
 .view.active{display:flex}
@@ -741,26 +731,11 @@ html,body{overscroll-behavior:none}
     color:var(--text);
   }
 
-  /* ── MAIN CONTENT AREA ── */
-  #app-content{
-    display:flex;
-    flex-direction:column;
+  /* ── VIEWS: offset from sidebar on desktop ── */
+  .view{
     margin-left:260px;
     width:calc(100vw - 260px);
     height:100vh;
-    overflow:hidden;
-    position:relative;
-  }
-  /* Override mobile 100vh on views — use full parent height instead */
-  #app-content .view{
-    height:100%;
-    min-height:0;
-    flex:1;
-  }
-  /* Hide mobile-only header elements on desktop */
-  #app-content .list-header-fixed,
-  #app-content #mylist-sticky{
-    display:none!important;
   }
 
   /* ── TOP BAR ── */
@@ -768,13 +743,16 @@ html,body{overscroll-behavior:none}
     display:flex!important;
     align-items:center;
     gap:16px;
-    padding:16px 32px;
+    padding:14px 32px;
     border-bottom:1px solid var(--border);
     background:var(--bg);
     flex-shrink:0;
-    position:sticky;
+    position:fixed;
     top:0;
-    z-index:200;
+    left:260px;
+    right:0;
+    z-index:400;
+    height:64px;
   }
   .desktop-topbar-title{
     font-family:'DM Serif Display',serif;
@@ -837,31 +815,18 @@ html,body{overscroll-behavior:none}
 
   /* ── LIST VIEW on desktop ── */
   #list-view{
-    height:100%;
-    max-width:100%;
     overflow:hidden;
-    display:flex;
-    flex-direction:column;
     background:var(--bg);
+    padding-top:64px; /* topbar height */
   }
-  /* Hide mobile header in list view — desktop uses topbar */
   #list-view .list-header-fixed{display:none!important}
   #list-view .feed-scroll{
     max-width:100%;
     margin:0;
     padding-top:0!important;
-    padding-bottom:40px;
-    /* Override mobile safe-area padding */
     padding-bottom:40px!important;
-  }
-  /* Fix feed-scroll height on desktop */
-  #list-view{
-    overflow:hidden;
-  }
-  #list-view .feed-scroll{
-    flex:1;
+    height:calc(100vh - 64px);
     overflow-y:auto;
-    height:0;
   }
   #filter-spacer{display:none}
 
@@ -883,42 +848,32 @@ html,body{overscroll-behavior:none}
   /* ── MAP VIEW on desktop ── */
   #map-view{
     flex-direction:column;
-    height:100%;
     max-width:100%;
+    padding-top:64px; /* topbar height */
   }
   #map-view .map-header{display:none!important}
-  #map-view .map-search-wrap{
-    padding:12px 32px 0;
-    position:relative;
-    z-index:10;
-  }
-  #map-view .map-filters-wrap,
-  #map-view .day-pills-wrap,
-  #map-view .map-time-wrap{ display:flex; flex-shrink:0; }
-  #map-view .map-filters{flex-wrap:nowrap;overflow-x:auto;padding:8px 32px;gap:6px}
-  #map-view .day-pills-wrap{padding:4px 32px 8px}
-  #map-view .map-time-wrap{padding:0 32px 8px}
-  #map{flex:1;min-height:0;width:100%}
+  #map-view .map-search-wrap{display:none!important}
+  #map-view .map-filters-wrap{display:none!important}
+  #map-view .day-pills-wrap{display:none!important}
+  #map-view .map-time-wrap{display:none!important}
+  #map{flex:1;min-height:0;width:100%;height:calc(100vh - 64px)}
   #map-legend{bottom:24px;right:24px;background:rgba(20,20,20,.97)}
 
   /* ── MY LIST VIEW on desktop ── */
   #mylist-view{
-    height:100%;
-    max-width:100%;
     overflow:hidden;
+    padding-top:64px;
   }
-  #mylist-sticky{
-    display:none!important;
-  }
+  #mylist-sticky{display:none!important}
   #mylist-scroll{
     max-width:100%;
     margin:0;
     padding-top:0!important;
-    padding-bottom:40px;
+    padding-bottom:40px!important;
+    height:calc(100vh - 64px);
+    overflow-y:auto;
   }
-  #mylist-scroll .cards-scroll{
-    padding:24px 32px;
-  }
+  #mylist-scroll .cards-scroll{padding:24px 32px}
 
   /* ── SEARCH OVERLAY on desktop ── */
   .full-search-overlay{
@@ -946,9 +901,10 @@ html,body{overscroll-behavior:none}
 /* ── LARGE DESKTOP: 1400px+ ────────────────────────────── */
 @media (min-width:1400px){
   .desktop-sidebar{width:280px}
-  #app-content{margin-left:280px;width:calc(100vw - 280px)}
+  .view{margin-left:280px;width:calc(100vw - 280px)}
   .cards-scroll{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
   .venue-page{left:280px}
+  .desktop-topbar{left:280px}
 }
 /* ── AUTH MODAL ── */
 .auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -1148,8 +1104,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <!-- APP CONTENT WRAPPER -->
-<div id="app-content">
-
 <!-- DESKTOP TOPBAR — shown inside app-content on desktop -->
 <div class="desktop-topbar" style="display:none" id="desktop-topbar">
   <div class="desktop-topbar-title" id="desktop-topbar-title">Tonight</div>
@@ -1521,8 +1475,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button class="auth-btn" id="new-password-btn" onclick="submitNewPassword()">Set New Password</button>
   </div>
 </div>
-
-</div><!-- end #app-content -->
 
 <!-- GLOBAL HAMBURGER MENU (shared across all views) -->
 <div class="hamburger-menu" id="hamburger-menu">
@@ -3882,8 +3834,6 @@ function applyLayout(){
   const sidebar = document.querySelector('.desktop-sidebar');
   const topbar = document.getElementById('desktop-topbar');
   const mobileNav = document.querySelector('.bnav');
-  const appContent = document.getElementById('app-content');
-
   if(desktop){
     if(sidebar) sidebar.style.display = 'flex';
     if(topbar) topbar.style.display = 'flex';
