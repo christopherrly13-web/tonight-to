@@ -2680,19 +2680,28 @@ async function openVenuePage(v){
     <div style="font-size:13px;color:var(--muted)">${v.days.map(d=>DABB[d]).join(' · ')}</div>`;
   detailEl.textContent = v.detail;
   actionsEl.innerHTML = `
-    <a class="venue-page-action-btn primary" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation();window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_directions',venue_name:'${v.name.replace(/'/g,\'\\\'\')}',venue_type:'${v.type}'})">
+    <a class="venue-page-action-btn primary" id="vp-directions-btn" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       Directions
     </a>
     <button class="venue-page-action-btn" data-name="${v.name.replace(/"/g,'&quot;')}" data-addr="${v.addr.replace(/"/g,'&quot;')}" onclick="openHoursModal(this.dataset.name,this.dataset.addr)">
       🕐 Hours
     </button>
-    ${v.source !== 'ticketmaster' ? `<a class="venue-page-action-btn" href="${v.reserve || v.website || 'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener" onclick="window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_reserve',venue_name:'${v.name.replace(/'/g,\"\\'\")}'})" >📅 Reserve</a>` : ''}
+    ${v.source !== 'ticketmaster' ? `<a class="venue-page-action-btn" id="vp-reserve-btn" href="${v.reserve || v.website || 'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener">📅 Reserve</a>` : ''}
     <button class="venue-page-action-btn save-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
       ${favourites.has(v.name)?'❤️ Saved':'🤍 Save'}
     </button>
     ${v.url ? `<a class="venue-page-action-btn" href="${v.url}" target="_blank" rel="noopener">🎟 Tickets</a>` : ''}`;
   reviewsEl.innerHTML = '<div class="venue-page-review-loading">Finding reviews…</div>';
+
+  // Attach dataLayer tracking cleanly (no escaping issues)
+  setTimeout(()=>{
+    const dl = ()=>{ window.dataLayer=window.dataLayer||[]; return window.dataLayer; };
+    const dirBtn = document.getElementById('vp-directions-btn');
+    if(dirBtn) dirBtn.addEventListener('click', ()=> dl().push({event:'venue_directions',venue_name:v.name,venue_type:v.type}));
+    const resBtn = document.getElementById('vp-reserve-btn');
+    if(resBtn) resBtn.addEventListener('click', ()=> dl().push({event:'venue_reserve',venue_name:v.name}));
+  }, 0);
 
   // Open page with slide-in animation
   page.classList.add('open');
