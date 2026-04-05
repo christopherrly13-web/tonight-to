@@ -537,6 +537,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
   -webkit-tap-highlight-color:transparent;
   touch-action:manipulation;
 }
+@media(min-width:1024px){
+  #search-suggestions{max-height:320px;overflow-y:auto}
+  .sugg-item{padding:8px 12px}
+  .sugg-label{font-size:13px}
+  .sugg-sub{font-size:10px}
+  .sugg-icon{font-size:13px;width:16px}
+}
 .sugg-item:last-child{border-bottom:none}
 .sugg-item:hover,.sugg-item:active{background:var(--surface2)}
 .sugg-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
@@ -3526,11 +3533,22 @@ function onSearch(){
   const clearBtn=document.getElementById("search-clear");
   const sugBox=document.getElementById("search-suggestions");
 
-  // Position suggestions fixed just below the search bar
-  const searchWrap=document.querySelector('.list-header-core .search-wrap');
-  if(searchWrap && sugBox){
-    const rect=searchWrap.getBoundingClientRect();
-    sugBox.style.top=(rect.bottom+2)+'px';
+  // Position suggestions fixed just below the active search bar
+  const activeSearch = isDesktop()
+    ? document.getElementById('desktop-search-input')
+    : document.querySelector('.list-header-core .search-wrap');
+  if(activeSearch && sugBox){
+    const rect = activeSearch.getBoundingClientRect();
+    sugBox.style.top = (rect.bottom + 4) + 'px';
+    if(isDesktop()){
+      sugBox.style.left = rect.left + 'px';
+      sugBox.style.right = 'auto';
+      sugBox.style.width = rect.width + 'px';
+    } else {
+      sugBox.style.left = '0';
+      sugBox.style.right = '0';
+      sugBox.style.width = '';
+    }
   }
 
   if(!q){
