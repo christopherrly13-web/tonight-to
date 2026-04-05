@@ -743,7 +743,7 @@ html,body{overscroll-behavior:none}
     display:flex!important;
     align-items:center;
     gap:16px;
-    padding:14px 32px;
+    padding:10px 32px;
     border-bottom:1px solid var(--border);
     background:var(--bg);
     flex-shrink:0;
@@ -752,7 +752,7 @@ html,body{overscroll-behavior:none}
     left:260px;
     right:0;
     z-index:400;
-    height:64px;
+    height:80px;
   }
   .desktop-topbar-title{
     font-family:'DM Serif Display',serif;
@@ -817,7 +817,7 @@ html,body{overscroll-behavior:none}
   #list-view{
     overflow:hidden;
     background:var(--bg);
-    padding-top:64px; /* topbar height */
+    padding-top:80px; /* topbar height */
   }
   #list-view .list-header-fixed{display:none!important}
   #list-view .feed-scroll{
@@ -825,7 +825,7 @@ html,body{overscroll-behavior:none}
     margin:0;
     padding-top:0!important;
     padding-bottom:40px!important;
-    height:calc(100vh - 64px);
+    height:calc(100vh - 80px);
     overflow-y:auto;
   }
   #filter-spacer{display:none}
@@ -849,14 +849,14 @@ html,body{overscroll-behavior:none}
   #map-view{
     flex-direction:column;
     max-width:100%;
-    padding-top:64px; /* topbar height */
+    padding-top:80px; /* topbar height */
   }
   #map-view .map-header{display:none!important}
   #map-view .map-search-wrap{display:none!important}
   #map-view .map-filters-wrap{display:none!important}
   #map-view .day-pills-wrap{display:none!important}
   #map-view .map-time-wrap{display:none!important}
-  #map{flex:1;min-height:0;width:100%;height:calc(100vh - 64px)}
+  #map{flex:1;min-height:0;width:100%;height:calc(100vh - 80px)}
   #map-legend{bottom:24px;right:24px;background:rgba(20,20,20,.97)}
 
   /* ── MY LIST VIEW on desktop ── */
@@ -870,7 +870,7 @@ html,body{overscroll-behavior:none}
     margin:0;
     padding-top:0!important;
     padding-bottom:40px!important;
-    height:calc(100vh - 64px);
+    height:calc(100vh - 80px);
     overflow-y:auto;
   }
   #mylist-scroll .cards-scroll{padding:24px 32px}
@@ -1022,7 +1022,7 @@ html,body{overscroll-behavior:none}
   .view{margin-left:280px;width:calc(100vw - 280px)}
   .cards-scroll{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
   .venue-page{left:280px}
-  .desktop-topbar{left:280px}
+  .desktop-topbar{left:280px;height:80px}
 }
 /* ── AUTH MODAL ── */
 .auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
@@ -1218,46 +1218,47 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <div class="desktop-topbar-actions">
-    <div class="desktop-filters-bar" id="desktop-filters-bar">
-      <!-- Type filter pills -->
-      <div style="display:flex;gap:4px;flex-shrink:0" id="desktop-type-filters">
-        <button class="desktop-type-pill active" data-t="all" onclick="setTypeDesktop(this)">All</button>
-        <button class="desktop-type-pill" data-t="drinkhh" onclick="setTypeDesktop(this)">Drink Happy Hour</button>
-        <button class="desktop-type-pill" data-t="foodhh" onclick="setTypeDesktop(this)">Food Happy Hour</button>
-        <button class="desktop-type-pill" data-t="music" onclick="setTypeDesktop(this)">Music</button>
-        <button class="desktop-type-pill" data-t="trivia" onclick="setTypeDesktop(this)">Trivia</button>
-        <button class="desktop-type-pill" data-t="comedy" onclick="setTypeDesktop(this)">Comedy</button>
-        <button class="desktop-type-pill" data-t="drag" onclick="setTypeDesktop(this)">Drag</button>
-        <button class="desktop-type-pill" data-t="bingo" onclick="setTypeDesktop(this)">Bingo</button>
+    <div style="display:flex;flex-direction:column;gap:6px;flex:1">
+      <!-- Row 1: Events filter -->
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;min-width:52px">Events:</span>
+        <div style="display:flex;gap:4px;flex-wrap:wrap" id="desktop-type-filters">
+          <button class="desktop-type-pill active" data-t="all" onclick="setTypeDesktop(this)">All</button>
+          <button class="desktop-type-pill" data-t="drinkhh" onclick="setTypeDesktop(this)">Drink Happy Hour</button>
+          <button class="desktop-type-pill" data-t="foodhh" onclick="setTypeDesktop(this)">Food Happy Hour</button>
+          <button class="desktop-type-pill" data-t="music" onclick="setTypeDesktop(this)">Music</button>
+          <button class="desktop-type-pill" data-t="trivia" onclick="setTypeDesktop(this)">Trivia</button>
+          <button class="desktop-type-pill" data-t="comedy" onclick="setTypeDesktop(this)">Comedy</button>
+          <button class="desktop-type-pill" data-t="drag" onclick="setTypeDesktop(this)">Drag</button>
+          <button class="desktop-type-pill" data-t="bingo" onclick="setTypeDesktop(this)">Bingo</button>
+        </div>
       </div>
-      <div class="desktop-divider"></div>
-      <!-- Day pills -->
-      <div class="day-pills" style="display:flex;gap:4px">
-        <button class="day-pill" data-d="mon" onclick="toggleDay(this)">Mon</button>
-        <button class="day-pill" data-d="tue" onclick="toggleDay(this)">Tue</button>
-        <button class="day-pill" data-d="wed" onclick="toggleDay(this)">Wed</button>
-        <button class="day-pill" data-d="thu" onclick="toggleDay(this)">Thu</button>
-        <button class="day-pill" data-d="fri" onclick="toggleDay(this)">Fri</button>
-        <button class="day-pill" data-d="sat" onclick="toggleDay(this)">Sat</button>
-        <button class="day-pill" data-d="sun" onclick="toggleDay(this)">Sun</button>
+      <!-- Row 2: Day + time -->
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;min-width:52px">Day:</span>
+        <div class="day-pills" style="display:flex;gap:4px">
+          <button class="day-pill" data-d="mon" onclick="toggleDay(this)">Mon</button>
+          <button class="day-pill" data-d="tue" onclick="toggleDay(this)">Tue</button>
+          <button class="day-pill" data-d="wed" onclick="toggleDay(this)">Wed</button>
+          <button class="day-pill" data-d="thu" onclick="toggleDay(this)">Thu</button>
+          <button class="day-pill" data-d="fri" onclick="toggleDay(this)">Fri</button>
+          <button class="day-pill" data-d="sat" onclick="toggleDay(this)">Sat</button>
+          <button class="day-pill" data-d="sun" onclick="toggleDay(this)">Sun</button>
+        </div>
+        <div class="desktop-divider"></div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <label style="font-size:12px;color:var(--accent);font-weight:600;white-space:nowrap">Time</label>
+          <input type="range" id="desktop-time-slider" min="0" max="24" step="0.5" value="0" oninput="syncDesktopTime(this.value)" style="width:110px;accent-color:var(--accent)">
+          <span id="desktop-time-display" style="font-size:12px;font-weight:600;color:var(--accent);min-width:36px">Any</span>
+        </div>
+        <div class="desktop-divider"></div>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;white-space:nowrap">
+          <input type="checkbox" id="desktop-now-chk" onchange="syncDesktopNow()" style="accent-color:var(--accent)"> Now
+        </label>
+        <button class="locate-btn" onclick="getLocation()" style="padding:5px 10px;font-size:12px">Near me</button>
+        <span id="desktop-count" style="font-size:12px;color:var(--muted);white-space:nowrap;margin-left:4px"></span>
       </div>
-      <div class="desktop-divider"></div>
-      <!-- Time slider -->
-      <div style="display:flex;align-items:center;gap:6px">
-        <label style="font-size:12px;color:var(--accent);font-weight:600;white-space:nowrap">Time</label>
-        <input type="range" id="desktop-time-slider" min="0" max="24" step="0.5" value="0" oninput="syncDesktopTime(this.value)" style="width:120px;accent-color:var(--accent)">
-        <span id="desktop-time-display" style="font-size:12px;font-weight:600;color:var(--accent);min-width:36px">Any</span>
-      </div>
-      <div class="desktop-divider"></div>
-      <label style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted);cursor:pointer;white-space:nowrap">
-        <input type="checkbox" id="desktop-now-chk" onchange="syncDesktopNow()" style="accent-color:var(--accent)"> Now
-      </label>
-      <button class="locate-btn" onclick="getLocation()" style="padding:6px 12px;font-size:12px">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06z"/></svg>
-        Near me
-      </button>
     </div>
-    <span id="desktop-count" style="font-size:12px;color:var(--muted);white-space:nowrap;margin-left:8px"></span>
   </div>
 </div>
 
@@ -2804,7 +2805,6 @@ function render(){
     const cacheKey = 'v_' + i + '_' + Date.now();
     window._venueCache[i] = v;
     const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";
-    const photoRight = v.photo ? `<div class="card-photo-right"><img src="${v.photo}" alt="${v.name}" loading="lazy"></div>` : `<div class="card-photo-right no-photo" style="background:linear-gradient(135deg,${TYPE_COLOR[v.type]||'#e8c547'}22,${TYPE_COLOR[v.type]||'#e8c547'}44)"></div>`;
     return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(window._venueCache[${i}])" style="cursor:pointer">
       <div class="card-body">
       <div class="card-top">
@@ -2829,7 +2829,6 @@ function render(){
           View on Google Maps
         </a>`}
       </div>
-      ${photoRight}
     </div>`;
   }).join("");
 }
