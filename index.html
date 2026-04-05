@@ -1910,12 +1910,81 @@ async function fetchTicketmasterEvents(){
   }
 }
 
+async function fetchEventbriteEvents(){
+  const EB_KEY = 'LXGRIMIHHPLUZOD2SMPP';
+  try {
+    const today = new Date().toISOString().split('T')[0];
+    const nextWeek = new Date(Date.now()+7*24*60*60*1000).toISOString().split('T')[0];
+    const url = `https://www.eventbriteapi.com/v3/events/search/?`+
+      `token=${EB_KEY}`+
+      `&location.address=Toronto,ON,Canada`+
+      `&location.within=10km`+
+      `&start_date.range_start=${today}T00:00:00`+
+      `&start_date.range_end=${nextWeek}T23:59:59`+
+      `&categories=103,105,110,113`+ // music, arts, food, nightlife
+      `&expand=venue,organizer`+
+      `&page_size=50`;
+    const res = await fetch(url);
+    if(!res.ok){ console.warn('Eventbrite API error:',res.status); return []; }
+    const data = await res.json();
+    const events = data.events || [];
+
+    return events.map(ev => {
+      const venue = ev.venue || {};
+      const start = new Date(ev.start?.local || ev.start?.utc);
+      const end = new Date(ev.end?.local || ev.end?.utc);
+      const startH = start.getHours() + start.getMinutes()/60;
+      const endH = end.getHours() + end.getMinutes()/60;
+      const dayKey = DKEYS[start.getDay()];
+
+      // Skip if already ended
+      if(end < new Date()) return null;
+
+      // Map category to type
+      const name = (ev.name?.text||'').toLowerCase();
+      const cat = ev.category_id || '';
+      let type = 'livemusic';
+      if(name.includes('trivia')||name.includes('quiz')) type='trivia';
+      else if(name.includes('karaoke')) type='karaoke';
+      else if(name.includes('comedy')||name.includes('stand-up')||name.includes('standup')) type='comedy';
+      else if(name.includes('drag')) type='drag';
+      else if(name.includes('bingo')) type='bingo';
+      else if(name.includes('jazz')) type='jazz';
+      else if(name.includes('open mic')) type='openmic';
+      else if(name.includes('dj ')||name.includes('dj night')) type='dj';
+
+      const addr = [venue.address?.address_1, venue.address?.city].filter(Boolean).join(', ');
+      const isFree = ev.is_free;
+      const priceStr = isFree ? 'Free' : 'Check tickets';
+
+      return {
+        name: ev.name?.text || 'Unnamed Event',
+        hood: venue.name || venue.address?.city || 'Toronto',
+        type,
+        days: [dayKey],
+        start: startH,
+        end: endH || startH + 3,
+        detail: `${venue.name||''}${addr ? ', '+addr : ''}. ${priceStr}.`,
+        addr: venue.address?.address_1 || addr,
+        lat: parseFloat(venue.latitude) || 43.65,
+        lng: parseFloat(venue.longitude) || -79.38,
+        url: ev.url || '',
+        source: 'eventbrite',
+        photo: ev.logo?.url || '',
+      };
+    }).filter(v => v && v.name && v.days[0] && v.addr);
+  } catch(err){
+    console.warn('Eventbrite fetch failed:',err.message);
+    return [];
+  }
+}
+
 async function loadVenues(){
   const cards=document.getElementById("cards");
   if(cards) cards.innerHTML='<div class="empty"><p style="color:var(--muted)">⏳ Loading venues…</p></div>';
 
-  // Load venues.json and Ticketmaster in parallel
-  const [venuesResult, tmEvents] = await Promise.allSettled([
+  // Load venues.json, Ticketmaster and Eventbrite in parallel
+  const [venuesResult, tmEvents, ebEvents] = await Promise.allSettled([
     (async()=>{
       const cacheBust=Math.floor(Date.now()/60000);
       const url='https://tonightto.ca/venues.json?v='+cacheBust;
@@ -1923,7 +1992,8 @@ async function loadVenues(){
       if(!res.ok) throw new Error('HTTP '+res.status);
       return res.json();
     })(),
-    fetchTicketmasterEvents()
+    fetchTicketmasterEvents(),
+    fetchEventbriteEvents()
   ]);
 
   // Process venues.json
@@ -1939,11 +2009,17 @@ async function loadVenues(){
   const tmVenues = tmEvents.status==='fulfilled' ? tmEvents.value : [];
   console.log('Loaded',tmVenues.length,'events from Ticketmaster');
 
+  // Process Eventbrite events
+  const ebVenues = ebEvents.status==='fulfilled' ? ebEvents.value : [];
+  console.log('Loaded',ebVenues.length,'events from Eventbrite');
+
   // Merge — deduplicate by name
   const existingNames = new Set(venues.map(v=>v.name.toLowerCase()));
   const newTmVenues = tmVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
+  newTmVenues.forEach(v=>existingNames.add(v.name.toLowerCase()));
+  const newEbVenues = ebVenues.filter(v=>!existingNames.has(v.name.toLowerCase()));
 
-  ALL = [...venues, ...newTmVenues];
+  ALL = [...venues, ...newTmVenues, ...newEbVenues];
 
   if(ALL.length === 0){
     ALL = [...(typeof FALLBACK_VENUES !== 'undefined' ? FALLBACK_VENUES : [])];
