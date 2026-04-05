@@ -900,6 +900,18 @@ html,body{overscroll-behavior:none}
   .venue-page{
     left:260px;
   }
+  .venue-page-hero{
+    min-height:380px;
+    max-height:480px;
+  }
+  .venue-page-photo{
+    width:100%;
+    height:100%;
+    min-height:380px;
+    max-height:480px;
+    object-fit:cover;
+    object-position:center;
+  }
 
   /* Hide filters-collapsible on desktop — using topbar filters instead */
   #filters-collapsible{display:none!important}
@@ -3235,10 +3247,15 @@ function fetchVenuePhoto(v, photoEl){
     photoEl.alt = v.name;
     photoEl.onload = () => {
       photoEl.classList.add('has-img');
-      const ratio = photoEl.naturalHeight / photoEl.naturalWidth;
-      const w = photoEl.offsetWidth || window.innerWidth;
-      const h = Math.min(Math.round(w * ratio), 400);
-      hero.style.height = h + 'px';
+      if(isDesktop()){
+        // Fixed tall hero on desktop — CSS handles height
+        hero.style.height = '';
+      } else {
+        const ratio = photoEl.naturalHeight / photoEl.naturalWidth;
+        const w = photoEl.offsetWidth || window.innerWidth;
+        const h = Math.min(Math.round(w * ratio), 400);
+        hero.style.height = h + 'px';
+      }
     };
     photoEl.onerror = () => {
       photoEl.style.display = 'none';
