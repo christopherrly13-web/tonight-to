@@ -1624,6 +1624,7 @@ async function toggleFav(e, name, type){
   } else {
     favourites.add(name);
     await supa.from('favourites').upsert({user_id: currentUser.id, venue_name: name, venue_type: type});
+    window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_save',venue_name:name,venue_type:type});
   }
   // Update venue page save button if open
   const actionsEl = document.getElementById('venue-page-actions');
@@ -1995,6 +1996,7 @@ initDayPills();
 
 function toggleDay(el){
   const d=el.dataset.d;
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'filter_day',filter_value:d});
   if(selectedDays.has(d)){
     selectedDays.delete(d);
     el.classList.remove("active");
@@ -2129,6 +2131,7 @@ function showView(v, el){
   } else {
     document.getElementById("map-view").classList.add("active");
     document.getElementById("nb-map").classList.add("active");
+    window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'map_view'});
 
     // Sync list types → map type pills
     mapActiveTypes.clear();
@@ -2197,6 +2200,7 @@ function setNavFilter(t){
 
 function setType(el){
   const t = el.dataset.t;
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'filter_type',filter_value:t});
   if(t === 'all'){
     // All toggles off everything else
     if(activeTypes.has('all')){
@@ -2676,14 +2680,14 @@ async function openVenuePage(v){
     <div style="font-size:13px;color:var(--muted)">${v.days.map(d=>DABB[d]).join(' · ')}</div>`;
   detailEl.textContent = v.detail;
   actionsEl.innerHTML = `
-    <a class="venue-page-action-btn primary" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+    <a class="venue-page-action-btn primary" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation();window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_directions',venue_name:'${v.name.replace(/'/g,\'\\\'\')}',venue_type:'${v.type}'})">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       Directions
     </a>
     <button class="venue-page-action-btn" data-name="${v.name.replace(/"/g,'&quot;')}" data-addr="${v.addr.replace(/"/g,'&quot;')}" onclick="openHoursModal(this.dataset.name,this.dataset.addr)">
       🕐 Hours
     </button>
-    ${v.source !== 'ticketmaster' ? `<a class="venue-page-action-btn" href="${v.reserve || v.website || 'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener">📅 Reserve</a>` : ''}
+    ${v.source !== 'ticketmaster' ? `<a class="venue-page-action-btn" href="${v.reserve || v.website || 'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener" onclick="window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_reserve',venue_name:'${v.name.replace(/'/g,\"\\'\")}'})" >📅 Reserve</a>` : ''}
     <button class="venue-page-action-btn save-btn" onclick="toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')">
       ${favourites.has(v.name)?'❤️ Saved':'🤍 Save'}
     </button>
@@ -2693,6 +2697,7 @@ async function openVenuePage(v){
   // Open page with slide-in animation
   page.classList.add('open');
   document.body.style.overflow = 'hidden';
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_view',venue_name:v.name,venue_type:v.type,venue_hood:v.hood,venue_source:v.source||'venues'});
   history.pushState({venuePage: true}, '', '#venue');
 
   // Photo: use Pexels curated IDs by venue type (reliable, no API key)
@@ -3244,6 +3249,7 @@ function commitSearch(){
 }
 
 function applySearchIntent(types, nowOnly){
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'search_intent',intent_types:(types||[]).join(','),now_only:!!nowOnly});
   searchTypes=types;
   searchNowOnly=nowOnly||false;
   const intent=SEARCH_INTENTS.find(i=>JSON.stringify(i.types)===JSON.stringify(types)&&!!i.nowFilter===!!nowOnly);
@@ -3262,6 +3268,7 @@ function applySearchIntent(types, nowOnly){
 }
 
 function applyVenueSearch(name){
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_search',search_term:name});
   searchTypes=null;
   searchNowOnly=false;
   document.getElementById("search-input").value=name;
@@ -3332,6 +3339,7 @@ function updateThemeToggleUI(isLight){
 const DAY_NAMES_FULL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
 async function openHoursModal(name, addr){
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_hours',venue_name:name});
   // Create and show modal immediately with loading state
   const existing = document.getElementById('hours-modal-overlay');
   if(existing) existing.remove();
