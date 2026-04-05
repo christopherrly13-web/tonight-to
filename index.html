@@ -928,12 +928,19 @@ html,body{overscroll-behavior:none}
   .card:hover{background:var(--surface);transform:none;box-shadow:none}
   .card:active{transform:none}
   .card-body{
-    flex:1;display:flex;flex-direction:row;align-items:center;
-    padding:20px 32px;gap:0;min-width:0;
+    flex:1;
+    display:grid;
+    grid-template-columns:220px 1fr 260px 120px;
+    align-items:center;
+    padding:0 32px;
+    gap:0;
+    min-width:0;
+    height:100%;
   }
+  /* Col 1: venue name + address */
   .card-top{
     display:flex;flex-direction:column;gap:5px;
-    width:240px;flex-shrink:0;margin-bottom:0;min-width:0;
+    min-width:0;margin-bottom:0;padding-right:20px;
   }
   .card-top > div:first-child{min-width:0}
   .card-name{
@@ -941,15 +948,25 @@ html,body{overscroll-behavior:none}
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
   .card-sub{font-size:11px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* Col 2: description — wraps if needed */
   .card .detail{
-    flex:1;font-size:12px;color:var(--muted2);
-    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-    margin-bottom:0;padding:0 24px;line-height:1.4;
+    font-size:12px;color:var(--muted2);
+    white-space:normal;
+    overflow:hidden;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+    margin-bottom:0;padding:0 20px;line-height:1.5;
   }
-  .card-ftr{display:flex;align-items:center;gap:8px;flex-shrink:0;margin-top:0}
+  /* Col 3: time + days */
+  .card-ftr{
+    display:flex;flex-direction:column;align-items:flex-start;
+    gap:4px;margin-top:0;padding:0 16px;
+  }
+  .card-ftr .time-wrap{white-space:nowrap}
+  .card-ftr .days-txt,.card-ftr .next-day-badge{font-size:10px;color:var(--muted)}
+  /* Col 4: badge + fav */
   .card-right{
     display:flex;flex-direction:column;align-items:flex-end;
-    gap:4px;flex-shrink:0;padding-left:16px;padding-right:32px;min-width:140px;
+    gap:6px;flex-shrink:0;padding-left:8px;
   }
   .card-top .badge,.card-top .fav-btn{display:none}
   .card .card-gmaps{display:none}
@@ -1151,10 +1168,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- APP CONTENT WRAPPER -->
 <!-- DESKTOP TOPBAR — shown inside app-content on desktop -->
 <div class="desktop-topbar" style="display:none" id="desktop-topbar">
-  <!-- Left: logo + search -->
-  <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
-    <div class="desktop-topbar-title" id="desktop-topbar-title">Tonight</div>
-    <div class="search-wrap" style="width:260px;padding:0">
+  <!-- Left: search only -->
+  <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;width:260px">
+    <div class="search-wrap" style="width:100%;padding:0">
       <div class="search-box">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="text" id="desktop-search-input" placeholder="Search venues, drinks, music…" oninput="onDesktopSearch()" autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:14px;flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif">
@@ -2754,32 +2770,19 @@ function render(){
     const nextBadge=showNext?`<span class="next-day-badge ${next==="Today"||next==="Tomorrow"?"next-soon":""}"><span style="display:block;font-size:9px;opacity:.7;letter-spacing:.04em;text-transform:uppercase;margin-bottom:1px">next day</span>${next==="Today"?"🕐 Later today":next==="Tomorrow"?"🔜 Tomorrow":"📅 "+next}</span>`:"";
     return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(window._venueCache[${i}])" style="cursor:pointer">
       <div class="card-body">
-      <div class="card-top">
-        <div style="min-width:0;flex:1">
-          <div class="card-name">${v.name}${v.source==='eventbrite'?'<span class="eb-badge">🎟 Eventbrite</span>':v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 Ticketmaster</a>`:''}</div>
+        <div class="card-top">
+          <div class="card-name">${v.name}${v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 TM</a>`:v.source==='eventbrite'?'<span class="eb-badge">🎟 EB</span>':''}</div>
           <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
         </div>
-        <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>${(v.extraTypes||[]).map(t=>`<span class="badge ${TBADGE[t]||'b-hh'}" style="margin-left:4px">${TLABEL[t]||t}</span>`).join('')}
-        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-      </div>
-      <div class="detail">${v.detail}</div>
-      <div class="card-ftr">
-        <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now · "+fmt(v.start)+"–"+fmt(v.end):fmt(v.start)+"–"+fmt(v.end)}</span></div>
-        ${showNext?nextBadge:`<span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>`}
-      </div>
-      ${v.url
-        ? v.source==='ticketmaster'
-          ? `<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="border-color:rgba(0,114,206,.3);color:#0072ce">🎟 Get tickets on Ticketmaster</a>`
-          : `<a class="card-gmaps" href="${v.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="border-color:rgba(255,102,0,.3);color:#ff6600">🎟 Get tickets on Eventbrite</a>`
-        :`<a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          View on Google Maps
-        </a>`}
-      </div>
-      <div class="card-right">
-        <span class="badge ${TBADGE[v.type]||"b-hh"}" style="font-size:10px">${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
-        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-        <span style="font-size:10px;color:var(--muted)">${v.days.map(d=>DABB[d]).join(' · ')}</span>
+        <div class="detail">${v.detail}</div>
+        <div class="card-ftr">
+          <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now · "+fmt(v.start)+"–"+fmt(v.end):fmt(v.start)+"–"+fmt(v.end)}</span></div>
+          ${showNext?nextBadge:`<span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>`}
+        </div>
+        <div class="card-right">
+          <span class="badge ${TBADGE[v.type]||"b-hh"}" style="font-size:10px">${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>${(v.extraTypes||[]).map(t=>`<span class="badge ${TBADGE[t]||'b-hh'}" style="font-size:10px;display:block;margin-top:2px">${TLABEL[t]||t}</span>`).join('')}
+          <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}',' ${v.type}')" title="Save venue"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        </div>
       </div>
     </div>`;
   }).join("");
