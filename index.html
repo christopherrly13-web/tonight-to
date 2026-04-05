@@ -921,7 +921,7 @@ html,body{overscroll-behavior:none}
   .cards-scroll{display:flex;flex-direction:column;gap:0;padding:0}
   .card{
     display:flex;flex-direction:row;align-items:center;
-    min-height:80px;border-radius:0;border:none;
+    min-height:110px;border-radius:0;border:none;
     border-bottom:1px solid var(--border);padding:0;
     position:relative;overflow:hidden;background:var(--bg);transition:background .15s;
   }
@@ -929,18 +929,18 @@ html,body{overscroll-behavior:none}
   .card:active{transform:none}
   .card-body{
     flex:1;display:flex;flex-direction:row;align-items:center;
-    padding:14px 32px;gap:0;min-width:0;
+    padding:20px 32px;gap:0;min-width:0;
   }
   .card-top{
-    display:flex;flex-direction:column;gap:2px;
-    width:220px;flex-shrink:0;margin-bottom:0;min-width:0;
+    display:flex;flex-direction:column;gap:5px;
+    width:240px;flex-shrink:0;margin-bottom:0;min-width:0;
   }
   .card-top > div:first-child{min-width:0}
   .card-name{
     font-size:14px;font-weight:600;color:var(--text);
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   }
-  .card-sub{font-size:11px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card-sub{font-size:11px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .card .detail{
     flex:1;font-size:12px;color:var(--muted2);
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
@@ -992,9 +992,11 @@ html,body{overscroll-behavior:none}
 .hamburger-item:hover{background:rgba(255,255,255,.07)}
 .hamburger-item-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
 .hamburger-divider{height:1px;background:var(--border);margin:4px 0}
-.fav-btn{background:none;border:none;font-size:16px;cursor:pointer;padding:4px;line-height:1;opacity:.5;transition:opacity .2s,transform .2s;flex-shrink:0}
-.fav-btn.active{opacity:1;transform:scale(1.15)}
-.fav-btn:hover{opacity:1}
+.fav-btn{background:none;border:none;cursor:pointer;padding:4px;line-height:1;transition:transform .2s;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.fav-btn svg{stroke:#aaa;fill:none;transition:stroke .2s,fill .2s}
+.fav-btn:hover svg{stroke:#e05555}
+.fav-btn.active svg{stroke:#e05555;fill:rgba(224,85,85,0.18)}
+.fav-btn.active{transform:scale(1.1)}
 
 /* ── FAV FILTER PILL ── */
 .pill[data-t="favs"]{border-color:rgba(255,80,80,.3);color:#ff5555}
@@ -1180,14 +1182,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- Row 2: Day + time + controls -->
     <div style="display:flex;align-items:center;gap:8px">
       <span style="font-size:12px;font-weight:700;color:var(--text);white-space:nowrap;min-width:48px">Day:</span>
-      <div id="desktop-day-pills" style="display:flex;gap:4px">
-        <button class="day-pill" data-d="mon" onclick="toggleDay(this)">Mon</button>
-        <button class="day-pill" data-d="tue" onclick="toggleDay(this)">Tue</button>
-        <button class="day-pill" data-d="wed" onclick="toggleDay(this)">Wed</button>
-        <button class="day-pill" data-d="thu" onclick="toggleDay(this)">Thu</button>
-        <button class="day-pill" data-d="fri" onclick="toggleDay(this)">Fri</button>
-        <button class="day-pill" data-d="sat" onclick="toggleDay(this)">Sat</button>
-        <button class="day-pill" data-d="sun" onclick="toggleDay(this)">Sun</button>
+      <div id="desktop-day-pills" style="display:flex;gap:4px;flex:1">
+        <button class="day-pill" data-d="mon" onclick="toggleDay(this)" style="flex:1">Mon</button>
+        <button class="day-pill" data-d="tue" onclick="toggleDay(this)" style="flex:1">Tue</button>
+        <button class="day-pill" data-d="wed" onclick="toggleDay(this)" style="flex:1">Wed</button>
+        <button class="day-pill" data-d="thu" onclick="toggleDay(this)" style="flex:1">Thu</button>
+        <button class="day-pill" data-d="fri" onclick="toggleDay(this)" style="flex:1">Fri</button>
+        <button class="day-pill" data-d="sat" onclick="toggleDay(this)" style="flex:1">Sat</button>
+        <button class="day-pill" data-d="sun" onclick="toggleDay(this)" style="flex:1">Sun</button>
       </div>
       <div class="desktop-divider"></div>
       <label style="font-size:11px;color:var(--accent);font-weight:600;white-space:nowrap">Time</label>
@@ -1799,7 +1801,7 @@ function renderMyList(){
           <div class="card-sub">${v.hood} · ${v.addr}</div>
         </div>
         <span class="badge ${TBADGE[v.type]||'b-hh'}">${MUSIC_TYPES.has(v.type)?'🎵 Music · '+MUSIC_SUBLABEL[v.type]:(TLABEL[v.type]||v.type)}</span>
-        <button class="fav-btn active" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Remove">❤️</button>
+        <button class="fav-btn active" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Remove"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
       </div>
       <div class="detail">${v.detail}</div>
       <div class="card-ftr">
@@ -2758,7 +2760,7 @@ function render(){
           <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
         </div>
         <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>${(v.extraTypes||[]).map(t=>`<span class="badge ${TBADGE[t]||'b-hh'}" style="margin-left:4px">${TLABEL[t]||t}</span>`).join('')}
-        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue">${favourites.has(v.name)?'❤️':'🤍'}</button>
+        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
       </div>
       <div class="detail">${v.detail}</div>
       <div class="card-ftr">
@@ -2776,7 +2778,7 @@ function render(){
       </div>
       <div class="card-right">
         <span class="badge ${TBADGE[v.type]||"b-hh"}" style="font-size:10px">${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
-        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue">${favourites.has(v.name)?'❤️':'🤍'}</button>
+        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
         <span style="font-size:10px;color:var(--muted)">${v.days.map(d=>DABB[d]).join(' · ')}</span>
       </div>
     </div>`;
