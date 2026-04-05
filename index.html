@@ -905,6 +905,17 @@ html,body{overscroll-behavior:none}
   #filters-collapsible{display:none!important}
 }
 
+/* ── DESKTOP PRICE FILTER ── */
+.desktop-price-pill{
+  padding:5px 10px;border-radius:6px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--muted);font-size:12px;font-weight:600;
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .15s;letter-spacing:.02em;
+}
+.desktop-price-pill:hover{background:var(--surface);color:var(--text)}
+.desktop-price-pill.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
+
 /* ── DESKTOP TIME SLIDER ── */
 @media(min-width:1024px){
   #desktop-time-slider{
@@ -2723,6 +2734,7 @@ function getFiltered(){
     }
     if(nowOnly&&!isNow(v))return false;
     if(!q&&timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
+    if(activePriceTier!=='all' && v.price && v.price !== parseInt(activePriceTier))return false;
     return true;
   });
 }
@@ -2845,7 +2857,11 @@ function render(){
           </div>
           <div class="detail">${v.detail}</div>
           <div class="card-right">
-            <span class="badge ${TBADGE[v.type]||"b-hh"}" style="font-size:10px">${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>${(v.extraTypes||[]).map(t=>`<span class="badge ${TBADGE[t]||'b-hh'}" style="font-size:10px;display:block;margin-top:2px">${TLABEL[t]||t}</span>`).join('')}
+            <div style="display:flex;align-items:center;gap:6px">
+              <span class="badge ${TBADGE[v.type]||"b-hh"}" style="font-size:10px">${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
+              ${v.price?`<span style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.05em">${'$'.repeat(v.price)}</span>`:''}
+            </div>
+            ${(v.extraTypes||[]).map(t=>`<span class="badge ${TBADGE[t]||'b-hh'}" style="font-size:10px">${TLABEL[t]||t}</span>`).join('')}
             <span style="font-size:12px;color:${live?'var(--green)':'var(--muted)'};white-space:nowrap;font-weight:${live?'600':'400'}">${live?'● Now · ':''}<span style="color:var(--text);font-weight:500">${fmt(v.start)}–${fmt(v.end)}</span></span>
             <span style="font-size:10px;color:var(--muted)">${v.days.map(d=>DABB[d]).join(' · ')}</span>
             <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue"><svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
@@ -3963,6 +3979,16 @@ function updateDesktopNav(active){
   const titles = {feed:'Tonight', map:'Map', mylist:'My List'};
   const titleEl = document.getElementById('desktop-topbar-title');
   if(titleEl) titleEl.textContent = titles[active] || 'Tonight';
+}
+
+let activePriceTier = 'all'; // 'all', '1', '2', '3'
+
+function setPriceFilter(el){
+  activePriceTier = el.dataset.p;
+  document.querySelectorAll('#desktop-price-filters .desktop-price-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  render();
+  updateDesktopCount();
 }
 
 function setTypeDesktop(el){
