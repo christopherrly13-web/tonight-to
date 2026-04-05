@@ -759,7 +759,7 @@ html,body{overscroll-behavior:none}
     left:260px;
     right:0;
     z-index:400;
-    height:100px;
+    height:112px;
   }
   .desktop-topbar-title{
     font-family:'DM Serif Display',serif;
@@ -824,7 +824,7 @@ html,body{overscroll-behavior:none}
   #list-view{
     overflow:hidden;
     background:var(--bg);
-    padding-top:100px; /* topbar height */
+    padding-top:112px; /* topbar height */
   }
   #list-view .list-header-fixed{display:none!important}
   #list-view .feed-scroll{
@@ -832,7 +832,7 @@ html,body{overscroll-behavior:none}
     margin:0;
     padding-top:0!important;
     padding-bottom:40px!important;
-    height:calc(100vh - 100px);
+    height:calc(100vh - 112px);
     overflow-y:auto;
   }
   #filter-spacer{display:none}
@@ -856,14 +856,14 @@ html,body{overscroll-behavior:none}
   #map-view{
     flex-direction:column;
     max-width:100%;
-    padding-top:100px; /* topbar height */
+    padding-top:112px; /* topbar height */
   }
   #map-view .map-header{display:none!important}
   #map-view .map-search-wrap{display:none!important}
   #map-view .map-filters-wrap{display:none!important}
   #map-view .day-pills-wrap{display:none!important}
   #map-view .map-time-wrap{display:none!important}
-  #map{flex:1;min-height:0;width:100%;height:calc(100vh - 100px)}
+  #map{flex:1;min-height:0;width:100%;height:calc(100vh - 112px)}
   #map-legend{bottom:24px;right:24px;background:rgba(20,20,20,.97)}
 
   /* ── MY LIST VIEW on desktop ── */
@@ -877,7 +877,7 @@ html,body{overscroll-behavior:none}
     margin:0;
     padding-top:0!important;
     padding-bottom:40px!important;
-    height:calc(100vh - 100px);
+    height:calc(100vh - 112px);
     overflow-y:auto;
   }
   #mylist-scroll .cards-scroll{padding:24px 32px}
@@ -957,20 +957,20 @@ html,body{overscroll-behavior:none}
 
 /* ── DESKTOP TYPE PILLS in topbar ── */
 .desktop-type-pill{
-  padding:6px 14px;
-  border-radius:6px;
+  padding:7px 16px;
+  border-radius:8px;
   border:1px solid var(--border);
-  background:transparent;
+  background:var(--surface);
   color:var(--muted);
   font-size:12px;
-  font-weight:500;
+  font-weight:600;
   cursor:pointer;
   font-family:'DM Sans',sans-serif;
   white-space:nowrap;
   transition:all .15s;
   flex-shrink:0;
 }
-.desktop-type-pill:hover{background:var(--surface);color:var(--text)}
+.desktop-type-pill:hover{background:var(--surface2);color:var(--text)}
 .desktop-type-pill.active{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
 
 /* ── DESKTOP CARD: full-width rectangle ── */
@@ -1049,7 +1049,7 @@ html,body{overscroll-behavior:none}
   .view{margin-left:280px;width:calc(100vw - 280px)}
   .cards-scroll{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
   .venue-page{left:280px}
-  .desktop-topbar{left:280px;height:100px}
+  .desktop-topbar{left:280px;height:112px}
 }
 /* ── AUTH MODAL ── */
 .auth-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px}
