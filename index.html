@@ -1624,7 +1624,7 @@ async function toggleFav(e, name, type){
   } else {
     favourites.add(name);
     await supa.from('favourites').upsert({user_id: currentUser.id, venue_name: name, venue_type: type});
-    window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_save',venue_name:name,venue_type:type});
+    window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'venue_save',venue_name:name,venue_type:type,venues_saved_total:favourites.size});
   }
   // Update venue page save button if open
   const actionsEl = document.getElementById('venue-page-actions');
