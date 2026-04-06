@@ -3,7 +3,7 @@ name: Weekly Venue Scrape
 on:
   schedule:
     - cron: '0 6 * * 1'  # Every Monday 6am UTC (2am Toronto)
-  workflow_dispatch:
+  workflow_dispatch:      # Allow manual trigger from GitHub Actions tab
 
 jobs:
   scrape:
@@ -18,11 +18,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '20'
 
       - name: Run venue scraper
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GOOGLE_PLACES_KEY: ${{ secrets.GOOGLE_PLACES_KEY }}
+          YELP_API_KEY: ${{ secrets.YELP_API_KEY }}
         run: node scripts/scrape-venues.js
 
       - name: Commit updated venues.json
