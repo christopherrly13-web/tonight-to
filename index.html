@@ -3118,7 +3118,15 @@ function renderMap(){
   const nowOnly=document.getElementById("map-now-chk")?.checked||false;
   const timeFilter=getMapTimeFilter();
   const q=mapSearchQuery;
-  const items=ALL.filter(v=>{
+
+  // Find the exact searched venue (may not be live right now)
+  const searchedVenue = q ? ALL.find(v=>v.name.toLowerCase()===q || (v.name+v.hood+v.detail+v.addr).toLowerCase().includes(q)) : null;
+
+  // Build the set of venues to show:
+  // 1. All venues matching current day/time filters (live events always visible)
+  // 2. The searched venue regardless of time/day (shown as red pin)
+  const liveItems = ALL.filter(v=>{
+    if(v.hidden||v.needs_review) return false;
     if(!q&&!mapSearchTypes&&!v.days.some(d=>selectedMapDays.has(d)))return false;
     if(mapSearchTypes){
       if(!mapSearchTypes.includes(v.type))return false;
@@ -3136,16 +3144,35 @@ function renderMap(){
     if(timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
     return true;
   });
+
+  // If searching, also keep all currently-live events on the map
+  let items = liveItems;
+  if(q){
+    const liveNow = ALL.filter(v=>!v.hidden&&!v.needs_review&&isNow(v)&&v.days.some(d=>selectedMapDays.has(d)));
+    const combined = [...new Map([...liveNow,...liveItems].map(v=>[v.name,v])).values()];
+    items = combined;
+  }
+
   items.forEach(v=>{
     const live=isNow(v);
-    const isHighlighted=q&&v.name.toLowerCase()===q;
-    const color=TYPE_COLOR[v.type]||"#e8c547";
-    const size=isHighlighted?18:live?14:10;
-    const glow=isHighlighted?`0 0 14px ${color}, 0 0 4px #fff`:live?`0 0 8px ${color}`:"none";
-    const border=isHighlighted?"3px solid #fff":live?"2px solid #fff":"2px solid rgba(255,255,255,0.4)";
+    const isSearchMatch = q && (v.name.toLowerCase()===q || (v.name+v.hood+v.detail+v.addr).toLowerCase().includes(q));
+    const isSearchedButNotLive = isSearchMatch && !live;
+    const color = isSearchedButNotLive ? '#e53935' : (TYPE_COLOR[v.type]||"#e8c547");
+    const size  = isSearchMatch ? 18 : live ? 14 : 10;
+    const glow  = isSearchMatch
+      ? `0 0 14px ${color}, 0 0 4px #fff`
+      : live ? `0 0 8px ${color}` : "none";
+    const border = isSearchMatch ? "3px solid #fff" : live ? "2px solid #fff" : "2px solid rgba(255,255,255,0.4)";
+    // Red pin shape for searched-but-not-live venues
+    const html = isSearchedButNotLive
+      ? `<div style="position:relative;width:${size}px">
+           <div style="width:${size}px;height:${size}px;border-radius:50% 50% 50% 0;background:#e53935;border:${border};box-shadow:${glow};transform:rotate(-45deg)"></div>
+           <div style="position:absolute;top:50%;left:50%;width:6px;height:6px;background:#fff;border-radius:50%;transform:translate(-50%,-60%)"></div>
+         </div>`
+      : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:${border};box-shadow:${glow};transition:all .3s;"></div>`;
     const icon=L.divIcon({
       className:"",
-      html:`<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:${border};box-shadow:${glow};transition:all .3s;"></div>`,
+      html,
       iconSize:[size,size],
       iconAnchor:[size/2,size/2]
     });
