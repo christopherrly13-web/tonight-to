@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updated": "2026-04-06",
-  "total": 198,
+  "updated": "2026-04-05",
+  "total": 182,
   "venues": [
     {
       "name": "Bar Raval",
@@ -22,7 +22,8 @@
       "lng": -79.409924,
       "website": "https://www.thisisbarraval.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerWpzjJxRV9_SIC9Qx47_ny2Mff2wKY8SKUilDVYYTC9sBMo50g0DxC87oxjzqPGQxNJqsrbvdFU-yDxQ_ld2o8IRy8DrJFccf_7OCrWg8rJ4OBeAwl6xaOxHveDJeLksBxjp9vMfwrWG4=s680-w680-h510-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "BarChef",
@@ -42,7 +43,8 @@
       "lng": -79.400118,
       "website": "https://barcheftoronto.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipOQ3IVtBDO-yseY8ldWtmSLrWrWniQkDF02Y8Lz=s680-w680-h510-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Canoe",
@@ -63,7 +65,8 @@
       "lng": -79.381453,
       "website": "https://canoerestaurant.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipPw96IjWWh1YfDE6rAznTmjYWw5aAn-DKs8ufBt=s680-w680-h510-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Reposado",
@@ -84,7 +87,8 @@
       "lng": -79.42015,
       "website": "https://www.reposado.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipMKqWfL7BfY2_9_BJq1FusoBxBHO0D2FvRNR-mP=s680-w680-h510-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Bar Koukla",
@@ -107,7 +111,8 @@
       "lng": -79.419667,
       "website": "https://barkoukla.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwep4XNCO5ydLAIMjscwB0G4lOPtHdZZLwfwSkI1WwncGCciwiDRtuMfKeV-ESmRyn7izzn4Bn11MCRSI6mKtfH84Ea8yHHXFrB7zzPfpjA1YrDXeMBuHPtWrfjFTAiqWAe2jHNZ6=s680-w680-h510-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Superpoint",
@@ -130,7 +135,8 @@
       "lng": -79.420704,
       "website": "https://www.superpoint.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqSYEW9VD8RHQzdcG04db6GY-bN6zCe2LCokuWf5IHwE3dDdEstisb6eXNYmIwu4VMqM3CN4DF2sBR2EsyFrpyw_1OgIb6_XIpLteQsTmXl8_dchHB8UNB8wAplZy8LhBGTDaw=s680-w680-h510-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Bellwoods Brewery",
@@ -150,7 +156,8 @@
       "lng": -79.420176,
       "website": "https://bellwoodsbrewery.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipPja1WSVRz5M2VYlVAw_TUKMCac54cdv16q9-jk=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Birreria Volo",
@@ -171,7 +178,8 @@
       "lng": -79.414603,
       "website": "https://www.birreriavolo.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipPjh6eUN_GSYezO9QTIKV1RKfq6jZDwEbtFKln6=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Bar Volo",
@@ -192,7 +200,8 @@
       "lng": -79.385651,
       "website": "https://www.barvolo.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipMf9kAB64ftI1iUBVNA2zd9xgJcAqh3dNVKWeJZ=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Archive Bar",
@@ -213,7 +222,8 @@
       "lng": -79.412473,
       "website": "https://www.archivebar.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipNpoOyOZIcxvOPf6Q9BK8RxyqJk6Ybv5yF1hTJO=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Ace Hotel Bar",
@@ -234,7 +244,8 @@
       "lng": -79.398055,
       "website": "https://acehotel.com/toronto",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoLmKQts4liMtIgk6mbuAWi6Uv_sBTpYEYKLYF7foyX_Jza3hF9lPi306uUrZqJzAMtt665J8H1u7DhQ1nniNaP2INgoVnOHl7j79w_Nx3AsPrUX7kzMuUQwZfH0_hUx2d79v2e=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Bar Isabel",
@@ -255,7 +266,8 @@
       "lng": -79.420714,
       "website": "https://www.barisabel.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweroVT2N-jCbi-IUij_JbN-3bewbcWIU5uAgvjbozf7pXewg_gEg168BChPca9LBvqMCU1pAoEztr29I8FRpKjMhuxQPyCc-YqduI0JqNgKFovBoK9YuPSZxOztKvX53EtvX7UhG83X9NEw=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "King Taps",
@@ -270,15 +282,16 @@
         "sat",
         "sun"
       ],
-      "start": 15,
-      "end": 18,
-      "detail": "🍸 50% off wine Tue & Wed, $5 beers, $6 wines. Late night Sun–Wed too.",
+      "start": 14,
+      "end": 17,
+      "detail": "🍸 $5 drinks, happy hour deals 2–5pm daily + 9pm–close. Half-price wine bottles all day Tuesday.",
       "addr": "100 King St W",
       "lat": 43.648768,
       "lng": -79.381692,
       "website": "https://www.kingtaps.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerLBaEJSuhuhsQMenTefnc0tz5V8HH8AYfb66oUzXUDneRTEoNRjQsWIY_f8vVZm-YJqtm1BKeGHtdP3oQhzXuWyyCRvGvdcgOOfc3j6ousZx3WWWBv-JCEAeHq1ZS3_veUWpF1Fw=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Bar Hop",
@@ -299,7 +312,8 @@
       "lng": -79.379877,
       "website": "https://www.barhoptoronto.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerCAzisf2qcgsbMbJsJlmYapUftadQeuZ5QI71smXw_0KfbKplnUhJSpjqIoiZrhZ83XjQjFa4jivIAy-AIIBL3-Mvg-Z7VTeBukhh1cVTRyqjAbPFhbsc0HshNq2sSVkk0Be1D4YHjZOA3=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Richmond Station",
@@ -320,7 +334,8 @@
       "lng": -79.379004,
       "website": "https://richmondstation.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipMQM2Q8wpawGAZeRdBeTwua4lur3Pp4qIuWsrgV=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "The Pilot Tavern",
@@ -341,7 +356,8 @@
       "lng": -79.388051,
       "website": "https://www.thepilot.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipMDwQURI7d1GXI5UXuQrugvRBiYDj-xVMHr8nyn=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Boxcar Social",
@@ -362,7 +378,8 @@
       "lng": -79.391648,
       "website": "https://boxcarsocial.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipOmzQ1K5bpDtXfKlLukxa4qf6krufCUGXqjjc9l=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Añejo",
@@ -385,7 +402,8 @@
       "lng": -79.399939,
       "website": "https://www.anejotoronto.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqQRRDXR7QqVKIjsHrJDkKy2ZOrih93XBZL0QwfpipcVRSWJYQp4KKrhXDuoH8du9QabJ3z6TUYa1rrDURM7UYnmorXLO7fLf09G-kEOIdm5lV6phd4rrD0hJAd2-9hQizaH6g7=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "The Rabbit Hole",
@@ -407,7 +425,8 @@
       "lng": -79.38059,
       "website": "https://therabbitholetoronto.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipPGSDQmCTDgQ2_9Ae8Ye4brLAkeLvCUhJ8N9XhF=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Melrose on Adelaide",
@@ -430,7 +449,8 @@
       "lng": -79.389902,
       "website": "https://www.melrosebar.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipOgxocjDev7V0DOybM2fekoRapi-HPRte8uQ3U8=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Cocktail Bar",
@@ -453,7 +473,8 @@
       "lng": -79.413268,
       "website": "https://www.cocktailbar.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqMlFlry-ePqesDQVeEQ1Uv3GzNI-k57_7dAdhyN3DtT56V2n5R4ysRmZLdPNWX1EOfOaH9D-0gLYR0MlURNWwgOdVTdPZgHnLqyIRhiA1LaTm1HR4e5sb2k-bB0fCKbguTkP8saxdoK5=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "The Comrade",
@@ -476,7 +497,8 @@
       "lng": -79.34795,
       "website": "https://www.thecomrade.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerDtB3iqL-KyIpH_jHUkCWSlWaLIKqAn-XqtskqBYXe9UFblMf_mHrhcOIdxbZgSwywq0foWc3wdIUGhWw63-aCmE9No1j9gkiVaOtsMq78IFPby67wBSK0se483OjK06Za5ZDlsQ=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Chez Nous",
@@ -499,7 +521,8 @@
       "lng": -79.346956,
       "website": "https://cheznoustoronto.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoqqi7A2ymhebfLFbUMBp8XcRPl-Gmql_OFqBMuEZCQ3rqonEkmu7II0bDcKD1OI0SgWMRAdtolS9mPplulzYhqBkBR4A50HsOOsEI5Ln7lc3joIhJ07N_0_E9GVbaQwHC0KqrRfQ=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Paradise Grapevine",
@@ -522,7 +545,8 @@
       "lng": -79.438487,
       "website": "https://www.paradisegrapevine.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipPBt5PT70pOqIOJcUDhP5RmAAR5j4UOgUZwkMEg=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Le Tigre",
@@ -545,7 +569,8 @@
       "lng": -79.389945,
       "website": "https://www.letigretoronto.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqcbCM-TObcr8PimwFcJWCHS1LTHWyoxFojjVoVBx0v4TEbjoZMI-EjBRGEHElnIka__DEpBKNn3NmvM4lC2r6lT25L6zq9ksOuYjs2GmKn_neNHMAlL8w1I9pUabAENMQtgqYAxcCsWeg=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Gloria",
@@ -568,7 +593,8 @@
       "lng": -79.4221,
       "website": "https://www.gloriarestaurant.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipNiYdRgwFEX2Agh-4pJmPcGy4i_r4Glliuq81WZ=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Compton Ave.",
@@ -591,7 +617,8 @@
       "lng": -79.425416,
       "website": "https://www.comptonave.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqjZxcg3QGtJ0eXMproTnxtjW_u0uiuH9AXsAFNpJ45gWn-L0--Q9T0gtC9d6cBJCAldTUSLSkH2mRLYw3z6MrDHaKUGZd8ZlbUDtAjEBE8i-wCH2OHOUlXQNWy4n96g7KFy3CU=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Hey Lucy",
@@ -608,7 +635,8 @@
       "lng": -79.390055,
       "website": "https://www.heylucy.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipPW771NrUIZNjGxKEIIEn5DjJ_PsyzqAQx4F2Nv=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Maison Selby",
@@ -631,7 +659,8 @@
       "lng": -79.376596,
       "website": "https://maisonselby.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerx9YtTO-naiuQehyg9l_0jvkBzA12Hw3YKdkFD1HuxJIburmhJcqf2tZOVpF5oUXGgCks8vlZMNVzx3hjp2OCmpj4kv2Q-U_ADrbW1R7pVeHQvedu81VADVbe9RwLGp6TYaIFUWw=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "General Public",
@@ -654,7 +683,8 @@
       "lng": -79.437819,
       "website": "https://www.generalpublicbar.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepLEd85v_ZtCWXKyVPtJOb7WnEY5HZx5H38Uewa_Qpy9fbdRneMGYQPu1Qvm3U3uGgH4LstemyW6SX9geLlJrykmR6UU4EeZIqcBmmDBSRlWIcfq01czw-1mmDI04_YG9yBFhei-H0NDJA=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Lulu Bar",
@@ -671,13 +701,14 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍸 $10 tropical cocktails, $7 draught, half-price wine during Honolulu Hour 3–6pm daily.",
-      "addr": "427 Wellington St W",
-      "lat": 43.646503,
-      "lng": -79.383547,
+      "detail": "🍸 $12 cocktails, $7 draft beer, half-price wine. Honolulu Hour 3–6pm daily + late night Sun–Thu.",
+      "addr": "427 Wellington St W, The Well",
+      "lat": 43.6442,
+      "lng": -79.4014,
       "website": "https://www.lulubar.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqXOCpG8oOU1sbn3H3TjtmMBRcuUnh18GCR35CUjAXKRCNI8G9QBsrdDcMw4seNMO8hbc9mjGJfUgEnxT3I9yaLM2NaQrDys1fUF8OzvnvbSRcCb-EGJfxl-QwUcTuja200HdJcWcCR-h0U=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Bridgette Bar",
@@ -700,7 +731,8 @@
       "lng": -79.395608,
       "website": "https://bridgettebar.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweq0YStgNOhSmb9ADHtc4VM1Y7gahahTn3838uEOv9HT-TMdreEzj8-aGQa4rb4OqdrUtlj6of6G_r0-_cJV1BZzC5WwiREGeyLyE-XuZLqPAEJTVfpbMYuVePmjrCVZ1SpAqEwY_A=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Pigeon",
@@ -723,7 +755,8 @@
       "lng": -79.391435,
       "website": "https://www.pigeonbar.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqoAlOBd-FxxGMO-LWjEtIHqUEqNWOptHwRcy0tmzIdwge4Y4yQoH_xq0W2JxyB9WiSRNhLQ34ylLopaimUyngKaO8BCYEdj7EKNlAER1zGvzE1V1Q6nmWpvqvxQNHY4Pg0GzMUUiz2dAKw=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Ruby Soho",
@@ -746,7 +779,8 @@
       "lng": -79.4002,
       "website": "https://www.rubysohotoronto.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipNE1XXZIjranR9QKG3qMzxmwE6SyyNQkVJpcIfL=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Café Renée",
@@ -769,7 +803,8 @@
       "lng": -79.496359,
       "website": "https://caferenetoronto.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoNRORmwC6p1bRKkp7Lk5Z9vbzjcbVI79fFjOJrlILiLAY9KFUTmCc7-c-xQg2-Oa-xypCaFzR3rYkemzCVk2uJhTP3Dcvi5OUN6fMRPXpsuL8GX4BeCLRY5bdC8xLWEhy1qZUdQP70B8IA=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Locals Only",
@@ -792,7 +827,8 @@
       "lng": -79.400243,
       "website": "https://www.localsonly.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipO9q_TARoTMwlkOIXAb0rvGJMmZwlW8zqV1nDng=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Burdock Brewery",
@@ -813,7 +849,8 @@
       "lng": -79.437826,
       "website": "https://burdockbrewery.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGVwuzvpVAUwIyORmpCNnvnwYllZ8YiFzhC34GRhHlBuKbx5-ZHPoSTDv-fIuc2XBPHSvjsGp4F2x9ki11MRU-HpjqQb5o2ynU=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGVwuzvpVAUwIyORmpCNnvnwYllZ8YiFzhC34GRhHlBuKbx5-ZHPoSTDv-fIuc2XBPHSvjsGp4F2x9ki11MRU-HpjqQb5o2ynU=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Wedge",
@@ -834,7 +871,8 @@
       "lng": -79.455243,
       "website": "https://thewedgeto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEZIbcMO_lPaOgUb28uExv6uO174DtVG5p_N2us2nr_7s9iK2ktbli5LQ22YhqnduIhmlN-uPSikt_ySG54tjD1DoYlGVSeL1-DVunMCe14mJ1POnhT-Ditl39vbJSBjTdFz7ZtIWuA7oxyJq4=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEZIbcMO_lPaOgUb28uExv6uO174DtVG5p_N2us2nr_7s9iK2ktbli5LQ22YhqnduIhmlN-uPSikt_ySG54tjD1DoYlGVSeL1-DVunMCe14mJ1POnhT-Ditl39vbJSBjTdFz7ZtIWuA7oxyJq4=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Indie Ale House",
@@ -854,7 +892,8 @@
       "lng": -79.4654,
       "website": "https://indieale.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHJhGKg9W9JZAw7XGdfdMQ8ioGsNFOqrgK4nMQjQBggrUPJx6BqdxVYK1FgXfWN-CIon9NtUGO0V9-h9J7SQF-MjXuQ_jRGr3M=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHJhGKg9W9JZAw7XGdfdMQ8ioGsNFOqrgK4nMQjQBggrUPJx6BqdxVYK1FgXfWN-CIon9NtUGO0V9-h9J7SQF-MjXuQ_jRGr3M=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Draft Room",
@@ -875,7 +914,8 @@
       "lng": -79.464613,
       "website": "https://thedraftroomto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEIbgbNKvuDi_-gzr-3mnd9zkOLwl8y82544MFqGbvzfOMBPDEBIvWzKpDUiVdYkXHkKPPTH_jy7zB5b7k8aOkK0lUO9UCIF271Kn9fZAJ36V1PKbYQ5V5F3IsMLSOqqa6vUSZAvscnxnAub63I18Q6=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEIbgbNKvuDi_-gzr-3mnd9zkOLwl8y82544MFqGbvzfOMBPDEBIvWzKpDUiVdYkXHkKPPTH_jy7zB5b7k8aOkK0lUO9UCIF271Kn9fZAJ36V1PKbYQ5V5F3IsMLSOqqa6vUSZAvscnxnAub63I18Q6=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Brazen Head",
@@ -898,7 +938,8 @@
       "lng": -79.417442,
       "website": "https://brazenhead.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEOtw9FcUVU6PPsWPAfSMPmyEuf1TeuxPI1WTat0nUjmKWVL2QMZeO4idfn1fVzQfZKofBgVR3vO1Nb_krb5_f7YT2rMI6FSMmt2nNSmvKedmSmVP5puVIsypZNX9UR1e2AhaS58q0XGjUn2ECKPXgq=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEOtw9FcUVU6PPsWPAfSMPmyEuf1TeuxPI1WTat0nUjmKWVL2QMZeO4idfn1fVzQfZKofBgVR3vO1Nb_krb5_f7YT2rMI6FSMmt2nNSmvKedmSmVP5puVIsypZNX9UR1e2AhaS58q0XGjUn2ECKPXgq=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Liberal Commons",
@@ -919,7 +960,8 @@
       "lng": -79.424717,
       "website": "https://liberalcommons.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNErtWrSa2F5VC5xKtP71XMVha14WK4O1O8KyG9nEoad4uabxPuORVyby4xJJCjm7N-8NFQsHSShhMytTjOS75aqipRzuYB_zDofk-xaa80pBiKKR3kzCRmtkFagWhRPVXCOo2lW7zCe-tyo=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNErtWrSa2F5VC5xKtP71XMVha14WK4O1O8KyG9nEoad4uabxPuORVyby4xJJCjm7N-8NFQsHSShhMytTjOS75aqipRzuYB_zDofk-xaa80pBiKKR3kzCRmtkFagWhRPVXCOo2lW7zCe-tyo=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Danforth Sidebar",
@@ -942,7 +984,8 @@
       "lng": -79.356898,
       "website": "https://danforthsidebar.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHFV_IU7Nydmh0pOTJXgbwpPUOqthM0DCxNMNBgIyhNnzp9BftEUIDgO88USVDTiMriHOhuuT4qFPDLmMlq2wdyDO03ZVV9_2E=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHFV_IU7Nydmh0pOTJXgbwpPUOqthM0DCxNMNBgIyhNnzp9BftEUIDgO88USVDTiMriHOhuuT4qFPDLmMlq2wdyDO03ZVV9_2E=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Ballyhoo Riverdale",
@@ -961,7 +1004,8 @@
       "lng": -79.348171,
       "website": "https://ballyhoobar.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGigobDjPxM5QLbnAkUTl0Io7qBNufqRypMBR_srhGIWlidOKZf8-70eAzWhmfgDmG0shzcKs097Ijh9-vSIl14_-QaLao3PYjrKhN8w709xc-HKin-6WL-c7cbjaWVHsaqSf-j_xykC66yQ0npOhACOg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGigobDjPxM5QLbnAkUTl0Io7qBNufqRypMBR_srhGIWlidOKZf8-70eAzWhmfgDmG0shzcKs097Ijh9-vSIl14_-QaLao3PYjrKhN8w709xc-HKin-6WL-c7cbjaWVHsaqSf-j_xykC66yQ0npOhACOg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Fortunate Fox",
@@ -984,7 +1028,8 @@
       "lng": -79.400985,
       "website": "https://thefortunatefox.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEZxMqCGeo4KpBEah-hSvqzOKlOSIorlfHSsLEmcKGS1c5VeIjKSUSSlG2bS4Ai30_choViQkzVStmPFby35eb5Ttmo5DcrvXRf95yArfAKD9-PMokEv0GnVUfLfbbYbcxFRAk0MLrxQe-6BUsL-xi3ng=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEZxMqCGeo4KpBEah-hSvqzOKlOSIorlfHSsLEmcKGS1c5VeIjKSUSSlG2bS4Ai30_choViQkzVStmPFby35eb5Ttmo5DcrvXRf95yArfAKD9-PMokEv0GnVUfLfbbYbcxFRAk0MLrxQe-6BUsL-xi3ng=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Left Field Brewery",
@@ -1003,7 +1048,8 @@
       "lng": -79.330479,
       "website": "https://leftfieldbrewery.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGD4QlW5ThdcXLGCnqkhDPE9HZG5usPets3E9L9lOhEI_qPsxB8INQwPvJrI9v7krPou8R630JCLunT6nRY9QKvxlWcDisqLoJ0EZLHdN3JisKvvVEp46Gf_qB1fLgIdF6zlUfSEK1Fcec6kg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGD4QlW5ThdcXLGCnqkhDPE9HZG5usPets3E9L9lOhEI_qPsxB8INQwPvJrI9v7krPou8R630JCLunT6nRY9QKvxlWcDisqLoJ0EZLHdN3JisKvvVEp46Gf_qB1fLgIdF6zlUfSEK1Fcec6kg=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Avling",
@@ -1023,7 +1069,8 @@
       "lng": -79.338263,
       "website": "https://avling.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEdSNrz9VUIwaRStpdAn17svcoIKhhQMJGawh2ope02oBNDaJZZW7itVKH1ztc0hIGPuwOp1jPVhfGXCP1TNjouG2SnSz5rH-uTFp-J5t7sZMlfuiST2p5goqOnlmhGLbWwfU0qB-fzdlq-l4nHby6EHA=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEdSNrz9VUIwaRStpdAn17svcoIKhhQMJGawh2ope02oBNDaJZZW7itVKH1ztc0hIGPuwOp1jPVhfGXCP1TNjouG2SnSz5rH-uTFp-J5t7sZMlfuiST2p5goqOnlmhGLbWwfU0qB-fzdlq-l4nHby6EHA=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Bar Niro",
@@ -1046,7 +1093,8 @@
       "lng": -79.387073,
       "website": "https://barniro.com",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFDClep75j4l5NOQ56FAXoGUFNuL3-xwdhfvO9ok30_kpiS6y5QbfSmE3y4fjhDZJQuVvYAVmFLBryHLjBU61iHqdrutrghp-g=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFDClep75j4l5NOQ56FAXoGUFNuL3-xwdhfvO9ok30_kpiS6y5QbfSmE3y4fjhDZJQuVvYAVmFLBryHLjBU61iHqdrutrghp-g=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Grossman's Tavern",
@@ -1069,7 +1117,8 @@
       "lng": -79.398947,
       "website": "https://grossmanstavern.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGD57VGP1Mf-Avp-JdpdC4uumMK0mNeFmZmRXmpRaASGRypb1iz29FCjvHxV-OBu0FmijyfgORuHe9_iyB6Wr4_FoLXwjO895xHbKlTFb8ahXA5dsjyOIELJPw5hsgKLyspTtvGtz5dHF4N=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGD57VGP1Mf-Avp-JdpdC4uumMK0mNeFmZmRXmpRaASGRypb1iz29FCjvHxV-OBu0FmijyfgORuHe9_iyB6Wr4_FoLXwjO895xHbKlTFb8ahXA5dsjyOIELJPw5hsgKLyspTtvGtz5dHF4N=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Dina's Tavern",
@@ -1092,7 +1141,8 @@
       "lng": -79.400495,
       "website": "https://dinastavern.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqE7QIfhJLRPAV7Ut_iQar8HC1ShpLZPl-5-OeIjsSfevO0ZjD6s0fsWmjaSVlsYmTTLzd2o_7Zdk3unnRL6kZKqkusFEwABS0Y=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqE7QIfhJLRPAV7Ut_iQar8HC1ShpLZPl-5-OeIjsSfevO0ZjD6s0fsWmjaSVlsYmTTLzd2o_7Zdk3unnRL6kZKqkusFEwABS0Y=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Cactus Club",
@@ -1115,7 +1165,8 @@
       "lng": -79.382084,
       "website": "https://www.cactusclubcafe.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGHpuPmA7yDBjhmAIZ9nJHaGqdW6IDeWZuDI_soajuGsB4aQL9swuQ7-JKb9phM6-7fz44V89MRKa3ve_hTEiQtVdVohRLSaEC2f4Moa46ngHla8kYBa0oofRVaD6Ec4LSRO3aIMsRd49JFIoT-EEH8=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGHpuPmA7yDBjhmAIZ9nJHaGqdW6IDeWZuDI_soajuGsB4aQL9swuQ7-JKb9phM6-7fz44V89MRKa3ve_hTEiQtVdVohRLSaEC2f4Moa46ngHla8kYBa0oofRVaD6Ec4LSRO3aIMsRd49JFIoT-EEH8=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Earl's",
@@ -1138,7 +1189,8 @@
       "lng": -79.388359,
       "website": "https://www.earls.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFYsuynLotZ7UIe8ALIFD7iG1_t0ERbeSNOsrSIt1IfVMVcSCcxgiiZLulrZHTaYcnDQpdiaX6lol_RyG2lSsMujv1LVOzo73Q=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFYsuynLotZ7UIe8ALIFD7iG1_t0ERbeSNOsrSIt1IfVMVcSCcxgiiZLulrZHTaYcnDQpdiaX6lol_RyG2lSsMujv1LVOzo73Q=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Joey Restaurant",
@@ -1161,7 +1213,8 @@
       "lng": -79.381677,
       "website": "https://www.joeyrestaurants.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFuJ9O9xqjFN-DbQeXVz4nCR3wS4SvpI27u9vdQS-3euxhHDAwVTlG6iQw5lzme2ULRIwErA7UZ1YVntFTPEgROOb0sMSiuCLuPnUfGyh-yrh6VlW2CAPt3AJYNoNLjFM-zbsk9y-5J3_hN5a7d_ueq=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFuJ9O9xqjFN-DbQeXVz4nCR3wS4SvpI27u9vdQS-3euxhHDAwVTlG6iQw5lzme2ULRIwErA7UZ1YVntFTPEgROOb0sMSiuCLuPnUfGyh-yrh6VlW2CAPt3AJYNoNLjFM-zbsk9y-5J3_hN5a7d_ueq=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "The Keg Esplanade",
@@ -1184,7 +1237,8 @@
       "lng": -79.377843,
       "website": "https://www.kegsteakhouse.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEK1PjjDB60WACjNKZoTkN-Cdpr2K9eY_vfK8pszt2aNh4DN68tuMwPpMri1jvwnrZumu8DYMSa0M449IlqJ3YvNDorCaYDPHd4YrFISlVZreZg5cvDXCDPKLnntXcL_csaDOortu7utcUcgkwYq-8SoA=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEK1PjjDB60WACjNKZoTkN-Cdpr2K9eY_vfK8pszt2aNh4DN68tuMwPpMri1jvwnrZumu8DYMSa0M449IlqJ3YvNDorCaYDPHd4YrFISlVZreZg5cvDXCDPKLnntXcL_csaDOortu7utcUcgkwYq-8SoA=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Shameful Tiki Room",
@@ -1207,7 +1261,8 @@
       "lng": -79.40808,
       "website": "https://www.shamefultikiroom.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHKIAw28oov_zYARLQu6q6s1mHv7rYIpsMp4ajhSs8dUaiVR9WKJt5dZZ09D9CflEukP0ysAcfYJNQz9mGAYBmH4tYTINJ6tLs=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHKIAw28oov_zYARLQu6q6s1mHv7rYIpsMp4ajhSs8dUaiVR9WKJt5dZZ09D9CflEukP0ysAcfYJNQz9mGAYBmH4tYTINJ6tLs=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Big Trouble",
@@ -1228,7 +1283,8 @@
       "lng": -79.398088,
       "website": "https://www.bigtroubletor.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNETxtH5GP9AHKSSK2NqhYBd3YGgmPg9yK1gAQ8a2187gtFOHZQH6asxexsUT6yFJxjJWtPZW_J023Sb-ktEzY-cJklwyK0VsDevMwfwKZIUa3uKY1UTN8gaQaFbfDF7AI2Ov9fNR5rCFejHSg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNETxtH5GP9AHKSSK2NqhYBd3YGgmPg9yK1gAQ8a2187gtFOHZQH6asxexsUT6yFJxjJWtPZW_J023Sb-ktEzY-cJklwyK0VsDevMwfwKZIUa3uKY1UTN8gaQaFbfDF7AI2Ov9fNR5rCFejHSg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Chantecler",
@@ -1250,7 +1306,8 @@
       "lng": -79.43127,
       "website": "https://www.chanteclerto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEz7viHzthH5CQyqXgxnRyVFzCRCnMQyM4OhLZxRuxOXWSf-y9jb-evyjMc3OpdwqnnaD4zOX_4DdoEYBUYQhPKUsSDv_pVjxy1T9_3xRCOBBJeUx9leJjXsx2yXHhE2t31b0IO1bXtTIid=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEz7viHzthH5CQyqXgxnRyVFzCRCnMQyM4OhLZxRuxOXWSf-y9jb-evyjMc3OpdwqnnaD4zOX_4DdoEYBUYQhPKUsSDv_pVjxy1T9_3xRCOBBJeUx9leJjXsx2yXHhE2t31b0IO1bXtTIid=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Good Company",
@@ -1272,7 +1329,8 @@
       "lng": -79.425851,
       "website": "https://goodcompanyto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqG3iciECmTPzrK-rDWz_2Ih5VTG7CRTguEIM36GDQ4y08tb0F7gzPd-6j1cueZHLy3UutI_XSczzqL1ztci8ffMYKaKA4k9IEs=s1600-w1080"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqG3iciECmTPzrK-rDWz_2Ih5VTG7CRTguEIM36GDQ4y08tb0F7gzPd-6j1cueZHLy3UutI_XSczzqL1ztci8ffMYKaKA4k9IEs=s1600-w1080",
+      "wheelchair": true
     },
     {
       "name": "Pearl Diver",
@@ -1295,7 +1353,8 @@
       "lng": -79.372962,
       "website": "https://www.pearldivertoronto.com",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNH8gGdeoU-u1LXBbl58jZG2Eedznv-Vc5WS7Di7Ltog_Uio93PZbdU58Wl_nRI6ECp0Ue4vRlifFLjWxLZfbFx8eREhceVDQf9RG2mX2KpiSpH9taKIuQx2rjvnRfkGRNp60O7vyOQykRFtRYbKRmgxvw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNH8gGdeoU-u1LXBbl58jZG2Eedznv-Vc5WS7Di7Ltog_Uio93PZbdU58Wl_nRI6ECp0Ue4vRlifFLjWxLZfbFx8eREhceVDQf9RG2mX2KpiSpH9taKIuQx2rjvnRfkGRNp60O7vyOQykRFtRYbKRmgxvw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Watson's",
@@ -1313,7 +1372,8 @@
       "lng": -79.373379,
       "website": "https://watsonsto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFcpmbAnjjkKJxGUADwcN5e1Bwy4TexYIMhW6w3DvyY3MM7NcLWcm4ahBMX3mqjKtAx_UoV-nFocXomCLz7L4p3rUPbKVqMlpA_PwAHEcY4d5q4nVTbQG0l3ku9xslpOIKa5Mv8f2sOIHxlPM5gPS7X=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFcpmbAnjjkKJxGUADwcN5e1Bwy4TexYIMhW6w3DvyY3MM7NcLWcm4ahBMX3mqjKtAx_UoV-nFocXomCLz7L4p3rUPbKVqMlpA_PwAHEcY4d5q4nVTbQG0l3ku9xslpOIKa5Mv8f2sOIHxlPM5gPS7X=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "ēst",
@@ -1331,7 +1391,8 @@
       "lng": -79.332389,
       "website": "https://estrestaurant.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFtCFOjWnd3lxMRbeMnd8pmSnR1TNOBpLMk47P3BYhzFP7CTPbVrDxwWvOFmNPddkSzCc1XFJi_J3x81IiOC94Ovgg3m736gTi033pjcsW7sEjsWggIU7AqqJNUj1EoEiKdO3QM5nNVuDm48ullXB8A=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFtCFOjWnd3lxMRbeMnd8pmSnR1TNOBpLMk47P3BYhzFP7CTPbVrDxwWvOFmNPddkSzCc1XFJi_J3x81IiOC94Ovgg3m736gTi033pjcsW7sEjsWggIU7AqqJNUj1EoEiKdO3QM5nNVuDm48ullXB8A=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Island Oysters",
@@ -1349,7 +1410,8 @@
       "lng": -79.446225,
       "website": "https://islandoysters.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEjeWW8Q9R9ylQobGmvc-DiCisH7_LefZMyaKb2cGYvCe3iQQ1YYlB_o3796bQ3zlN6jo7Hr_t6dKaSmgm4qisULmgWruns8Sc=s1600-w720"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEjeWW8Q9R9ylQobGmvc-DiCisH7_LefZMyaKb2cGYvCe3iQQ1YYlB_o3796bQ3zlN6jo7Hr_t6dKaSmgm4qisULmgWruns8Sc=s1600-w720",
+      "wheelchair": false
     },
     {
       "name": "Nuna Kitchen",
@@ -1366,7 +1428,8 @@
       "lng": -79.411532,
       "website": "https://www.nunakitchen.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFuhD3g4XJcFTE2p55gHQvbr3tInFYmXmpEmZ8TEXQyuDkT6QeyJZ9XFD0nPUBmDkjRf2vwJAHPgFbul_DGZrL6fMqPGsiypQc=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFuhD3g4XJcFTE2p55gHQvbr3tInFYmXmpEmZ8TEXQyuDkT6QeyJZ9XFD0nPUBmDkjRf2vwJAHPgFbul_DGZrL6fMqPGsiypQc=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Gusto 101",
@@ -1386,7 +1449,8 @@
       "lng": -79.400024,
       "website": "https://gusto101.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFNPPOmzkRWaY7n3hwM_SPOXrypezeTslM8RRoyvaxqUu5MDkazULnBN_dVfrYVqmMVKrSr7aRGHvAa1dKbYqXn--82YoYkD_4xT4L2YRjj67wagfQ-2kzh6ls0_6bQeW4Bny6AyPnAbokhXg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFNPPOmzkRWaY7n3hwM_SPOXrypezeTslM8RRoyvaxqUu5MDkazULnBN_dVfrYVqmMVKrSr7aRGHvAa1dKbYqXn--82YoYkD_4xT4L2YRjj67wagfQ-2kzh6ls0_6bQeW4Bny6AyPnAbokhXg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Gusto 501",
@@ -1407,7 +1471,8 @@
       "lng": -79.359712,
       "website": "https://gusto501.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHf0baTkf13uPMxcKOGJ9EIM3CPxXw4hi6TAzpGsq8FSx4ua9OLRkHrbqh-QBggN6SYLEgTo_lU9_25aS6xWpV39a2yrb78JhHlKWfBOIKNT_4bYewpJttTkEusOe1yZ0yRBi2AvTPEuMqErw=s1600-w1079"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHf0baTkf13uPMxcKOGJ9EIM3CPxXw4hi6TAzpGsq8FSx4ua9OLRkHrbqh-QBggN6SYLEgTo_lU9_25aS6xWpV39a2yrb78JhHlKWfBOIKNT_4bYewpJttTkEusOe1yZ0yRBi2AvTPEuMqErw=s1600-w1079",
+      "wheelchair": false
     },
     {
       "name": "Lulu Bar (Food)",
@@ -1424,13 +1489,14 @@
       ],
       "start": 15,
       "end": 18,
-      "detail": "🍔 $8 salt-and-pepper pork belly bites, $6 hot dog bao, half-price wine. Honolulu Hour 3–6pm.",
-      "addr": "427 Wellington St W",
-      "lat": 43.646503,
-      "lng": -79.383547,
+      "detail": "🍔 $4 bites, chicken skewers, hot dog bao, pork belly. Honolulu Hour 3–6pm daily.",
+      "addr": "427 Wellington St W, The Well",
+      "lat": 43.6442,
+      "lng": -79.4014,
       "website": "https://www.lulubar.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqXOCpG8oOU1sbn3H3TjtmMBRcuUnh18GCR35CUjAXKRCNI8G9QBsrdDcMw4seNMO8hbc9mjGJfUgEnxT3I9yaLM2NaQrDys1fUF8OzvnvbSRcCb-EGJfxl-QwUcTuja200HdJcWcCR-h0U=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": true
     },
     {
       "name": "Chubby's Jamaican",
@@ -1451,7 +1517,8 @@
       "lng": -79.400582,
       "website": "https://www.chubbysjamaican.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHtT-lkUASdWjocLUNQWzYL_wO0nAF3HxbpFfIUCq80Q781gz90MmEnfGKYMhodUviB6wBFif7Cb2aMy17VaXwJkzqx_Ml9TaI0z89Rqt17b1xCFBd3dJy6i7uaiBb9kvqoJCJU4xPZmz9x0IumZ3iaUA=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHtT-lkUASdWjocLUNQWzYL_wO0nAF3HxbpFfIUCq80Q781gz90MmEnfGKYMhodUviB6wBFif7Cb2aMy17VaXwJkzqx_Ml9TaI0z89Rqt17b1xCFBd3dJy6i7uaiBb9kvqoJCJU4xPZmz9x0IumZ3iaUA=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Petty Cash",
@@ -1472,7 +1539,8 @@
       "lng": -79.400769,
       "website": "https://pettycashbar.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFlQPJsvY5aOxIyjskuv2by_GBI6wxzy7tNaZIhYxPMm8GvR8CZpAIXhhBPhZrXVIjbQWZUFuWsMcWGhL9tx707nqJpBOqTYFQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFlQPJsvY5aOxIyjskuv2by_GBI6wxzy7tNaZIhYxPMm8GvR8CZpAIXhhBPhZrXVIjbQWZUFuWsMcWGhL9tx707nqJpBOqTYFQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "El Catrin",
@@ -1493,7 +1561,8 @@
       "lng": -79.358703,
       "website": "https://elcatrin.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGvF9YgHNdASW2VcQsnGPd_j-cE_p5LkNnDholSJuKrB7C1Lvc-QQjGGdFUG6Z1labQGDTYElRNYIQHq33tA46CXBH3xsehK4nV2AymBDgcym7eNbuTaDcvv1B6NkNEo9ow2nAcddYF8S5WQ6Dg5Q2pHg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGvF9YgHNdASW2VcQsnGPd_j-cE_p5LkNnDholSJuKrB7C1Lvc-QQjGGdFUG6Z1labQGDTYElRNYIQHq33tA46CXBH3xsehK4nV2AymBDgcym7eNbuTaDcvv1B6NkNEo9ow2nAcddYF8S5WQ6Dg5Q2pHg=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Añejo (Food)",
@@ -1516,7 +1585,8 @@
       "lng": -79.399939,
       "website": "https://www.anejotoronto.com",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqQRRDXR7QqVKIjsHrJDkKy2ZOrih93XBZL0QwfpipcVRSWJYQp4KKrhXDuoH8du9QabJ3z6TUYa1rrDURM7UYnmorXLO7fLf09G-kEOIdm5lV6phd4rrD0hJAd2-9hQizaH6g7=s1360-w1360-h1020-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Baro",
@@ -1537,7 +1607,8 @@
       "lng": -79.396977,
       "website": "https://barorestaurant.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFmP6uzYeb8IrXtXy4KaFO5J6ADCizSXDJb7wSMNnB6YjWRh3JS104zwyyOxa7osgQB54XNDsl5-sZaECR-GxBzfemJ6Yor3GY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFmP6uzYeb8IrXtXy4KaFO5J6ADCizSXDJb7wSMNnB6YjWRh3JS104zwyyOxa7osgQB54XNDsl5-sZaECR-GxBzfemJ6Yor3GY=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Craft Beer Market",
@@ -1560,7 +1631,8 @@
       "lng": -79.377879,
       "website": "https://craftbeermarket.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF6qF3RDgKZNG4GXw_Vn65TjmKwp1E0a4i0vyliZWgjifh_X4oYH7vz9xgpex9W1dqPt_lJlp2t3-uPG3DC8lG_dTS6dG6O5Ye2tMbaR9bPIyluD6o7nqZk_ODKOdcct0h69LMCyKz2ld9mUlOrZzDP3Q=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF6qF3RDgKZNG4GXw_Vn65TjmKwp1E0a4i0vyliZWgjifh_X4oYH7vz9xgpex9W1dqPt_lJlp2t3-uPG3DC8lG_dTS6dG6O5Ye2tMbaR9bPIyluD6o7nqZk_ODKOdcct0h69LMCyKz2ld9mUlOrZzDP3Q=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Fox on John",
@@ -1583,7 +1655,8 @@
       "lng": -79.510666,
       "website": "https://www.foxonjohn.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNG4uiaGp8ARJ8Yz3POaemM7wGax6NFye75UQH1zpdNNrbZmbfJUMJj2ngwY49u8G0SbFLsk13DzCDUy5fvA-KPWim0cwlE6CV_5dX8Y1J35NfGzRmAgvjVOMgI90Zbic1ZTiAuIv1hbPY2SK-ElcnApHQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNG4uiaGp8ARJ8Yz3POaemM7wGax6NFye75UQH1zpdNNrbZmbfJUMJj2ngwY49u8G0SbFLsk13DzCDUy5fvA-KPWim0cwlE6CV_5dX8Y1J35NfGzRmAgvjVOMgI90Zbic1ZTiAuIv1hbPY2SK-ElcnApHQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Keg (Food)",
@@ -1606,7 +1679,8 @@
       "lng": -79.377843,
       "website": "https://www.kegsteakhouse.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHO2U4fsTzNW_nmPf7UtY_CzWoQ88LWU2QhjCmSZAqiKkv01w_TOfwmpXT4YNHeJdgQp6L98MA__ltr6NWYn8dBlqEaM89jb3oD5yCxWTXKgsocUDJvnaO8O0KLDsUctGJvQCux0LR0vw9vlZk=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHO2U4fsTzNW_nmPf7UtY_CzWoQ88LWU2QhjCmSZAqiKkv01w_TOfwmpXT4YNHeJdgQp6L98MA__ltr6NWYn8dBlqEaM89jb3oD5yCxWTXKgsocUDJvnaO8O0KLDsUctGJvQCux0LR0vw9vlZk=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Little Sister",
@@ -1629,7 +1703,8 @@
       "lng": -79.401152,
       "website": "https://littlesistertoronto.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGJGXyRjlBapDZiRrNeI-LwoUzBCDS_hiH7jyVT0qrrdJyt2XVYF3N2tyGdTdavtelPGrYqj7lrSf9xgPkZUMoM2xn2BUiZq-A=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGJGXyRjlBapDZiRrNeI-LwoUzBCDS_hiH7jyVT0qrrdJyt2XVYF3N2tyGdTdavtelPGrYqj7lrSf9xgPkZUMoM2xn2BUiZq-A=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Waterworks — Tantxo",
@@ -1646,7 +1721,8 @@
       "lng": -79.399584,
       "website": "https://waterworksfoodhall.com",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHY3ndfWkK1uukJFC6zfefhPoh8pIsoXvdTMPKr2QdSm3ZauMEmJmlJxd60wpohlZi45cNSBm6bHdZKve2t31Df-PtS6HtVhrvH4TEMmWU3SaR4rtUDjPR4fhDdwWZ2eL_XqnDssFbvb1Amqms=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHY3ndfWkK1uukJFC6zfefhPoh8pIsoXvdTMPKr2QdSm3ZauMEmJmlJxd60wpohlZi45cNSBm6bHdZKve2t31Df-PtS6HtVhrvH4TEMmWU3SaR4rtUDjPR4fhDdwWZ2eL_XqnDssFbvb1Amqms=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Waterworks — Grape Witches",
@@ -1667,7 +1743,8 @@
       "lng": -79.399584,
       "website": "https://waterworksfoodhall.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGiwiZ2tt215lXQPum3_cZNualNN8NAx1h2lNTW66cm1Z5oCvhjxtpsEoKcRHNKE8_z7LJKjOmP2FEdQY9D7dAnIxPaO00MZ5qMjwpp7idHE1JYOMJ6uyIs6jdUJGsb8HvSLIadNfEqsXyO6sg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGiwiZ2tt215lXQPum3_cZNualNN8NAx1h2lNTW66cm1Z5oCvhjxtpsEoKcRHNKE8_z7LJKjOmP2FEdQY9D7dAnIxPaO00MZ5qMjwpp7idHE1JYOMJ6uyIs6jdUJGsb8HvSLIadNfEqsXyO6sg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Waterworks — Central Bar",
@@ -1690,7 +1767,8 @@
       "lng": -79.399584,
       "website": "https://waterworksfoodhall.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHY3ndfWkK1uukJFC6zfefhPoh8pIsoXvdTMPKr2QdSm3ZauMEmJmlJxd60wpohlZi45cNSBm6bHdZKve2t31Df-PtS6HtVhrvH4TEMmWU3SaR4rtUDjPR4fhDdwWZ2eL_XqnDssFbvb1Amqms=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHY3ndfWkK1uukJFC6zfefhPoh8pIsoXvdTMPKr2QdSm3ZauMEmJmlJxd60wpohlZi45cNSBm6bHdZKve2t31Df-PtS6HtVhrvH4TEMmWU3SaR4rtUDjPR4fhDdwWZ2eL_XqnDssFbvb1Amqms=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Jules Bistro",
@@ -1707,7 +1785,8 @@
       "lng": -79.395675,
       "website": "https://julesbistro.ca",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEaPAUv58ajL2yIN9pORVWd5Lz1c-rq0ZrDVKGG2h_gj1zblk-ppiFNuzlapFq3ZHx3CBqRcKXg9wa7tJV9E5nKaiGXeOWDVkY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEaPAUv58ajL2yIN9pORVWd5Lz1c-rq0ZrDVKGG2h_gj1zblk-ppiFNuzlapFq3ZHx3CBqRcKXg9wa7tJV9E5nKaiGXeOWDVkY=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Carbon Bar",
@@ -1730,7 +1809,8 @@
       "lng": -79.374863,
       "website": "https://www.thecarbonbar.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHcsSizSm296wyex5Sn70f3Ya9VqbS3K2iZzZWxOgKibqZoWKVNgo9cidGMBeynFhKHTqnlBi0MyVDgYZxUnmlbV6k-mWR9IXctDaTcauBGzjN_9czm-oYOBH8X3WvEzEzMxSE5BtGFeVGuLj6y_uUgLQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHcsSizSm296wyex5Sn70f3Ya9VqbS3K2iZzZWxOgKibqZoWKVNgo9cidGMBeynFhKHTqnlBi0MyVDgYZxUnmlbV6k-mWR9IXctDaTcauBGzjN_9czm-oYOBH8X3WvEzEzMxSE5BtGFeVGuLj6y_uUgLQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Ficoa",
@@ -1748,7 +1828,8 @@
       "lng": -79.413334,
       "website": "https://www.ficoa.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFu-X58ICKBBTwHbtuAhYw3wpTSrVcpp2BbIKZ2yPQPh79QhlKy_dZqKktIBbOqZviG6vy3wbsbYUgOb5cUFNFn8y7B6aISMcsfGPk_8_WhWfhH5CwMFoxIqQYE0or8fPlBALoAo6vOICGlj6q7eZ-pmA=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFu-X58ICKBBTwHbtuAhYw3wpTSrVcpp2BbIKZ2yPQPh79QhlKy_dZqKktIBbOqZviG6vy3wbsbYUgOb5cUFNFn8y7B6aISMcsfGPk_8_WhWfhH5CwMFoxIqQYE0or8fPlBALoAo6vOICGlj6q7eZ-pmA=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Ricky + Oliva",
@@ -1769,7 +1850,8 @@
       "lng": -79.339892,
       "website": "https://rickyandoliva.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFl4nYdMfD291ey6gdplMkqIDy7V_ZePhyB9jVr-cTwYRhOgnaMCKIDbnuFbJ0Af0-coY9f04-Z2y6UToE-5bj_ILD-CNmserWhAM_nFkd5pH_TBIVQ_1dSS24cBPNaYYTT_I41z73ZvBKeoDLlfNIp=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFl4nYdMfD291ey6gdplMkqIDy7V_ZePhyB9jVr-cTwYRhOgnaMCKIDbnuFbJ0Af0-coY9f04-Z2y6UToE-5bj_ILD-CNmserWhAM_nFkd5pH_TBIVQ_1dSS24cBPNaYYTT_I41z73ZvBKeoDLlfNIp=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Ladybug Wine Bar",
@@ -1786,7 +1868,8 @@
       "lng": -79.341673,
       "website": "https://ladybugwinebar.ca",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNE9uHt_8lZNkuwWWCq9HVO7AIYDhNKDeXKoXqkuY45mREIow_q-y8NV8wfpmyjrSqxhIsP2QMFdANZ-sqUI-9fGn1mAPPOJVTPVh1reLEzhpLk1Q47QRo3H3LOkxxypXT3j9rjGr-XPLUV5OuPLCPBx6w=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNE9uHt_8lZNkuwWWCq9HVO7AIYDhNKDeXKoXqkuY45mREIow_q-y8NV8wfpmyjrSqxhIsP2QMFdANZ-sqUI-9fGn1mAPPOJVTPVh1reLEzhpLk1Q47QRo3H3LOkxxypXT3j9rjGr-XPLUV5OuPLCPBx6w=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Henry's",
@@ -1803,7 +1886,8 @@
       "lng": -79.404627,
       "website": "https://henrysrestaurant.ca",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqG5QkJhzh8Aq0uXkOukDlInGxTXOmRqeNRKIVpMp8noiGL8QIQW3MlBUFfrSSIgIdI9B5T7yvr0rNg_DYEe1WAYn-pI8uTcg1g=s1600-w1024"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqG5QkJhzh8Aq0uXkOukDlInGxTXOmRqeNRKIVpMp8noiGL8QIQW3MlBUFfrSSIgIdI9B5T7yvr0rNg_DYEe1WAYn-pI8uTcg1g=s1600-w1024",
+      "wheelchair": false
     },
     {
       "name": "Pai",
@@ -1824,7 +1908,8 @@
       "lng": -79.388714,
       "website": "https://www.paitoronto.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGx-w36aVcF6jUCYbois8lFfZUGCzNWknsBlwnRsVmmibHhNM2AGVzipJ6lNG7xuoGgJuw4sJ-KaLDJBWuJxW9eQm6usOapR3mumtcVI5ly0RSa-tJz5EEeDTwEVVv4MmBgopMy18SyaSAlhcoFsyr9=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGx-w36aVcF6jUCYbois8lFfZUGCzNWknsBlwnRsVmmibHhNM2AGVzipJ6lNG7xuoGgJuw4sJ-KaLDJBWuJxW9eQm6usOapR3mumtcVI5ly0RSa-tJz5EEeDTwEVVv4MmBgopMy18SyaSAlhcoFsyr9=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Citizen",
@@ -1845,7 +1930,8 @@
       "lng": -79.395917,
       "website": "https://thecitizentoronto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFOKs6NruGxnzDdLRfdohwb0C6r5edIlzMTXFW447ZsiaPwB3gLCEMAENPimTt3cjytDz8HRxX1F7uPkpg2nrlhYG-v2D4tgww=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFOKs6NruGxnzDdLRfdohwb0C6r5edIlzMTXFW447ZsiaPwB3gLCEMAENPimTt3cjytDz8HRxX1F7uPkpg2nrlhYG-v2D4tgww=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Minami",
@@ -1868,7 +1954,8 @@
       "lng": -79.388189,
       "website": "https://minamitoronto.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGEzleVZtalfNWudQXbKCdgOoePMzmUhomc5qrUbLnSRObukTqVxMe3aqfdUTpfDVYlBA9OCJ20-gcvIQcAWGXn4feDkB4Cmzz3kaSJH4QgO_9nnzbR9wogUf6JogBIvqu4caqqUrbeHqxhxYvPVhGq=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGEzleVZtalfNWudQXbKCdgOoePMzmUhomc5qrUbLnSRObukTqVxMe3aqfdUTpfDVYlBA9OCJ20-gcvIQcAWGXn4feDkB4Cmzz3kaSJH4QgO_9nnzbR9wogUf6JogBIvqu4caqqUrbeHqxhxYvPVhGq=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Chotto Matte",
@@ -1889,7 +1976,8 @@
       "lng": -79.379206,
       "website": "https://www.chotto-matte.com/toronto",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHemdAkby0y9wjGjZikZUhr1wBYT-5Vry6iPCi1sgjEKd4B7z4t8AC_ZKcVhTx1pw-ZUmcmeu_N57IT0vrTNyjFy3WZra1gN1i8FECWNH9sdPpePRO5UVb0bWQqzS1QVjufL-6TPaGPd5TzImfYqwV4Dg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHemdAkby0y9wjGjZikZUhr1wBYT-5Vry6iPCi1sgjEKd4B7z4t8AC_ZKcVhTx1pw-ZUmcmeu_N57IT0vrTNyjFy3WZra1gN1i8FECWNH9sdPpePRO5UVb0bWQqzS1QVjufL-6TPaGPd5TzImfYqwV4Dg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Vinny's",
@@ -1910,7 +1998,8 @@
       "lng": -79.39614,
       "website": "https://vinnystoronto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGJFNJqEjxcDByT7ALWjzBOtDaOOGTv7pOGUGA67GsWwXZPJ5ExT9K11p7k-3UjmNUIWKSMbjiBvXlhHZD-0P73srr6X8yWsRM=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGJFNJqEjxcDByT7ALWjzBOtDaOOGTv7pOGUGA67GsWwXZPJ5ExT9K11p7k-3UjmNUIWKSMbjiBvXlhHZD-0P73srr6X8yWsRM=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "CKTL & Co",
@@ -1931,7 +2020,8 @@
       "lng": -79.382084,
       "website": "https://cktlco.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGm4RVRRx4sQ3YqrSBHJUnwpBe9Ebx946v24fUftqgZB22FLSiEc7gRT9DVwmHV_apUIlae5ez4Sw_SJ9djYLVMPPnIa8WcdlK36bHQXtHXKS4LjLqsb5hz4BGLz--Hxz3diY_C1gVOIrRJrwIP60Ps=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGm4RVRRx4sQ3YqrSBHJUnwpBe9Ebx946v24fUftqgZB22FLSiEc7gRT9DVwmHV_apUIlae5ez4Sw_SJ9djYLVMPPnIa8WcdlK36bHQXtHXKS4LjLqsb5hz4BGLz--Hxz3diY_C1gVOIrRJrwIP60Ps=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "La Palma",
@@ -1952,7 +2042,8 @@
       "lng": -79.410118,
       "website": "https://lapalma.to",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHWst8Aq8ozvkQcYntN0fIoGZ-LM0PVMYA1Elof6GZlxqlHx59uvxcNXtn_Hvoot51YhyXEtmoKX4VogI6pofX_QH_jKiZVCX4xdyX6zLyU23ZLkPCg8RTk0K2wrWOaIXuUfxhmy7YUE1CvFumrOT8D=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHWst8Aq8ozvkQcYntN0fIoGZ-LM0PVMYA1Elof6GZlxqlHx59uvxcNXtn_Hvoot51YhyXEtmoKX4VogI6pofX_QH_jKiZVCX4xdyX6zLyU23ZLkPCg8RTk0K2wrWOaIXuUfxhmy7YUE1CvFumrOT8D=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Cottage Cheese",
@@ -1973,7 +2064,8 @@
       "lng": -79.40982,
       "website": "https://thecottagecheese.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF2_ene_s8rLGvLFiHc8RYJl87X19F-po9BWJGcnhWlEWoVLqTzDJsexmkCH96rLfG1XUjonBouTnr3Gafv6WR30zLbips9k5-MEEY4twQyieKkmYVJ2nPfLJ7O7WqlAE9h-aBoSC94Lu8X-g=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF2_ene_s8rLGvLFiHc8RYJl87X19F-po9BWJGcnhWlEWoVLqTzDJsexmkCH96rLfG1XUjonBouTnr3Gafv6WR30zLbips9k5-MEEY4twQyieKkmYVJ2nPfLJ7O7WqlAE9h-aBoSC94Lu8X-g=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Bar Raval (Food)",
@@ -1994,7 +2086,8 @@
       "lng": -79.409924,
       "website": "https://www.thisisbarraval.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGCSgAHpEL3XQdv984Sd6chpkvvoGS3P5XBm3ZrqGmKq-h2aWszyvGLtzUc0fQ2u2pbzrUgnVZpfYNWEVinifVZtH2Ys12zuXrGE6QsGe1xTfblTxVXqFt7Og7RBfNC8b-j2UZgDjURFHvQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGCSgAHpEL3XQdv984Sd6chpkvvoGS3P5XBm3ZrqGmKq-h2aWszyvGLtzUc0fQ2u2pbzrUgnVZpfYNWEVinifVZtH2Ys12zuXrGE6QsGe1xTfblTxVXqFt7Og7RBfNC8b-j2UZgDjURFHvQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Drake Hotel",
@@ -2015,7 +2108,8 @@
       "lng": -79.424546,
       "website": "https://www.thedrakehotel.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipMUhpYNmkR08w9DWY-ivSiSLFn8AZV9edhX2ErQ=s680-w680-h510-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Dasha",
@@ -2036,7 +2130,8 @@
       "lng": -79.388931,
       "website": "https://dashabar.ca",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGV8RSECdGyhfhHGyACViX5lN3FqO_XXgkSMSFw7sQcRzN5wXwIgMd8FZmViDEjFakm95kpxkJVujNuYXDOHnUDwE8Omb0o3o4JZu52jB4brwH1TamG4VB-2lUglAB5uRcV1L-kFm55NGaNRQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGV8RSECdGyhfhHGyACViX5lN3FqO_XXgkSMSFw7sQcRzN5wXwIgMd8FZmViDEjFakm95kpxkJVujNuYXDOHnUDwE8Omb0o3o4JZu52jB4brwH1TamG4VB-2lUglAB5uRcV1L-kFm55NGaNRQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Snakes & Lattes Annex",
@@ -2053,7 +2148,8 @@
       "lng": -79.41321,
       "website": "https://www.snakesandlattes.com",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFQNlICbYFB3FAuzdhkpSvvuQ0F3dB_VqcPtE4gq4GDFf6lQr4lt2MhKu9hPPCfhe1rLZT6rDf-PwpUrbQ1x4bHHO4UyLvootKcYEs4OsnBN53NtclaUM5_MHb9LCevbcNaMtqhgYCVKkxyV1ctGnDs2Q=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFQNlICbYFB3FAuzdhkpSvvuQ0F3dB_VqcPtE4gq4GDFf6lQr4lt2MhKu9hPPCfhe1rLZT6rDf-PwpUrbQ1x4bHHO4UyLvootKcYEs4OsnBN53NtclaUM5_MHb9LCevbcNaMtqhgYCVKkxyV1ctGnDs2Q=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Handlebar",
@@ -2070,7 +2166,8 @@
       "lng": -79.401185,
       "website": "https://handlebar.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGjpxhRp1uyFHom11box6l7gi6HygXIsRVv5qZ7U_mAQIICIMWPpG4VR_HljgowBPzh12nBdTQGUNp9an_Gks7QXfZm9_AzzUIq3YmX6jyZRHlNO0ONUumUz4SEAYs53546rrDnsLQwTBydYg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGjpxhRp1uyFHom11box6l7gi6HygXIsRVv5qZ7U_mAQIICIMWPpG4VR_HljgowBPzh12nBdTQGUNp9an_Gks7QXfZm9_AzzUIq3YmX6jyZRHlNO0ONUumUz4SEAYs53546rrDnsLQwTBydYg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Piston",
@@ -2087,7 +2184,8 @@
       "lng": -79.427613,
       "website": "https://thepiston.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEs3DdWoX5aJPHPaNAOybk5ZVUtLDZvAnx_EtAEw0mEbEeDIDmygxhC8-wCRCXl1WNOXh3IDcokmEx8O7h2efCTd5JKSZhuOIkAV8JWidqpNn7qMo9_JAnckQIIBQE5CT16twSB-vF1UuH9lw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEs3DdWoX5aJPHPaNAOybk5ZVUtLDZvAnx_EtAEw0mEbEeDIDmygxhC8-wCRCXl1WNOXh3IDcokmEx8O7h2efCTd5JKSZhuOIkAV8JWidqpNn7qMo9_JAnckQIIBQE5CT16twSB-vF1UuH9lw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Habits Gastropub",
@@ -2104,7 +2202,8 @@
       "lng": -79.39275,
       "website": "https://www.habitsgastropub.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGrYuKkWk_IMET-slqX5cNaXsJJYi0ySa2g7JEMfSsgrclCZLELYkHA8ucHUq9j5r80ljOXnjNwjSQmga8WOd5g5vEGWVTRIWlBaM-GAeeRxZR00x5-ur6hCz9_ZnSAfNjUsurZ1oEZs8TT=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGrYuKkWk_IMET-slqX5cNaXsJJYi0ySa2g7JEMfSsgrclCZLELYkHA8ucHUq9j5r80ljOXnjNwjSQmga8WOd5g5vEGWVTRIWlBaM-GAeeRxZR00x5-ur6hCz9_ZnSAfNjUsurZ1oEZs8TT=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Madisons",
@@ -2121,7 +2220,8 @@
       "lng": -79.392963,
       "website": "https://madisonave.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFtlHwzcfaNYJEXHNNNY4MDC4-wdSC-ggS1hDqAJOKoqNt6Engo7d1YP072jLzxtK2xBUpKNX0eljB0cebzdsO13Z2ZqzUJsLk=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFtlHwzcfaNYJEXHNNNY4MDC4-wdSC-ggS1hDqAJOKoqNt6Engo7d1YP072jLzxtK2xBUpKNX0eljB0cebzdsO13Z2ZqzUJsLk=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Harbord House",
@@ -2138,7 +2238,8 @@
       "lng": -79.404109,
       "website": "https://harbordhouse.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEWKKF12ch89ZgBqRlWBP-gVBZGJNVK5Jrt7jpxpLHrBrbflpjRjdjRNsnEPJhyiHuBN54Ud7pNnJWYkrO01p_e2cOzc9-z1sQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEWKKF12ch89ZgBqRlWBP-gVBZGJNVK5Jrt7jpxpLHrBrbflpjRjdjRNsnEPJhyiHuBN54Ud7pNnJWYkrO01p_e2cOzc9-z1sQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Pegasus On Church",
@@ -2156,7 +2257,8 @@
       "lng": -79.380521,
       "website": "https://pegasusbar.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEWa5bBGTHbXXoJ3d7BSVPtKr-7MLNxX-Tl8s0pP6dFSrT12tkmCbSrD59ZLU-2FbkDq8PcG4VJGWLtnde4BZnl9PhA18-z1ufhxMAWpS5RxnXsdLqVItbDWfja2Di6GQWP7X5UuQpvhtpHZw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEWa5bBGTHbXXoJ3d7BSVPtKr-7MLNxX-Tl8s0pP6dFSrT12tkmCbSrD59ZLU-2FbkDq8PcG4VJGWLtnde4BZnl9PhA18-z1ufhxMAWpS5RxnXsdLqVItbDWfja2Di6GQWP7X5UuQpvhtpHZw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Ossington",
@@ -2172,7 +2274,8 @@
       "lat": 43.645598,
       "lng": -79.419182,
       "website": "https://theossington.com",
-      "price": 1
+      "price": 1,
+      "wheelchair": true
     },
     {
       "name": "The 3030",
@@ -2189,7 +2292,8 @@
       "lng": -79.470134,
       "website": "https://the3030.ca",
       "photo": "https://www.eventsource.ca/listings/3030DundasWest/gallery/3030-dundas-west-toronto-001-full_size.jpg",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Kramer's Bar & Grill",
@@ -2207,7 +2311,8 @@
       "lng": -79.407971,
       "website": "https://kramersbar.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEP1U1zkogo4tjzaHq-zBC9GDbj1Er9KXI3mrXuLzKqANbXzmFYj71I4T951pLSbk7tyJjQVRxVaYURCBI8aB9I2dGnAQw70E1BL9-42k7nyJwSVaAeUtA-ECV4dPCrVtUTrfM76ZHUE9-OIyo=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEP1U1zkogo4tjzaHq-zBC9GDbj1Er9KXI3mrXuLzKqANbXzmFYj71I4T951pLSbk7tyJjQVRxVaYURCBI8aB9I2dGnAQw70E1BL9-42k7nyJwSVaAeUtA-ECV4dPCrVtUTrfM76ZHUE9-OIyo=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Left Field Brewery (Trivia)",
@@ -2224,7 +2329,8 @@
       "lng": -79.330479,
       "website": "https://leftfieldbrewery.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGD4QlW5ThdcXLGCnqkhDPE9HZG5usPets3E9L9lOhEI_qPsxB8INQwPvJrI9v7krPou8R630JCLunT6nRY9QKvxlWcDisqLoJ0EZLHdN3JisKvvVEp46Gf_qB1fLgIdF6zlUfSEK1Fcec6kg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGD4QlW5ThdcXLGCnqkhDPE9HZG5usPets3E9L9lOhEI_qPsxB8INQwPvJrI9v7krPou8R630JCLunT6nRY9QKvxlWcDisqLoJ0EZLHdN3JisKvvVEp46Gf_qB1fLgIdF6zlUfSEK1Fcec6kg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Meltdown",
@@ -2241,7 +2347,8 @@
       "lng": -79.417542,
       "website": "https://meltdownto.com",
       "photo": "https://assets.untappd.com/photos/2019_06_05/2cf2397e1ff4307fd1e600e31bc861f0_raw.jpg",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "The Communist's Daughter",
@@ -2258,7 +2365,8 @@
       "lng": -79.421082,
       "website": "https://thecommunistsdaughter.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGtFcYujcodurAnQq35tges44KYcQOQeUxYl6hiVbGWDRQnMwnnieuIhnixKYyB7SyxArMg23pb9xnT91VQLnRSvmzVoPB7fDzjtDY4YLufRVlMpKBUBIXhW732Yj0Fvi8-PL-m7cJk0YujADU=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGtFcYujcodurAnQq35tges44KYcQOQeUxYl6hiVbGWDRQnMwnnieuIhnixKYyB7SyxArMg23pb9xnT91VQLnRSvmzVoPB7fDzjtDY4YLufRVlMpKBUBIXhW732Yj0Fvi8-PL-m7cJk0YujADU=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Dakota Tavern",
@@ -2275,7 +2383,8 @@
       "lng": -79.420728,
       "website": "https://thedakotatavernto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGNlloW_456tH6NN5JKVfBKoznuW72bPALQRNBC9r_hG9fuIgNOnwPdIPxqiA-Kqn3gCxlomHr8fOGMeveuiZ4RneWqFqOlG116Tl-i63aZAjSuRJlHFdYmXs7KLaiS18UGLWJAqF0ZZWQVkg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGNlloW_456tH6NN5JKVfBKoznuW72bPALQRNBC9r_hG9fuIgNOnwPdIPxqiA-Kqn3gCxlomHr8fOGMeveuiZ4RneWqFqOlG116Tl-i63aZAjSuRJlHFdYmXs7KLaiS18UGLWJAqF0ZZWQVkg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Cameron House",
@@ -2293,7 +2402,8 @@
       "lng": -79.397588,
       "website": "https://thecameronhouse.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF5U22cDJOc-Cg7PnW-CgGpnqnJiPuBw8i7dath_Va0uufQuoXrc6YSJpqOqe2zxJchtQwZeylUNNiynTeQxrJ3wOKeWUxcw1w8sNfnKdrB-a4ONqSaEld2S1ggAeb81CGo0madSYSFm6oyEw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF5U22cDJOc-Cg7PnW-CgGpnqnJiPuBw8i7dath_Va0uufQuoXrc6YSJpqOqe2zxJchtQwZeylUNNiynTeQxrJ3wOKeWUxcw1w8sNfnKdrB-a4ONqSaEld2S1ggAeb81CGo0madSYSFm6oyEw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Garrison",
@@ -2310,7 +2420,8 @@
       "lng": -79.422336,
       "website": "https://thegarrison.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNE1YPA4DFtdW9ypVh_h3vTTaF-ibSsgMIuZXyji_5MBKSWwBoJrh1yOElOy8Av9CdbTDmDX9sk7H-44L9Z2ZIzhQ2E4SyiKOz2k2q_z-3QPYo7S5tHwlK9qspxLgcB2SCSj4qBoCrnEM6Kzfw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNE1YPA4DFtdW9ypVh_h3vTTaF-ibSsgMIuZXyji_5MBKSWwBoJrh1yOElOy8Av9CdbTDmDX9sk7H-44L9Z2ZIzhQ2E4SyiKOz2k2q_z-3QPYo7S5tHwlK9qspxLgcB2SCSj4qBoCrnEM6Kzfw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Bovine Sex Club",
@@ -2327,7 +2438,8 @@
       "lng": -79.402711,
       "website": "https://www.bovinesexclub.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFbWNnyPHz4D-mGUHa9R2Pi891Ni7uWpbxzQTRJcQYOc7agTugxoEMxhIyAOrh-esvmiN6Waj4Ieu_4X-c6Cxu81v4u1yXgwa_Gx9gbIBrNlnXgyhDm3fB9hWwjxCO2XOMBHncNURpL1UxywPMpFECYIw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFbWNnyPHz4D-mGUHa9R2Pi891Ni7uWpbxzQTRJcQYOc7agTugxoEMxhIyAOrh-esvmiN6Waj4Ieu_4X-c6Cxu81v4u1yXgwa_Gx9gbIBrNlnXgyhDm3fB9hWwjxCO2XOMBHncNURpL1UxywPMpFECYIw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Burdock",
@@ -2344,7 +2456,8 @@
       "lng": -79.437826,
       "website": "https://burdockbrewery.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGVwuzvpVAUwIyORmpCNnvnwYllZ8YiFzhC34GRhHlBuKbx5-ZHPoSTDv-fIuc2XBPHSvjsGp4F2x9ki11MRU-HpjqQb5o2ynU=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGVwuzvpVAUwIyORmpCNnvnwYllZ8YiFzhC34GRhHlBuKbx5-ZHPoSTDv-fIuc2XBPHSvjsGp4F2x9ki11MRU-HpjqQb5o2ynU=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Corner Comedy Club",
@@ -2362,7 +2475,8 @@
       "lng": -79.393333,
       "website": "https://cornercomedyclub.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNH6dWpv5Octgbx291G3ZkqtnAibw_mRNYUNxMD-3Dq6Oh50k7j2A_ASMw2-5_4AxZbk_zMWR-hHbB1CyHPW9O_wpNvU9e3OPaiJAkxNGdctqxREmjk39zKlR46ZQkVElzDcejnoxOPGe2hfbg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNH6dWpv5Octgbx291G3ZkqtnAibw_mRNYUNxMD-3Dq6Oh50k7j2A_ASMw2-5_4AxZbk_zMWR-hHbB1CyHPW9O_wpNvU9e3OPaiJAkxNGdctqxREmjk39zKlR46ZQkVElzDcejnoxOPGe2hfbg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Comedy Bar",
@@ -2381,7 +2495,8 @@
       "lng": -79.427872,
       "website": "https://www.comedybar.ca",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNE-D8HuLFMMI36wiZwCUwXJuzZ-bYb7qnfmnQMJhfPmIvmH95YqDHPHtq891_xxkjmv6rNetHjb6Ue8GkAnC9HPsMgWGVa12cA-wVidMH1KtW822m8AGXOdwh8DV_PlRXwwL5QXlbQBtCQZ-w=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNE-D8HuLFMMI36wiZwCUwXJuzZ-bYb7qnfmnQMJhfPmIvmH95YqDHPHtq891_xxkjmv6rNetHjb6Ue8GkAnC9HPsMgWGVa12cA-wVidMH1KtW822m8AGXOdwh8DV_PlRXwwL5QXlbQBtCQZ-w=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Yuk Yuk's",
@@ -2401,7 +2516,8 @@
       "lng": -79.387994,
       "website": "https://yukyuks.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHvTHelHmferx7v2Fbt_lPj3ZF5k0T7q6JvO4NbM9ecxmBdqCogiffPHf9ZXcDQCyhhR5ta1GgXAsOlAO-K4OaIvTZZYWLuz7E=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHvTHelHmferx7v2Fbt_lPj3ZF5k0T7q6JvO4NbM9ecxmBdqCogiffPHf9ZXcDQCyhhR5ta1GgXAsOlAO-K4OaIvTZZYWLuz7E=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Monarch Tavern",
@@ -2418,7 +2534,8 @@
       "lng": -79.413578,
       "website": "https://themonarchtavern.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFmEj35KlsCDrzbfR5GtwLIH12wighDd3TI5BeUso8UNF0KKkc_gsykK4lZMWYN97vqdcR5_WiPKXlUq8tv31fZGmovNG6OIA9XKzJBQrm2cWTwfNxKzWALYxYKVI021Z2AUSFxtF4pcyxcT2qOhTEu7w=s1600-w480"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFmEj35KlsCDrzbfR5GtwLIH12wighDd3TI5BeUso8UNF0KKkc_gsykK4lZMWYN97vqdcR5_WiPKXlUq8tv31fZGmovNG6OIA9XKzJBQrm2cWTwfNxKzWALYxYKVI021Z2AUSFxtF4pcyxcT2qOhTEu7w=s1600-w480",
+      "wheelchair": false
     },
     {
       "name": "The Rivoli",
@@ -2435,7 +2552,8 @@
       "lng": -79.394943,
       "website": "https://www.rivoli.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGLQ2s-s8GF01bk7maEg1Pk5bOn7alEhSMQGABUsQg1KQJhCXDPxX0PvglcXNop4Y79jyXTN8RJe5wxI1iTMP_1dTqVybMVsOdiqZ9lcbwhxbJTaG3v7EPLDFlaJrE61ai9KQ2k8V1576s-=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGLQ2s-s8GF01bk7maEg1Pk5bOn7alEhSMQGABUsQg1KQJhCXDPxX0PvglcXNop4Y79jyXTN8RJe5wxI1iTMP_1dTqVybMVsOdiqZ9lcbwhxbJTaG3v7EPLDFlaJrE61ai9KQ2k8V1576s-=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Absolute Comedy",
@@ -2455,7 +2573,8 @@
       "lng": -79.398535,
       "website": "https://absolutecomedy.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHaHysmGxfWsqeaUY5i1i7JnC-6pegAEHjnFEqA1XEtAos-JAb3Oggu9U2sGNind0fmgGP4jYVxLStJ442VvEsqiYM7TenMpiYUEdFAs2PaMz_bRHFl55Bz_4i9xn7vauoiAuPIvrZUhPANPA=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHaHysmGxfWsqeaUY5i1i7JnC-6pegAEHjnFEqA1XEtAos-JAb3Oggu9U2sGNind0fmgGP4jYVxLStJ442VvEsqiYM7TenMpiYUEdFAs2PaMz_bRHFl55Bz_4i9xn7vauoiAuPIvrZUhPANPA=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Bad Dog Theatre",
@@ -2472,7 +2591,8 @@
       "lat": 43.661993,
       "lng": -79.425041,
       "website": "https://baddogtheatre.com",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Bar+ Karaoke",
@@ -2495,7 +2615,8 @@
       "lng": -79.381975,
       "website": "https://barpluskaraoke.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEwl8npGM91uFNesfPYXgYbrV_rK6ZB1aC6UA4Voi1NURcEDcjcQEIUSJ9hx3uwu-ZRetWSxDcmyAT__VWr1ZTmKBQkjRkoSWea0x4cwzMaelMfMP3Ry9jgJ7T1roIkbp2vzrOwVelESyzzwg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEwl8npGM91uFNesfPYXgYbrV_rK6ZB1aC6UA4Voi1NURcEDcjcQEIUSJ9hx3uwu-ZRetWSxDcmyAT__VWr1ZTmKBQkjRkoSWea0x4cwzMaelMfMP3Ry9jgJ7T1roIkbp2vzrOwVelESyzzwg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Bar Neon",
@@ -2514,7 +2635,8 @@
       "lng": -79.402343,
       "website": "https://barneonkaraoke.com",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFQauq0xcwOI9h2nZIaqrjw3ls_P2wqX0C-9_BhcEH4a5xEv9rwZq--jMI19pWgDZzbKsj1much3MJWXmiXmGjsxkPsfsa-Fu8=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFQauq0xcwOI9h2nZIaqrjw3ls_P2wqX0C-9_BhcEH4a5xEv9rwZq--jMI19pWgDZzbKsj1much3MJWXmiXmGjsxkPsfsa-Fu8=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Karaoke Lounge 99",
@@ -2535,7 +2657,8 @@
       "lng": -79.394797,
       "website": "https://karaokelounge99.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFCD8kdjPrKC798GW34YXuTKkjWi8EWuHQvCoA7PzZIHiQCiThjK5z-4f5yxP1WAweGnoOiq_YGcC3Rg06OYR7kkVI_kaXFmGYVULek0b9PaN2bxVITCHP-mgv5JDq6cPyu0zbTta3j1F8KO7Fh3xml=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFCD8kdjPrKC798GW34YXuTKkjWi8EWuHQvCoA7PzZIHiQCiThjK5z-4f5yxP1WAweGnoOiq_YGcC3Rg06OYR7kkVI_kaXFmGYVULek0b9PaN2bxVITCHP-mgv5JDq6cPyu0zbTta3j1F8KO7Fh3xml=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Rec Room (karaoke)",
@@ -2553,7 +2676,8 @@
       "lng": -79.385956,
       "website": "https://therecroom.com",
       "photo": "https://assets.untappd.com/photos/2025_04_19/bb989709d13659af20215dded3a274fa_c_1472363350_raw.jpg",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Penny's Bar",
@@ -2571,7 +2695,8 @@
       "lng": -79.442462,
       "website": "https://pennysbar.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGvBo1a95k21aje-DvkOhgprHWtRa1X0CegQqO2NrXupa1lMp8xqRe6pIjiZocTQzWB6lmIwuov89oSRjFnzAvQP9AD8MiBO7Bcds3m29KgeWUZ0yulWu9XNuobkNTYp2ktCGv5qUoo8wH21t0UVRNHXg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGvBo1a95k21aje-DvkOhgprHWtRa1X0CegQqO2NrXupa1lMp8xqRe6pIjiZocTQzWB6lmIwuov89oSRjFnzAvQP9AD8MiBO7Bcds3m29KgeWUZ0yulWu9XNuobkNTYp2ktCGv5qUoo8wH21t0UVRNHXg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Church St Garage",
@@ -2591,7 +2716,8 @@
       "lng": -79.380445,
       "website": "https://churchstgarage.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFluSWwLkZoaKaY1EI5RufMAHeZM5CTwv87x1aFN_sBOziNFmtUc_nQLF3wmUpYKayz08a-Wz3jMTj2d2z-UeAEmcKjeL9bpTQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFluSWwLkZoaKaY1EI5RufMAHeZM5CTwv87x1aFN_sBOziNFmtUc_nQLF3wmUpYKayz08a-Wz3jMTj2d2z-UeAEmcKjeL9bpTQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Echo Karaoke & Lounge",
@@ -2614,7 +2740,8 @@
       "lng": -79.39782,
       "website": "https://echokaraoke.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFLP8PLa8d29ErCk3-zDmzPm84kWJZuk5X3rzG1FzvbceGQufX9uqlzkFM_enK8y_DQAHxVsjE6zqr68pRCTKyRtUkFQO1fig=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFLP8PLa8d29ErCk3-zDmzPm84kWJZuk5X3rzG1FzvbceGQufX9uqlzkFM_enK8y_DQAHxVsjE6zqr68pRCTKyRtUkFQO1fig=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "B-Boss KTV",
@@ -2637,7 +2764,8 @@
       "lng": -79.398297,
       "website": "https://bbossktv.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFCD8kdjPrKC798GW34YXuTKkjWi8EWuHQvCoA7PzZIHiQCiThjK5z-4f5yxP1WAweGnoOiq_YGcC3Rg06OYR7kkVI_kaXFmGYVULek0b9PaN2bxVITCHP-mgv5JDq6cPyu0zbTta3j1F8KO7Fh3xml=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFCD8kdjPrKC798GW34YXuTKkjWi8EWuHQvCoA7PzZIHiQCiThjK5z-4f5yxP1WAweGnoOiq_YGcC3Rg06OYR7kkVI_kaXFmGYVULek0b9PaN2bxVITCHP-mgv5JDq6cPyu0zbTta3j1F8KO7Fh3xml=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Twister Karaoke",
@@ -2660,7 +2788,8 @@
       "lng": -79.416962,
       "website": "https://twisterkaraoke.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEyPKUnxVCAoAeIwaHSX1-hxZJvl0nW7sIK_QhxXlVnh5JpGR26OryjMaIdzuqfV9fk6xl8hPjO4f1cQ3nVzKJ9Y5Juq25m_MY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEyPKUnxVCAoAeIwaHSX1-hxZJvl0nW7sIK_QhxXlVnh5JpGR26OryjMaIdzuqfV9fk6xl8hPjO4f1cQ3nVzKJ9Y5Juq25m_MY=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Gladstone House",
@@ -2678,7 +2807,8 @@
       "lng": -79.426925,
       "website": "https://www.gladstonehouse.ca",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGFbnbX-oIcs_AB7_NDmEY5VgFUGKd1Mu0pvNva0jNAE5lEljEIpYTtwMiMjI_r_bNzsmsSAwhInysdoAPosmgrMH6RmLE_zCY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGFbnbX-oIcs_AB7_NDmEY5VgFUGKd1Mu0pvNva0jNAE5lEljEIpYTtwMiMjI_r_bNzsmsSAwhInysdoAPosmgrMH6RmLE_zCY=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Crews & Tangos",
@@ -2698,7 +2828,8 @@
       "lng": -79.380473,
       "website": "https://www.crewsandtangos.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF-2cVu4srEWl05CehFsvVNrD9J5I4fVcBPpLfMM4X4KD-auzLGLsH0wuOvDX3lMEaUp2CsSnJXj-vS5UM_k1sdgXHIKO9uKt_YT6zN80_5-6zhWg0TW46R0AJ72lPiE8h04o-_9DWIIdUKSw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF-2cVu4srEWl05CehFsvVNrD9J5I4fVcBPpLfMM4X4KD-auzLGLsH0wuOvDX3lMEaUp2CsSnJXj-vS5UM_k1sdgXHIKO9uKt_YT6zN80_5-6zhWg0TW46R0AJ72lPiE8h04o-_9DWIIdUKSw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Pegasus On Church",
@@ -2716,7 +2847,8 @@
       "lng": -79.380521,
       "website": "https://pegasusbar.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEWa5bBGTHbXXoJ3d7BSVPtKr-7MLNxX-Tl8s0pP6dFSrT12tkmCbSrD59ZLU-2FbkDq8PcG4VJGWLtnde4BZnl9PhA18-z1ufhxMAWpS5RxnXsdLqVItbDWfja2Di6GQWP7X5UuQpvhtpHZw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEWa5bBGTHbXXoJ3d7BSVPtKr-7MLNxX-Tl8s0pP6dFSrT12tkmCbSrD59ZLU-2FbkDq8PcG4VJGWLtnde4BZnl9PhA18-z1ufhxMAWpS5RxnXsdLqVItbDWfja2Di6GQWP7X5UuQpvhtpHZw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Drake Hotel",
@@ -2734,7 +2866,8 @@
       "lng": -79.424546,
       "website": "https://www.thedrakehotel.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipMUhpYNmkR08w9DWY-ivSiSLFn8AZV9edhX2ErQ=s680-w680-h510-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Baro",
@@ -2753,7 +2886,8 @@
       "lng": -79.396977,
       "website": "https://barorestaurant.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFmP6uzYeb8IrXtXy4KaFO5J6ADCizSXDJb7wSMNnB6YjWRh3JS104zwyyOxa7osgQB54XNDsl5-sZaECR-GxBzfemJ6Yor3GY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFmP6uzYeb8IrXtXy4KaFO5J6ADCizSXDJb7wSMNnB6YjWRh3JS104zwyyOxa7osgQB54XNDsl5-sZaECR-GxBzfemJ6Yor3GY=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Sneaky Dee's",
@@ -2771,7 +2905,8 @@
       "lng": -79.407432,
       "website": "https://sneakydees.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNG6i3fNAhZvEaFwTJ9Lw6GN2pM9Hm90dyQ6Z5IBKuecIbCqU4zLFnODppdvs_TY0r_lSfVRsjIBREtZCIxBgaFf27HLzaqplNVRlsoYDW9Geq-Otq-VnDLzb2FAKIrJMH4zLmWV1DmDJDu-sib02M0DmA=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNG6i3fNAhZvEaFwTJ9Lw6GN2pM9Hm90dyQ6Z5IBKuecIbCqU4zLFnODppdvs_TY0r_lSfVRsjIBREtZCIxBgaFf27HLzaqplNVRlsoYDW9Geq-Otq-VnDLzb2FAKIrJMH4zLmWV1DmDJDu-sib02M0DmA=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Ballroom",
@@ -2788,7 +2923,8 @@
       "lng": -79.390625,
       "website": "https://theballroomto.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNECt4Wsn0O7LEQu4j98Bw8h1OqL_HTg5pYUMvumaiu0KmOWsqBJy7n6hh96ophmhoGFdq5MI_7RvfQ1Eo2OxAxrku2jrHPOCio4Sazz7B3CP_kkXaXOJT_DfzOQG7fTpHJyKt9z2SJA_qZ9=s1600-w1024"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNECt4Wsn0O7LEQu4j98Bw8h1OqL_HTg5pYUMvumaiu0KmOWsqBJy7n6hh96ophmhoGFdq5MI_7RvfQ1Eo2OxAxrku2jrHPOCio4Sazz7B3CP_kkXaXOJT_DfzOQG7fTpHJyKt9z2SJA_qZ9=s1600-w1024",
+      "wheelchair": false
     },
     {
       "name": "Jazz Bistro",
@@ -2809,7 +2945,8 @@
       "lng": -79.379061,
       "website": "https://jazzbistro.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFV5Y0vfaVDz8OyAn1pYezb6VRsMXEbmNnTrs9T2RpZJZtP8hP0Q_RBGqfmE_bhwBnAr1CyC4bneJo4HffnwoUK-ngDILJ1hwbQgG8gViols7XoQHv5RxIXOWE4jRO7Ly-pdLjaEoglPLUK2IqhJAw-2g=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFV5Y0vfaVDz8OyAn1pYezb6VRsMXEbmNnTrs9T2RpZJZtP8hP0Q_RBGqfmE_bhwBnAr1CyC4bneJo4HffnwoUK-ngDILJ1hwbQgG8gViols7XoQHv5RxIXOWE4jRO7Ly-pdLjaEoglPLUK2IqhJAw-2g=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Rex Hotel Jazz Bar",
@@ -2832,7 +2969,8 @@
       "lng": -79.38847,
       "website": "https://www.therex.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHpgfUrMZLilQLtJ1fw5b1s_trofnVGCcnrOgJBn-1OhKrOJtkZQnfeSiF6fQufYGB71sACp5GFj8ScCmUgb042tEeWc4DQxTew8RJ19o2gFR5K89fTvYjKPrPU9naUD20aiZ_kpjiWk0GxOg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHpgfUrMZLilQLtJ1fw5b1s_trofnVGCcnrOgJBn-1OhKrOJtkZQnfeSiF6fQufYGB71sACp5GFj8ScCmUgb042tEeWc4DQxTew8RJ19o2gFR5K89fTvYjKPrPU9naUD20aiZ_kpjiWk0GxOg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Emmet Ray",
@@ -2855,7 +2993,8 @@
       "lng": -79.425699,
       "website": "https://theemmetray.com",
       "photo": "https://s3-media0.fl.yelpcdn.com/bphoto/m3ih2Vfyjv_4NTcod9EiTQ/o.jpg",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "The Horseshoe Tavern",
@@ -2878,7 +3017,8 @@
       "lng": -79.395904,
       "website": "https://horseshoetavern.com",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipN1KqBzFNzuG_fh_3E_vRgJM3w4DSGP6mUFJWKi=s680-w680-h510",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Lee's Palace",
@@ -2897,7 +3037,8 @@
       "lng": -79.409455,
       "website": "https://www.leespalace.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGUbbkijy8EwcPbYERu_QlZxEH2fK089u_hhZpBlsn9YLXrgqLJiLy6bXLV248fSJQGm4cSzT1NwqBUFty1PI_k_HwNITGl2cQbix38kw0ZpaCWbmfvdjVVICo4zeUucTDWCf78jBQVYXyh0Q=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGUbbkijy8EwcPbYERu_QlZxEH2fK089u_hhZpBlsn9YLXrgqLJiLy6bXLV248fSJQGm4cSzT1NwqBUFty1PI_k_HwNITGl2cQbix38kw0ZpaCWbmfvdjVVICo4zeUucTDWCf78jBQVYXyh0Q=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Sweaty Betty's",
@@ -2917,7 +3058,8 @@
       "lng": -79.418778,
       "website": "https://sweatybettys.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGZjINArQhIQ7ZXJdKXBgP6P5Zr0miA2LRKXHVAk3SJUZqJlS1Cr4h9fjtvFMixP7tsXaS_EHQq9USlNzDbFX3dLrTHyFosJ2K4oYat0B8as1ar3yUbnqbStpMSTBIpYDYypT2Ow4cuRFHXmg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGZjINArQhIQ7ZXJdKXBgP6P5Zr0miA2LRKXHVAk3SJUZqJlS1Cr4h9fjtvFMixP7tsXaS_EHQq9USlNzDbFX3dLrTHyFosJ2K4oYat0B8as1ar3yUbnqbStpMSTBIpYDYypT2Ow4cuRFHXmg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Drake Hotel",
@@ -2934,7 +3076,8 @@
       "lng": -79.424546,
       "website": "https://www.thedrakehotel.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipMUhpYNmkR08w9DWY-ivSiSLFn8AZV9edhX2ErQ=s680-w680-h510-rw",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Everyside",
@@ -2957,7 +3100,8 @@
       "lng": -79.383122,
       "website": "https://everyside.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqG1NW50YlBCTmCb0fniKU69mwjwjJW9PvTXUtaxIN8oCenBA2PyPefthp_d9FdFYr3MbbdMWoPjDoQfzoHl7ex3mJAQrNayph4=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqG1NW50YlBCTmCb0fniKU69mwjwjJW9PvTXUtaxIN8oCenBA2PyPefthp_d9FdFYr3MbbdMWoPjDoQfzoHl7ex3mJAQrNayph4=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Central",
@@ -2976,7 +3120,8 @@
       "lat": 43.646756,
       "lng": -79.419907,
       "website": "https://centralbar.ca",
-      "price": 1
+      "price": 1,
+      "wheelchair": false
     },
     {
       "name": "Tranzac Club",
@@ -2993,7 +3138,8 @@
       "lng": -79.407534,
       "website": "https://tranzac.org",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGNGL8yH90cmo1jmX0yxa9Uumvu77gcvTJOrwagTQWTlN0-BsgX_O4eQ2MPu6YdJqERsMNOyF_7WPGbVpFU3RM31xMlhr9kAUlZ9kto8dzLBKHiQqIpIDab9dDjpWvbYO3iXihs2vthKlFg4xY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGNGL8yH90cmo1jmX0yxa9Uumvu77gcvTJOrwagTQWTlN0-BsgX_O4eQ2MPu6YdJqERsMNOyF_7WPGbVpFU3RM31xMlhr9kAUlZ9kto8dzLBKHiQqIpIDab9dDjpWvbYO3iXihs2vthKlFg4xY=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Storm Crow Manor",
@@ -3010,7 +3156,8 @@
       "lng": -79.381749,
       "website": "https://stormcrowmanor.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHgU3tF_PVumFXHEu9X2Umr2z3ggzNDJsOjboF5MVQU_4_JiJs4TgNoXR7b82L9yxZKyg_2-gTtVnRBbcoTQgrQBT-kmkVBeepHIW4Rybkpq1vj5gFH0Tp7NXwyNIJSBPmZfoDjzbjBmwf3_U7oLwAR2w=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHgU3tF_PVumFXHEu9X2Umr2z3ggzNDJsOjboF5MVQU_4_JiJs4TgNoXR7b82L9yxZKyg_2-gTtVnRBbcoTQgrQBT-kmkVBeepHIW4Rybkpq1vj5gFH0Tp7NXwyNIJSBPmZfoDjzbjBmwf3_U7oLwAR2w=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Cheesewerks",
@@ -3028,7 +3175,8 @@
       "lng": -79.402255,
       "website": "https://cheesewerks.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGSjFjcW9H7pvB9CuA4WQe6y54jVq8c3vzt9sq-TPT97Wm54ObMXea-G1eL568ZUP_E9pmuv7OED8rW2FgYrLCKt1W6bP0TeHo=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGSjFjcW9H7pvB9CuA4WQe6y54jVq8c3vzt9sq-TPT97Wm54ObMXea-G1eL568ZUP_E9pmuv7OED8rW2FgYrLCKt1W6bP0TeHo=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Owl's Club",
@@ -3045,7 +3193,8 @@
       "lng": -79.570233,
       "website": "https://owlsclub.ca",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGLu63YOkeQqJGgCahGar77dtRcZV3BFXqaxC5HlIazGo1LRtwHfoAyZ-nZrQxBymgmIhq0NXS69hAFrLsbJ0U6dcw0CG0bDa_4I-khQL0SXhplTODKnStJNS1U-0ioUYnS9o_iqzW7zJx99fQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGLu63YOkeQqJGgCahGar77dtRcZV3BFXqaxC5HlIazGo1LRtwHfoAyZ-nZrQxBymgmIhq0NXS69hAFrLsbJ0U6dcw0CG0bDa_4I-khQL0SXhplTODKnStJNS1U-0ioUYnS9o_iqzW7zJx99fQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Tammy's Wine Bar",
@@ -3062,7 +3211,8 @@
       "lng": -79.449412,
       "website": "https://tammyswinebar.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHtlGkG1sOV9EvNw5FXCPQq5ajaNLPXfZ5_3q7xz40cgkmmXzArEh1k0z0ToeBSsctDO41QOjMeM_40QOCVhLgobZoPt5vEjAY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqHtlGkG1sOV9EvNw5FXCPQq5ajaNLPXfZ5_3q7xz40cgkmmXzArEh1k0z0ToeBSsctDO41QOjMeM_40QOCVhLgobZoPt5vEjAY=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Kissa",
@@ -3080,7 +3230,8 @@
       "lng": -79.379877,
       "website": "https://kissatoronto.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEzLvpyFf8eNJTgiaM2ovqNDSqaDVwbWFdsXsfooeL1YkJQzejEwMvKy149N-_ptyI7BWpEGbgN71Uhao5ZO5G63rLhERVxTDxZR51hk6L26_jCAVXflei-V92MWLd_-xBllB6vBLMqBjU5dw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEzLvpyFf8eNJTgiaM2ovqNDSqaDVwbWFdsXsfooeL1YkJQzejEwMvKy149N-_ptyI7BWpEGbgN71Uhao5ZO5G63rLhERVxTDxZR51hk6L26_jCAVXflei-V92MWLd_-xBllB6vBLMqBjU5dw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Tha Phae Tavern",
@@ -3098,7 +3249,8 @@
       "lng": -79.420525,
       "website": "https://thaphaetavern.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEepnol1jmX01wPEh3DmDG1XjrIs2LK7KVWae_PKr0LP7PBJEFPKlNk7TE3wCyK0giVVrAVwQPN7UwLFD4ZnpHD_FRFUQ3pus0=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEepnol1jmX01wPEh3DmDG1XjrIs2LK7KVWae_PKr0LP7PBJEFPKlNk7TE3wCyK0giVVrAVwQPN7UwLFD4ZnpHD_FRFUQ3pus0=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "BMB Karaoke",
@@ -3120,7 +3272,8 @@
       "lng": -79.570233,
       "website": "https://bmbkaraoke.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEyPKUnxVCAoAeIwaHSX1-hxZJvl0nW7sIK_QhxXlVnh5JpGR26OryjMaIdzuqfV9fk6xl8hPjO4f1cQ3nVzKJ9Y5Juq25m_MY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEyPKUnxVCAoAeIwaHSX1-hxZJvl0nW7sIK_QhxXlVnh5JpGR26OryjMaIdzuqfV9fk6xl8hPjO4f1cQ3nVzKJ9Y5Juq25m_MY=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Company We Keep",
@@ -3143,7 +3296,8 @@
       "lng": -79.42394,
       "website": "https://thecompanywekeep.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEFtLaM_kJQhgBNSHH9Mz0wl04H2E4TyhRMXMj7AQIhAersrWfSxPgKf46mlxzzdfgHKZ5PnnP0KuJCFUbYH2DgZJEF48zTD_Lvsw4VSZKiQjRAmGGHgAjkSAV1bK3FrDTfzHBAaMZoquA-sg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEFtLaM_kJQhgBNSHH9Mz0wl04H2E4TyhRMXMj7AQIhAersrWfSxPgKf46mlxzzdfgHKZ5PnnP0KuJCFUbYH2DgZJEF48zTD_Lvsw4VSZKiQjRAmGGHgAjkSAV1bK3FrDTfzHBAaMZoquA-sg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Joey",
@@ -3166,7 +3320,8 @@
       "lng": -79.399896,
       "website": "https://www.joeyrestaurants.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEP0IhfBUmzPv3GMR0lF9z0DWlfI95vAGhEaL0NIDkVqQwqKQ9kf4YjiGUoTvjg1rjTkVask7Yu0Ou6LqzZvLUxCmDVCIfDwzl5YgTntl7D1yu7L8deB4A5-dyfPbpLSqoCCmS8brOnFHOWaZ4=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEP0IhfBUmzPv3GMR0lF9z0DWlfI95vAGhEaL0NIDkVqQwqKQ9kf4YjiGUoTvjg1rjTkVask7Yu0Ou6LqzZvLUxCmDVCIfDwzl5YgTntl7D1yu7L8deB4A5-dyfPbpLSqoCCmS8brOnFHOWaZ4=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Midnight Snack Bar",
@@ -3188,7 +3343,8 @@
       "lng": -79.407316,
       "website": "https://midnightsnackbar.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEuWu8rtC2ro2HuLJ8Na8aR-dn0YQGbPrIZnhsw4bIDQmt8fr1HLPtn-d4vWZW8U5_lHnYdbHtfOovILMNNi0TQnySXsvYSu12xAJ7kblVBWGLUiPsp7qC7dSlW_fYc-fAvxJS_yO2fhgaegik0LvTGHg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEuWu8rtC2ro2HuLJ8Na8aR-dn0YQGbPrIZnhsw4bIDQmt8fr1HLPtn-d4vWZW8U5_lHnYdbHtfOovILMNNi0TQnySXsvYSu12xAJ7kblVBWGLUiPsp7qC7dSlW_fYc-fAvxJS_yO2fhgaegik0LvTGHg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Piccolo Caffe",
@@ -3210,7 +3366,8 @@
       "lng": -79.390035,
       "website": "https://piccolocaffe.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEEDTeelRyje7N4ynIadh4VhHSnFIJbuFI_C3CewQ-n3rc5wYw21oNvJng_OEg_pMPWvnViYande-RRdNRBXSvYA7vJib3dTyIANmtnqGfZ_hhqQxR6kpCjE-LlXOw0Vw7eFSZsSCkh5QX-lo6NLbgS=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEEDTeelRyje7N4ynIadh4VhHSnFIJbuFI_C3CewQ-n3rc5wYw21oNvJng_OEg_pMPWvnViYande-RRdNRBXSvYA7vJib3dTyIANmtnqGfZ_hhqQxR6kpCjE-LlXOw0Vw7eFSZsSCkh5QX-lo6NLbgS=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Azhar Kitchen & Bar",
@@ -3233,7 +3390,8 @@
       "lng": -79.421637,
       "website": "https://azharkitchen.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFk01GNsL_0Qnf_WVGRz-b7oCXC-vO-tBpVVx8n_SQ-Fp0WysTlvHe2k8s7P2Az3Gxya0vK70L7NT2w95xt497X9UchqQfslUISfl8uYKJnKIuHNatEckPVsFF-c-Mh-60GnUd9ZEeEb15YFKGv4seg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFk01GNsL_0Qnf_WVGRz-b7oCXC-vO-tBpVVx8n_SQ-Fp0WysTlvHe2k8s7P2Az3Gxya0vK70L7NT2w95xt497X9UchqQfslUISfl8uYKJnKIuHNatEckPVsFF-c-Mh-60GnUd9ZEeEb15YFKGv4seg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Abrielle",
@@ -3256,7 +3414,8 @@
       "lng": -79.392073,
       "website": "https://abrielle.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGs5L0bNTWwPGI8lPvC_uyeBxAy8kn6eBsb6-JyZtZQtnR_UdrDQGjCGy7eEes05Slh4dPeiFn8zmzdq79J60ZRRWwEphVaNBh4QdUTbL1PzzC0zPxTrXgzpDZqzmIk2zBtsxFj10fmLdlR-pZ0u66TIw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGs5L0bNTWwPGI8lPvC_uyeBxAy8kn6eBsb6-JyZtZQtnR_UdrDQGjCGy7eEes05Slh4dPeiFn8zmzdq79J60ZRRWwEphVaNBh4QdUTbL1PzzC0zPxTrXgzpDZqzmIk2zBtsxFj10fmLdlR-pZ0u66TIw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Earls King West",
@@ -3279,7 +3438,8 @@
       "lng": -79.4005,
       "website": "https://www.earls.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGp7k7nq17ejAojD5RxObL_YeER6ez_A6WN3kgb1a6gLmbVgS1j993kODLYIAPp82lEjekCfH9g1zeoLwiLTmS0ZZzLfwIb2tU=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGp7k7nq17ejAojD5RxObL_YeER6ez_A6WN3kgb1a6gLmbVgS1j993kODLYIAPp82lEjekCfH9g1zeoLwiLTmS0ZZzLfwIb2tU=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Chamberlain's Pony Bar",
@@ -3302,7 +3462,8 @@
       "lng": -79.426085,
       "website": "https://chamberlainsponybar.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGPQaN1cVPq7017-moohhYfKvElG_-qD1reF0HpwzSEvg9OyVXsFxZcLdUxIlDYPD7BBtHIEhyFPXgEfIQ7P7rbdHrw71YBPi8=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGPQaN1cVPq7017-moohhYfKvElG_-qD1reF0HpwzSEvg9OyVXsFxZcLdUxIlDYPD7BBtHIEhyFPXgEfIQ7P7rbdHrw71YBPi8=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "The Parlour",
@@ -3325,7 +3486,8 @@
       "lng": -79.401536,
       "website": "https://theparlour.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFJd2FcXaxCx4apUGZt35IHmLaal6Dr-_gMPhuNX6y1iR1A4fx6K5-JCdLH-ZtFImvUmplN0_kUR5IhM9dFWwiS_nLA9wk5BaORaAi99X0zNZrhTsJpT6YpmSG35mleXpqt6S0qCH3fIrGS=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFJd2FcXaxCx4apUGZt35IHmLaal6Dr-_gMPhuNX6y1iR1A4fx6K5-JCdLH-ZtFImvUmplN0_kUR5IhM9dFWwiS_nLA9wk5BaORaAi99X0zNZrhTsJpT6YpmSG35mleXpqt6S0qCH3fIrGS=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Myth Restaurant",
@@ -3348,7 +3510,8 @@
       "lng": -79.397363,
       "website": "https://mythrestaurant.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGYInon-5gzrxiHX3OsHuVQbmfDthvo4wr1H3b3v6Tgm3fsEijXGqad0-z2pE0OHmp7mC5vpLF41sJy0HuJzs4hK141Y1MBTgp3_auEw_7RjArA_-indZRAe_8tChl1vsc-GdEIjqurxqixwHc=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGYInon-5gzrxiHX3OsHuVQbmfDthvo4wr1H3b3v6Tgm3fsEijXGqad0-z2pE0OHmp7mC5vpLF41sJy0HuJzs4hK141Y1MBTgp3_auEw_7RjArA_-indZRAe_8tChl1vsc-GdEIjqurxqixwHc=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "1208 Yonge St Bar",
@@ -3369,7 +3532,8 @@
       "lng": -79.391648,
       "website": "https://boxcarsocial.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqE3-CWeIn6Vh3qUDsEqa5FOcfTx7EVnCDG0MjHL6QLdparp2rxbhG0IIz7kFaRYUtUIBefR_6sMpQ_zC6lPyenNGTFS0LMC03Y=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqE3-CWeIn6Vh3qUDsEqa5FOcfTx7EVnCDG0MjHL6QLdparp2rxbhG0IIz7kFaRYUtUIBefR_6sMpQ_zC6lPyenNGTFS0LMC03Y=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Bar at 100 King St W",
@@ -3392,7 +3556,8 @@
       "lng": -79.381692,
       "website": "https://www.kingtaps.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFh5u2XqDYy9hnlNZdQDSKT4wBaqb4SGPPgOIAvCac1U8gTqpx7EpU3WIp89IzHWoj9LzRc1SqGgg8Mn-tKa0jDu_cnsbbrs_E=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqFh5u2XqDYy9hnlNZdQDSKT4wBaqb4SGPPgOIAvCac1U8gTqpx7EpU3WIp89IzHWoj9LzRc1SqGgg8Mn-tKa0jDu_cnsbbrs_E=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Fresh Kitchen + Juice Bar",
@@ -3415,7 +3580,8 @@
       "lng": -79.394484,
       "website": "https://freshrestaurants.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGFtf1a1dVEj5HdB5siDMbk9-2_kuj-Bp1eSmOfrEAxLoJ6mPydIiymt8dzbLX40P9AH3uBMdeMGgZZwkFON4sb43cKS2L8iKU=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqGFtf1a1dVEj5HdB5siDMbk9-2_kuj-Bp1eSmOfrEAxLoJ6mPydIiymt8dzbLX40P9AH3uBMdeMGgZZwkFON4sb43cKS2L8iKU=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Comrade",
@@ -3437,7 +3603,8 @@
       "lng": -79.34795,
       "website": "https://www.thecomrade.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerDtB3iqL-KyIpH_jHUkCWSlWaLIKqAn-XqtskqBYXe9UFblMf_mHrhcOIdxbZgSwywq0foWc3wdIUGhWw63-aCmE9No1j9gkiVaOtsMq78IFPby67wBSK0se483OjK06Za5ZDlsQ=s1360-w1360-h1020-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Blue Bovine",
@@ -3458,7 +3625,8 @@
       "lng": -79.381749,
       "website": "https://bluebovine.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF3PwT1Yxa5a1zz0Md0KMTV4wD5tE-CWlnX-pmX2L0mUJTInrfMzgY3r0p1xs5UJXx5hai2T4IfxfUB-ZIh2UxydxAysegS3yV8tC-TMr4v4CDLhE_bWuIFkCq6sclpp0ahelfNTX597JzH_ku1OBgAqA=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNF3PwT1Yxa5a1zz0Md0KMTV4wD5tE-CWlnX-pmX2L0mUJTInrfMzgY3r0p1xs5UJXx5hai2T4IfxfUB-ZIh2UxydxAysegS3yV8tC-TMr4v4CDLhE_bWuIFkCq6sclpp0ahelfNTX597JzH_ku1OBgAqA=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Fioca",
@@ -3476,7 +3644,8 @@
       "lng": -79.413334,
       "website": "https://www.ficoa.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFu-X58ICKBBTwHbtuAhYw3wpTSrVcpp2BbIKZ2yPQPh79QhlKy_dZqKktIBbOqZviG6vy3wbsbYUgOb5cUFNFn8y7B6aISMcsfGPk_8_WhWfhH5CwMFoxIqQYE0or8fPlBALoAo6vOICGlj6q7eZ-pmA=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFu-X58ICKBBTwHbtuAhYw3wpTSrVcpp2BbIKZ2yPQPh79QhlKy_dZqKktIBbOqZviG6vy3wbsbYUgOb5cUFNFn8y7B6aISMcsfGPk_8_WhWfhH5CwMFoxIqQYE0or8fPlBALoAo6vOICGlj6q7eZ-pmA=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Casa Madera",
@@ -3497,7 +3666,8 @@
       "lng": -79.401797,
       "website": "https://casamadera.ca",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEn3Z_XJtnmq6b3qhPIrkHAcC68lYdI2eWnuuXUAbiEWlkUI4vTSjbsR-K88HE8YWgyv_hzGlrvbjYAtSVEUYQ0SBxkg_TShdhneGPfzeYre6NU0tJwG8xm2lAq3HJJ_n6TAhRXt8TbgQW9w-dutK5LTg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEn3Z_XJtnmq6b3qhPIrkHAcC68lYdI2eWnuuXUAbiEWlkUI4vTSjbsR-K88HE8YWgyv_hzGlrvbjYAtSVEUYQ0SBxkg_TShdhneGPfzeYre6NU0tJwG8xm2lAq3HJJ_n6TAhRXt8TbgQW9w-dutK5LTg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Amano Pasta",
@@ -3518,7 +3688,8 @@
       "lng": -79.381749,
       "website": "https://amanopasta.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEthD5F5HAmau1h9y6otHyP3CV6MM_kSnuWqaCXoLiQBCecxbcBu9yPjZt7jw9tqpN0WzEOXaiLF1PMYLoRwv8hKVFcd2KLwHOOqmRdnYnMtzS0uGBFLFXrPHo6lyCf9GFizDIa9wTUBeI1BhM9U8578Q=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEthD5F5HAmau1h9y6otHyP3CV6MM_kSnuWqaCXoLiQBCecxbcBu9yPjZt7jw9tqpN0WzEOXaiLF1PMYLoRwv8hKVFcd2KLwHOOqmRdnYnMtzS0uGBFLFXrPHo6lyCf9GFizDIa9wTUBeI1BhM9U8578Q=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Brickworks Cider",
@@ -3540,7 +3711,8 @@
       "lng": -79.349552,
       "website": "https://brickworkscider.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEsOD96uL6ws0rUDKWZTKWPDXkp6cn_yQeSxzHqHiQfjGJ0R_CYNEa-XGM_-VKsEuIPoFdkx8inLVGd_l9rOQurww4Aysn_aOpVir_ekBY-7WsDLJJUvi9nTnt6N9PwVgQVqK1FPcIaY08jjw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNEsOD96uL6ws0rUDKWZTKWPDXkp6cn_yQeSxzHqHiQfjGJ0R_CYNEa-XGM_-VKsEuIPoFdkx8inLVGd_l9rOQurww4Aysn_aOpVir_ekBY-7WsDLJJUvi9nTnt6N9PwVgQVqK1FPcIaY08jjw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Prohibition Gastrohouse",
@@ -3561,7 +3733,8 @@
       "lng": -79.350406,
       "website": "https://prohibitiongastrohouse.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHgpQgQb2bjZ0HmiAZ6rX2tlr_mBv2eV-BTHc8JF1v4FSjr0F56llGsh3cU6OdB7bqqoawm0dFV8dKtlFKPPgwHzTX8TDTC-OwckStEwTiHI9P8ReDVftGPxhoxHyLsxl9nlylff3GxiQPWCH2qzYQVsg=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHgpQgQb2bjZ0HmiAZ6rX2tlr_mBv2eV-BTHc8JF1v4FSjr0F56llGsh3cU6OdB7bqqoawm0dFV8dKtlFKPPgwHzTX8TDTC-OwckStEwTiHI9P8ReDVftGPxhoxHyLsxl9nlylff3GxiQPWCH2qzYQVsg=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Wide Open Bar",
@@ -3583,7 +3756,8 @@
       "lng": -79.395608,
       "website": "https://wideopenbar.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNE0GwqFewB49adiRQVOSQQ5kFjH7DZtrLjoxrPXz236cMN1j4idr12kVSr6SoToi5xft3KO_QmeJwJaPjb19yYm2_wZBz1LcQG9BTO7g0CHepz3PA7oBhRVJiwMYbxelnRp5IVpIMfdjhxCCw=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNE0GwqFewB49adiRQVOSQQ5kFjH7DZtrLjoxrPXz236cMN1j4idr12kVSr6SoToi5xft3KO_QmeJwJaPjb19yYm2_wZBz1LcQG9BTO7g0CHepz3PA7oBhRVJiwMYbxelnRp5IVpIMfdjhxCCw=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Rodney's Oyster House",
@@ -3604,7 +3778,8 @@
       "lng": -79.388931,
       "website": "https://rodneysoysterhouse.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFZbV6AjOBPSSKBo89oi9M6j9M30kIWcK2NEKk_gYGHwq53w_KJooa08urmk-d28Re3MaCBZv7zMuY47ealaHX3UIMuaan3oYV484nNtLPq11k5BxuO4Y1CMcgAAxlJq-C51uNVa5G57tEjNYux1gIwwQ=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFZbV6AjOBPSSKBo89oi9M6j9M30kIWcK2NEKk_gYGHwq53w_KJooa08urmk-d28Re3MaCBZv7zMuY47ealaHX3UIMuaan3oYV484nNtLPq11k5BxuO4Y1CMcgAAxlJq-C51uNVa5G57tEjNYux1gIwwQ=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Cluny Bistro",
@@ -3627,7 +3802,8 @@
       "lng": -79.400443,
       "website": "https://clunybistro.com",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNG7ze4BUyV5vHf-1atw6jWYPI_ZYFj-IBq6PBzJ1KqP1YKDYxCqtpYWQOSMWMz08jjcGiAuoP2r_oq_Ac9HNoI4OhemUK5xERDQX-PmV0zMpfmTJJxsS06B4N9tj0FKKsRTr9PxfvNv5tf9XMY=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNG7ze4BUyV5vHf-1atw6jWYPI_ZYFj-IBq6PBzJ1KqP1YKDYxCqtpYWQOSMWMz08jjcGiAuoP2r_oq_Ac9HNoI4OhemUK5xERDQX-PmV0zMpfmTJJxsS06B4N9tj0FKKsRTr9PxfvNv5tf9XMY=s1600-w1200",
+      "wheelchair": true
     },
     {
       "name": "Oyster Boy",
@@ -3648,7 +3824,8 @@
       "lng": -79.437747,
       "website": "https://oysterboy.ca",
       "price": 1,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEjeWW8Q9R9ylQobGmvc-DiCisH7_LefZMyaKb2cGYvCe3iQQ1YYlB_o3796bQ3zlN6jo7Hr_t6dKaSmgm4qisULmgWruns8Sc=s1600-w720"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqEjeWW8Q9R9ylQobGmvc-DiCisH7_LefZMyaKb2cGYvCe3iQQ1YYlB_o3796bQ3zlN6jo7Hr_t6dKaSmgm4qisULmgWruns8Sc=s1600-w720",
+      "wheelchair": false
     },
     {
       "name": "Drake Hotel - Dinner with a Side of Sounds",
@@ -3667,7 +3844,8 @@
       "lng": -79.424546,
       "website": "https://www.thedrakehotel.ca",
       "photo": "https://lh3.googleusercontent.com/p/AF1QipMUhpYNmkR08w9DWY-ivSiSLFn8AZV9edhX2ErQ=s680-w680-h510-rw",
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Jean Darlene Piano Room",
@@ -3690,7 +3868,8 @@
       "lng": -79.422523,
       "website": "https://jeandarlene.com",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHW76UPFujkV12BZMevgDp8fIjYWCs3grzE9iCfF2Qup9tp9iITvZYkACRp66Xr4AeNx6bRblwCIFDVMKBf-BJBzXQey_0ycCifWRkAiy0GH7v4g92Q81ho3WHBqo1OKOao6MXCI_gzZKmU=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNHW76UPFujkV12BZMevgDp8fIjYWCs3grzE9iCfF2Qup9tp9iITvZYkACRp66Xr4AeNx6bRblwCIFDVMKBf-BJBzXQey_0ycCifWRkAiy0GH7v4g92Q81ho3WHBqo1OKOao6MXCI_gzZKmU=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "M2 Cocktail Bar (Matcha Matcha)",
@@ -3708,7 +3887,8 @@
       "lng": -79.524619,
       "website": "https://matchamatcha.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGAxmCYYAymgNEn0C8Vc9PZ2JRLkwhT4mv6C7X-3-iN8KjDg1VDBbi9ScvbnIThEelxsNV7tBlXlafztHtOjmnm8FvWSzM5o_2n89xiXkyZze81U0Le-Ctbtv-9q_oRqOgeJmvHjkO_rRNtAw=s1600-w1195"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNGAxmCYYAymgNEn0C8Vc9PZ2JRLkwhT4mv6C7X-3-iN8KjDg1VDBbi9ScvbnIThEelxsNV7tBlXlafztHtOjmnm8FvWSzM5o_2n89xiXkyZze81U0Le-Ctbtv-9q_oRqOgeJmvHjkO_rRNtAw=s1600-w1195",
+      "wheelchair": false
     },
     {
       "name": "Noonan's",
@@ -3725,7 +3905,8 @@
       "lng": -79.357339,
       "website": "https://noonanstoronto.com",
       "price": 3,
-      "photo": "https://lh3.googleusercontent.com/places/ANXAkqG3KraRetX6qgIBmKIBhtENFuUFJeqKMTxkjwL5E-wM50_c_nu1AwT447TAYQAiz-E1uszed-Y6VkERiIAUeFoPjw5DdHqThVs=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/places/ANXAkqG3KraRetX6qgIBmKIBhtENFuUFJeqKMTxkjwL5E-wM50_c_nu1AwT447TAYQAiz-E1uszed-Y6VkERiIAUeFoPjw5DdHqThVs=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Echo Karaoke",
@@ -3748,7 +3929,8 @@
       "lng": -79.41732,
       "website": "https://echokaraoke.ca",
       "price": 2,
-      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFbcEQihKOX30-iZGz2N6X924DEW1EO5Zsi73eE9erBksa3jy8nm3gKD_hkwz328gc5GTe4yzDpQGHm07hChrsCOF1Su3ZyHtO6wDmCjWF09nwaQI7NhzEQLTklGx9q8qzu4z7KxOi0Y5yxvwo=s1600-w1200"
+      "photo": "https://lh3.googleusercontent.com/place-photos/AL8-SNFbcEQihKOX30-iZGz2N6X924DEW1EO5Zsi73eE9erBksa3jy8nm3gKD_hkwz328gc5GTe4yzDpQGHm07hChrsCOF1Su3ZyHtO6wDmCjWF09nwaQI7NhzEQLTklGx9q8qzu4z7KxOi0Y5yxvwo=s1600-w1200",
+      "wheelchair": false
     },
     {
       "name": "Danforth Music Hall",
@@ -3764,7 +3946,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Phoenix Concert Theatre",
@@ -3780,7 +3963,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "The Opera House",
@@ -3796,7 +3980,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "History",
@@ -3812,7 +3997,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Velvet Underground",
@@ -3828,7 +4014,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Rebel",
@@ -3844,7 +4031,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Budweiser Stage",
@@ -3860,7 +4048,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Massey Hall",
@@ -3876,7 +4065,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Roy Thomson Hall",
@@ -3892,7 +4082,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Meridian Hall",
@@ -3908,7 +4099,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Scotiabank Arena",
@@ -3924,7 +4116,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "Mod Club",
@@ -3940,7 +4133,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "El Mocambo",
@@ -3956,7 +4150,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "CAA Theatre",
@@ -3972,7 +4167,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     },
     {
       "name": "The Baby G",
@@ -3988,7 +4184,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": false
     },
     {
       "name": "Longboat Hall",
@@ -4004,7 +4201,8 @@
       "photo": "",
       "source": "venue",
       "hidden": true,
-      "price": 2
+      "price": 2,
+      "wheelchair": true
     }
   ]
 }
