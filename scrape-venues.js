@@ -1,322 +1,411 @@
 /**
- * Tonight.TO — Weekly Venue Scraper (v4)
- * Hybrid: web search (Reddit, Instagram, Google Maps, BlogTO) + Claude knowledge
- * Reads public social media pages the same way a human would browsing the web.
+ * Tonight.TO — Weekly Venue Scraper (GitHub Actions)
+ *
+ * Priority for each venue:
+ *   1. Venue's own website (venue.website field)
+ *   2. Google Places API (address/coords verification)
+ *   3. Yelp API (fallback deals + address)
+ *   4. Claude web search (last resort, BlogTO / NOW Toronto / general web)
+ *
+ * Also runs:
+ *   - Google Places photo fetch for venues missing photos
+ *   - TM host venue photo fetch for hidden entries
+ *
+ * Secrets required in GitHub repo:
+ *   ANTHROPIC_API_KEY
+ *   GOOGLE_PLACES_KEY   (optional — falls back to hardcoded key)
+ *   YELP_API_KEY        (optional — falls back to hardcoded key)
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'fs';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
+const fs   = require('fs');
+const path = require('path');
+const https = require('https');
+const http  = require('http');
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const VENUES_PATH = resolve(__dirname, '..', 'venues.json');
+// ── Config ────────────────────────────────────────────────────────────────────
+
+const VENUES_PATH  = path.resolve(__dirname, '..', 'venues.json');
+const GOOGLE_KEY   = process.env.GOOGLE_PLACES_KEY || 'AIzaSyAo5sRSN0Qp7WR3mquuIkzaL51USat-cp8';
+const YELP_KEY     = process.env.YELP_API_KEY      || 'uaaP4ryCl6wt-EyjgrlbQ9B5i1Pat3qct22sSg-J9RLWUfNq6uAHs5tEP-EEsAMpbJbxzOma8VeFxwlu_POyqWsskpQC_Pg2Ncbx8OyUnGpNZ5fD0bRa37oF0-LRaXYx';
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
-const USER_AGENT = 'TonightTO/1.0 (https://tonightto.ca/)';
 
-if (!ANTHROPIC_KEY) { console.error('Missing ANTHROPIC_API_KEY'); process.exit(1); }
+const DAYS_ALL = ['mon','tue','wed','thu','fri','sat','sun'];
 
-// ── SEARCH QUERIES ────────────────────────────────────────────────────────────
-// These target public posts, threads and pages — no API auth required
-const WEB_SEARCHES = [
-  // Reddit — public posts, highly relevant local knowledge
-  'site:reddit.com/r/toronto happy hour bar deals 2026',
-  'site:reddit.com/r/toronto trivia night bar weekly 2026',
-  'site:reddit.com/r/toronto karaoke drag comedy open mic bar 2026',
-  'site:reddit.com/r/toronto live music jazz bar weekly 2026',
-  'site:reddit.com/r/toronto bingo dj night bar weekly 2026',
-  'site:reddit.com/r/askTO best happy hour Toronto 2026',
-  'site:reddit.com/r/askTO trivia karaoke bar Toronto 2026',
-  // BlogTO and NOW — editorial content about venues
-  'site:blogto.com Toronto happy hour bars 2026',
-  'site:blogto.com Toronto trivia karaoke comedy drag weekly 2026',
-  'site:blogto.com Toronto jazz live music bingo weekly 2026',
-  'site:nowtoronto.com Toronto happy hour weekly events bars 2026',
-  // Google Maps public reviews and listings
-  'Toronto bar "happy hour" "every" site:google.com/maps 2026',
-  'Toronto "trivia night" "every week" bar site:google.com/maps',
-  // Yelp public listings
-  'site:yelp.ca Toronto happy hour cocktails bar 2026',
-  'site:yelp.ca Toronto trivia night karaoke bar 2026',
-  // Instagram public posts (Claude reads visible public content)
-  '"toronto" "happy hour" "every" bar instagram.com 2026',
-  '"toronto" "trivia night" "weekly" bar instagram.com 2026',
-  '"toronto" "drag show" "every" bar instagram.com 2026',
-  '"toronto" "karaoke" "weekly" bar instagram.com 2026',
-  '"toronto" "open mic" "every" bar instagram.com 2026',
-  // Toronto Life
-  'site:torontolife.com best happy hour bars Toronto 2026',
-  'site:torontolife.com best trivia comedy jazz bars Toronto 2026',
-  // Neighbourhood specific
-  'Toronto Kensington Market "happy hour" OR "trivia" bar 2026',
-  'Toronto Leslieville Riverside "happy hour" OR "trivia" bar 2026',
-  'Toronto Parkdale "happy hour" OR "drag" OR "karaoke" bar 2026',
-  'Toronto Danforth "happy hour" OR "trivia" bar 2026',
-  'Toronto Ossington "happy hour" OR "jazz" bar 2026',
-];
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-// Knowledge-based prompts as fallback (no web search, no rate limit)
-const KNOWLEDGE_PROMPTS = [
-  'List 10 Toronto bars with drink happy hours (drinkhh) with real street addresses.',
-  'List 10 Toronto bars with food happy hour deals (foodhh) with real street addresses.',
-  'List 10 Toronto bars that host weekly pub trivia nights with real street addresses.',
-  'List 10 Toronto bars with weekly karaoke nights with real street addresses.',
-  'List 10 Toronto bars with weekly live music (livemusic) with real street addresses.',
-  'List 10 Toronto bars with weekly jazz (jazz) with real street addresses.',
-  'List 10 Toronto venues with weekly comedy nights with real street addresses.',
-  'List 10 Toronto bars with weekly drag shows with real street addresses.',
-  'List 10 Toronto bars with weekly DJ nights with real street addresses.',
-  'List 10 Toronto bars with weekly bingo nights with real street addresses.',
-  'List 10 Toronto venues with weekly open mic nights with real street addresses.',
-];
+// ── HTTP helpers ──────────────────────────────────────────────────────────────
 
-const SYSTEM_PROMPT = `You are a Toronto nightlife researcher. Extract venue information from web search results and social media posts about Toronto bars, restaurants and event venues.
-
-When reading Reddit threads, Instagram posts, Yelp reviews, or editorial articles — extract the specific venue names, addresses, and event details mentioned.
-
-For each venue output a JSON object:
-- name: string (venue/bar name — NOT the event title or account name)
-- hood: string (Toronto neighbourhood e.g. King West, Queen West, Ossington, Kensington, Annex, Yorkville, Danforth, Leslieville, Parkdale, Liberty Village, Financial, Distillery, Church, Midtown, Bloordale, Geary, Trinity Bellwoods, Riverside, Corktown, Harbourfront)
-- type: string (one of: drinkhh, foodhh, trivia, karaoke, livemusic, jazz, comedy, drag, dj, bingo, openmic)
-- days: array (subset of: "mon","tue","wed","thu","fri","sat","sun")
-- start: number (24hr decimal: 16=4pm, 17=5pm, 17.5=5:30pm, 20=8pm, 21=9pm, 22=10pm)
-- end: number (24hr decimal: use >24 for after midnight: 25=1am, 26=2am)
-- detail: string (specific details, prices, what people are saying about it — use quotes from posts if helpful)
-- addr: string (full street address with number e.g. "123 King St W")
-
-Rules:
-- ONLY include Toronto, Ontario venues
-- ONLY include recurring weekly events or permanent happy hours
-- Address must contain a street number — skip if unsure
-- Return ONLY a valid JSON array, no markdown, no explanation`;
-
-const KNOWLEDGE_SYSTEM = `You are a Toronto nightlife expert. Suggest NEW Toronto venues not in the existing list.
-
-For each venue output a JSON object:
-- name, hood, type, days, start, end, detail, addr (same format as above)
-
-Only include real venues with addresses you are confident about.
-Return ONLY a valid JSON array, no markdown.`;
-
-// ── GEOCODE ───────────────────────────────────────────────────────────────────
-async function geocode(name, addr) {
-  const attempts = [
-    new URLSearchParams({ format:'json', limit:'1', countrycodes:'ca', viewbox:'-79.7,43.5,-79.1,43.9', bounded:'1', street:addr, city:'Toronto', country:'Canada' }),
-    new URLSearchParams({ format:'json', limit:'1', countrycodes:'ca', viewbox:'-79.7,43.5,-79.1,43.9', bounded:'1', q:addr+', Toronto, Ontario, Canada' }),
-    new URLSearchParams({ format:'json', limit:'1', countrycodes:'ca', viewbox:'-79.7,43.5,-79.1,43.9', bounded:'1', q:name+', Toronto, Ontario, Canada' }),
-  ];
-  for (const qs of attempts) {
-    try {
-      const res = await fetch('https://nominatim.openstreetmap.org/search?'+qs, { headers:{ 'User-Agent': USER_AGENT } });
-      if (!res.ok) continue;
-      const results = await res.json();
-      if (results.length > 0) {
-        const lat = Math.round(parseFloat(results[0].lat)*1000000)/1000000;
-        const lng = Math.round(parseFloat(results[0].lon)*1000000)/1000000;
-        if (lat>43.5&&lat<43.9&&lng>-79.7&&lng<-79.1) return { lat, lng };
+function fetchText(url, headers = {}, redirects = 0) {
+  return new Promise((resolve, reject) => {
+    if (redirects > 5) return reject(new Error('Too many redirects'));
+    const lib = url.startsWith('https') ? https : http;
+    const req = lib.get(url, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; TonightTO-Scraper/1.0)', ...headers },
+      timeout: 12000,
+    }, res => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        const next = res.headers.location.startsWith('http')
+          ? res.headers.location
+          : new URL(res.headers.location, url).href;
+        return fetchText(next, headers, redirects + 1).then(resolve).catch(reject);
       }
-    } catch(e) { continue; }
-    await sleep(1100);
+      if (res.statusCode >= 400) return reject(new Error(`HTTP ${res.statusCode}`));
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => resolve(data));
+    });
+    req.on('error', reject);
+    req.on('timeout', () => { req.destroy(); reject(new Error('Timeout')); });
+  });
+}
+
+function fetchJson(url, headers = {}) {
+  return fetchText(url, headers).then(JSON.parse);
+}
+
+function postJson(url, body, headers = {}) {
+  return new Promise((resolve, reject) => {
+    const payload = JSON.stringify(body);
+    const u = new URL(url);
+    const req = https.request({
+      hostname: u.hostname, path: u.pathname, method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload), ...headers },
+      timeout: 30000,
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => { try { resolve(JSON.parse(data)); } catch(e) { reject(e); } });
+    });
+    req.on('error', reject);
+    req.on('timeout', () => { req.destroy(); reject(new Error('Timeout')); });
+    req.write(payload);
+    req.end();
+  });
+}
+
+// ── Text parsing ──────────────────────────────────────────────────────────────
+
+function parseTime(str) {
+  if (!str) return null;
+  str = str.toLowerCase().trim();
+  const m = str.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/);
+  if (!m) return null;
+  let h = parseInt(m[1]), min = parseInt(m[2] || '0');
+  const period = m[3];
+  if (period === 'pm' && h !== 12) h += 12;
+  if (period === 'am' && h === 12) h = 0;
+  return h + min / 60;
+}
+
+function parseDays(text) {
+  const t = text.toLowerCase();
+  if (/daily|every day|7 days|all week|sun.+sat|mon.+sun/.test(t)) return DAYS_ALL;
+  if (/weekday|mon.+fri/.test(t)) return ['mon','tue','wed','thu','fri'];
+  if (/weekend/.test(t)) return ['sat','sun'];
+  const order = ['sun','mon','tue','wed','thu','fri','sat'];
+  const nameMap = {sunday:'sun',monday:'mon',tuesday:'tue',wednesday:'wed',thursday:'thu',friday:'fri',saturday:'sat',sun:'sun',mon:'mon',tue:'tue',wed:'wed',thu:'thu',fri:'fri',sat:'sat'};
+  // Ranges: Tue-Fri, Mon–Thu
+  const days = [];
+  const rangeRe = /(\w+)\s*[-–]\s*(\w+)/g;
+  let rm;
+  while ((rm = rangeRe.exec(t)) !== null) {
+    const a = order.indexOf(nameMap[rm[1]]), b = order.indexOf(nameMap[rm[2]]);
+    if (a !== -1 && b !== -1) for (let i = a; i <= b; i++) days.push(order[i]);
+  }
+  if (days.length) return [...new Set(days)];
+  for (const [w, k] of Object.entries(nameMap)) if (t.includes(w)) days.push(k);
+  return [...new Set(days)];
+}
+
+function extractHappyHour(html) {
+  const text = html.replace(/<script[\s\S]*?<\/script>/gi, '')
+                   .replace(/<style[\s\S]*?<\/style>/gi, '')
+                   .replace(/<[^>]+>/g, ' ')
+                   .replace(/&amp;/g,'&').replace(/&nbsp;/g,' ')
+                   .replace(/\s+/g, ' ');
+
+  const patterns = [
+    /(?:happy hour|honolulu hour|hh|specials?)[^.!?]*?(\d{1,2}(?::\d{2})?\s*(?:am|pm))\s*[-–to]+\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm))[^.!?]*/gi,
+    /(\d{1,2}(?::\d{2})?\s*(?:am|pm))\s*[-–to]+\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm))\s*[^.!?]*?(?:daily|every day|happy hour|specials?)/gi,
+  ];
+  for (const pat of patterns) {
+    let m;
+    while ((m = pat.exec(text)) !== null) {
+      const start = parseTime(m[1]), end = parseTime(m[2]);
+      if (start !== null && end !== null && end > start && end - start <= 6) {
+        const idx = text.indexOf(m[0]);
+        const context = text.slice(Math.max(0, idx - 50), idx + 200).trim();
+        return { start, end, context: m[0].trim(), fullContext: context };
+      }
+    }
   }
   return null;
 }
 
-// ── API CALL WITH WEB SEARCH ──────────────────────────────────────────────────
-async function callClaudeWithSearch(query, existingNames) {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+// ── Source 1: Venue website ───────────────────────────────────────────────────
+
+async function scrapeWebsite(venue) {
+  if (!venue.website) return null;
+  const base = venue.website.replace(/\/$/, '');
+  const paths = ['', '/happy-hour', '/specials', '/drinks', '/menu', '/promotions', '/events', '/offers'];
+  for (const p of paths) {
+    try {
+      const html = await fetchText(base + p);
+      const hh = extractHappyHour(html);
+      if (hh) {
+        console.log(`    ✅ Website (${p||'/'}): ${hh.start}–${hh.end} | ${hh.context.slice(0,70)}`);
+        const days = parseDays(hh.fullContext);
+        return { start: hh.start, end: hh.end, days: days.length ? days : null, context: hh.context, source: 'website' };
+      }
+    } catch(e) { /* try next path */ }
+    await sleep(300);
+  }
+  console.log(`    ⚪ Website: no happy hour found`);
+  return null;
+}
+
+// ── Source 2: Google Places ───────────────────────────────────────────────────
+
+async function scrapeGoogle(venue) {
+  try {
+    const q = encodeURIComponent(`${venue.name} ${venue.addr} Toronto`);
+    const s = await fetchJson(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${q}&inputtype=textquery&fields=place_id,geometry,formatted_address&key=${GOOGLE_KEY}`);
+    const pid = s.candidates?.[0]?.place_id;
+    if (!pid) return null;
+    const d = await fetchJson(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${pid}&fields=formatted_address,geometry,photos&key=${GOOGLE_KEY}`);
+    const r = d.result;
+    if (!r) return null;
+    const addr = r.formatted_address?.split(',')[0]?.trim();
+    console.log(`    ✅ Google Places: ${addr}`);
+    return {
+      addr,
+      lat: r.geometry?.location?.lat,
+      lng: r.geometry?.location?.lng,
+      photoRef: r.photos?.[0]?.photo_reference,
+    };
+  } catch(e) {
+    console.log(`    ⚪ Google Places: ${e.message}`);
+    return null;
+  }
+}
+
+// ── Source 3: Yelp ────────────────────────────────────────────────────────────
+
+async function scrapeYelp(venue) {
+  try {
+    const q = encodeURIComponent(venue.name);
+    const r = await fetchJson(
+      `https://api.yelp.com/v3/businesses/search?term=${q}&location=Toronto,ON&limit=5`,
+      { Authorization: `Bearer ${YELP_KEY}` }
+    );
+    const match = r.businesses?.find(b =>
+      b.name.toLowerCase().includes(venue.name.toLowerCase().split(' ')[0]) &&
+      (b.location?.address1 || '').toLowerCase().includes((venue.addr || '').split(' ')[0].toLowerCase())
+    );
+    if (!match) return null;
+    console.log(`    ✅ Yelp: ${match.name} @ ${match.location?.address1}`);
+    return {
+      addr: match.location?.address1,
+      lat: match.coordinates?.latitude,
+      lng: match.coordinates?.longitude,
+    };
+  } catch(e) {
+    console.log(`    ⚪ Yelp: ${e.message}`);
+    return null;
+  }
+}
+
+// ── Source 4: Claude web search ───────────────────────────────────────────────
+
+async function scrapeViaClaude(venue) {
+  if (!ANTHROPIC_KEY) { console.log(`    ⚪ Claude: no API key`); return null; }
+  try {
+    const prompt = `Search the web for the happy hour details at "${venue.name}" in Toronto, Canada. 
+Look at their official website (${venue.website || 'unknown'}), BlogTO, NOW Toronto, and OpenTable.
+Return ONLY a JSON object with these fields (no markdown, no explanation):
+{
+  "detail": "one sentence describing the happy hour deals (prices, what's discounted)",
+  "start": <hour as decimal e.g. 15 for 3pm, 14.5 for 2:30pm>,
+  "end": <hour as decimal>,
+  "days": ["mon","tue","wed","thu","fri","sat","sun"] (only days HH runs),
+  "addr": "street address only",
+  "found": true or false
+}
+If you cannot find happy hour info, return {"found": false}.`;
+
+    const res = await postJson('https://api.anthropic.com/v1/messages', {
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 400,
+      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+      messages: [{ role: 'user', content: prompt }],
+    }, {
       'x-api-key': ANTHROPIC_KEY,
       'anthropic-version': '2023-06-01',
       'anthropic-beta': 'web-search-2025-03-05',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2000,
-      system: SYSTEM_PROMPT,
-      tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-      messages: [{
-        role: 'user',
-        content: `Search for and extract Toronto venue info from public posts and pages: "${query}"\n\nAlready in database (skip these): ${existingNames.slice(0,80).join(', ')}\n\nReturn ONLY a JSON array.`
-      }],
-    }),
-  });
+    });
 
-  if (response.status === 429) {
-    console.log('  Rate limited — waiting 60s...');
-    await sleep(60000);
-    return callClaudeWithSearch(query, existingNames);
+    const text = res.content?.filter(b => b.type === 'text').map(b => b.text).join('');
+    const json = text?.match(/\{[\s\S]*\}/)?.[0];
+    if (!json) return null;
+    const data = JSON.parse(json);
+    if (!data.found) return null;
+    console.log(`    ✅ Claude web search: ${data.detail?.slice(0,70)}`);
+    return data;
+  } catch(e) {
+    console.log(`    ⚪ Claude: ${e.message}`);
+    return null;
   }
-  if (!response.ok) throw new Error('API '+response.status+': '+(await response.text()).slice(0,150));
-
-  const data = await response.json();
-  const text = data.content.find(b=>b.type==='text')?.text || '[]';
-  return parseJSON(text);
 }
 
-// ── API CALL KNOWLEDGE ONLY ───────────────────────────────────────────────────
-async function callClaudeKnowledge(prompt, existingNames) {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_KEY,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2000,
-      system: KNOWLEDGE_SYSTEM,
-      messages: [{
-        role: 'user',
-        content: prompt+'\n\nAlready in database (skip these): '+existingNames.slice(0,100).join(', ')+'\n\nReturn ONLY a JSON array.'
-      }],
-    }),
+// ── Photo fetcher ─────────────────────────────────────────────────────────────
+
+async function fetchPhoto(photoRef) {
+  return new Promise(resolve => {
+    const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&photoreference=${photoRef}&key=${GOOGLE_KEY}`;
+    https.get(url, res => {
+      resolve(res.headers.location || '');
+    }).on('error', () => resolve(''));
   });
-
-  if (response.status === 429) {
-    console.log('  Rate limited — waiting 30s...');
-    await sleep(30000);
-    return callClaudeKnowledge(prompt, existingNames);
-  }
-  if (!response.ok) throw new Error('API '+response.status);
-
-  const data = await response.json();
-  const text = data.content.find(b=>b.type==='text')?.text || '[]';
-  return parseJSON(text);
 }
 
-// ── HELPERS ───────────────────────────────────────────────────────────────────
-const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-function parseJSON(text) {
+async function getPhotoRef(name, addr) {
   try {
-    const clean = text.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
-    const match = clean.match(/\[[\s\S]*\]/);
-    if (!match) return [];
-    return JSON.parse(match[0]);
-  } catch(e) { return []; }
+    const q = encodeURIComponent(`${name} ${addr} Toronto`);
+    const s = await fetchJson(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${q}&inputtype=textquery&fields=place_id&key=${GOOGLE_KEY}`);
+    const pid = s.candidates?.[0]?.place_id;
+    if (!pid) return null;
+    const d = await fetchJson(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${pid}&fields=photos&key=${GOOGLE_KEY}`);
+    return d.result?.photos?.[0]?.photo_reference || null;
+  } catch(e) { return null; }
 }
 
-const VALID_TYPES = new Set(['drinkhh','foodhh','happyhour','trivia','karaoke','livemusic','jazz','comedy','drag','dj','bingo','openmic']);
-const VALID_DAYS = new Set(['mon','tue','wed','thu','fri','sat','sun']);
+// ── Process one venue ─────────────────────────────────────────────────────────
 
-function normalize(v) {
-  return {
-    name: String(v.name||'').trim(),
-    hood: String(v.hood||'Toronto').trim(),
-    type: VALID_TYPES.has(v.type) ? v.type : 'happyhour',
-    days: Array.isArray(v.days) ? v.days.map(d=>String(d).toLowerCase().slice(0,3)).filter(d=>VALID_DAYS.has(d)) : [],
-    start: Number(v.start)||17,
-    end: Number(v.end)||19,
-    detail: String(v.detail||'').trim(),
-    addr: String(v.addr||'').trim(),
-    lat: Number(v.lat)||0,
-    lng: Number(v.lng)||0,
-  };
-}
+async function processVenue(venue) {
+  console.log(`\n📍 ${venue.name}`);
+  const updates = {};
 
-function isValid(v) {
-  return v.name.length > 1 && v.days.length > 0 && v.detail.length > 5 && v.addr.length > 3 && /\d/.test(v.addr);
-}
-
-function deduplicate(existing, incoming) {
-  const seen = new Set(existing.map(v=>v.name.toLowerCase().replace(/[^a-z0-9]/g,'')));
-  return incoming.filter(v => {
-    const key = v.name.toLowerCase().replace(/[^a-z0-9]/g,'');
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
-// ── MAIN ──────────────────────────────────────────────────────────────────────
-async function main() {
-  console.log('Tonight.TO Weekly Scraper v4 (Hybrid: Web + Knowledge)');
-  console.log('========================================================');
-
-  let existing = [];
-  try {
-    if (existsSync(VENUES_PATH)) {
-      const data = JSON.parse(readFileSync(VENUES_PATH, 'utf8'));
-      existing = data.venues || [];
-      console.log('Loaded '+existing.length+' existing venues');
-    }
-  } catch(e) { console.log('Could not read venues.json:', e.message); }
-
-  const existingNames = existing.map(v=>v.name);
-  const allFound = [];
-
-  // ── PHASE 1: Web search (social media + editorial) ──
-  console.log('\n── Phase 1: Web Search (public posts + articles) ──');
-  for (let i=0; i<WEB_SEARCHES.length; i++) {
-    const query = WEB_SEARCHES[i];
-    console.log('\n['+( i+1)+'/'+WEB_SEARCHES.length+'] '+query.slice(0,70)+'...');
-    try {
-      const found = await callClaudeWithSearch(query, existingNames);
-      const normalized = found.map(normalize).filter(isValid);
-      console.log('  Found '+normalized.length+' valid venues');
-      normalized.forEach(v=>console.log('    - '+v.name+' ('+v.addr+')'));
-      allFound.push(...normalized);
-      await sleep(20000); // 20s between web search calls (they use more tokens)
-    } catch(e) {
-      console.error('  Error: '+e.message);
-      await sleep(20000);
-    }
+  // 1. Own website — best source for deals
+  const web = await scrapeWebsite(venue);
+  if (web) {
+    if (web.start !== undefined) updates.start = Math.round(web.start * 4) / 4;
+    if (web.end !== undefined)   updates.end   = Math.round(web.end   * 4) / 4;
+    if (web.days?.length)        updates.days  = web.days;
   }
+  await sleep(300);
 
-  // ── PHASE 2: Knowledge fallback ──
-  console.log('\n── Phase 2: Knowledge Base Fallback ──');
-  for (let i=0; i<KNOWLEDGE_PROMPTS.length; i++) {
-    const prompt = KNOWLEDGE_PROMPTS[i];
-    console.log('\n['+( i+1)+'/'+KNOWLEDGE_PROMPTS.length+'] '+prompt.slice(0,60)+'...');
-    try {
-      const found = await callClaudeKnowledge(prompt, existingNames);
-      const normalized = found.map(normalize).filter(isValid);
-      console.log('  Found '+normalized.length+' valid venues');
-      normalized.forEach(v=>console.log('    - '+v.name+' ('+v.addr+')'));
-      allFound.push(...normalized);
-      await sleep(4000);
-    } catch(e) {
-      console.error('  Error: '+e.message);
-    }
-  }
-
-  // ── DEDUPLICATE ──
-  console.log('\nTotal found across all searches: '+allFound.length);
-  const newVenues = deduplicate(existing, allFound);
-  console.log('New venues not already listed: '+newVenues.length);
-
-  // ── GEOCODE ──
-  if (newVenues.length > 0) {
-    console.log('\nGeocoding new venues...');
-    for (let i=0; i<newVenues.length; i++) {
-      const v = newVenues[i];
-      process.stdout.write('['+( i+1)+'/'+newVenues.length+'] '+v.name+'... ');
-      if (v.lat>43.5&&v.lat<43.9&&v.lng>-79.7&&v.lng<-79.1) { console.log('coords ok'); continue; }
-      const coords = await geocode(v.name, v.addr);
-      if (coords) {
-        v.lat = coords.lat; v.lng = coords.lng;
-        console.log('OK ('+coords.lat+', '+coords.lng+')');
-      } else {
-        v.lat = 43.6532; v.lng = -79.3832;
-        console.log('not found - using Toronto centre');
+  // 2. Google Places — address + coords + photo ref
+  const google = await scrapeGoogle(venue);
+  if (google) {
+    if (google.addr && !venue.addr)  updates.addr = google.addr;
+    if (google.lat  && !venue.lat)   updates.lat  = google.lat;
+    if (google.lng  && !venue.lng)   updates.lng  = google.lng;
+    // Fetch photo if missing
+    if (!venue.photo && google.photoRef) {
+      const photoUrl = await fetchPhoto(google.photoRef);
+      if (photoUrl?.includes('googleusercontent')) {
+        updates.photo = photoUrl;
+        console.log(`    📸 Photo fetched`);
       }
-      await sleep(1100);
+    }
+  }
+  await sleep(300);
+
+  // 3 & 4 — only if website didn't give us deal info
+  if (!web) {
+    const yelp = await scrapeYelp(venue);
+    if (yelp) {
+      if (yelp.addr && !updates.addr) updates.addr = yelp.addr;
+      if (yelp.lat  && !updates.lat)  updates.lat  = yelp.lat;
+      if (yelp.lng  && !updates.lng)  updates.lng  = yelp.lng;
+    }
+    await sleep(300);
+
+    const claude = await scrapeViaClaude(venue);
+    if (claude) {
+      if (claude.start !== undefined) updates.start  = claude.start;
+      if (claude.end   !== undefined) updates.end    = claude.end;
+      if (claude.days?.length)        updates.days   = claude.days;
+      if (claude.detail)              updates.detail = claude.detail;
+      if (claude.addr && !updates.addr) updates.addr = claude.addr;
+    }
+    await sleep(500);
+  }
+
+  return updates;
+}
+
+// ── Photo pass: fill missing photos for all venues ────────────────────────────
+
+async function runPhotoPass(venues) {
+  console.log('\n\n📸 Photo pass — filling missing photos...');
+  let filled = 0;
+  for (const v of venues) {
+    if (v.photo) continue;
+    process.stdout.write(`  ${v.name}... `);
+    try {
+      const ref = await getPhotoRef(v.name, v.addr);
+      if (ref) {
+        const url = await fetchPhoto(ref);
+        if (url?.includes('googleusercontent')) {
+          v.photo = url;
+          filled++;
+          console.log('✅');
+        } else { console.log('⚪'); }
+      } else { console.log('⚪'); }
+    } catch(e) { console.log(`❌ ${e.message}`); }
+    await sleep(250);
+  }
+  console.log(`Photo pass done: ${filled} new photos`);
+  return filled;
+}
+
+// ── Entry point ───────────────────────────────────────────────────────────────
+
+async function main() {
+  console.log('Tonight.TO — Weekly Venue Scraper');
+  console.log('==================================');
+  console.log(`Priority: website → Google Places → Yelp → Claude web search\n`);
+
+  const data   = JSON.parse(fs.readFileSync(VENUES_PATH, 'utf8'));
+  const venues = data.venues;
+
+  // Only process non-hidden, non-TM venues that have a website
+  const targets = venues.filter(v =>
+    !v.hidden &&
+    v.source !== 'ticketmaster' &&
+    v.source !== 'eventbrite' &&
+    v.website
+  );
+
+  console.log(`Processing ${targets.length} venues with websites\n`);
+
+  let updated = 0;
+
+  for (const venue of targets) {
+    const updates = await processVenue(venue);
+
+    if (Object.keys(updates).length > 0) {
+      Object.assign(venue, updates);
+      updated++;
+      fs.writeFileSync(VENUES_PATH, JSON.stringify(data, null, 2));
     }
   }
 
-  newVenues.forEach(v=>console.log('  + '+v.name+' ('+v.hood+') - '+v.type));
+  console.log(`\nDeal scrape done: ${updated} venues updated`);
 
-  const merged = [...existing, ...newVenues];
-  writeFileSync(VENUES_PATH, JSON.stringify({
-    version: 1,
-    updated: new Date().toISOString().split('T')[0],
-    total: merged.length,
-    venues: merged,
-  }, null, 2));
+  // Photo pass — fill any missing photos across ALL venues
+  const photosFilled = await runPhotoPass(venues.filter(v => v.source !== 'ticketmaster'));
+  if (photosFilled > 0) {
+    fs.writeFileSync(VENUES_PATH, JSON.stringify(data, null, 2));
+  }
 
-  console.log('\nDone: '+existing.length+' existing + '+newVenues.length+' new = '+merged.length+' total venues');
+  // Final summary
+  const withPhotos = venues.filter(v => v.photo).length;
+  console.log(`\n✅ All done.`);
+  console.log(`   Deals updated: ${updated}`);
+  console.log(`   Photos filled: ${photosFilled}`);
+  console.log(`   Total with photos: ${withPhotos}/${venues.filter(v => !v.hidden).length}`);
 }
 
 main().catch(e => { console.error('Fatal:', e); process.exit(1); });
