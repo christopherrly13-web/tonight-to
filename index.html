@@ -3605,23 +3605,80 @@ document.getElementById("sheet-close").addEventListener("pointerdown", e=>{
 // ─── SEARCH ──────────────────────────────────────────────────────────────────
 // Keyword → type mappings (broad intent → specific types)
 const SEARCH_INTENTS=[
-  {keywords:["drink","drinks","cocktail","cocktails","beer","wine","martini","spirits","booze","bar","bars","alcohol","shots","pint","pints","draft","draught","happy hour","happyhour","hh"],types:["drinkhh","happyhour"],label:"Drink Happy Hours",icon:"🍸"},
-  {keywords:["food","eat","eating","snack","snacks","bite","bites","oyster","oysters","pizza","tacos","taco","burger","burgers","appetizer","appetizers","app","apps","dining","restaurant","brunch","lunch"],types:["foodhh"],label:"Food Happy Hours",icon:"🍔"},
-  {keywords:["music","live music","band","bands","concert","concerts","stage","perform","performance","gig","gigs","show","shows","singer","singing","acoustic","indie","rock","punk","pop","blues","soul","r&b"],types:["livemusic","jazz","openmic","dj"],label:"Live Music & DJ Nights",icon:"🎸"},
-  {keywords:["jazz","jazzy","bebop","swing","saxophone","trumpet","blues"],types:["jazz"],label:"Jazz",icon:"🎷"},
-  {keywords:["dj","djs","electronic","dance","edm","house","techno","rave","club","clubbing","nightclub","afrobeats","latin"],types:["dj"],label:"DJ Nights",icon:"🎧"},
-  {keywords:["open mic","openmic","open-mic","open stage","acoustic","singer songwriter","poet","poetry","spoken word","stand up open"],types:["openmic"],label:"Open Mic Nights",icon:"🎙"},
-  {keywords:["trivia","quiz","pub quiz","pub trivia","questions","quizmaster","quiz night","trivia night","brain","knowledge","general knowledge"],types:["trivia"],label:"Trivia Nights",icon:"🧠"},
-  {keywords:["karaoke","singing","sing","mic","microphone","ktv","private room","song","songs","sing-along"],types:["karaoke"],label:"Karaoke",icon:"🎤"},
-  {keywords:["comedy","comedian","stand up","stand-up","improv","sketch","funny","laugh","laughs","jokes","comic","comics"],types:["comedy"],label:"Comedy Shows",icon:"😂"},
-  {keywords:["drag","drag queen","queens","lgbtq","queer","pride","performer","performers","cabaret","burlesque","lip sync"],types:["drag"],label:"Drag Shows",icon:"👑"},
-  {keywords:["bingo","music bingo","bingo night","prize","prizes","numbers"],types:["bingo"],label:"Bingo Nights",icon:"🎱"},
-  {keywords:["tonight","now","happening","open","live","current","whats on","what's on"],types:null,label:"Happening Now",icon:"⚡",nowFilter:true},
+  {keywords:["drink","drinks","cocktail","cocktails","beer","wine","martini","spirits","booze","bar","bars","alcohol","shots","pint","pints","draft","draught","happy hour","happyhour","hh","cheap drinks","drink specials","drink deals","half price drinks","discounted drinks","after work drinks","after-work","thirsty","cheap booze","sip","sipping","tipple"],types:["drinkhh","happyhour"],label:"Drink Happy Hours",icon:"🍸"},
+  {keywords:["food","eat","eating","snack","snacks","bite","bites","oyster","oysters","pizza","tacos","taco","burger","burgers","appetizer","appetizers","app","apps","dining","restaurant","brunch","lunch","cheap eats","cheap food","food deals","half price food","free snacks","nibbles","nosh","hungry","starving","munchies"],types:["foodhh"],label:"Food Happy Hours",icon:"🍔"},
+  {keywords:["music","live music","band","bands","concert","concerts","stage","perform","performance","gig","gigs","show","shows","singer","singing","acoustic","indie","rock","punk","pop","blues","soul","r&b","entertainment","live entertainment","live act","musicians","see a band","watch a band"],types:["livemusic","jazz","openmic","dj"],label:"Live Music & DJ Nights",icon:"🎸"},
+  {keywords:["jazz","jazzy","bebop","swing","saxophone","trumpet","blues","smooth jazz","jazz night","jazz bar","jazz music"],types:["jazz"],label:"Jazz",icon:"🎷"},
+  {keywords:["dj","djs","electronic","dance","edm","house","techno","rave","club","clubbing","nightclub","afrobeats","latin","dance floor","dancing","dance music","spin","spinning","turntable","banger","bangers","go out dancing","dance night","club night"],types:["dj"],label:"DJ Nights",icon:"🎧"},
+  {keywords:["open mic","openmic","open-mic","open stage","acoustic","singer songwriter","poet","poetry","spoken word","stand up open","perform yourself","get on stage","amateur","showcase"],types:["openmic"],label:"Open Mic Nights",icon:"🎙"},
+  {keywords:["trivia","quiz","pub quiz","pub trivia","questions","quizmaster","quiz night","trivia night","brain","knowledge","general knowledge","smart","test your knowledge","game night","team game","intellectual","nerdy","nerd night"],types:["trivia"],label:"Trivia Nights",icon:"🧠"},
+  {keywords:["karaoke","singing","sing","mic","microphone","ktv","private room","song","songs","sing-along","sing along","belting","belt out","sing your heart","drunk singing","feel like singing","want to sing","perform"],types:["karaoke"],label:"Karaoke",icon:"🎤"},
+  {keywords:["comedy","comedian","stand up","stand-up","improv","sketch","funny","laugh","laughs","jokes","comic","comics","funny show","comedy show","comedy night","laugh out loud","lol","hilarious","make me laugh","lighthearted","fun show"],types:["comedy"],label:"Comedy Shows",icon:"😂"},
+  {keywords:["drag","drag queen","queens","lgbtq","queer","pride","performer","performers","cabaret","burlesque","lip sync","drag show","drag night","fierce","sickening","drag brunch"],types:["drag"],label:"Drag Shows",icon:"👑"},
+  {keywords:["bingo","music bingo","bingo night","prize","prizes","numbers","boozy bingo","drag bingo","fun bingo"],types:["bingo"],label:"Bingo Nights",icon:"🎱"},
+  {keywords:["tonight","now","happening","open","live","current","whats on","what's on","right now","open now","happening now"],types:null,label:"Happening Now",icon:"⚡",nowFilter:true},
 ];
 
-let searchQuery="";
-let searchTypes=null; // null = no search filter active
-let searchNowOnly=false;
+// Synonym / intent mapping for fuzzy queries that don't match keywords directly
+const FUZZY_INTENT_MAP = [
+  // Vibe-based
+  {patterns:["fun","good time","night out","something fun","good vibes","good vibe","lively","going out","out tonight"],intents:[0,1,6,7,8,9,10]},
+  {patterns:["chill","relaxed","low key","low-key","mellow","laid back","laid-back","easy night","casual"],intents:[0,1,5]},
+  {patterns:["wild","party","crazy","wild night","party night","get crazy"],intents:[3,6,8,9]},
+  {patterns:["date","date night","romantic","impress","special night","anniversary","valentines"],intents:[0,1,4]},
+  {patterns:["group","friends","gang","crew","squad","birthday","celebration","celebrate","girls night","boys night","hen","bach","bachelorette"],intents:[0,1,6,7,8,9,10]},
+  {patterns:["cheap","budget","affordable","free","inexpensive","money","broke","saving","deal","deals","specials","discount"],intents:[0,1]},
+  {patterns:["after work","after-work","work drinks","colleagues","coworkers","5pm","end of day","leaving work"],intents:[0,1]},
+  // Activity-based
+  {patterns:["sing","singing","song","songs","voice","belt"],intents:[6,7]},
+  {patterns:["dance","dancing","move","groove","floor","moves"],intents:[3]},
+  {patterns:["laugh","funny","humor","humour","comedy","hilarious","joke"],intents:[8]},
+  {patterns:["game","games","competitive","team","winning","win","brain"],intents:[6]},
+  {patterns:["show","performance","watch","see something","entertainment","performer"],intents:[2,4,5,8,9]},
+  {patterns:["eat","eating","food","hungry","starving","snack","meal"],intents:[1]},
+  {patterns:["seafood","oyster","fish","shrimp","lobster","clam"],intents:[1]},
+];
+
+function getIntentScore(q, intent) {
+  let score = 0;
+  const words = q.split(/\s+/);
+  for (const kw of intent.keywords) {
+    if (q === kw) { score += 100; continue; }
+    if (q.includes(kw) || kw.includes(q)) { score += 50; continue; }
+    // Partial word match
+    for (const word of words) {
+      if (word.length >= 3 && (kw.includes(word) || word.includes(kw.split(' ')[0]))) score += 20;
+    }
+  }
+  return score;
+}
+
+function getFuzzyIntents(q) {
+  const matched = new Set();
+  for (const mapping of FUZZY_INTENT_MAP) {
+    if (mapping.patterns.some(p => q.includes(p) || p.includes(q) ||
+        q.split(' ').some(w => w.length >= 4 && p.includes(w)))) {
+      mapping.intents.forEach(i => matched.add(i));
+    }
+  }
+  return [...matched].map(i => SEARCH_INTENTS[i]).filter(Boolean);
+}
+
+function scoreVenue(v, q) {
+  let score = 0;
+  const name = v.name.toLowerCase();
+  const hood = (v.hood||'').toLowerCase();
+  const detail = (v.detail||'').toLowerCase();
+  const addr = (v.addr||'').toLowerCase();
+  if (name === q) score += 200;
+  else if (name.startsWith(q)) score += 100;
+  else if (name.includes(q)) score += 60;
+  if (hood.includes(q)) score += 30;
+  if (detail.includes(q)) score += 20;
+  if (addr.includes(q)) score += 15;
+  if (isNow(v)) score += 10;
+  return score;
+}
 
 function onSearch(){
   const q=document.getElementById("search-input").value.trim().toLowerCase();
@@ -3657,48 +3714,86 @@ function onSearch(){
   }
   clearBtn.classList.add("visible");
 
-  // ── Live list update as you type ──
-  // Use text search immediately so cards filter in real time
+  // Live list update as you type
   searchTypes=null;
   searchNowOnly=false;
   render();
 
-  // ── Build suggestions dropdown ──
+  // ── Build suggestions ──
 
-  // Venue name matches — sorted by how early the match appears (name matches first, then hood/detail)
-  const nameMatches=ALL.filter(v=>v.name.toLowerCase().includes(q));
-  const otherMatches=ALL.filter(v=>
-    !v.name.toLowerCase().includes(q)&&(
-      v.hood.toLowerCase().includes(q)||
-      v.detail.toLowerCase().includes(q)||
-      v.addr.toLowerCase().includes(q)
-    )
-  );
-  const venueMatches=[...nameMatches,...otherMatches];
+  // 1. Venue matches — scored by relevance
+  const venueScores = ALL
+    .map(v => ({ v, score: scoreVenue(v, q) }))
+    .filter(x => x.score > 0)
+    .sort((a,b) => b.score - a.score);
+  const venueMatches = venueScores.map(x => x.v);
 
-  // Intent matches — only fire on whole-word boundary so "bar" doesn't match "karaoke bar"
-  const wordBoundary=new RegExp(`(^|\\s)${q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}(\\s|$)`,'i');
-  const matched=SEARCH_INTENTS.filter(intent=>
-    intent.keywords.some(kw=>
-      wordBoundary.test(kw) || // keyword contains the query as a whole word
-      kw===q ||                // exact match
-      (q.length>=4 && kw.startsWith(q)) // query is long enough to prefix-match
-    )
-  );
+  // 2. Intent matches — exact keyword + fuzzy vibe matching
+  const intentScores = SEARCH_INTENTS
+    .map(intent => ({ intent, score: getIntentScore(q, intent) }))
+    .filter(x => x.score > 0)
+    .sort((a,b) => b.score - a.score);
+  const exactIntents = intentScores.map(x => x.intent);
 
-  // Venues first, then intents at the bottom
-  const items=[];
-  venueMatches.slice(0,6).forEach(v=>items.push({type:"venue",venue:v}));
-  matched.forEach(intent=>{
-    const count=intent.types
-      ? ALL.filter(v=>intent.types.includes(v.type)&&v.days.some(d=>selectedDays.has(d))).length
-      : ALL.filter(v=>isNow(v)).length;
-    items.push({type:"intent",intent,count});
+  // 3. Fuzzy intents — for vibe queries ("fun night out", "something cheap", etc.)
+  const fuzzyIntents = getFuzzyIntents(q)
+    .filter(i => !exactIntents.includes(i));
+
+  const allIntents = [...exactIntents, ...fuzzyIntents];
+
+  // Build items list: venues first, then intents
+  const items = [];
+  venueMatches.slice(0, 5).forEach(v => items.push({ type: "venue", venue: v }));
+  allIntents.slice(0, 4).forEach(intent => {
+    const count = intent.types
+      ? ALL.filter(v => intent.types.includes(v.type) && v.days.some(d => selectedDays.has(d))).length
+      : ALL.filter(v => isNow(v)).length;
+    items.push({ type: "intent", intent, count });
   });
 
-  if(items.length===0){
-    sugBox.innerHTML=`<div class="sugg-item"><span class="sugg-icon">🔍</span><div><div class="sugg-label">No results for "${q}"</div><div class="sugg-sub">Try: drinks, food, music, trivia, karaoke…</div></div></div>`;
+  // If nothing matched at all, show closest suggestion
+  if(items.length === 0){
+    // Find the closest venue by char overlap
+    const closest = ALL
+      .map(v => {
+        const name = v.name.toLowerCase();
+        let overlap = 0;
+        for(let i=0;i<Math.min(q.length,name.length);i++) if(name[i]===q[i]) overlap++;
+        return { v, overlap };
+      })
+      .sort((a,b)=>b.overlap-a.overlap)
+      .slice(0,3);
+
+    const defaultIntents = [SEARCH_INTENTS[0], SEARCH_INTENTS[1], SEARCH_INTENTS[6]]; // drinks, food, trivia
+    sugBox.innerHTML=`
+      <div class="sugg-item" style="pointer-events:none;opacity:.6">
+        <span class="sugg-icon">🔍</span>
+        <div><div class="sugg-label">No exact match — showing closest</div></div>
+      </div>
+      ${closest.map(({v},i)=>`<div class="sugg-item" data-sugg-idx="${i}">
+        <span class="sugg-icon">${isNow(v)?"🟢":"📍"}</span>
+        <div><div class="sugg-label">${v.name}</div>
+        <div class="sugg-sub">${v.hood} · ${TLABEL[v.type]||v.type}</div></div>
+      </div>`).join('')}
+      ${defaultIntents.map((intent,i)=>{
+        const count=intent.types?ALL.filter(v=>intent.types.includes(v.type)&&v.days.some(d=>selectedDays.has(d))).length:ALL.filter(v=>isNow(v)).length;
+        return`<div class="sugg-item" data-sugg-idx="${closest.length+i}">
+          <span class="sugg-icon">${intent.icon}</span>
+          <div><div class="sugg-label">${intent.label}</div><div class="sugg-sub">Browse all</div></div>
+          <span class="sugg-count">${count}</span>
+        </div>`;
+      }).join('')}`;
     sugBox.classList.add("visible");
+
+    // Wire click handlers for fallback items
+    sugBox.querySelectorAll('[data-sugg-idx]').forEach(el=>{
+      const idx=parseInt(el.dataset.suggIdx);
+      el.addEventListener('pointerdown',e=>{
+        e.preventDefault();
+        if(idx<closest.length) applyVenueSearch(closest[idx].v.name);
+        else applySearchIntent(defaultIntents[idx-closest.length].types, defaultIntents[idx-closest.length].nowFilter);
+      });
+    });
     return;
   }
 
