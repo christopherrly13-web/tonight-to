@@ -2745,7 +2745,9 @@ function getFiltered(){
   const q=searchQuery;
   const isSearchActive=!!(searchTypes||q);
   return ALL.filter(v=>{
+    if(v.hidden) return false; // TM host venues — photo lookup only, never show
     if(isFavs) return favourites.has(v.name);
+    if(!v.days || v.days.length === 0) return false; // safety — skip venues with no days
     if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
     if(searchTypes){
       if(!searchTypes.includes(v.type))return false;
