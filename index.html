@@ -2365,7 +2365,16 @@ async function fetchTicketmasterEvents(){
         url: ev.url || '',
         source: 'ticketmaster',
       };
-    }).filter(v => v && v.name && v.days[0] && v.addr);
+    }).filter(v => {
+      if(!v || !v.name || !v.days[0] || !v.addr) return false;
+      // Skip generic venue placeholders — real events have specific names
+      const n = v.name.toLowerCase();
+      if(n.startsWith('live events') || n.startsWith('events at') || n.startsWith('performances at')) return false;
+      // Skip if name is just the venue name (no specific event)
+      const venueName = (v.hood||'').toLowerCase();
+      if(venueName && n === venueName) return false;
+      return true;
+    });
   } catch(err){
     console.warn('Ticketmaster fetch failed:',err.message);
     return [];
