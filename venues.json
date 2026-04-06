@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updated": "2026-04-06",
-  "total": 214,
+  "updated": "2026-04-05",
+  "total": 182,
   "venues": [
     {
       "name": "Bar Raval",
@@ -703,8 +703,8 @@
       "end": 18,
       "detail": "🍸 $12 cocktails, $7 draft beer, half-price wine. Honolulu Hour 3–6pm daily + late night Sun–Thu.",
       "addr": "427 Wellington St W, The Well",
-      "lat": 43.6442,
-      "lng": -79.4014,
+      "lat": 43.6443,
+      "lng": -79.4006,
       "website": "https://www.lulubar.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqXOCpG8oOU1sbn3H3TjtmMBRcuUnh18GCR35CUjAXKRCNI8G9QBsrdDcMw4seNMO8hbc9mjGJfUgEnxT3I9yaLM2NaQrDys1fUF8OzvnvbSRcCb-EGJfxl-QwUcTuja200HdJcWcCR-h0U=s1360-w1360-h1020-rw",
       "price": 2,
@@ -1491,8 +1491,8 @@
       "end": 18,
       "detail": "🍔 $4 bites, chicken skewers, hot dog bao, pork belly. Honolulu Hour 3–6pm daily.",
       "addr": "427 Wellington St W, The Well",
-      "lat": 43.6442,
-      "lng": -79.4014,
+      "lat": 43.6443,
+      "lng": -79.4006,
       "website": "https://www.lulubar.ca",
       "photo": "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqXOCpG8oOU1sbn3H3TjtmMBRcuUnh18GCR35CUjAXKRCNI8G9QBsrdDcMw4seNMO8hbc9mjGJfUgEnxT3I9yaLM2NaQrDys1fUF8OzvnvbSRcCb-EGJfxl-QwUcTuja200HdJcWcCR-h0U=s1360-w1360-h1020-rw",
       "price": 1,
@@ -4203,279 +4203,6 @@
       "hidden": true,
       "price": 2,
       "wheelchair": true
-    },
-    {
-      "name": "Catacombs Cabaret",
-      "hood": "King West",
-      "type": "comedy",
-      "days": [
-        "thu"
-      ],
-      "start": 19,
-      "end": 21,
-      "detail": "Laugh & Learn: Stand-up comedy with expert lectures",
-      "addr": "474 Queen Street West, Toronto",
-      "lat": 43.648068,
-      "lng": -79.400245
-    },
-    {
-      "name": "Tranzac Club - Living Room",
-      "hood": "Little Italy",
-      "type": "openmic",
-      "days": [
-        "tue"
-      ],
-      "start": 18.5,
-      "end": 22,
-      "detail": "$10-20 sliding scale, 3 minute slots",
-      "addr": "292 Brunswick Ave, Toronto, ON M5S 2M7",
-      "lat": 43.66522,
-      "lng": -79.407534
-    },
-    {
-      "name": "The Rex Hotel Jazz and Blues Bar",
-      "hood": "Downtown",
-      "type": "jazz",
-      "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri",
-        "sat",
-        "sun"
-      ],
-      "start": 17,
-      "end": 19,
-      "detail": "19 shows per week, live music every night",
-      "addr": "194 Queen Street West",
-      "lat": 43.650536,
-      "lng": -79.38847
-    },
-    {
-      "name": "Score on King",
-      "hood": "downtown",
-      "type": "bingo",
-      "days": [
-        "tue"
-      ],
-      "start": 20,
-      "end": 22,
-      "detail": "Bingo Nights every Tuesday 8-10pm",
-      "addr": "107 King St",
-      "lat": 43.649901,
-      "lng": -79.374036
-    },
-    {
-      "name": "Small Talk",
-      "hood": "Ossington",
-      "type": "jazz",
-      "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri",
-        "sat",
-        "sun"
-      ],
-      "start": 18,
-      "end": 24,
-      "detail": "Weekly live music, lounge jazz playlists, martinis $18-$20",
-      "addr": "110 Ossington Ave.",
-      "lat": 43.646595,
-      "lng": -79.419845
-    },
-    {
-      "name": "Kensei Bar",
-      "hood": "Trinity-Bellwoods",
-      "type": "jazz",
-      "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri",
-        "sat",
-        "sun"
-      ],
-      "start": 17,
-      "end": 24,
-      "detail": "Lo-fi jazz listening bar, cocktails $17-$21, Japanese small plates",
-      "addr": "1173 Dundas St. W.",
-      "lat": 43.649249,
-      "lng": -79.421764
-    },
-    {
-      "name": "The Well Restaurant and Bar",
-      "hood": "Church-Wellesley",
-      "type": "bingo",
-      "days": [
-        "wed"
-      ],
-      "start": 19,
-      "end": 22,
-      "detail": "Weekly drag-bingo hosted by Messy Margaret",
-      "addr": "487 Church St",
-      "lat": 43.665143,
-      "lng": -79.380583
-    },
-    {
-      "name": "The Lodge On Queen",
-      "hood": "Queen West",
-      "type": "drag",
-      "days": [
-        "fri"
-      ],
-      "start": 22,
-      "end": 25,
-      "detail": "Drag Bingo After Dark - adult-only vibe with naughty prizes and performances by Delusional Diva",
-      "addr": "251 Queen St W",
-      "lat": 43.650262,
-      "lng": -79.388819
-    },
-    {
-      "name": "Birroteca",
-      "hood": "Bloor West",
-      "type": "bingo",
-      "days": [
-        "mon"
-      ],
-      "start": 20,
-      "end": 22,
-      "detail": "Indie Ale house-style bingo, free admission, no reservations required",
-      "addr": "55 Bloor St W",
-      "lat": 43.669671,
-      "lng": -79.388752
-    },
-    {
-      "name": "Gloria in the Great Hall",
-      "hood": "Queen West",
-      "type": "drinkhh",
-      "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri",
-        "sat",
-        "sun"
-      ],
-      "start": 17,
-      "end": 19,
-      "detail": "Martini Happy Hour, discounted martinis",
-      "addr": "1087 Queen St W, Toronto",
-      "lat": 43.643343,
-      "lng": -79.4221
-    },
-    {
-      "name": "Death and taxes",
-      "hood": "Queen West",
-      "type": "foodhh",
-      "days": [
-        "tue",
-        "wed",
-        "thu",
-        "fri"
-      ],
-      "start": 16,
-      "end": 19,
-      "detail": "Beers $5, pizza 50% off, $2 off snacks",
-      "addr": "1154 Queen St W, Toronto",
-      "lat": 43.643118,
-      "lng": -79.424977
-    },
-    {
-      "name": "Bar Poet",
-      "hood": "Queen West",
-      "type": "drinkhh",
-      "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri"
-      ],
-      "start": 12,
-      "end": 17,
-      "detail": "Beers $6 and $7, pizza/salad combo",
-      "addr": "1090 Queen St W, Toronto",
-      "lat": 43.64373,
-      "lng": -79.4223
-    },
-    {
-      "name": "Lodge On Queen",
-      "hood": "Queen West",
-      "type": "bingo",
-      "days": [
-        "fri"
-      ],
-      "start": 22,
-      "end": 25,
-      "detail": "Drag Bingo After Dark, adult-only, scandalous prizes, hosted by Delusional Diva",
-      "addr": "251 Queen St W",
-      "lat": 43.650262,
-      "lng": -79.388819
-    },
-    {
-      "name": "Aera",
-      "hood": "Downtown",
-      "type": "drinkhh",
-      "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri",
-        "sat",
-        "sun"
-      ],
-      "start": 16,
-      "end": 18,
-      "detail": "$15 signature cocktails, $9 Sapporo on draught, $12 select wines",
-      "addr": "8 Spadina Avenue, Toronto, ON M5V 2H6",
-      "lat": 43.643193,
-      "lng": -79.394458
-    },
-    {
-      "name": "Open Aera",
-      "hood": "Downtown",
-      "type": "drinkhh",
-      "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri",
-        "sat",
-        "sun"
-      ],
-      "start": 14.5,
-      "end": 18,
-      "detail": "Sky-high views and signature drinks, rooftop patio",
-      "addr": "8 Spadina Avenue, Toronto, ON M5V 2H6",
-      "lat": 43.643193,
-      "lng": -79.394458
-    },
-    {
-      "name": "Kellys Landing",
-      "hood": "Downtown",
-      "type": "drinkhh",
-      "days": [
-        "mon",
-        "tue",
-        "wed",
-        "thu",
-        "fri",
-        "sat",
-        "sun"
-      ],
-      "start": 21,
-      "end": 26,
-      "detail": "$8 wine, $7 premium draught, $9 cocktails, $6-$12 starters, $15 pizzas, $15 burgers, $20 mains, $27 steak frites",
-      "addr": "123 Front Street West, Toronto, ON",
-      "lat": 43.64499,
-      "lng": -79.382979
     }
   ]
 }
