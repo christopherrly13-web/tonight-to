@@ -3197,8 +3197,8 @@
       "wheelchair": false
     },
     {
-      "name": "Tammy's Wine Bar",
-      "hood": "Parkdale",
+      "name": "Tommy's Wine Bar",
+      "hood": "Dundas West",
       "type": "karaoke",
       "days": [
         "sun"
@@ -3206,9 +3206,9 @@
       "start": 20,
       "end": 24,
       "detail": "Everybody Flirts queer karaoke, natural wine program",
-      "addr": "1444 Dupont St, Toronto",
-      "lat": 43.666293,
-      "lng": -79.449412,
+      "addr": "1977 Dundas St W",
+      "lat": 43.6499,
+      "lng": -79.4384,
       "website": "https://tammyswinebar.ca",
       "price": 2,
       "photo": "https://lh3.googleusercontent.com/places/ANXAkqHtlGkG1sOV9EvNw5FXCPQq5ajaNLPXfZ5_3q7xz40cgkmmXzArEh1k0z0ToeBSsctDO41QOjMeM_40QOCVhLgobZoPt5vEjAY=s1600-w1200",
