@@ -3164,17 +3164,21 @@ function renderMap(){
       : live ? `0 0 8px ${color}` : "none";
     const border = isSearchMatch ? "3px solid #fff" : live ? "2px solid #fff" : "2px solid rgba(255,255,255,0.4)";
     // Red pin shape for searched-but-not-live venues
+    const pinSize = 24;
     const html = isSearchedButNotLive
-      ? `<div style="position:relative;width:${size}px">
-           <div style="width:${size}px;height:${size}px;border-radius:50% 50% 50% 0;background:#e53935;border:${border};box-shadow:${glow};transform:rotate(-45deg)"></div>
-           <div style="position:absolute;top:50%;left:50%;width:6px;height:6px;background:#fff;border-radius:50%;transform:translate(-50%,-60%)"></div>
+      ? `<div style="width:${pinSize}px;height:${pinSize}px;border-radius:50% 50% 50% 0;background:#e53935;border:2px solid #fff;box-shadow:0 0 12px rgba(229,57,53,.6),0 2px 6px rgba(0,0,0,.4);transform:rotate(-45deg);position:relative">
+           <div style="position:absolute;top:50%;left:50%;width:7px;height:7px;background:#fff;border-radius:50%;transform:translate(-50%,-50%)"></div>
          </div>`
       : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:${border};box-shadow:${glow};transition:all .3s;"></div>`;
+    const iconW = isSearchedButNotLive ? pinSize : size;
+    const iconH = isSearchedButNotLive ? pinSize : size;
+    const anchorX = isSearchedButNotLive ? pinSize/2 : size/2;
+    const anchorY = isSearchedButNotLive ? pinSize : size/2;
     const icon=L.divIcon({
       className:"",
       html,
-      iconSize:[size,size],
-      iconAnchor:[size/2,size/2]
+      iconSize:[iconW, iconH],
+      iconAnchor:[anchorX, anchorY]
     });
     const m=L.marker([v.lat,v.lng],{icon}).addTo(leafletMap);
     m.on("click",()=>openSheet(v));
