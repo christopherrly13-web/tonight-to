@@ -3874,18 +3874,29 @@ function applyVenueSearch(name){
   searchTypes=null;
   searchNowOnly=false;
   document.getElementById("search-input").value=name;
-  // Also sync desktop search input
   const dsi = document.getElementById('desktop-search-input');
   if(dsi) dsi.value=name;
   searchQuery=name.toLowerCase();
   document.getElementById("search-clear").classList.add("visible");
-  // Find venue and sync days, time AND type pills
   const venue=ALL.find(v=>v.name.toLowerCase()===name.toLowerCase());
   if(venue) syncDaysAndTime([venue], true);
   hideSuggestions();
-  render();
-  // Sync desktop day pills and time slider after syncDaysAndTime
-  if(isDesktop()){
+
+  if(isDesktop() && venue){
+    // Switch to map view, zoom in, show venue sheet + red pin
+    showView('map', document.getElementById('nb-map'));
+    updateDesktopNav('map');
+    // Sync map search so red pin renders
+    mapSearchQuery = name.toLowerCase();
+    setTimeout(()=>{
+      if(leafletMap){
+        leafletMap.flyTo([venue.lat, venue.lng], 16, {duration:0.8});
+        renderMap();
+        // Open the venue sheet after zoom
+        setTimeout(()=>openSheet(venue), 500);
+      }
+    }, 100);
+    // Sync desktop pills
     document.querySelectorAll('#desktop-day-pills .day-pill').forEach(p=>{
       p.classList.toggle('active', selectedDays.has(p.dataset.d));
     });
@@ -3895,11 +3906,28 @@ function applyVenueSearch(name){
       desktopSlider.value = mobileSlider.value;
       syncDesktopTime(mobileSlider.value);
     }
-    // Sync desktop type pills
     document.querySelectorAll('#desktop-type-filters .desktop-type-pill').forEach(p=>{
       p.classList.toggle('active', activeTypes.has(p.dataset.t));
     });
     updateDesktopCount();
+  } else {
+    // Mobile — just render the feed as before
+    render();
+    if(isDesktop()){
+      document.querySelectorAll('#desktop-day-pills .day-pill').forEach(p=>{
+        p.classList.toggle('active', selectedDays.has(p.dataset.d));
+      });
+      const mobileSlider = document.getElementById('time-slider');
+      const desktopSlider = document.getElementById('desktop-time-slider');
+      if(mobileSlider && desktopSlider){
+        desktopSlider.value = mobileSlider.value;
+        syncDesktopTime(mobileSlider.value);
+      }
+      document.querySelectorAll('#desktop-type-filters .desktop-type-pill').forEach(p=>{
+        p.classList.toggle('active', activeTypes.has(p.dataset.t));
+      });
+      updateDesktopCount();
+    }
   }
 }
 
@@ -4142,6 +4170,7 @@ function onDesktopSearch(){
 
 function clearDesktopSearch(){
   document.getElementById('desktop-search-input').value = '';
+  mapSearchQuery = '';
   clearSearch();
   updateDesktopCount();
 }
