@@ -2746,11 +2746,16 @@ function fmt(h){
   return hr+(mins>0?":"+String(mins).padStart(2,"0"):"")+ap;
 }
 
+// Search state — declared here so getFiltered can access them
+let searchQuery="";
+let searchTypes=null;
+let searchNowOnly=false;
+
 function getFiltered(){
   if(activeTypes.size === 0) return []; // no pill selected — show empty state
   const isFavs = activeTypes.has('favs');
   const isAll = activeTypes.has('all');
-  const nowOnly=(document.getElementById("now-chk")?.checked||false)||searchNowOnly;
+  const nowOnly=(document.getElementById("now-chk")?.checked||false)||(typeof searchNowOnly!=='undefined'&&searchNowOnly);
   const timeFilter=getTimeFilter();
   const isHH=t=>t==="happyhour"||t==="drinkhh"||t==="foodhh";
   const isMusic=t=>MUSIC_TYPES.has(t);
@@ -3638,7 +3643,6 @@ const FUZZY_INTENT_MAP = [
   {patterns:["eat","eating","food","hungry","starving","snack","meal"],intents:[1]},
   {patterns:["seafood","oyster","fish","shrimp","lobster","clam"],intents:[1]},
 ];
-
 function getIntentScore(q, intent) {
   let score = 0;
   const words = q.split(/\s+/);
