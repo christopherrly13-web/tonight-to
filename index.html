@@ -297,7 +297,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 .card-gmaps{display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:7px 12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-weight:500;color:var(--muted);font-family:"DM Sans",sans-serif;cursor:pointer;text-decoration:none;transition:all .15s}
 .card-gmaps:active{background:var(--surface2)}
 .card-btns-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.card-details-btn{background:var(--surface);color:var(--text)!important;border-color:var(--border2)}
+.card-details-btn{background:transparent;border-color:var(--border)}
 .time-control{padding:0 20px 6px;flex-shrink:0}
 .time-row{display:flex;align-items:center;gap:6px}
 .time-row label{font-size:12px;color:var(--accent);white-space:nowrap;flex-shrink:0;font-weight:600}
@@ -3151,10 +3151,13 @@ function renderMap(){
   });
 
   // If searching, also keep all currently-live events on the map
+  // AND always include the exact searched venue even if not currently open
   let items = liveItems;
   if(q){
     const liveNow = ALL.filter(v=>!v.hidden&&!v.needs_review&&isNow(v)&&v.days.some(d=>selectedMapDays.has(d)));
-    const combined = [...new Map([...liveNow,...liveItems].map(v=>[v.name,v])).values()];
+    // Always include the searched venue regardless of time/day filter
+    const searchMatch = ALL.filter(v=>!v.hidden&&!v.needs_review&&(v.name+v.hood+v.detail+v.addr).toLowerCase().includes(q));
+    const combined = [...new Map([...liveNow,...liveItems,...searchMatch].map(v=>[v.name,v])).values()];
     items = combined;
   }
 
