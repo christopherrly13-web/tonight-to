@@ -4,8 +4,7 @@
  * Priority for each venue:
  *   1. Venue's own website (venue.website field)
  *   2. Google Places API (address/coords verification)
- *   3. Yelp API (fallback deals + address)
- *   4. Claude web search (last resort, BlogTO / NOW Toronto / general web)
+ *   3. Claude web search (last resort, BlogTO / NOW Toronto / general web)
  *
  * Also runs:
  *   - Google Places photo fetch for venues missing photos
@@ -14,7 +13,6 @@
  * Secrets required in GitHub repo:
  *   ANTHROPIC_API_KEY
  *   GOOGLE_PLACES_KEY   (optional — falls back to hardcoded key)
- *   YELP_API_KEY        (optional — falls back to hardcoded key)
  */
 
 const fs   = require('fs');
@@ -26,7 +24,6 @@ const http  = require('http');
 
 const VENUES_PATH  = path.resolve(__dirname, '..', 'venues.json');
 const GOOGLE_KEY   = process.env.GOOGLE_PLACES_KEY || 'AIzaSyAo5sRSN0Qp7WR3mquuIkzaL51USat-cp8';
-const YELP_KEY     = process.env.YELP_API_KEY      || 'uaaP4ryCl6wt-EyjgrlbQ9B5i1Pat3qct22sSg-J9RLWUfNq6uAHs5tEP-EEsAMpbJbxzOma8VeFxwlu_POyqWsskpQC_Pg2Ncbx8OyUnGpNZ5fD0bRa37oF0-LRaXYx';
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 
 const DAYS_ALL = ['mon','tue','wed','thu','fri','sat','sun'];
@@ -189,31 +186,6 @@ async function scrapeGoogle(venue) {
   }
 }
 
-// ── Source 3: Yelp ────────────────────────────────────────────────────────────
-
-async function scrapeYelp(venue) {
-  try {
-    const q = encodeURIComponent(venue.name);
-    const r = await fetchJson(
-      `https://api.yelp.com/v3/businesses/search?term=${q}&location=Toronto,ON&limit=5`,
-      { Authorization: `Bearer ${YELP_KEY}` }
-    );
-    const match = r.businesses?.find(b =>
-      b.name.toLowerCase().includes(venue.name.toLowerCase().split(' ')[0]) &&
-      (b.location?.address1 || '').toLowerCase().includes((venue.addr || '').split(' ')[0].toLowerCase())
-    );
-    if (!match) return null;
-    console.log(`    ✅ Yelp: ${match.name} @ ${match.location?.address1}`);
-    return {
-      addr: match.location?.address1,
-      lat: match.coordinates?.latitude,
-      lng: match.coordinates?.longitude,
-    };
-  } catch(e) {
-    console.log(`    ⚪ Yelp: ${e.message}`);
-    return null;
-  }
-}
 
 // ── Source 4: Claude web search ───────────────────────────────────────────────
 
@@ -311,16 +283,8 @@ async function processVenue(venue) {
   }
   await sleep(300);
 
-  // 3 & 4 — only if website didn't give us deal info
+  // 3 — only if website didn't give us deal info
   if (!web) {
-    const yelp = await scrapeYelp(venue);
-    if (yelp) {
-      if (yelp.addr && !updates.addr) updates.addr = yelp.addr;
-      if (yelp.lat  && !updates.lat)  updates.lat  = yelp.lat;
-      if (yelp.lng  && !updates.lng)  updates.lng  = yelp.lng;
-    }
-    await sleep(300);
-
     const claude = await scrapeViaClaude(venue);
     if (claude) {
       if (claude.start !== undefined) updates.start  = claude.start;
@@ -365,7 +329,7 @@ async function runPhotoPass(venues) {
 async function main() {
   console.log('Tonight.TO — Weekly Venue Scraper');
   console.log('==================================');
-  console.log(`Priority: website → Google Places → Yelp → Claude web search\n`);
+  console.log(`Priority: website → Google Places → Claude web search\n`);
 
   const data   = JSON.parse(fs.readFileSync(VENUES_PATH, 'utf8'));
   const venues = data.venues;

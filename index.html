@@ -1053,6 +1053,13 @@ html,body{overscroll-behavior:none}
   .card-action-btn:hover{background:var(--surface2);color:var(--text)}
   .card-action-primary{background:var(--accent);color:#0f0f0f;border-color:var(--accent)}
   .card-action-primary:hover{opacity:.9}
+  .wheelchair-badge{
+    background:rgba(26,115,232,.08);
+    border-color:rgba(26,115,232,.25);
+    color:#1a73e8;
+    gap:4px;
+  }
+  .wheelchair-badge:hover{background:rgba(26,115,232,.08)!important;color:#1a73e8!important}
 }
 
 /* ── LARGE DESKTOP: 1400px+ ────────────────────────────── */
@@ -2746,6 +2753,7 @@ function getFiltered(){
   const isSearchActive=!!(searchTypes||q);
   return ALL.filter(v=>{
     if(v.hidden) return false; // TM host venues — photo lookup only, never show
+    if(v.needs_review) return false; // discovered but not yet reviewed
     if(isFavs) return favourites.has(v.name);
     if(!v.days || v.days.length === 0) return false; // safety — skip venues with no days
     if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
@@ -2884,6 +2892,7 @@ function render(){
               </a>
               <button class="card-action-btn" data-name="${v.name.replace(/"/g,'&quot;')}" data-addr="${v.addr.replace(/"/g,'&quot;')}" onclick="openHoursModal(this.dataset.name,this.dataset.addr)">🕐 Hours</button>
               ${v.source !== 'ticketmaster' ? `<a class="card-action-btn" href="${v.reserve||v.website||'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener">📅 Reserve</a>` : ''}
+              ${v.wheelchair ? `<span class="card-action-btn wheelchair-badge" title="Wheelchair accessible" style="cursor:default"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="3" r="2"/><path d="M10 8h4l2 5h2v2h-3l-2-5h-1v5h2v2H8v-2h2z"/><path d="M7.5 15.5A4.5 4.5 0 0 0 12 20a4.5 4.5 0 0 0 4.5-4.5c0-.17-.01-.34-.04-.5H14.4a2.5 2.5 0 0 1-2.4 3 2.5 2.5 0 0 1-2.5-2.5c0-.9.48-1.68 1.2-2.1L10 12.1A4.5 4.5 0 0 0 7.5 15.5z"/></svg> Accessible</span>` : ''}
             </div>
           </div>
           <div class="detail">${v.detail}</div>
