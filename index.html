@@ -2898,6 +2898,7 @@ function render(){
               <button class="card-action-btn" data-name="${v.name.replace(/"/g,'&quot;')}" data-addr="${v.addr.replace(/"/g,'&quot;')}" onclick="openHoursModal(this.dataset.name,this.dataset.addr)">🕐 Hours</button>
               ${v.source !== 'ticketmaster' ? `<a class="card-action-btn" href="${v.reserve||v.website||'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener">📅 Reserve</a>` : ''}
               ${v.wheelchair ? `<span class="card-action-btn wheelchair-badge" title="Wheelchair accessible" style="cursor:default"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="3" r="2"/><path d="M10 8h4l2 5h2v2h-3l-2-5h-1v5h2v2H8v-2h2z"/><path d="M7.5 15.5A4.5 4.5 0 0 0 12 20a4.5 4.5 0 0 0 4.5-4.5c0-.17-.01-.34-.04-.5H14.4a2.5 2.5 0 0 1-2.4 3 2.5 2.5 0 0 1-2.5-2.5c0-.9.48-1.68 1.2-2.1L10 12.1A4.5 4.5 0 0 0 7.5 15.5z"/></svg> Accessible</span>` : ''}
+              <button class="card-action-btn" onclick="event.stopPropagation();openVenuePage(window._venueCache[${i}])">More Details</button>
             </div>
           </div>
           <div class="detail">${v.detail}</div>
@@ -3882,20 +3883,12 @@ function applyVenueSearch(name){
   if(venue) syncDaysAndTime([venue], true);
   hideSuggestions();
 
-  if(isDesktop() && venue){
-    // Switch to map view, zoom in, show venue sheet + red pin
-    showView('map', document.getElementById('nb-map'));
-    updateDesktopNav('map');
-    // Sync map search so red pin renders
-    mapSearchQuery = name.toLowerCase();
-    setTimeout(()=>{
-      if(leafletMap){
-        leafletMap.flyTo([venue.lat, venue.lng], 16, {duration:0.8});
-        renderMap();
-        // Open the venue sheet after zoom
-        setTimeout(()=>openSheet(venue), 500);
-      }
-    }, 100);
+  if(isDesktop()){
+    // Stay on current view — don't auto-switch to map
+    // Set mapSearchQuery so red pin shows if user is already on map
+    mapSearchQuery = venue ? name.toLowerCase() : '';
+    if(leafletMap) renderMap();
+    render();
     // Sync desktop pills
     document.querySelectorAll('#desktop-day-pills .day-pill').forEach(p=>{
       p.classList.toggle('active', selectedDays.has(p.dataset.d));
@@ -3911,23 +3904,7 @@ function applyVenueSearch(name){
     });
     updateDesktopCount();
   } else {
-    // Mobile — just render the feed as before
     render();
-    if(isDesktop()){
-      document.querySelectorAll('#desktop-day-pills .day-pill').forEach(p=>{
-        p.classList.toggle('active', selectedDays.has(p.dataset.d));
-      });
-      const mobileSlider = document.getElementById('time-slider');
-      const desktopSlider = document.getElementById('desktop-time-slider');
-      if(mobileSlider && desktopSlider){
-        desktopSlider.value = mobileSlider.value;
-        syncDesktopTime(mobileSlider.value);
-      }
-      document.querySelectorAll('#desktop-type-filters .desktop-type-pill').forEach(p=>{
-        p.classList.toggle('active', activeTypes.has(p.dataset.t));
-      });
-      updateDesktopCount();
-    }
   }
 }
 
@@ -3944,6 +3921,8 @@ function clearSearch(){
   searchQuery="";
   searchTypes=null;
   searchNowOnly=false;
+  mapSearchQuery="";
+  if(leafletMap) renderMap();
   render();
 }
 
@@ -4171,7 +4150,7 @@ function onDesktopSearch(){
 function clearDesktopSearch(){
   document.getElementById('desktop-search-input').value = '';
   mapSearchQuery = '';
-  clearSearch();
+  clearSearch(); // already calls renderMap + render
   updateDesktopCount();
 }
 
