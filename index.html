@@ -2761,74 +2761,30 @@ function getFiltered(){
   const isMusic=t=>MUSIC_TYPES.has(t);
   const q=searchQuery;
   const isSearchActive=!!(searchTypes||q);
-
-  // ── Scored full-text search ───────────────────────────────────────────────
-  function scoreVenueForSearch(v, query) {
-    let score = 0;
-    const words = query.split(/\s+/).filter(w=>w.length>1);
-    const name   = v.name.toLowerCase();
-    const hood   = (v.hood||'').toLowerCase();
-    const detail = (v.detail||'').toLowerCase();
-    const addr   = (v.addr||'').toLowerCase();
-    const type   = (TLABEL[v.type]||v.type||'').toLowerCase();
-
-    // Whole query match
-    if(name.includes(query))   score+=120;
-    if(hood.includes(query))   score+=40;
-    if(detail.includes(query)) score+=30;
-    if(addr.includes(query))   score+=25;
-    if(type.includes(query))   score+=20;
-
-    // Individual word matches
-    for(const w of words){
-      if(name.startsWith(w))   score+=60;
-      else if(name.includes(w)) score+=30;
-      if(hood.includes(w))     score+=20;
-      if(detail.includes(w))   score+=15;
-      if(addr.includes(w))     score+=10;
-      if(type.includes(w))     score+=10;
+  return ALL.filter(v=>{
+    if(v.hidden) return false;
+    if(v.needs_review) return false;
+    if(isFavs) return favourites.has(v.name);
+    if(!v.days || v.days.length === 0) return false;
+    if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
+    if(searchTypes){
+      if(!searchTypes.includes(v.type))return false;
+    } else if(q&&!searchTypes){
+      const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
+      if(!hay.includes(q))return false;
+    } else if(!isAll){
+      const typeMatch = [...activeTypes].some(t=>{
+        if(t==='happyhour') return isHH(v.type);
+        if(t==='music') return isMusic(v.type);
+        return v.type===t;
+      });
+      if(!typeMatch) return false;
     }
-
-    // Intent keyword bonus — only if SEARCH_INTENTS is defined
-    if(typeof SEARCH_INTENTS!=='undefined'){
-      for(const intent of SEARCH_INTENTS){
-        if(!intent.types) continue;
-        const intentScore = getIntentScore(query, intent);
-        if(intentScore>0 && intent.types.includes(v.type)) score+=intentScore*0.5;
-      }
-      for(const fi of getFuzzyIntents(query)){
-        if(fi.types&&fi.types.includes(v.type)) score+=15;
-      }
-    }
-
-    // Boost live venues
-    if(isNow(v)) score+=8;
-
-    return score;
-  }
-  // ─────────────────────────────────────────────────────────────────────────
-
-  if(q && !searchTypes){
-    try{
-      const scored = ALL
-        .filter(v=>!v.hidden&&!v.needs_review&&(v.days?.length||0)>0)
-        .map(v=>({v, score:scoreVenueForSearch(v,q)}))
-        .filter(x=>x.score>=10)
-        .sort((a,b)=>b.score-a.score);
-      let results = activePriceTier!=='all' ? scored.filter(x=>!x.v.price||x.v.price===parseInt(activePriceTier)) : scored;
-      if(userLat){
-        results = [...results].sort((a,b)=>{
-          const scoreDiff = b.score - a.score;
-          if(Math.abs(scoreDiff)>20) return scoreDiff;
-          return haversine(userLat,userLng,a.v.lat,a.v.lng)-haversine(userLat,userLng,b.v.lat,b.v.lng);
-        });
-      }
-      return results.map(x=>x.v);
-    }catch(e){
-      console.warn('Search scoring error:',e);
-      // fall through to normal filter
-    }
-  }
+    if(nowOnly&&!isNow(v))return false;
+    if(!q&&timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
+    if(activePriceTier!=='all' && v.price && v.price !== parseInt(activePriceTier))return false;
+    return true;
+  });
 
   return ALL.filter(v=>{
     if(v.hidden) return false;
@@ -2879,6 +2835,40 @@ function daysUntilNext(v){
 function render(){
   const isSearchActive=!!(searchTypes||searchQuery);
   let items=getFiltered();
+
+  // When searching, sort by relevance score then distance
+  if(searchQuery && !searchTypes && typeof getIntentScore==='function'){
+    const q=searchQuery;
+    items = items.map(v=>{
+      let score=0;
+      const name=v.name.toLowerCase(), hood=(v.hood||'').toLowerCase();
+      const detail=(v.detail||'').toLowerCase(), addr=(v.addr||'').toLowerCase();
+      const type=(TLABEL[v.type]||v.type||'').toLowerCase();
+      if(name.includes(q)) score+=120;
+      if(hood.includes(q)) score+=40;
+      if(detail.includes(q)) score+=30;
+      if(addr.includes(q)) score+=25;
+      if(type.includes(q)) score+=20;
+      q.split(/\s+/).filter(w=>w.length>1).forEach(w=>{
+        if(name.startsWith(w)) score+=60;
+        else if(name.includes(w)) score+=30;
+        if(hood.includes(w)) score+=20;
+        if(detail.includes(w)) score+=15;
+        if(addr.includes(w)) score+=10;
+        if(type.includes(w)) score+=10;
+      });
+      for(const intent of SEARCH_INTENTS){
+        if(intent.types&&intent.types.includes(v.type)) score+=getIntentScore(q,intent)*0.3;
+      }
+      if(isNow(v)) score+=8;
+      const dist=userLat?haversine(userLat,userLng,v.lat,v.lng):999;
+      return {v,score,dist};
+    }).sort((a,b)=>{
+      const sd=b.score-a.score;
+      if(Math.abs(sd)>15) return sd;
+      return a.dist-b.dist;
+    }).map(x=>x.v);
+  }
 
   // Merge duplicate venues (same address + same times) into one card with combined badges
   const mergeKey = v => `${v.addr.toLowerCase().trim()}|${v.start}|${v.end}|${v.days.slice().sort().join(',')}`;
