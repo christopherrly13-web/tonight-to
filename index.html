@@ -2837,7 +2837,7 @@ function render(){
   let items=getFiltered();
 
   // When searching, sort by relevance score then distance
-  if(searchQuery && !searchTypes && typeof getIntentScore==='function'){
+  if(searchQuery && !searchTypes){
     const q=searchQuery;
     items = items.map(v=>{
       let score=0;
@@ -2857,9 +2857,6 @@ function render(){
         if(addr.includes(w)) score+=10;
         if(type.includes(w)) score+=10;
       });
-      for(const intent of SEARCH_INTENTS){
-        if(intent.types&&intent.types.includes(v.type)) score+=getIntentScore(q,intent)*0.3;
-      }
       if(isNow(v)) score+=8;
       const dist=userLat?haversine(userLat,userLng,v.lat,v.lng):999;
       return {v,score,dist};
