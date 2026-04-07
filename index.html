@@ -2815,6 +2815,16 @@ function getFiltered(){
       .filter(x=>x.score>=10)
       .sort((a,b)=>b.score-a.score);
     if(activePriceTier!=='all') return scored.filter(x=>!x.v.price||x.v.price===parseInt(activePriceTier)).map(x=>x.v);
+    // Secondary sort by distance if location available
+    if(userLat){
+      scored.sort((a,b)=>{
+        const scoreDiff = b.score - a.score;
+        if(Math.abs(scoreDiff)>20) return scoreDiff; // significant score diff takes priority
+        const da=haversine(userLat,userLng,a.v.lat,a.v.lng);
+        const db=haversine(userLat,userLng,b.v.lat,b.v.lng);
+        return da-db;
+      });
+    }
     return scored.map(x=>x.v);
   }
 
@@ -3979,35 +3989,13 @@ function commitSearch(){
   hideSuggestions();
   if(!q) return;
 
-  // 1. Exact venue name match — go straight to that venue
-  const exactVenue=ALL.find(v=>v.name.toLowerCase()===q);
-  if(exactVenue){ applyVenueSearch(exactVenue.name); return; }
-
-  // 2. Best venue match by score
-  const bestVenue=ALL.map(v=>({v,score:scoreVenue(v,q)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score)[0];
-
-  // 3. Best intent match by score
-  const bestIntent=SEARCH_INTENTS.map(intent=>({intent,score:getIntentScore(q,intent)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score)[0];
-
-  // 4. Fuzzy intent
-  const fuzzy=getFuzzyIntents(q)[0];
-
-  // Pick best result: if venue score > 60 it's probably a venue name, else prefer intent
-  if(bestVenue && bestIntent){
-    if(bestVenue.score>=60) applyVenueSearch(bestVenue.v.name);
-    else applySearchIntent(bestIntent.intent.types||null, !!bestIntent.intent.nowFilter);
-  } else if(bestVenue){
-    applyVenueSearch(bestVenue.v.name);
-  } else if(bestIntent){
-    applySearchIntent(bestIntent.intent.types||null, !!bestIntent.intent.nowFilter);
-  } else if(fuzzy){
-    applySearchIntent(fuzzy.types||null, !!fuzzy.nowFilter);
-  } else {
-    // Just do a text search with whatever was typed
-    searchTypes=null;
-    searchNowOnly=false;
-    render();
-  }
+  // Keep the user's typed text — don't replace it with intent labels
+  // Just set searchQuery and render; getFiltered will score+sort by relevance+distance
+  searchQuery=q;
+  searchTypes=null;
+  searchNowOnly=false;
+  render();
+}
 }
 
 function applySearchIntent(types, nowOnly){
