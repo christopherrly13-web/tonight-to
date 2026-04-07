@@ -621,7 +621,7 @@ html,body{overscroll-behavior:none}
 .card:active{transform:scale(.985);transition:transform .08s}
 
 /* Cards safe area clearance on mobile */
-.feed-scroll{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+.feed-scroll{padding-bottom:86px} /* fallback — JS overwrites this after measuring bnav */
 #map-legend{bottom:calc(90px + env(safe-area-inset-bottom))}
 
 /* Very small screens */
@@ -3399,18 +3399,24 @@ function updateFeedPadding(){
   const spacer = document.getElementById('filter-spacer');
   if(!scroll) return;
   if(isDesktop()){
-    // On desktop the topbar is outside feed-scroll, no padding needed
     scroll.style.paddingTop = '0px';
+    scroll.style.paddingBottom = '40px';
   } else {
     const fixed = document.getElementById('list-sticky');
     if(!fixed) return;
-    scroll.style.paddingTop = (fixed.offsetHeight + 8) + 'px';
+    // Add 12px breathing room so the first card never sits flush against the header
+    scroll.style.paddingTop = (fixed.offsetHeight + 12) + 'px';
+    // Measure the actual bottom nav height so the last card is never cut off
+    const bnav = document.querySelector('.bnav');
+    const bnavH = bnav ? bnav.offsetHeight : 70;
+    scroll.style.paddingBottom = (bnavH + 16) + 'px';
   }
   if(spacer) spacer.style.height = '0px';
 }
 updateFeedPadding();
 setTimeout(updateFeedPadding, 100);
-setTimeout(updateFeedPadding, 400); // re-measure after fonts/content fully render
+setTimeout(updateFeedPadding, 400);
+setTimeout(updateFeedPadding, 800); // final pass after everything has painted
 window.addEventListener('resize', updateFeedPadding);
 
 if(_feedScroll){
