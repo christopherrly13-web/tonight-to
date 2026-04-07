@@ -621,7 +621,7 @@ html,body{overscroll-behavior:none}
 .card:active{transform:scale(.985);transition:transform .08s}
 
 /* Cards safe area clearance on mobile */
-.feed-scroll{padding-bottom:86px} /* fallback — JS overwrites this after measuring bnav */
+.feed-scroll{padding-bottom:calc(70px + env(safe-area-inset-bottom) + 16px)}
 #map-legend{bottom:calc(90px + env(safe-area-inset-bottom))}
 
 /* Very small screens */
@@ -3396,37 +3396,33 @@ const _feedScroll = document.getElementById('feed-scroll');
 
 function updateFeedPadding(){
   const scroll = document.getElementById('feed-scroll');
-  const spacer = document.getElementById('filter-spacer');
   if(!scroll) return;
   if(isDesktop()){
     scroll.style.paddingTop = '0px';
-    scroll.style.paddingBottom = '40px';
   } else {
-    const fixed = document.getElementById('list-sticky');
-    if(!fixed) return;
-    // Add 12px breathing room so the first card never sits flush against the header
-    scroll.style.paddingTop = (fixed.offsetHeight + 12) + 'px';
-    // Measure the actual bottom nav height so the last card is never cut off
-    const bnav = document.querySelector('.bnav');
-    const bnavH = bnav ? bnav.offsetHeight : 70;
-    scroll.style.paddingBottom = (bnavH + 16) + 'px';
+    // Only measure the core header (logo + search bar) — NOT the collapsible filters.
+    // This value is stable so cards never shift when filters animate open/closed.
+    const core = document.querySelector('#list-sticky .list-header-core');
+    if(core) scroll.style.paddingTop = core.offsetHeight + 'px';
   }
-  if(spacer) spacer.style.height = '0px';
 }
 updateFeedPadding();
-setTimeout(updateFeedPadding, 100);
+setTimeout(updateFeedPadding, 150);
 window.addEventListener('resize', updateFeedPadding);
 
-// Re-measure padding whenever the fixed header changes height (filters collapse/expand, fonts load, etc.)
-const _listSticky = document.getElementById('list-sticky');
-if(_listSticky && window.ResizeObserver){
-  new ResizeObserver(updateFeedPadding).observe(_listSticky);
+// Spacer reserves room for filters so first card isn't hidden under them
+function updateFilterSpacer(collapsed){
+  if(isDesktop()) return;
+  const spacer = document.getElementById('filter-spacer');
+  if(!spacer) return;
+  if(collapsed){
+    spacer.style.height = '0px';
+  } else {
+    const filters = document.getElementById('filters-collapsible');
+    spacer.style.height = filters ? filters.scrollHeight + 'px' : '0px';
+  }
 }
-// Re-measure bottom padding if bnav height changes (orientation, safe-area)
-const _bnavEl = document.querySelector('.bnav');
-if(_bnavEl && window.ResizeObserver){
-  new ResizeObserver(updateFeedPadding).observe(_bnavEl);
-}
+updateFilterSpacer(false);
 
 if(_feedScroll){
   _feedScroll.addEventListener('scroll', function(){
@@ -3436,13 +3432,14 @@ if(_feedScroll){
     if(!_feedIsScrolling){
       _feedIsScrolling = true;
       filters.classList.add('scrolling');
+      updateFilterSpacer(true);
     }
 
     clearTimeout(_feedScrollTimer);
     _feedScrollTimer = setTimeout(()=>{
       _feedIsScrolling = false;
       filters.classList.remove('scrolling');
-      // ResizeObserver fires as filters expand — no manual padding call needed
+      updateFilterSpacer(false);
     }, 800);
   }, {passive:true});
 }
