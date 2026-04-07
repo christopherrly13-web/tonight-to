@@ -3415,9 +3415,18 @@ function updateFeedPadding(){
 }
 updateFeedPadding();
 setTimeout(updateFeedPadding, 100);
-setTimeout(updateFeedPadding, 400);
-setTimeout(updateFeedPadding, 800); // final pass after everything has painted
 window.addEventListener('resize', updateFeedPadding);
+
+// Re-measure padding whenever the fixed header changes height (filters collapse/expand, fonts load, etc.)
+const _listSticky = document.getElementById('list-sticky');
+if(_listSticky && window.ResizeObserver){
+  new ResizeObserver(updateFeedPadding).observe(_listSticky);
+}
+// Re-measure bottom padding if bnav height changes (orientation, safe-area)
+const _bnavEl = document.querySelector('.bnav');
+if(_bnavEl && window.ResizeObserver){
+  new ResizeObserver(updateFeedPadding).observe(_bnavEl);
+}
 
 if(_feedScroll){
   _feedScroll.addEventListener('scroll', function(){
@@ -3433,7 +3442,7 @@ if(_feedScroll){
     _feedScrollTimer = setTimeout(()=>{
       _feedIsScrolling = false;
       filters.classList.remove('scrolling');
-      // No padding change — cards never move
+      // ResizeObserver fires as filters expand — no manual padding call needed
     }, 800);
   }, {passive:true});
 }
