@@ -2789,15 +2789,16 @@ function getFiltered(){
       if(type.includes(w))     score+=10;
     }
 
-    // Intent keyword bonus — type signals in the query
-    for(const intent of SEARCH_INTENTS){
-      if(!intent.types) continue;
-      const intentScore = getIntentScore(query, intent);
-      if(intentScore>0 && intent.types.includes(v.type)) score+=intentScore*0.5;
-    }
-    // Fuzzy vibe bonus
-    for(const fi of getFuzzyIntents(query)){
-      if(fi.types&&fi.types.includes(v.type)) score+=15;
+    // Intent keyword bonus — only if SEARCH_INTENTS is defined
+    if(typeof SEARCH_INTENTS!=='undefined'){
+      for(const intent of SEARCH_INTENTS){
+        if(!intent.types) continue;
+        const intentScore = getIntentScore(query, intent);
+        if(intentScore>0 && intent.types.includes(v.type)) score+=intentScore*0.5;
+      }
+      for(const fi of getFuzzyIntents(query)){
+        if(fi.types&&fi.types.includes(v.type)) score+=15;
+      }
     }
 
     // Boost live venues
@@ -2808,24 +2809,25 @@ function getFiltered(){
   // ─────────────────────────────────────────────────────────────────────────
 
   if(q && !searchTypes){
-    // Score every venue and return sorted by relevance (min score 10)
-    const scored = ALL
-      .filter(v=>!v.hidden&&!v.needs_review&&(v.days?.length||0)>0)
-      .map(v=>({v, score:scoreVenueForSearch(v,q)}))
-      .filter(x=>x.score>=10)
-      .sort((a,b)=>b.score-a.score);
-    if(activePriceTier!=='all') return scored.filter(x=>!x.v.price||x.v.price===parseInt(activePriceTier)).map(x=>x.v);
-    // Secondary sort by distance if location available
-    if(userLat){
-      scored.sort((a,b)=>{
-        const scoreDiff = b.score - a.score;
-        if(Math.abs(scoreDiff)>20) return scoreDiff; // significant score diff takes priority
-        const da=haversine(userLat,userLng,a.v.lat,a.v.lng);
-        const db=haversine(userLat,userLng,b.v.lat,b.v.lng);
-        return da-db;
-      });
+    try{
+      const scored = ALL
+        .filter(v=>!v.hidden&&!v.needs_review&&(v.days?.length||0)>0)
+        .map(v=>({v, score:scoreVenueForSearch(v,q)}))
+        .filter(x=>x.score>=10)
+        .sort((a,b)=>b.score-a.score);
+      let results = activePriceTier!=='all' ? scored.filter(x=>!x.v.price||x.v.price===parseInt(activePriceTier)) : scored;
+      if(userLat){
+        results = [...results].sort((a,b)=>{
+          const scoreDiff = b.score - a.score;
+          if(Math.abs(scoreDiff)>20) return scoreDiff;
+          return haversine(userLat,userLng,a.v.lat,a.v.lng)-haversine(userLat,userLng,b.v.lat,b.v.lng);
+        });
+      }
+      return results.map(x=>x.v);
+    }catch(e){
+      console.warn('Search scoring error:',e);
+      // fall through to normal filter
     }
-    return scored.map(x=>x.v);
   }
 
   return ALL.filter(v=>{
