@@ -2761,19 +2761,72 @@ function getFiltered(){
   const isMusic=t=>MUSIC_TYPES.has(t);
   const q=searchQuery;
   const isSearchActive=!!(searchTypes||q);
+
+  // ── Scored full-text search ───────────────────────────────────────────────
+  function scoreVenueForSearch(v, query) {
+    let score = 0;
+    const words = query.split(/\s+/).filter(w=>w.length>1);
+    const name   = v.name.toLowerCase();
+    const hood   = (v.hood||'').toLowerCase();
+    const detail = (v.detail||'').toLowerCase();
+    const addr   = (v.addr||'').toLowerCase();
+    const type   = (TLABEL[v.type]||v.type||'').toLowerCase();
+
+    // Whole query match
+    if(name.includes(query))   score+=120;
+    if(hood.includes(query))   score+=40;
+    if(detail.includes(query)) score+=30;
+    if(addr.includes(query))   score+=25;
+    if(type.includes(query))   score+=20;
+
+    // Individual word matches
+    for(const w of words){
+      if(name.startsWith(w))   score+=60;
+      else if(name.includes(w)) score+=30;
+      if(hood.includes(w))     score+=20;
+      if(detail.includes(w))   score+=15;
+      if(addr.includes(w))     score+=10;
+      if(type.includes(w))     score+=10;
+    }
+
+    // Intent keyword bonus — type signals in the query
+    for(const intent of SEARCH_INTENTS){
+      if(!intent.types) continue;
+      const intentScore = getIntentScore(query, intent);
+      if(intentScore>0 && intent.types.includes(v.type)) score+=intentScore*0.5;
+    }
+    // Fuzzy vibe bonus
+    for(const fi of getFuzzyIntents(query)){
+      if(fi.types&&fi.types.includes(v.type)) score+=15;
+    }
+
+    // Boost live venues
+    if(isNow(v)) score+=8;
+
+    return score;
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
+  if(q && !searchTypes){
+    // Score every venue and return sorted by relevance (min score 10)
+    const scored = ALL
+      .filter(v=>!v.hidden&&!v.needs_review&&(v.days?.length||0)>0)
+      .map(v=>({v, score:scoreVenueForSearch(v,q)}))
+      .filter(x=>x.score>=10)
+      .sort((a,b)=>b.score-a.score);
+    if(activePriceTier!=='all') return scored.filter(x=>!x.v.price||x.v.price===parseInt(activePriceTier)).map(x=>x.v);
+    return scored.map(x=>x.v);
+  }
+
   return ALL.filter(v=>{
-    if(v.hidden) return false; // TM host venues — photo lookup only, never show
-    if(v.needs_review) return false; // discovered but not yet reviewed
+    if(v.hidden) return false;
+    if(v.needs_review) return false;
     if(isFavs) return favourites.has(v.name);
-    if(!v.days || v.days.length === 0) return false; // safety — skip venues with no days
+    if(!v.days || v.days.length === 0) return false;
     if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
     if(searchTypes){
       if(!searchTypes.includes(v.type))return false;
-    } else if(q&&!searchTypes){
-      const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
-      if(!hay.includes(q))return false;
     } else if(!isAll){
-      // Multi-select type filter
       const typeMatch = [...activeTypes].some(t=>{
         if(t==='happyhour') return isHH(v.type);
         if(t==='music') return isMusic(v.type);
