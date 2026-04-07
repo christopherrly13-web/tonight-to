@@ -531,6 +531,31 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM San
 }
 #search-clear.visible{display:block}
 #search-suggestions.visible{display:block!important}
+
+/* ── AI SEARCH ── */
+.ai-reason{
+  font-size:11px;color:var(--accent);margin-top:5px;
+  font-style:italic;opacity:.85;line-height:1.4;
+}
+.ai-search-banner{
+  display:flex;align-items:center;gap:8px;
+  background:var(--accent-dim);border:1px solid rgba(232,197,71,.2);
+  border-radius:10px;padding:10px 14px;margin-bottom:2px;
+  font-size:12px;color:var(--accent);font-weight:500;
+}
+.ai-search-banner svg{flex-shrink:0;opacity:.8}
+.ai-loading{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;padding:48px 20px;color:var(--muted);font-size:14px;
+}
+.ai-loading-dots{display:flex;gap:6px}
+.ai-loading-dots span{
+  width:7px;height:7px;border-radius:50%;background:var(--accent);opacity:.3;
+  animation:ai-pulse 1.2s ease-in-out infinite;
+}
+.ai-loading-dots span:nth-child(2){animation-delay:.2s}
+.ai-loading-dots span:nth-child(3){animation-delay:.4s}
+@keyframes ai-pulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
 .sugg-item{
   display:flex;align-items:center;gap:10px;
   padding:12px 14px;cursor:pointer;
@@ -1264,7 +1289,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="search-wrap" style="width:100%;padding:0">
       <div class="search-box">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="desktop-search-input" placeholder="Search venues, drinks, music…" oninput="onDesktopSearch()" onkeydown="if(event.key==='Enter'){commitSearch();this.blur()}" autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:14px;flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif">
+        <input type="text" id="desktop-search-input" placeholder="Search venues, drinks, music…" oninput="onDesktopSearch()" onkeydown="if(event.key==='Enter'){document.getElementById('search-input').value=this.value;commitSearch();this.blur()}" autocomplete="off" autocorrect="off" spellcheck="false" style="font-size:14px;flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'DM Sans',sans-serif">
         <button onclick="clearDesktopSearch()" id="desktop-search-clear" style="display:none;background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px">✕</button>
       </div>
     </div>
@@ -2762,10 +2787,10 @@ function getFiltered(){
   const q=searchQuery;
   const isSearchActive=!!(searchTypes||q);
   return ALL.filter(v=>{
-    if(v.hidden) return false;
-    if(v.needs_review) return false;
+    if(v.hidden) return false; // TM host venues — photo lookup only, never show
+    if(v.needs_review) return false; // discovered but not yet reviewed
     if(isFavs) return favourites.has(v.name);
-    if(!v.days || v.days.length === 0) return false;
+    if(!v.days || v.days.length === 0) return false; // safety — skip venues with no days
     if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
     if(searchTypes){
       if(!searchTypes.includes(v.type))return false;
@@ -2773,28 +2798,7 @@ function getFiltered(){
       const hay=(v.name+v.hood+v.detail+v.addr).toLowerCase();
       if(!hay.includes(q))return false;
     } else if(!isAll){
-      const typeMatch = [...activeTypes].some(t=>{
-        if(t==='happyhour') return isHH(v.type);
-        if(t==='music') return isMusic(v.type);
-        return v.type===t;
-      });
-      if(!typeMatch) return false;
-    }
-    if(nowOnly&&!isNow(v))return false;
-    if(!q&&timeFilter!==null&&!(v.start<=timeFilter&&v.end>timeFilter))return false;
-    if(activePriceTier!=='all' && v.price && v.price !== parseInt(activePriceTier))return false;
-    return true;
-  });
-
-  return ALL.filter(v=>{
-    if(v.hidden) return false;
-    if(v.needs_review) return false;
-    if(isFavs) return favourites.has(v.name);
-    if(!v.days || v.days.length === 0) return false;
-    if(!isSearchActive&&!v.days.some(d=>selectedDays.has(d)))return false;
-    if(searchTypes){
-      if(!searchTypes.includes(v.type))return false;
-    } else if(!isAll){
+      // Multi-select type filter
       const typeMatch = [...activeTypes].some(t=>{
         if(t==='happyhour') return isHH(v.type);
         if(t==='music') return isMusic(v.type);
@@ -2833,39 +2837,11 @@ function daysUntilNext(v){
 }
 
 function render(){
+  // If AI search is active, re-render AI results instead of normal flow
+  if(aiRankedResults!==null){ renderAIResults(aiSearchQuery); return; }
+
   const isSearchActive=!!(searchTypes||searchQuery);
   let items=getFiltered();
-
-  // When searching, sort by relevance score then distance
-  if(searchQuery && !searchTypes){
-    const q=searchQuery;
-    items = items.map(v=>{
-      let score=0;
-      const name=v.name.toLowerCase(), hood=(v.hood||'').toLowerCase();
-      const detail=(v.detail||'').toLowerCase(), addr=(v.addr||'').toLowerCase();
-      const type=(TLABEL[v.type]||v.type||'').toLowerCase();
-      if(name.includes(q)) score+=120;
-      if(hood.includes(q)) score+=40;
-      if(detail.includes(q)) score+=30;
-      if(addr.includes(q)) score+=25;
-      if(type.includes(q)) score+=20;
-      q.split(/\s+/).filter(w=>w.length>1).forEach(w=>{
-        if(name.startsWith(w)) score+=60;
-        else if(name.includes(w)) score+=30;
-        if(hood.includes(w)) score+=20;
-        if(detail.includes(w)) score+=15;
-        if(addr.includes(w)) score+=10;
-        if(type.includes(w)) score+=10;
-      });
-      if(isNow(v)) score+=8;
-      const dist=userLat?haversine(userLat,userLng,v.lat,v.lng):999;
-      return {v,score,dist};
-    }).sort((a,b)=>{
-      const sd=b.score-a.score;
-      if(Math.abs(sd)>15) return sd;
-      return a.dist-b.dist;
-    }).map(x=>x.v);
-  }
 
   // Merge duplicate venues (same address + same times) into one card with combined badges
   const mergeKey = v => `${v.addr.toLowerCase().trim()}|${v.start}|${v.end}|${v.days.slice().sort().join(',')}`;
@@ -3738,6 +3714,8 @@ function scoreVenue(v, q) {
 
 function onSearch(){
   const q=document.getElementById("search-input").value.trim().toLowerCase();
+  // If user edits after an AI result, reset AI state so live filtering resumes
+  if(aiRankedResults!==null){ aiRankedResults=null; aiSearchQuery=""; }
   searchQuery=q;
   const clearBtn=document.getElementById("search-clear");
   const sugBox=document.getElementById("search-suggestions");
@@ -3971,20 +3949,218 @@ function syncDaysAndTime(venues, updateTypes=false){
   }
 }
 
-function commitSearch(){
-  const q=document.getElementById("search-input").value.trim().toLowerCase();
-  const dsi=document.getElementById('desktop-search-input');
-  if(dsi) dsi.value=document.getElementById("search-input").value.trim();
-  hideSuggestions();
-  if(!q) return;
+// ── AI SEARCH STATE ──
+let aiRankedResults = null; // null = not active, [] = active AI search
+let aiSearchQuery = "";
 
-  // Keep the user's typed text — don't replace it with intent labels
-  // Just set searchQuery and render; getFiltered will score+sort by relevance+distance
-  searchQuery=q;
+function commitSearch(){
+  const raw=document.getElementById("search-input").value.trim();
+  const q=raw.toLowerCase();
+  hideSuggestions();
+  if(!q){ clearSearch(); return; }
+
+  // 1. Check for direct keyword intent match first (fast path)
+  const matched=SEARCH_INTENTS.find(intent=>
+    intent.keywords.some(kw=>q.includes(kw)||kw.includes(q))
+  );
+  if(matched){
+    aiRankedResults=null;
+    applySearchIntent(matched.types||null, !!matched.nowFilter);
+    return;
+  }
+
+  // 2. Check for fuzzy intent match
+  const fuzzy=getFuzzyIntents(q);
+  if(fuzzy.length>0){
+    aiRankedResults=null;
+    applySearchIntent(fuzzy[0].types||null, !!fuzzy[0].nowFilter);
+    return;
+  }
+
+  // 3. AI-powered semantic search
+  runAISearch(raw);
+}
+
+async function runAISearch(query){
+  window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'ai_search',query});
+
+  // Show loading state
+  aiRankedResults=null;
   searchTypes=null;
   searchNowOnly=false;
-  render();
+  searchQuery="";
+  const c=document.getElementById("cards");
+  c.innerHTML=`<div class="ai-loading">
+    <div class="ai-loading-dots"><span></span><span></span><span></span></div>
+    <div>Finding the best spots for "<strong style="color:var(--text)">${query}</strong>"…</div>
+  </div>`;
+  document.getElementById("ct").textContent="Thinking…";
+
+  // Build a compact venue list for the prompt (name, hood, type, detail, days, price)
+  const DNAMES_SHORT={mon:"Mon",tue:"Tue",wed:"Wed",thu:"Thu",fri:"Fri",sat:"Sat",sun:"Sun"};
+  const venueList=ALL
+    .filter(v=>!v.hidden&&!v.needs_review)
+    .map(v=>({
+      name:v.name,
+      hood:v.hood,
+      type:v.type,
+      detail:v.detail,
+      days:v.days.map(d=>DNAMES_SHORT[d]).join("/"),
+      price:v.price||1,
+      live:isNow(v)
+    }));
+
+  const prompt=`You are the recommendation engine for Tonight.TO, a Toronto nightlife app. A user typed: "${query}"
+
+Here is the full list of venues/events in JSON:
+${JSON.stringify(venueList)}
+
+Return a JSON array of up to 20 objects ranked best-first. Each object:
+{ "name": "<exact venue name from list>", "reason": "<one short sentence, max 12 words, why this fits>" }
+
+Rules:
+- Only include venues that genuinely fit the request
+- If fewer than 5 fit well, only return those
+- Prioritise venues that are live NOW (live:true) when intent is time-sensitive
+- reason must be specific and human (e.g. "Half-price cocktails in a cozy Ossington bar")
+- Return ONLY the JSON array, no markdown, no explanation`;
+
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:1000,
+        messages:[{role:"user",content:prompt}]
+      })
+    });
+    const data=await res.json();
+    const text=(data.content||[]).map(b=>b.text||"").join("").trim();
+    const clean=text.replace(/```json|```/g,"").trim();
+    const ranked=JSON.parse(clean);
+
+    // Build an ordered list of venue objects with their AI reasons
+    const nameMap=new Map(ALL.map(v=>[v.name.toLowerCase(),v]));
+    aiRankedResults=ranked
+      .map(r=>{ const v=nameMap.get(r.name.toLowerCase()); return v?{v,reason:r.reason}:null; })
+      .filter(Boolean);
+
+    aiSearchQuery=query;
+    renderAIResults(query);
+  }catch(err){
+    console.error("AI search failed:",err);
+    // Graceful fallback — just do a text search
+    aiRankedResults=null;
+    searchQuery=query.toLowerCase();
+    render();
+  }
 }
+
+function renderAIResults(query){
+  if(!aiRankedResults||aiRankedResults.length===0){
+    document.getElementById("cards").innerHTML=`<div class="empty"><p>😕 Couldn't find a great match for "<strong style="color:var(--text)">${query}</strong>".<br>Try something like "rooftop drinks", "drag show", or a venue name.</p></div>`;
+    document.getElementById("ct").textContent="0 spots found";
+    setTimeout(()=>{ const el=document.getElementById('desktop-count');const ct=document.getElementById('ct');if(el&&ct)el.textContent=ct.textContent;},0);
+    return;
+  }
+
+  document.getElementById("ct").textContent=aiRankedResults.length+" spot"+(aiRankedResults.length!==1?"s":"")+" found";
+  setTimeout(()=>{ const el=document.getElementById('desktop-count');const ct=document.getElementById('ct');if(el&&ct)el.textContent=ct.textContent;},0);
+
+  // Auto-activate type pills that match the returned venues
+  const resultTypes=new Set(aiRankedResults.map(({v})=>v.type));
+  // Map specific subtypes to their pill (e.g. drinkhh/foodhh → happyhour, livemusic/jazz/dj/openmic → music)
+  const pillTypes=new Set();
+  resultTypes.forEach(t=>{
+    if(t==='drinkhh'||t==='foodhh'||t==='happyhour') pillTypes.add('happyhour');
+    else if(MUSIC_TYPES&&MUSIC_TYPES.has(t)) pillTypes.add('music');
+    else pillTypes.add(t);
+  });
+  // Only update pills if we have a clean mapping (avoid wiping 'all' for mixed results)
+  if(pillTypes.size>0 && pillTypes.size<=3){
+    activeTypes=pillTypes;
+    document.querySelectorAll('#type-pills .pill').forEach(p=>{
+      p.classList.toggle('active', activeTypes.has(p.dataset.t));
+    });
+  } else {
+    // Mixed bag — activate 'all'
+    activeTypes=new Set(['all']);
+    document.querySelectorAll('#type-pills .pill').forEach(p=>{
+      p.classList.toggle('active', p.dataset.t==='all');
+    });
+  }
+
+  // Rebuild _venueCache and render cards with AI reason injected
+  window._venueCache=window._venueCache||{};
+  const c=document.getElementById("cards");
+
+  // Banner
+  const banner=`<div class="ai-search-banner">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14.93V17a1 1 0 1 1-2 0v-.07A8.001 8.001 0 0 1 4.07 11H4a1 1 0 1 1 0-2h.07A8.001 8.001 0 0 1 11 2.07V2a1 1 0 1 1 2 0v.07A8.001 8.001 0 0 1 19.93 11H20a1 1 0 1 1 0 2h-.07A8.001 8.001 0 0 1 13 16.93z"/></svg>
+    AI picks for "${query}"
+  </div>`;
+
+  const cards=aiRankedResults.map(({v,reason},i)=>{
+    const live=isNow(v);
+    const gmapsQuery=encodeURIComponent(v.name+", "+v.addr+", Toronto, ON");
+    const gmapsUrl="https://www.google.com/maps/search/?api=1&query="+gmapsQuery;
+    window._venueCache[i]=v;
+
+    if(isDesktop()){
+      return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(window._venueCache[${i}])" style="cursor:pointer">
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">${v.name}${v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 TM</a>`:''}</div>
+            <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
+            <div class="ai-reason">✦ ${reason}</div>
+            <div class="card-inline-actions" onclick="event.stopPropagation()">
+              <a class="card-action-btn card-action-primary" href="${gmapsUrl}" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                Directions
+              </a>
+              <button class="card-action-btn" data-name="${v.name.replace(/"/g,'&quot;')}" data-addr="${v.addr.replace(/"/g,'&quot;')}" onclick="openHoursModal(this.dataset.name,this.dataset.addr)">🕐 Hours</button>
+              ${v.source!=='ticketmaster'?`<a class="card-action-btn" href="${v.reserve||v.website||'https://www.opentable.com/s?term='+encodeURIComponent(v.name)+'&metroId=81'}" target="_blank" rel="noopener">📅 Reserve</a>`:''}
+            </div>
+          </div>
+          <div class="detail">${v.detail}</div>
+          <div class="card-right">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span class="badge ${TBADGE[v.type]||"b-hh"}" style="font-size:10px">${MUSIC_TYPES.has(v.type)?`Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
+              ${v.price?`<span style="font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.05em">${'$'.repeat(v.price)}</span>`:''}
+            </div>
+            <span style="font-size:12px;color:${live?'var(--green)':'var(--muted)'};white-space:nowrap;font-weight:${live?'600':'400'}">${live?'● Now · ':''}<span style="color:var(--text);font-weight:500">${fmt(v.start)}–${fmt(v.end)}</span></span>
+            <span style="font-size:10px;color:var(--muted)">${v.days.map(d=>DABB[d]).join(' · ')}</span>
+            <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue"><svg width="16" height="16" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    return`<div class="card ${live?"live-card":""}" onclick="openVenuePage(window._venueCache[${i}])" style="cursor:pointer">
+      <div class="card-top">
+        <div>
+          <div class="card-name">${v.name}${v.source==='ticketmaster'?`<a href="${v.url||'https://www.ticketmaster.ca'}" target="_blank" rel="noopener" class="eb-badge" style="background:rgba(0,114,206,.12);color:#0072ce;text-decoration:none">🎟 Ticketmaster</a>`:''}</div>
+          <div class="card-sub">${v.hood} · ${v.addr}${userLat?` <span class="dist-badge">· ${distLabel(v)}</span>`:""}</div>
+        </div>
+        <span class="badge ${TBADGE[v.type]||"b-hh"}">${MUSIC_TYPES.has(v.type)?`🎵 Music · ${MUSIC_SUBLABEL[v.type]}`:(TLABEL[v.type]||v.type)}</span>
+        <button class="fav-btn ${favourites.has(v.name)?'active':''}" onclick="event.stopPropagation();toggleFav(event,'${v.name.replace(/'/g,"\\'")}','${v.type}')" title="Save venue"><svg width="18" height="18" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+      </div>
+
+        <div class="time-wrap"><span class="dot ${live?"on":""}"></span><span class="time-txt ${live?"on":""}">${live?"Happening now · "+fmt(v.start)+"–"+fmt(v.end):fmt(v.start)+"–"+fmt(v.end)}</span></div>
+        <span class="days-txt">${v.days.map(d=>DABB[d]).join(" · ")}</span>
+      </div>
+      <div class="card-btns-row">
+        <a class="card-gmaps" href="${gmapsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Directions
+        </a>
+        <button class="card-gmaps card-details-btn" onclick="event.stopPropagation();openVenuePage(window._venueCache[${i}])">More details</button>
+      </div>
+    </div>`;
+  }).join("");
+
+  c.innerHTML=banner+cards;
 }
 
 function applySearchIntent(types, nowOnly){
@@ -4072,6 +4248,8 @@ function clearSearch(){
   searchQuery="";
   searchTypes=null;
   searchNowOnly=false;
+  aiRankedResults=null;
+  aiSearchQuery="";
   mapSearchQuery="";
   if(leafletMap) renderMap();
   render();
@@ -4293,6 +4471,8 @@ function onDesktopSearch(){
   const q = document.getElementById('desktop-search-input').value;
   document.getElementById('search-input').value = q;
   document.getElementById('desktop-search-clear').style.display = q ? 'block' : 'none';
+  // If user edits the search box after an AI result, reset AI state
+  if(!q){ aiRankedResults=null; aiSearchQuery=""; }
   // Use same search logic as mobile — triggers suggestions + live filtering
   onSearch();
   updateDesktopCount();
