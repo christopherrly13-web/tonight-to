@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updated": "2026-04-05",
-  "total": 182,
+  "updated": "2026-04-13",
+  "total": 218,
   "venues": [
     {
       "name": "Bar Raval",
@@ -4203,6 +4203,376 @@
       "hidden": true,
       "price": 2,
       "wheelchair": true
+    },
+    {
+      "name": "Catacombs Cabaret",
+      "hood": "Downtown West",
+      "type": "comedy",
+      "days": [
+        "thu"
+      ],
+      "start": 18,
+      "end": 19,
+      "detail": "Laugh & Learn - Stand-up comedy and expert lectures, doors 6pm, show 7pm",
+      "addr": "474 Queen Street West",
+      "lat": 43.648037,
+      "lng": -79.400255
+    },
+    {
+      "name": "Ace of Spades Lounge and Events",
+      "hood": "Kensington",
+      "type": "comedy",
+      "days": [
+        "fri"
+      ],
+      "start": 18,
+      "end": 19,
+      "detail": "Laugh & Learn - Stand-up comedy and expert lectures, doors 6pm, show 7pm",
+      "addr": "536 Manning Avenue Lower Level",
+      "lat": 43.6532,
+      "lng": -79.3832
+    },
+    {
+      "name": "Score on King",
+      "hood": "King West",
+      "type": "bingo",
+      "days": [
+        "tue"
+      ],
+      "start": 20,
+      "end": 22,
+      "detail": "Bingo Nights every Tuesday from 8 to 10 p.m.",
+      "addr": "107 King St, Toronto",
+      "lat": 43.649901,
+      "lng": -79.374036
+    },
+    {
+      "name": "Irene",
+      "hood": "Waterfront",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 17,
+      "detail": "$10 drinks; $8 mocktails 9pm-close",
+      "addr": "100 King St. W",
+      "lat": 43.648768,
+      "lng": -79.381692
+    },
+    {
+      "name": "1208 Yonge St",
+      "hood": "Downtown",
+      "type": "drinkhh",
+      "days": [
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "start": 16,
+      "end": 19,
+      "detail": "$5 shots and beers; $7 spritz and wine",
+      "addr": "1208 Yonge St",
+      "lat": 43.681698,
+      "lng": -79.391648
+    },
+    {
+      "name": "The Rex Hotel Jazz & Blues Bar",
+      "hood": "Queen West",
+      "type": "jazz",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 22.5,
+      "detail": "Pay what you can for 5pm and 10:45pm shows; ticketed 8pm shows; cover charge required even for dining during scheduled performances",
+      "addr": "194 Queen St W, Toronto, ON M5V 1Z1",
+      "lat": 43.650536,
+      "lng": -79.38847
+    },
+    {
+      "name": "Civil Liberties",
+      "hood": "Bloor West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 23,
+      "detail": "Vintage neighbourhood hangout with craft cocktails",
+      "addr": "878 Bloor St. W",
+      "lat": 43.66222,
+      "lng": -79.425213
+    },
+    {
+      "name": "Cry Baby",
+      "hood": "Not specified",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 23,
+      "detail": "Edge-forward cocktail bar with agave, whisky and amari selections",
+      "addr": "1468 Dundas St. W",
+      "lat": 43.649723,
+      "lng": -79.43093
+    },
+    {
+      "name": "Bar Mordecai",
+      "hood": "Not specified",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 23,
+      "detail": "Immersive cocktail bar with private karaoke rooms",
+      "addr": "1272 Dundas St. W",
+      "lat": 43.649578,
+      "lng": -79.425045
+    },
+    {
+      "name": "Death & Taxes",
+      "hood": "Wallace-Emerson",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 16,
+      "end": 18,
+      "detail": "Daily happy hour 4-6pm",
+      "addr": "201 Geary Ave.",
+      "lat": 43.669566,
+      "lng": -79.437819
+    },
+    {
+      "name": "Cafe Zuzu",
+      "hood": "Regent Park",
+      "type": "foodhh",
+      "days": [
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 17,
+      "detail": "$5 olives/fries/veggies, $10 arancini/salads, drinks $5-10. Wed-Thu 4-6pm, Fri-Sun 3-5pm",
+      "addr": "555 Dundas St. E.",
+      "lat": 43.659952,
+      "lng": -79.362679
+    },
+    {
+      "name": "Bar Roma",
+      "hood": "Ossington",
+      "type": "drinkhh",
+      "days": [
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "start": 17,
+      "end": 19,
+      "detail": "Happy hour specials",
+      "addr": "229 Ossington Ave, Toronto",
+      "lat": 43.649082,
+      "lng": -79.420507
+    },
+    {
+      "name": "The Painted Lady",
+      "hood": "Ossington",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 18,
+      "end": 21,
+      "detail": "50% off wine bottles",
+      "addr": "218 Ossington Ave, Toronto",
+      "lat": 43.649094,
+      "lng": -79.420839
+    },
+    {
+      "name": "Death and Taxes",
+      "hood": "Queen West",
+      "type": "drinkhh",
+      "days": [
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "start": 16,
+      "end": 19,
+      "detail": "Beers $5, pizza 50% off, $2 off snacks",
+      "addr": "1154 Queen St W",
+      "lat": 43.643118,
+      "lng": -79.424977
+    },
+    {
+      "name": "Gloria in The Great Hall",
+      "hood": "Queen West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 19,
+      "detail": "Martini happy hour",
+      "addr": "1087 Queen St W",
+      "lat": 43.643343,
+      "lng": -79.4221
+    },
+    {
+      "name": "Bar Poet",
+      "hood": "Queen West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri"
+      ],
+      "start": 12,
+      "end": 17,
+      "detail": "Beers $6 and $7, pizza/salad combo",
+      "addr": "1090 Queen St W",
+      "lat": 43.64373,
+      "lng": -79.4223
+    },
+    {
+      "name": "Out of Character",
+      "hood": "Queen West",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 18,
+      "end": 20,
+      "detail": "20% off highballs",
+      "addr": "996 Queen St W",
+      "lat": 43.644466,
+      "lng": -79.418518
+    },
+    {
+      "name": "Rooftop On College",
+      "hood": "Church-Wellesley",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 20,
+      "detail": "$7 select beers, wines, and bar rail drinks",
+      "addr": "20 College Street, Toronto, Ontario M5G 1K2",
+      "lat": 43.661338,
+      "lng": -79.38403
+    },
+    {
+      "name": "Aera Restaurant",
+      "hood": "Downtown",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 16,
+      "end": 18,
+      "detail": "$15 signature cocktails, $9 Sapporo on draught, $12 select wines",
+      "addr": "8 Spadina Avenue, 39th Floor, Toronto, Ontario M5V 2H6",
+      "lat": 43.6532,
+      "lng": -79.3832
+    },
+    {
+      "name": "The Rooftop at The Broadview Hotel",
+      "hood": "East End",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 18,
+      "detail": "Daily Happy Hour Drinks 2-4pm, Snacks + Drinks 4-6pm",
+      "addr": "106 Broadview Avenue, Toronto, Ontario M4M 2E8",
+      "lat": 43.659047,
+      "lng": -79.350125
     }
   ]
 }
