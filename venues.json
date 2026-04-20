@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updated": "2026-04-13",
-  "total": 218,
+  "updated": "2026-04-20",
+  "total": 245,
   "venues": [
     {
       "name": "Bar Raval",
@@ -4573,6 +4573,421 @@
       "addr": "106 Broadview Avenue, Toronto, Ontario M4M 2E8",
       "lat": 43.659047,
       "lng": -79.350125
+    },
+    {
+      "name": "Small Talk",
+      "hood": "Ossington",
+      "type": "jazz",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 17,
+      "end": 19,
+      "detail": "Martini bar with weekly live jazz. Classic martini $20, dirty martini $18, Pornstar Martini $19. Champagne vending machine with mini Moët bottles.",
+      "addr": "110 Ossington Ave",
+      "lat": 43.646595,
+      "lng": -79.419845
+    },
+    {
+      "name": "The Well Restaurant and Bar",
+      "hood": "Church and Wellesley",
+      "type": "bingo",
+      "days": [
+        "wed"
+      ],
+      "start": 19,
+      "end": 22,
+      "detail": "Drag Bingo with Messy Productions, weekly Wednesday nights",
+      "addr": "487 Church St, Toronto",
+      "lat": 43.665143,
+      "lng": -79.380583
+    },
+    {
+      "name": "Lodge On Queen",
+      "hood": "Queen West",
+      "type": "drag",
+      "days": [
+        "fri"
+      ],
+      "start": 22,
+      "end": 25,
+      "detail": "Drag Bingo After Dark, adult-only vibe with scandalous prizes and performances from Delusional Diva",
+      "addr": "251 Queen St W, Toronto",
+      "lat": 43.650262,
+      "lng": -79.388819
+    },
+    {
+      "name": "Birroteca",
+      "hood": "Bloor Street West",
+      "type": "bingo",
+      "days": [
+        "tue"
+      ],
+      "start": 20,
+      "end": 22,
+      "detail": "Indie ale house-style bingo with rotating taps, free admission, no reservations required",
+      "addr": "55 Bloor St W, Toronto",
+      "lat": 43.669515,
+      "lng": -79.388997
+    },
+    {
+      "name": "The Great Hall",
+      "hood": "Queen West",
+      "type": "livemusic",
+      "days": [
+        "fri",
+        "sat"
+      ],
+      "start": 20,
+      "end": 24,
+      "detail": "Davie Studios events including The Listening Room and Acid Jazz Night, jam series and freestyle MCs",
+      "addr": "30 St. Andrew St, Toronto",
+      "lat": 43.757321,
+      "lng": -79.35364
+    },
+    {
+      "name": "Ballyhoo",
+      "hood": "Danforth",
+      "type": "trivia",
+      "days": [
+        "mon"
+      ],
+      "start": 19,
+      "end": 21,
+      "detail": "Prizes and food specials included",
+      "addr": "526 Danforth Ave, Toronto",
+      "lat": 43.678426,
+      "lng": -79.348171
+    },
+    {
+      "name": "Earls Yorkville",
+      "hood": "Yorkville",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 18,
+      "detail": "$4 tacos to $10 cocktails, 3pm-6pm daily plus 9pm-close lounge",
+      "addr": "55 Bloor St West, Toronto, ON",
+      "lat": 43.669515,
+      "lng": -79.388997
+    },
+    {
+      "name": "The Pilot",
+      "hood": "Yorkville",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 18,
+      "detail": "Happy Hour everyday 3pm-6pm",
+      "addr": "66 Bloor St West, Toronto, ON",
+      "lat": 43.66981,
+      "lng": -79.389751
+    },
+    {
+      "name": "Bar Reyna",
+      "hood": "Yorkville",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 18,
+      "detail": "Golden Hour 2pm-6pm",
+      "addr": "101 Yorkville Ave, Toronto, ON",
+      "lat": 43.670823,
+      "lng": -79.392261
+    },
+    {
+      "name": "Hoops Sports Bar",
+      "hood": "Downtown",
+      "type": "karaoke",
+      "days": [
+        "thu"
+      ],
+      "start": 22,
+      "end": 26,
+      "detail": "Host: Aubrey Steele",
+      "addr": "458 Yonge St, Toronto",
+      "lat": 43.661669,
+      "lng": -79.383346
+    },
+    {
+      "name": "Vatican Gift Shop",
+      "hood": "Cabbagetown",
+      "type": "karaoke",
+      "days": [
+        "wed"
+      ],
+      "start": 21,
+      "end": 25,
+      "detail": "Host: DJDC",
+      "addr": "1047 Gerrard St, Toronto",
+      "lat": 43.668977,
+      "lng": -79.336214
+    },
+    {
+      "name": "The Old Sod",
+      "hood": "Bloor West Village",
+      "type": "karaoke",
+      "days": [
+        "fri"
+      ],
+      "start": 22,
+      "end": 26,
+      "detail": "Host: Songsmith Karaoke",
+      "addr": "2936 Bloor St W, Toronto",
+      "lat": 43.648366,
+      "lng": -79.507505
+    },
+    {
+      "name": "Max's Cafe",
+      "hood": "Scarborough",
+      "type": "karaoke",
+      "days": [
+        "tue"
+      ],
+      "start": 21,
+      "end": 25,
+      "detail": "Host: Ronnie Simply Da Best D",
+      "addr": "1515 Birchmount Rd, Toronto",
+      "lat": 43.758814,
+      "lng": -79.289266
+    },
+    {
+      "name": "Right Wing Sports Pub",
+      "hood": "Midtown",
+      "type": "karaoke",
+      "days": [
+        "tue"
+      ],
+      "start": 21,
+      "end": 25,
+      "detail": "Host: Ty Chidlow",
+      "addr": "2497 Yonge St, Toronto",
+      "lat": 43.711995,
+      "lng": -79.399238
+    },
+    {
+      "name": "Caribbean Coast",
+      "hood": "Eglinton East",
+      "type": "karaoke",
+      "days": [
+        "sun"
+      ],
+      "start": 17,
+      "end": 21,
+      "detail": "Host: Wayne Ferguson",
+      "addr": "2570 Eglinton Ave E, Toronto",
+      "lat": 43.735295,
+      "lng": -79.255179
+    },
+    {
+      "name": "Fox & Fiddle",
+      "hood": "Danforth",
+      "type": "karaoke",
+      "days": [
+        "wed"
+      ],
+      "start": 20,
+      "end": 24,
+      "detail": "Host: Karaokehero.ca",
+      "addr": "535 Danforth Ave, Toronto",
+      "lat": 43.6782,
+      "lng": -79.347927
+    },
+    {
+      "name": "The Rockpile",
+      "hood": "Dundas West",
+      "type": "karaoke",
+      "days": [
+        "mon"
+      ],
+      "start": 20,
+      "end": 24,
+      "detail": "Host: Monique Richardson",
+      "addr": "5555 Dundas St W, Toronto",
+      "lat": 43.630363,
+      "lng": -79.549161
+    },
+    {
+      "name": "Smoke Show BBQ",
+      "hood": "Mount Pleasant",
+      "type": "karaoke",
+      "days": [
+        "sat"
+      ],
+      "start": 21,
+      "end": 25,
+      "detail": "Host: Scotty Newlands",
+      "addr": "744 Mount Pleasant Rd, Toronto",
+      "lat": 43.707174,
+      "lng": -79.390038
+    },
+    {
+      "name": "Squire & Firkin",
+      "hood": "Bloor West Village",
+      "type": "karaoke",
+      "days": [
+        "sun"
+      ],
+      "start": 20,
+      "end": 24,
+      "detail": "Host: Sharon Leopold",
+      "addr": "3335 Bloor St W, Toronto",
+      "lat": 43.644949,
+      "lng": -79.521289
+    },
+    {
+      "name": "Wingporium",
+      "hood": "Scarborough",
+      "type": "karaoke",
+      "days": [
+        "thu"
+      ],
+      "start": 22,
+      "end": 26,
+      "detail": "Host: Walter Henkel",
+      "addr": "3490 Kingston Rd, Toronto",
+      "lat": 43.738872,
+      "lng": -79.217315
+    },
+    {
+      "name": "Taps Bar & Grill",
+      "hood": "Danforth",
+      "type": "karaoke",
+      "days": [
+        "tue"
+      ],
+      "start": 21.5,
+      "end": 25.5,
+      "detail": "Host: Gold Entertainment",
+      "addr": "561 Danforth Ave, Toronto",
+      "lat": 43.678377,
+      "lng": -79.347154
+    },
+    {
+      "name": "The K Karaoke",
+      "hood": "Annex",
+      "type": "karaoke",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 18,
+      "end": 26.5,
+      "detail": "Open until 2:30 AM (3 AM Fri/Sat)",
+      "addr": "699 Bloor St W, Toronto",
+      "lat": 43.663583,
+      "lng": -79.417438
+    },
+    {
+      "name": "Bar Zunko",
+      "hood": "Downtown",
+      "type": "karaoke",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 18,
+      "end": 26.5,
+      "detail": "Open until 2:30 AM (3 AM Fri/Sat)",
+      "addr": "675 Yonge St, Toronto",
+      "lat": 43.66888,
+      "lng": -79.385884
+    },
+    {
+      "name": "Alice's Place",
+      "hood": "Cabbagetown",
+      "type": "karaoke",
+      "days": [
+        "sun"
+      ],
+      "start": 21.5,
+      "end": 26,
+      "detail": "Host: John Brown",
+      "addr": "554 Parliament St, Toronto",
+      "lat": 43.666891,
+      "lng": -79.369216
+    },
+    {
+      "name": "CC's Bar & Grill",
+      "hood": "Danforth",
+      "type": "karaoke",
+      "days": [
+        "wed"
+      ],
+      "start": 21,
+      "end": 25,
+      "detail": "Host: Sheldon Chai",
+      "addr": "1564 Danforth Ave, Toronto",
+      "lat": 43.683418,
+      "lng": -79.323998
+    },
+    {
+      "name": "Gabby's Junction",
+      "hood": "Dundas West",
+      "type": "karaoke",
+      "days": [
+        "fri"
+      ],
+      "start": 21,
+      "end": 25,
+      "detail": "Host: Ty Chidlow",
+      "addr": "3026 Dundas St W, Toronto",
+      "lat": 43.66568,
+      "lng": -79.470037
+    },
+    {
+      "name": "Gabby's Midtown",
+      "hood": "Midtown",
+      "type": "karaoke",
+      "days": [
+        "sat"
+      ],
+      "start": 22,
+      "end": 26,
+      "detail": "Host: Karaokehero.ca",
+      "addr": "383 Eglinton Ave E, Toronto",
+      "lat": 43.709329,
+      "lng": -79.385024
     }
   ]
 }
