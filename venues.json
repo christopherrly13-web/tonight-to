@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updated": "2026-04-20",
-  "total": 245,
+  "updated": "2026-04-27",
+  "total": 253,
   "venues": [
     {
       "name": "Bar Raval",
@@ -4988,6 +4988,146 @@
       "addr": "383 Eglinton Ave E, Toronto",
       "lat": 43.709329,
       "lng": -79.385024
+    },
+    {
+      "name": "Victorian-style spot (Yonge St.)",
+      "hood": "Church-Wellesley",
+      "type": "drinkhh",
+      "days": [
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat"
+      ],
+      "start": 16,
+      "end": 19,
+      "detail": "$5 shots and beers, $7 spritz and wine glasses",
+      "addr": "1208 Yonge St, Toronto",
+      "lat": 43.681698,
+      "lng": -79.391648
+    },
+    {
+      "name": "Minami Toronto",
+      "hood": "Downtown",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 17,
+      "detail": "Japanese-inspired drinks and mini eats all under $12",
+      "addr": "330 Bay St, Toronto",
+      "lat": 43.650006,
+      "lng": -79.38117
+    },
+    {
+      "name": "Bar at King West (100 King St. W)",
+      "hood": "Downtown",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 17,
+      "detail": "$10 cocktails, $5 off all food",
+      "addr": "100 King St. W, Toronto",
+      "lat": 43.649205,
+      "lng": -79.381772
+    },
+    {
+      "name": "Mediterranean restaurant (270 Adelaide St. W)",
+      "hood": "King West",
+      "type": "foodhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 14,
+      "end": 18,
+      "detail": "Mediterranean eats",
+      "addr": "270 Adelaide St. W, Toronto",
+      "lat": 43.648104,
+      "lng": -79.389902
+    },
+    {
+      "name": "Fox & Fiddle Danforth",
+      "hood": "Danforth",
+      "type": "bingo",
+      "days": [
+        "sun"
+      ],
+      "start": 12,
+      "end": 15,
+      "detail": "Drag bingo brunch with performances, 4 rounds of bingo with prizes",
+      "addr": "535 Danforth Ave, Toronto, ON",
+      "lat": 43.6782,
+      "lng": -79.347927
+    },
+    {
+      "name": "Sneaky Dee's Concert Venue",
+      "hood": "University District",
+      "type": "bingo",
+      "days": [
+        "sun"
+      ],
+      "start": 16,
+      "end": 19,
+      "detail": "Charity drag bingo brunch featuring Betty Baker",
+      "addr": "431 College Street, Toronto, ON M5T 1T1",
+      "lat": 43.656246,
+      "lng": -79.407432
+    },
+    {
+      "name": "Aera",
+      "hood": "The Well",
+      "type": "drinkhh",
+      "days": [
+        "mon",
+        "tue",
+        "wed",
+        "thu",
+        "fri",
+        "sat",
+        "sun"
+      ],
+      "start": 15,
+      "end": 18,
+      "detail": "$15 signature cocktails, $9 Sapporo draught, $12 select wines",
+      "addr": "8 Spadina Ave #3800, Toronto, ON M5V 2H6",
+      "lat": 43.6532,
+      "lng": -79.3832
+    },
+    {
+      "name": "Left Field Brewery (Leslieville)",
+      "hood": "Leslieville",
+      "type": "trivia",
+      "days": [
+        "wed"
+      ],
+      "start": 19,
+      "end": 21,
+      "detail": "FREE EVENT. Weekly trivia every Wednesday, provided by Twin Town Trivia and Almost Jeopardy (rotating weekly). Max team size 6 people. Outside food welcome.",
+      "addr": "36 Wagstaff, Toronto",
+      "lat": 43.67369,
+      "lng": -79.330479
     }
   ]
 }
